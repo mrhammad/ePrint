@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<License Key="XpcDRwEAPX65PvF7CzrvXK+OhPzBepsDg0cerNqLO+E68LARmcHJ0QcbtSpCYn2KEDP861HQkIPmP+xeHFV/ElbNhWxoYaMp045L1FrDIwhiKUQcLC+v1pN5eRzlq8spDj163qIppqKaRtRzWSuTY/eBBgEH9sAwCPhVKStHhFiZX3B4yqNQLsnpDD0g4Ulz5sFqG1TxvcBn0J9UlXhHQRPjl6EQILHPDc5BlSmg94mrELc1s2TfJ/hAKZD8uAuJlkSzJI4gt9MbWgbuUT7Tc8GxwO713AEIoK//NCsoAzxtV/MgK4XYzTyN5YAJR6sVZKMZupLMBTakw9BqvrVRI1lr6X50G0o4k2TU6VQ/jQjsBzrMOKhm3VWhgY5BNpAdlh9I/3gR86fIw3EZX14IlvlhWiEdb3Cfghe1D6+E+/9PYKMVVpl9Xv+LI0DJRthcL8i/qFkVUfiJbLHTnlLpsURNf7GSdOBdaPtf4FyanDa5CD2wyMbalrUOTuV4Fn88REeGT1fJ7Q4NKOvPpdenyyqvgAE/ZIOYafMmiY7y864foptrGWgCAE1uOSVOg7qUaN6m/hVCrlQt1Zj2QJOvU3O9gsXDBhxKkVHKonaXsTcL2jqhbWg6jV5HLU10Da85IQ5JwAue23Eo7FB/5oRTr6VY1J2MkWyonjAEBOse8y+GP3lLVQQdrD3Z4iFQbWYOE8kxqbkh5WipVGTkb79W740Gj3SlnAqNC1XgjPPf1x/I722dMJuOXrtPgRlLo+HIrf81DuwULZAwx8xD/OPJVg+xYgOIgQUE/WDBMEv5UzCfYw/n4Q0gr/lfXDe+baBgljRYJLzd/AuIFhDUb013DylFb4ZmFBKjEFtIF++AicEYe3yxqYuxP6wUHY/od5/184f9JI7s4KfAVgNJ1kNX1q902QabCxTRXxcLTvSDnSZwJ7tUFpSI4qNNyzmw+YpAah3JHxjGCjiKyb/UgkTqk+J7g491KbZHb1aE1qR2d9MUW0SvdIQP18heupfptLhpD33UWTfUyKEz+aamr+n6oMcAKhAYq14hSLpEn4/D2ZazEyLr5VvK1i0PTHWkPdt/hGesE0XQkaAt34RxOh1V/khkL5N/+zznl0N2LZMaXo8XlRL8pjfm6rwM0nuYD4lC/Un9sxhfGpmIv6mmnj+Fu8Y97DlpwvhC99oQ7jWbVaJIjT7tXyFwAlG+YEGKoz27qY4zd48Nx3I0h/SpAQJNRP07IPB1uw8fx+QUxIVw8DnU6CJiS2Rw5mA1M57nl11mykBNsXM2ZE/oObBtf+2g6R58Rp1CHojMVQP78d287w9+kxa+jqlgnYbbm7g1qvTVunCYF2S1ATqDmuM7jU/pyCrmI6ZR7rwY2brtSHFvZ3pu884m/4KTQlN3oxQwt/l19pPcvV4Npfkz6s/Aub3h9uTB2Lgv44DgmUto9xw+DP4PJ5+bRM52jPk+g73CvChjAWSqCeyb/UgsHgh4zJ7xR/jEfhsNtUTLcQuJpgAEsEE=" Version="1.3">
+    <Type>Runtime</Type>
+    <Username>Hexicom Software</Username>
+    <Email>phil@hexicomsoftware.com</Email>
+    <Organization>Hexicom Software</Organization>
+    <LicensedDate>2017-07-25T00:00:00Z</LicensedDate>
+    <ExpiredDate>2018-07-25T00:00:00Z</ExpiredDate>
+    <Products>
+        <Product>
+            <Name>Spire.DataExport</Name>
+            <Version>3.4</Version>
+            <Subscription>
+                <NumberOfPermittedDeveloper>1</NumberOfPermittedDeveloper>
+                <NumberOfPermittedSite>1</NumberOfPermittedSite>
+            </Subscription>
+        </Product>
+    </Products>
+    <Issuer>
+        <Name>e-iceblue</Name>
+        <Email>sales@e-iceblue.com</Email>
+        <Url>http://www.e-iceblue.com</Url>
+    </Issuer>
+</License>

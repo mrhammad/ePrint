@@ -1,0 +1,1124 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="settingpage.master.cs" Inherits="ePrint.Templates.settingpage" %>
+
+<%@ Register TagPrefix="telerik" Namespace="Telerik.Web.UI" Assembly="Telerik.Web.UI" %>
+<%--<%@ Register TagPrefix="crm" TagName="headerUC" Src="~/Templates/header.ascx" %>--%>
+<%@ Register TagPrefix="crm" TagName="lowerheaderUC" Src="~/Templates/lowerheader.ascx" %>
+<%@ Register TagPrefix="crm" TagName="callclass" Src="~/usercontrol/CallClass.ascx" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<?xml version="1.0" encoding="utf-8" ?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head id="Head1" runat="server">
+    <title>Untitled Page</title>
+    <noscript>
+        Your browser does not support JavaScript! ...
+    </noscript>
+    <!--POPUP START-->
+    <link href="../App_Themes/backend/user.css" rel="Stylesheet" type="text/css" />
+    <script type="text/javascript" src="../js/jquery.min.js?VN='<%#VersionNumber%>'"></script>
+    <script type="text/javascript" src="../js/jquery.popup.js?VN='<%#VersionNumber%>'"></script>
+    <!--POPUP END-->
+    <script type="text/javascript" language="javascript" src="../js/animation.js?VN='<%#VersionNumber%>'">
+    </script>
+    <telerik:RadScriptBlock ID="radSript1" runat="server">
+        <script type="text/javascript">
+            var roundoff = '<%=roundoff%>';
+        </script>
+    </telerik:RadScriptBlock>
+    <script type="text/javascript" language="javascript" src="../js/commonloading.js?VN='<%#VersionNumber%>'"></script>
+    <script type="text/javascript" language="javascript" src="../js/jquery-1.3.2.js?VN='<%#VersionNumber%>'"></script>
+    <script type="text/javascript">
+        var menuids = new Array("verticalmenu", "webverticalmenu") //Enter id(s) of UL menus, separated by commas                
+        var submenuoffset = -2 //Offset of submenus from main menu. Default is -2 pixels.
+        var storeActive = '';
+        var storeDeactive = '';
+        function createcssmenu() {
+            for (var i = 0; i < menuids.length; i++) {
+                if (document.getElementById(menuids[i]) != null) {  //IE, object's null value condition, on 26.09.2011
+                    var ultags = document.getElementById(menuids[i]).getElementsByTagName("ul")
+                    for (var t = 0; t < ultags.length; t++) {
+
+                        var spanref = document.createElement("span")
+                        spanref.className = "arrowdiv"
+                        spanref.innerHTML = "&nbsp;&nbsp;"
+                        ultags[t].parentNode.getElementsByTagName("a")[0].appendChild(spanref)
+
+                        ultags[t].parentNode.onmouseover = function () {
+                            var pare = document.getElementById("verticalmenu1");
+                            var chil = pare.getElementsByTagName("li");
+
+                            var submenuoffset1 = 32;
+                            var inneroffset = 190;
+                            if (navigator.appName == 'Microsoft Internet Explorer') {
+                                submenuoffset1 = 31;
+                                inneroffset = 189;
+                            }
+
+                            this.getElementsByTagName("ul")[0].style.left = this.parentNode.offsetWidth + submenuoffset + "px"
+                            var innid1 = this.getElementsByTagName("ul")[0].id;
+                            this.getElementsByTagName("ul")[0].style.display = "block"
+                            //setTimeout("submenuon('"+innid1+"')",1000);
+
+                        }
+                        ultags[t].parentNode.onmouseout = function () {
+                            var innid = this.getElementsByTagName("ul")[0].id;
+                            //submenuoff(innid);
+                            //setTimeout("submenuoff('"+innid+"')",1000);
+                            this.getElementsByTagName("ul")[0].style.display = "none";
+                            //TestOut(this.getElementsByTagName("ul")[0]);
+
+                        }
+                    }
+                }
+            }
+        }
+        function TestOut(tes) {
+            //alert("storeDeactive: "+storeDeactive);
+            //alert("storeActive: "+storeActive);
+            tes.style.display = "none";
+
+        }
+        function submenuoff(type) {
+            //alert(type);
+            document.getElementById(type).style.display = "none";
+        }
+        function submenuon(type) {
+            //alert(type);
+            document.getElementById(type).style.display = "block";
+        }
+
+        if (window.addEventListener)
+            window.addEventListener("load", createcssmenu, false)
+        else if (window.attachEvent)
+            window.attachEvent("onload", createcssmenu)
+    </script>
+    <script language="javascript" type="text/javascript">
+        function settingstatus() {
+            if (status == 'none') {
+                slideup('ctl00_divsetting');
+                document.getElementById('ctl00_setting1').style.display = 'none';
+                document.getElementById('ctl00_ul9').style.display = 'block';
+            }
+            else {
+                slidedown('ctl00_divsetting');
+                document.getElementById('ctl00_setting1').style.display = 'block';
+                document.getElementById('ctl00_showsetting1').style.display = 'none';
+            }
+        }
+
+        function settingstatus_Webstore(status) {
+
+            if (status == 'none') {
+                slideup('ctl00_div_WebstoreContent');
+                document.getElementById('ctl00_divHeaderShow').style.display = 'none';
+                document.getElementById('ctl00_divHeaderHide').style.display = 'block';
+            }
+            else {
+                slidedown('ctl00_div_WebstoreContent');
+                document.getElementById('ctl00_divHeaderShow').style.display = 'block';
+                document.getElementById('ctl00_divHeaderHide').style.display = 'none';
+            }
+        }
+        function applystyle(val) {
+            if (val == 'v') {
+                document.getElementById('ctl00_divsetting').style.overflow = 'visible';
+            }
+            else {
+                document.getElementById('ctl00_divsetting').style.overflow = 'hidden';
+            }
+        }
+        function setwidth() {
+            if (navigator.appName == 'Microsoft Internet Explorer') {
+                document.getElementById("settingclass").style.display = "block";
+            }
+            else {
+                var d = document.getElementById('maindivstyle');
+                var olddiv = document.getElementById("settingclass");
+                d.removeChild(olddiv);
+            }
+        }
+    </script>
+    <style type="text/css">
+        #accordion ul li:hover {
+            background-color: #D3D3D3;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        #accordion ul li ul:hover {
+            background-color: White;
+            cursor: pointer; /*border-radius: 5px;*/
+            width: 100px;
+        }
+
+        #accordion h1 a .ui-icon {
+            float: right;
+        }
+    </style>
+    <script type="text/javascript">
+
+        function ItemSelected(ID, li) {
+            //  alert(ID+ " _ "+ li);    
+            //document.cookie = "MainTabSelect=" + ID;
+            //document.cookie = "SubTabSelect=" + li;
+
+            /Store in session/
+            sessionStorage.setItem("MainTab", ID);
+            sessionStorage.setItem("SubTab", li);
+        }
+
+
+        function ReadCookie(CookieName) {
+            var cookieStr = document.cookie;
+            if (cookieStr.indexOf(CookieName) > -1) {
+                var t = cookieStr.split(';');
+                for (var j = 0; j < t.length; j++) {
+
+                    if (t[j].indexOf(CookieName) > -1) {
+                        var n = t[j].split('=');
+                        var selectedItem = n[1];
+                        return selectedItem;
+                    }
+                }
+            }
+            return "";
+        }
+
+        function getcookiesvalue() {
+
+            debugger;
+            var hdnGetCookiesValue = document.getElementById("ctl00_hdnGetCookiesValue");
+            var hdngetparticularLIid = document.getElementById("ctl00_hdngetparticularLIid");
+
+            hdnGetCookiesValue.value = sessionStorage.getItem('MainTab');//ReadCookie('MainTabSelect');
+            hdngetparticularLIid.value = sessionStorage.getItem('SubTab');//ReadCookie('SubTabSelect');
+
+
+            var imgup1 = document.getElementById("ctl00_imgup1");
+            var imgUp2 = document.getElementById("ctl00_imgUp2");
+            var imgUp3 = document.getElementById("ctl00_imgUp3");
+            var imgUp33 = document.getElementById("ctl00_imgUp33");
+            var imgUp4 = document.getElementById("ctl00_imgUp4");
+            var imgUp5 = document.getElementById("ctl00_imgUp5");
+            var imgUp6 = document.getElementById("ctl00_imgUp6");
+            var imgUp7 = document.getElementById("ctl00_imgUp7");
+            var imgUp8 = document.getElementById("ctl00_imgUp8");
+            var imgUp9 = document.getElementById("ctl00_imgUp9");
+            var imgUp10 = document.getElementById("ctl00_imgUp10");
+            var imgUp11 = document.getElementById("ctl00_imgUp11");
+            var imgUp12 = document.getElementById("ctl00_imgUp12");
+            var imgUp13 = document.getElementById("ctl00_imgUp13");
+            var imgUpProofs = document.getElementById("ctl00_imgUpProofs");
+
+
+            if (hdnGetCookiesValue != null) {
+
+                $('ul#accordion > li > ul').hide();
+                $('#' + hdnGetCookiesValue.value).show();
+
+
+                if (hdnGetCookiesValue.value == "ul9") {
+                    $(".one").toggle('down');
+                    imgup1.style.display = 'none';
+                }
+                if (hdnGetCookiesValue.value == "ul2") {
+                    $(".two").toggle();
+                    imgUp2.style.display = 'none';
+                }
+                if (hdnGetCookiesValue.value == "ul8") {
+                    $(".three").toggle();
+                    imgUp3.style.display = 'none';
+                }
+
+                if (hdnGetCookiesValue.value == "ul66") {
+                    $(".four1").toggle();
+                    imgUp33.style.display = 'none';
+                }
+                if (hdnGetCookiesValue.value == "ul6") {
+                    $(".four").toggle();
+                    imgUp4.style.display = 'none';
+                }
+                if (hdnGetCookiesValue.value == "ul7") {
+                    $(".five").toggle();
+                    imgUp5.style.display = 'none';
+                }
+                if (hdnGetCookiesValue.value == "ul4") {
+                    $(".six").toggle();
+                    imgUp6.style.display = 'none';
+                }
+                if (hdnGetCookiesValue.value == "ul1") {
+                    $(".seven").toggle();
+                    imgUp7.style.display = 'none';
+                }
+                if (hdnGetCookiesValue.value == "ulothercost") {
+                    $(".eight").toggle();
+                    imgUp8.style.display = 'none';
+                }
+                if (hdnGetCookiesValue.value == "verticalmenu1") {
+                    $(".nine").toggle();
+                    imgUp9.style.display = 'none';
+                }
+                if (hdnGetCookiesValue.value == "ulprocessflow") {
+                    $(".ten").toggle();
+                    imgUp10.style.display = 'none';
+                }
+                if (hdnGetCookiesValue.value == "Ul3") {
+                    $(".eleven").toggle();
+                    imgUp11.style.display = 'none';
+                }
+                if (hdnGetCookiesValue.value == "UlProofs") {
+                    $(".fourteen").toggle();
+                    imgUpProofs.style.display = 'none';
+                }
+                if (hdnGetCookiesValue.value == "ultemplates") {
+                    $(".twelve").toggle();
+                    imgUp12.style.display = 'none';
+                }
+                if (hdnGetCookiesValue.value == "ulinventory") {
+                    $(".thirteen").toggle();
+                    imgUp13.style.display = 'none';
+                }
+
+                if (hdngetparticularLIid.value == 'ctl00_li5' || hdngetparticularLIid.value == 'ctl00_li6' || hdngetparticularLIid.value == 'ctl00_li15') {
+                    $('#' + hdngetparticularLIid.value).addClass("settingonmouseverselectedcompany");
+                }
+                else {
+                    $('#' + hdngetparticularLIid.value).addClass("settingonmouseverselected");
+                }
+            }
+        }
+
+        $(document).ready(function () {
+
+            // initialise
+            $('ul#accordion > li > ul').hide();
+
+            $('#h1accounting').click(function () {
+
+                $(".one").toggle();
+                $("#ul9").slideUp();
+            });
+            $('#h1appearance').click(function () {
+                $(".two").toggle();
+                $("#ul2").slideUp();
+            });
+            $('#h1company').click(function () {
+                $(".three").toggle();
+                $("#ul8").slideUp();
+            });
+
+            $('#stripe_heading').click(function () {
+                debugger;
+                $(".four1").toggle();
+                $("#ul66").slideUp();
+            });
+
+            $('#h1contentmgmt').click(function () {
+                $(".four").toggle();
+                $("#ul6").slideUp();
+            });
+            $('#h1crm').click(function () {
+                $(".five").toggle();
+                $("#ul7").slideUp();
+            });
+            $('#h1systememails').click(function () {
+                $(".six").toggle();
+                $("#ul4").slideUp();
+            });
+            $('#h1general').click(function () {
+                $(".seven").toggle();
+                $("#ul1").slideUp();
+            });
+            $('#h1othercost').click(function () {
+                $(".eight").toggle();
+                $("#ulothercost").slideUp();
+            });
+            $('#h1plantprocess').click(function () {
+                $(".nine").toggle();
+                $("#verticalmenu1").slideUp();
+            });
+            $('#h1processflow').click(function () {
+                $(".ten").toggle();
+                $("#ulprocessflow").slideUp();
+            });
+            $('#h1warehousereport').click(function () {
+                $(".eleven").toggle();
+                $("#Ul3").slideUp();
+            });
+            $('#h1Proofing').click(function () {
+                $(".fourteen").toggle();
+                $("#UlProofs").slideUp();
+            });
+
+            $('#h1templates').click(function () {
+                $(".twelve").toggle();
+                $("#ultemplates").slideUp();
+            });
+            $('#h1inventory').click(function () {
+                $(".thirteen").toggle();
+                $("#ulinventory").slideUp();
+            });
+
+
+            $('ul#accordion > li > h1').click(function () {
+                if ($(this).next().css('display') == 'none') {
+                    $('ul#accordion > li > ul').slideUp();
+                    $(this).next().slideDown();
+                }
+            });
+            //var url = window.location.pathname;
+            //if (url == "/settings/settings.aspx") {
+            //    sessionStorage.setItem("MainTab", "");
+            //    sessionStorage.setItem("SubTab", "");
+            //    window.sessionStorage.clear();
+            //}
+            //if (url != "settings/settings.aspx") {
+            getcookiesvalue();
+            //}
+            //document.cookie = "MainTabSelect=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
+            //document.cookie = "SubTabSelect=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
+
+        });
+
+    </script>
+</head>
+<body onload="setwidth();">
+    <form id="form1" runat="server">
+        <telerik:RadScriptManager ID="ScriptManager2" runat="server" EnablePartialRendering="true"
+            EnablePageMethods="true">
+        </telerik:RadScriptManager>
+        <asp:PlaceHolder ID="plhStyle" runat="server"></asp:PlaceHolder>
+        <asp:HiddenField ID="hdnGetCookiesValue" runat="server" Value='' />
+        <asp:HiddenField ID="hdngetparticularLIid" runat="server" Value='' />
+        <table id="outerTable" cellpadding="0" cellspacing="0" border="0" style="width: 100%;"
+            align="center">
+            <!--HEADER-->
+            <tr class="SrchResHeight">
+                <td>
+                    <div align="left" id="maindivstyle">
+                        <crm:callclass runat="server" ID="callsettings" />
+                        <div id="settingclass" style="display: none">
+                            <asp:PlaceHolder runat="server" ID="plclass"></asp:PlaceHolder>
+                        </div>
+                    </div>
+                    <div align="left">
+                        <asp:PlaceHolder ID="plhHeader" EnableViewState="false" runat="server"></asp:PlaceHolder>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <table cellspacing="0" cellpadding="0" width="100%" border="0">
+                        <!-- Navigation -->
+                      <%--  <crm:headerUC ID="header1" EnableViewState="false" runat="server"></crm:headerUC>--%>
+                        <tr>
+                            <td>
+                                <table cellpadding="0" cellspacing="0" width="100%">
+                                    <tr valign="top">
+                                        <td style="width: 100%; background-color: white" align="center">
+                                            <table width="100%" cellspacing="0" cellpadding="0">
+                                                <tr>
+                                                    <td>
+                                                        <table id="middleTable" cellspacing="0" cellpadding="0" width="100%" border="0" style="background-color: white">
+                                                            <crm:lowerheaderUC ID="header2" runat="server"></crm:lowerheaderUC>
+                                                            <!--navigator end -->
+                                                            <tr>
+                                                                <td>
+                                                                    <table cellpadding="0" cellspacing="0" width="100%" border="0" class="">
+                                                                        <%--border_leftonly borderright--%>
+                                                                        <tr valign="top">
+                                                                            <td>
+                                                                                <div class="onlyEmpty">
+                                                                                    <img src="<%=strImagepath%>nil.gif" width="1" border="0" height="10px" alt="" />
+                                                                                </div>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr valign="top">
+                                                                            <td class="bodypanel" align="center" style="background-color: White">
+                                                                                <table style="width: 100%" id="innerTable" border="0" cellpadding="0" cellspacing="0">
+                                                                                    <tr valign="top">
+                                                                                        <!--LEFTPANEL-->
+                                                                                        <td width="175px" align="left" style="padding-left: 1px;">
+                                                                                            <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                                                                                                <tr style="display: none;">
+                                                                                                    <td align="left">
+                                                                                                        <div id="setting1" runat="server" onclick="javascript:return settingstatus('none');"
+                                                                                                            style="cursor: pointer;">
+                                                                                                            <table cellspacing="0" cellpadding="0" width="159px" border="0">
+                                                                                                                <tr onmouseover="javascript:applystyle('h')">
+                                                                                                                    <td valign="top" align="left" class="bgcustomize" width="5px">
+                                                                                                                        <img alt="" src="<%=strImagepath%>lt_tabnotch.gif" width="5" border="0" height="5" />
+                                                                                                                    </td>
+                                                                                                                    <td nowrap="nowrap" width="149px" class="bgcustomize" height="23">
+                                                                                                                        <strong class="navigatorpanel" style="padding-left: 5px; padding-right: 65px">
+                                                                                                                            <%=objLanguage.GetLanguageConversion("Options")%></strong>&nbsp;
+                                                                                                                    <img alt="" src="<%=strImagepath%>opentriangle.gif" align="absmiddle" />
+                                                                                                                    </td>
+                                                                                                                    <td valign="top" align="right" class="bgcustomize" width="5px">
+                                                                                                                        <img alt="" src="<%=strImagepath%>rt_tabnotch.gif" width="5" border="0" height="5" />
+                                                                                                                    </td>
+                                                                                                                </tr>
+                                                                                                            </table>
+                                                                                                        </div>
+                                                                                                        <div id="showsetting1" runat="server" onclick="javascript:return settingstatus('block');"
+                                                                                                            style="cursor: pointer; display: none">
+                                                                                                            <table cellspacing="0" cellpadding="0" width="159px" border="0">
+                                                                                                                <tr>
+                                                                                                                    <td valign="top" align="left" class="bgcustomize" width="5px">
+                                                                                                                        <img alt="" src="<%=strImagepath%>lt_tabnotch.gif" width="5" border="0" height="5" />
+                                                                                                                    </td>
+                                                                                                                    <td nowrap="nowrap" width="149px" class="bgcustomize" height="23">
+                                                                                                                        <strong class="navigatorpanel" style="padding-left: 5px; padding-right: 70px">Options</strong>&nbsp;<img
+                                                                                                                            src="<%=strImagepath%>triangle.gif" align="absmiddle" />
+                                                                                                                    </td>
+                                                                                                                    <td valign="top" align="right" class="bgcustomize" width="5px">
+                                                                                                                        <img src="<%=strImagepath%>rt_tabnotch.gif" width="5" border="0" height="5" />
+                                                                                                                    </td>
+                                                                                                                </tr>
+                                                                                                            </table>
+                                                                                                        </div>
+                                                                                                    </td>
+                                                                                                </tr>
+                                                                                                <tr style="display: block;">
+                                                                                                    <td align="left">
+                                                                                                        <%--Original Menu--%>
+                                                                                                        <div id="divsetting" style="height: auto;" runat="server">
+                                                                                                            <div class="setting_eprint_title">
+                                                                                                                <asp:Label ID="lbltxt" runat="server" Text="" CssClass="eprint_mis13px"></asp:Label>
+                                                                                                            </div>
+                                                                                                            <div class="setting_divtop">
+                                                                                                                <ul class="accordion setting_accordiondiv" id="accordion">
+                                                                                                                    <li id="li16" style="display: none" runat="server" class="setting_marginleft25px">
+                                                                                                                        <h1 id="h1accounting" class="setting_font12px">
+                                                                                                                            <asp:Label ID="lblAccounting" runat="server">&nbsp;&nbsp;<%=objLanguage.GetLanguageConversion("Accounting")%></asp:Label>
+                                                                                                                            <div class="productcategory_reorder_ddl">
+                                                                                                                                <img id="imgup1" runat="server" class="one" src="../images/ArrowUP.GIF" />
+                                                                                                                                <img class="one" src="../images/ArrowDown.gif" style="display: none">
+                                                                                                                            </div>
+                                                                                                                        </h1>
+                                                                                                                        <ul id="ul9" class="setting_ulpadding3px">
+                                                                                                                            <li id="li4" runat="server" class="setting_panellitxt" onclick="javascript:ItemSelected('ul9',this.id);">
+                                                                                                                                <a href="<%=strSitepath %>Settings/General_ledger_codes.aspx" class="anchor_fontsize"
+                                                                                                                                    style="color: Black">&nbsp;<%=objLanguage.GetLanguageConversion("Accounting_Code")%>
+                                                                                                                                </a></li>
+                                                                                                                            <li id="li17" runat="server" class="setting_panellitxt" onclick="javascript:ItemSelected('ul9',this.id);">
+                                                                                                                                <a id="myobapi" runat="server" href="<%=strSitepath %>Settings/MYOBAccounting.aspx"
+                                                                                                                                    class="anchor_fontsize" style="color: Black">&nbsp;<%=objLanguage.GetLanguageConversion("MYOB")%></a></li>
+                                                                                                                            <li id="li8" runat="server" class="setting_panellitxt" onclick="javascript:ItemSelected('ul9',this.id);">
+                                                                                                                                <a href="<%=strSitepath %>Settings/accounting_export.aspx" class="anchor_fontsize"
+                                                                                                                                    style="color: Black">&nbsp;<%=objLanguage.GetLanguageConversion("XERO")%></a></li>
+                                                                                                                            <li id="li32" runat="server" class="setting_panellitxt" onclick="javascript:ItemSelected('ul9',this.id);">
+                                                                                                                                <a href="<%=strSitepath %>Settings/accounting_export.aspx" class="anchor_fontsize"
+                                                                                                                                    style="color: Black">&nbsp;<%=objLanguage.GetLanguageConversion("XERO2")%></a></li>
+
+                                                                                                                            <li id="li19" runat="server" class="setting_panellitxt" onclick="javascript:ItemSelected('ul9',this.id);">
+                                                                                                                                <a id="FreshBooksAPI" href="<%=strSitepath %>Settings/FreshBooksAccounting_Export.aspx"
+                                                                                                                                    class="anchor_fontsize" style="color: Black">&nbsp;<%=objLanguage.GetLanguageConversion("FreshBooks")%></a></li>
+                                                                                                                            <li id="li27" runat="server" class="setting_panellitxt" onclick="javascript:ItemSelected('ul9',this.id);">
+                                                                                                                                <a id="accountingexport" href="<%=strSitepath %>Settings/CPAccounting.aspx" class="anchor_fontsize"
+                                                                                                                                    style="color: Black">&nbsp;<%=objLanguage.GetLanguageConversion("Export")%></a></li>
+                                                                                                                            <li id="li29" runat="server" class="setting_panellitxt" onclick="javascript:ItemSelected('ul9',this.id);">
+                                                                                                                                <a id="QuickBooks" href="<%=strSitepath %>Settings/QuickbookAccounting.aspx" class="anchor_fontsize"
+                                                                                                                                    style="color: Black" runat="server">&nbsp;<%=objLanguage.GetLanguageConversion("QuickBooks")%></a></li>
+
+
+                                                                                                                            <li id="li_Quickbooks_Online" runat="server" class="setting_panellitxt" onclick="javascript:ItemSelected('ul9',this.id);">
+                                                                                                                                <a id="Quickbooks_Online" href="<%=strSitepath %>Settings/QuickbookAccounting_Online.aspx"
+                                                                                                                                    class="anchor_fontsize" style="color: Black">&nbsp;Quickbooks Online</a></li>
+
+                                                                                                                            <%-- <li id="li_Quickbooks_Online" runat="server" class="setting_panellitxt" onclick="javascript:ItemSelected('ul9',this.id);">
+                                                                                                                                <a id="A1" href="<%=strSitepath %>Settings/QuickbookAccounting_Online.aspx" class="anchor_fontsize"
+                                                                                                                                    style="color: Black" runat="server">&nbsp;Quickbooks Online</a></li>--%>
+
+
+
+                                                                                                                            <li id="li_Netsuite" runat="server" visible="false" class="setting_panellitxt" onclick="javascript:ItemSelected('ul9',this.id);">
+                                                                                                                                <a id="Netsuite_href" runat="server" href="<%=strSitepath %>Settings/Netsuite.aspx"
+                                                                                                                                    class="anchor_fontsize" style="color: Black">&nbsp;<%=objLanguage.GetLanguageConversion("Netsuite")%></a></li>
+                                                                                                                            <li id="li_AccountingExport" runat="server" visible="false" class="setting_panellitxt" onclick="javascript:ItemSelected('ul9',this.id);">
+                                                                                                                                <a href="<%=strSitepath %>Settings\Navision_Export.aspx" class="anchor_fontsize"
+                                                                                                                                    style="color: Black">&nbsp;<%=objLanguage.GetLanguageConversion("Navision_Export")%>
+                                                                                                                                </a></li>
+                                                                                                                            <%-- Start --%>
+
+                                                                                                                            <li id="li_SageExport" runat="server" visible="false" class="setting_panellitxt" onclick="javascript:ItemSelected('ul9',this.id);">
+                                                                                                                                <a href="<%=strSitepath %>Settings\SageOneAccounting.aspx" class="anchor_fontsize"
+                                                                                                                                    style="color: Black">&nbsp;<%=objLanguage.GetLanguageConversion("Sage_Export")%>SageOne
+                                                                                                                                </a></li>
+
+                                                                                                                            <li id="li_Sage50Export" runat="server" visible="false" class="setting_panellitxt" onclick="javascript:ItemSelected('ul9',this.id);">
+                                                                                                                                <a href="<%=strSitepath %>Settings\Sage50Accounting.aspx" class="anchor_fontsize"
+                                                                                                                                    style="color: Black">&nbsp;<%=objLanguage.GetLanguageConversion("Sage_Export")%>Sage50
+                                                                                                                                </a></li>
+                                                                                                                            <%--SAASU--%>
+                                                                                                                            <li id="li_saasu" runat="server" class="setting_panellitxt" onclick="javascript:ItemSelected('ul9',this.id);">
+                                                                                                                                <a id="SAASUAPI" runat="server" href="<%=strSitepath %>Settings/SAASU_Accounting.aspx"
+                                                                                                                                    class="anchor_fontsize" style="color: Black">&nbsp;<%=objLanguage.GetLanguageConversion("SAASU")%></a></li>
+
+                                                                                                                            <%-- End --%>
+
+                                                                                                                            <%-- start --%>
+
+                                                                                                                            <li id="li_Sage50BusinessExport" runat="server" visible="false" class="setting_panellitxt" onclick="javascript:ItemSelected('ul9',this.id);">
+                                                                                                                                <a href="<%=strSitepath %>Settings\Sage50Business.aspx" class="anchor_fontsize"
+                                                                                                                                    style="color: Black">&nbsp;<%=objLanguage.GetLanguageConversion("Sage_Export")%>Sage50 Business
+                                                                                                                                </a></li>
+
+
+                                                                                                                            <%-- end --%>
+
+                                                                                                                             <%-- start --%>
+
+                                                                                                                            <li id="li_ReckonHostedExport" runat="server" visible="false" class="setting_panellitxt" onclick="javascript:ItemSelected('ul9',this.id);">
+                                                                                                                                <a href="<%=strSitepath %>Settings\ReckonHostedAccounting.aspx" class="anchor_fontsize"
+                                                                                                                                    style="color: Black">&nbsp;<%=objLanguage.GetLanguageConversion("ReckonHosted_Export")%>
+                                                                                                                                </a></li>
+
+
+                                                                                                                            <%-- end --%>
+
+                                                                                                                        </ul>
+                                                                                                                    </li>
+                                                                                                                    <li id="li2" class="setting_marginleft25px">
+                                                                                                                        <h1 id="h1appearance" class="setting_font12px">
+                                                                                                                            <asp:Label ID="lblAppearence" runat="server">&nbsp;&nbsp;<%=objLanguage.GetLanguageConversion("Appearance")%></asp:Label>
+                                                                                                                            <div class="productcategory_reorder_ddl">
+                                                                                                                                <img id="imgUp2" runat="server" class="two" src="../images/ArrowUP.GIF" />
+                                                                                                                                <img class="two" src="../images/ArrowDown.gif" style="display: none">
+                                                                                                                            </div>
+                                                                                                                        </h1>
+                                                                                                                        <ul id="ul2" class="setting_ulpadding3px">
+                                                                                                                            <li id="li22" style="display: none" runat="server"></li>
+                                                                                                                            <li id="li24" runat="server" class="setting_panellitxt" onclick="javascript:ItemSelected('ul2',this.id);">
+                                                                                                                                <a href="<%=strSitepath %>Settings/company_logo.aspx?type=1" class="anchor_fontsize"
+                                                                                                                                    style="color: Black">&nbsp;<%=objLanguage.GetLanguageConversion("Customize_Header")%></a></li>
+                                                                                                                            <li id="li23" runat="server" class="setting_panellitxt" onclick="javascript:ItemSelected('ul2',this.id);">
+                                                                                                                                <a href="<%=strSitepath %>Settings/company_logo.aspx?type=2" class="anchor_fontsize"
+                                                                                                                                    style="color: Black">&nbsp<%=objLanguage.GetLanguageConversion("Customize_Footer")%></a></li>
+                                                                                                                            <li id="lii22" runat="server" class="setting_panellitxt" onclick="javascript:ItemSelected('ul2',this.id);">
+                                                                                                                                <a href="<%=strSitepath %>common/Usermore.aspx" class="anchor_fontsize" style="color: Black">&nbsp;<%=objLanguage.GetLanguageConversion("Customize_Tab")%></a></li>
+                                                                                                                            <li id="li21" runat="server" class="setting_panellitxt" onclick="javascript:ItemSelected('ul2',this.id);">
+                                                                                                                                <a href="<%=strSitepath %>Settings/tab_colour.aspx" class="anchor_fontsize" style="color: Black">&nbsp;<%=objLanguage.GetLanguageConversion("Customize_Tab")%> <%=objpage.GetRegionalSettings(companyid, "Colour")%></a></li>
+                                                                                                                        </ul>
+                                                                                                                    </li>
+                                                                                                                    <li id="li11" class="setting_marginleft25px">
+                                                                                                                        <h1 id="h1company" class="setting_font12px">
+                                                                                                                            <asp:Label ID="lblCompany" runat="server">&nbsp;&nbsp;<%=objLanguage.GetLanguageConversion("Company")%></asp:Label>
+                                                                                                                            <div class="productcategory_reorder_ddl">
+                                                                                                                                <img id="imgUp3" runat="server" class="three" src="../images/ArrowUP.GIF" />
+                                                                                                                                <img class="three" src="../images/ArrowDown.gif" style="display: none">
+                                                                                                                            </div>
+                                                                                                                        </h1>
+                                                                                                                        <ul id="ul8" class="setting_ulpadding3px">
+                                                                                                                            <li id="li18" runat="server" class="setting_panellitxt" onclick="javascript:ItemSelected('ul8',this.id);">
+                                                                                                                                <a style="color: Black" class="anchor_fontsize" href="<%=strSitepath %>Settings/Company_profile.aspx">&nbsp;<%=objLanguage.GetLanguageConversion("Profile")%></a> </li>
+                                                                                                                            <li id="li5" runat="server" class="setting_panellitxt" onclick="javascript:ItemSelected('ul8',this.id);">
+                                                                                                                                <a href="<%=strSitepath %>Settings/regional_Settings.aspx" class="anchor_fontsize"
+                                                                                                                                    style="color: Black">&nbsp;<%=objLanguage.GetLanguageConversion("Regional_Settings")%></a></li>
+                                                                                                                            <li id="li6" runat="server" class="setting_panellitxt" onclick="javascript:ItemSelected('ul8',this.id);">
+                                                                                                                                <a href="<%=strSitepath %>Settings/system_markup.aspx" class="anchor_fontsize" style="color: Black">&nbsp;Default Markup</a></li>
+                                                                                                                            <li id="li15" runat="server" class="setting_panellitxt" onclick="javascript:ItemSelected('ul8',this.id);">
+                                                                                                                                <a href="<%=strSitepath %>Settings/taxrate.aspx?type=TR" class="anchor_fontsize"
+                                                                                                                                    style="color: Black">&nbsp;<%=objLanguage.GetLanguageConversion("Tax")%>
+                                                                                                                                </a></li>
+                                                                                                                            <li id="liUser" runat="server" class="setting_panellitxt" onclick="javascript:ItemSelected('ul8',this.id);">
+                                                                                                                                <a href="<%=strSitepath %>Settings/user_manager.aspx" class="anchor_fontsize" style="color: Black">&nbsp;<%=objLanguage.GetLanguageConversion("Users")%></a> </li>
+                                                                                                                        </ul>
+                                                                                                                    </li>
+                                                                                                                    <li id="li38" class="setting_marginleft25px" onclick="javascript:ItemSelected('li38',this.id);">
+                                                                                                                     
+                                                                                                                         <h1 id="stripe_heading" class="setting_margin10px">
+                                                                                                                            <asp:Label ID="Label1" runat="server">  <%=objLanguage.GetLanguageConversion("Stripe")%>
+                                                                                                                            </asp:Label>
+                                                                                                                            <div class="productcategory_reorder_ddl">
+                                                                                                                                <img id="imgUp33" runat="server" class="four1" src="../images/ArrowUP.GIF" />
+                                                                                                                                <img class="four1" src="../images/ArrowDown.gif" style="display: none">
+                                                                                                                            </div>
+                                                                                                                        </h1>
+                                                                                                                        <ul id="ul66" class="setting_ulpadding3px">
+                                                                                                                            <li id="li37" runat="server" class="setting_panellitxt" onclick="javascript:ItemSelected('ul66',this.id);">
+                                                                                                                                 <a href="<%=strSitepath %>Settings/StripeSettings.aspx" id="stripe_link" class="anchor_fontsize" 
+                                                                                                                                style="color: #333" onmouseover="javascript:applystyle('v');">API</a></li>
+                                                                                                                            <li id="li39" runat="server" class="setting_panellitxt" onclick="javascript:ItemSelected('ul66',this.id);">
+                                                                                                                                <a href="<%=strSitepath %>Settings/StripeRedirect.aspx" class="anchor_fontsize"
+                                                                                                                                    style="color: Black">Redirect Settings</a></li>
+                                                                                                                         </ul>
+                                                                                                                    </li>
+
+
+                                                                                                                    <li id="li9" class="setting_marginleft25px">
+                                                                                                                        <h1 id="h1contentmgmt" class="setting_margin10px">
+                                                                                                                            <asp:Label ID="lblContentmgmt" runat="server"><%=objLanguage.GetLanguageConversion("Content_Management")%>
+                                                                                                                            </asp:Label>
+                                                                                                                            <div class="productcategory_reorder_ddl">
+                                                                                                                                <img id="imgUp4" runat="server" class="four" src="../images/ArrowUP.GIF" />
+                                                                                                                                <img class="four" src="../images/ArrowDown.gif" style="display: none">
+                                                                                                                            </div>
+                                                                                                                        </h1>
+                                                                                                                        <ul id="ul6" class="setting_ulpadding3px">
+                                                                                                                            <li id="lidescription" runat="server" class="setting_panellitxt" onclick="javascript:ItemSelected('ul6',this.id);">
+                                                                                                                                <a href="<%=strSitepath %>Settings/itemDescription_New.aspx" class="anchor_fontsize"
+                                                                                                                                    style="color: Black">&nbsp;<%=objLanguage.GetLanguageConversion("Item_Descriptions")%></a></li>
+                                                                                                                            <li id="liphrasebook" runat="server" class="setting_panellitxt" onclick="javascript:ItemSelected('ul6',this.id);">
+                                                                                                                                <a href="<%=strSitepath %>Settings/system_pharsebook.aspx?Mtype=PB" class="anchor_fontsize"
+                                                                                                                                    style="color: Black">&nbsp;<%=objLanguage.GetLanguageConversion("Phrase_Book")%></a></li>
+                                                                                                                            <li id="liothersettings" runat="server" class="setting_panellitxt" onclick="javascript:ItemSelected('ul6',this.id);">
+                                                                                                                                <a href="<%=strSitepath %>Settings/other_settings.aspx" class="anchor_fontsize"
+                                                                                                                                    style="color: Black">&nbsp;<%=objLanguage.GetLanguageConversion("Other_Settings")%></a></li>
+                                                                                                                        </ul>
+                                                                                                                    </li>
+                                                                                                                    <li id="li10" class="setting_marginleft25px">
+                                                                                                                        <h1 id="h1crm" class="setting_margin10px">
+                                                                                                                            <asp:Label ID="lblCRM" runat="server"><%=objLanguage.GetLanguageConversion("CRM")%></asp:Label>
+                                                                                                                            <div class="productcategory_reorder_ddl">
+                                                                                                                                <img id="imgUp5" runat="server" class="five" src="../images/ArrowUP.GIF" />
+                                                                                                                                <img class="five" src="../images/ArrowDown.gif" style="display: none">
+                                                                                                                            </div>
+                                                                                                                        </h1>
+                                                                                                                        <ul id="ul7" class="setting_ulpadding3px">
+                                                                                                                            <li id="li3" runat="server" class="setting_panellitxt" onclick="javascript:ItemSelected('ul7',this.id);">
+                                                                                                                                <a href="<%=strSitepath %>Settings/AddressLabels.aspx" class="anchor_fontsize" style="color: Black">&nbsp;<%=objLanguage.GetLanguageConversion("Address_Labels")%></a></li>
+                                                                                                                            <li id="li14" runat="server" class="setting_panellitxt" onclick="javascript:ItemSelected('ul7',this.id);">
+                                                                                                                                <a href="<%=strSitepath %>Settings/account_status.aspx" class="anchor_fontsize" style="color: Black">&nbsp;<%=objLanguage.GetLanguageConversion("Account_Status")%></a></li>
+                                                                                                                            <li id="licallpurpose" runat="server" class="setting_panellitxt" onclick="javascript:ItemSelected('ul7',this.id);">
+                                                                                                                                <a href="<%=strSitepath %>Settings/callpurpose.aspx" class="anchor_fontsize" style="color: Black">&nbsp;<%=objLanguage.GetLanguageConversion("Call_Subject")%></a></li>
+                                                                                                                            <li id="licompanyType" runat="server" class="setting_panellitxt" onclick="javascript:ItemSelected('ul7',this.id);">
+                                                                                                                                <a href="<%=strSitepath %>Settings/Settings_CompanyType.aspx" class="anchor_fontsize"
+                                                                                                                                    style="color: Black">&nbsp;<%=objLanguage.GetLanguageConversion("Company_type")%></a></li>
+                                                                                                                            <li id="licontCustomfields" runat="server" class="setting_panellitxt_maxwidth" onclick="javascript:ItemSelected('ul7',this.id);">
+                                                                                                                                <a href="<%=strSitepath %>Settings/department_custom_fields.aspx?type=cont" class="anchor_fontsize"
+                                                                                                                                    style="color: Black">&nbsp;<%=objLanguage.GetLanguageConversion("Contact_Custom_Fields")%></a></li>
+                                                                                                                            <li id="lidashSetting" runat="server" class="setting_panellitxt" onclick="javascript:ItemSelected('ul7',this.id);">
+                                                                                                                                <a href="<%=strSitepath %>Settings/dashboard_settings.aspx" class="anchor_fontsize"
+                                                                                                                                    style="color: Black">&nbsp;<%=objLanguage.GetLanguageConversion("Dashboard_settings")%></a></li>
+                                                                                                                            <li id="liTargets" runat="server" class="setting_panellitxt" onclick="javascript:ItemSelected('ul7',this.id);">
+                                                                                                                                <a href="<%=strSitepath %>Settings/Targets.aspx" class="anchor_fontsize"
+                                                                                                                                    style="color: Black">&nbsp;<%=objLanguage.GetLanguageConversion("Dashboard_Targets")%></a></li>
+                                                                                                                            <%--                                                                                                                            <li id="liMiniDashbord" runat="server" class="setting_panellitxt" onclick="javascript:ItemSelected('ul7',this.id);">
+                                                                                                                                <a href="<%=strSitepath %>Settings/miniwidgets.aspx" class="anchor_fontsize"
+                                                                                                                                    style="color: Black">&nbsp;<%=objLanguage.GetLanguageConversion("Mini_dashboard_settings")%></a></li>--%>
+
+                                                                                                                            <li id="lidepCustomfields" runat="server" class="setting_panellitxt_maxwidth" onclick="javascript:ItemSelected('ul7',this.id);">
+                                                                                                                                <a href="<%=strSitepath %>Settings/department_custom_fields.aspx?type=Dept" class="anchor_fontsize"
+                                                                                                                                    style="color: Black">&nbsp;<%=objLanguage.GetLanguageConversion("Department_Custom_Fields")%></a></li>
+                                                                                                                            <li id="li_PaymentTemers" runat="server" class="setting_panellitxt" onclick="javascript:ItemSelected('ul7',this.id);">
+                                                                                                                                <a href="<%=strSitepath%>Settings/Cutomer_PaymentTerms.aspx" class="anchor_fontsize"
+                                                                                                                                    style="color: Black">&nbsp;<%=objLanguage.GetLanguageConversion("Payment_Terms")%></a></li>
+                                                                                                                            <li id="li_ReferedBy" runat="server" class="setting_panellitxt" onclick="javascript:ItemSelected('ul7',this.id);">
+                                                                                                                                <a href="<%=strSitepath%>Settings/Settings_ReferedBy.aspx" class="anchor_fontsize"
+                                                                                                                                    style="color: Black">&nbsp;<%=objLanguage.GetLanguageConversion("Referrals")%></a></li>
+                                                                                                                            <li id="li_TaskSubject" runat="server" class="setting_panellitxt" onclick="javascript:ItemSelected('ul7',this.id);">
+                                                                                                                                <a href="<%=strSitepath%>Settings/tasksubject.aspx" class="anchor_fontsize" style="color: Black">&nbsp;<%=objLanguage.GetLanguageConversion("Task_Subject")%></a></li>
+                                                                                                                            <li id="li_MailChimp" class="show_hide setting_panellitxt" runat="server" onclick="javascript:ItemSelected('ul7',this.id);">
+                                                                                                                                <a href="<%=strSitepath%>Settings/Mailchimp_Integration.aspx" class="anchor_fontsize"
+                                                                                                                                    style="color: Black">&nbsp;<%=objLanguage.GetLanguageConversion("Mailchimp_Integration")%></a></li>
+                                                                                                                        </ul>
+                                                                                                                    </li>
+                                                                                                                    <li id="li25" class="setting_marginleft25px">
+                                                                                                                        <h1 id="h1systememails" class="setting_margin10px">
+                                                                                                                            <asp:Label ID="lblSystemEmail" runat="server">
+                                                                                                                            <%=objLanguage.GetLanguageConversion("System_Emails")%></asp:Label>
+                                                                                                                            <div class="productcategory_reorder_ddl">
+                                                                                                                                <img id="imgUp6" runat="server" class="six" src="../images/ArrowUP.GIF" />
+                                                                                                                                <img class="six" src="../images/ArrowDown.gif" style="display: none">
+                                                                                                                            </div>
+                                                                                                                        </h1>
+                                                                                                                        <ul id="ul4" class="setting_ulpadding3px">
+                                                                                                                            <li id="li28" runat="server" class="setting_panellitxt" onclick="javascript:ItemSelected('ul4',this.id);">
+                                                                                                                                <a href="<%=strSitepath %>Settings/system_pharsebook.aspx?Mtype=Eml" class="anchor_fontsize"
+                                                                                                                                    style="color: Black">&nbsp;<%=objLanguage.GetLanguageConversion("Content_Messages")%></a>
+                                                                                                                            </li>
+                                                                                                                            <li id="liemailsetting" runat="server" class="setting_panellitxt" onclick="javascript:ItemSelected('ul4',this.id);">
+                                                                                                                                <a href="<%=strSitepath %>Settings/email_settings.aspx" class="anchor_fontsize" style="color: Black">&nbsp;<%=objLanguage.GetLanguageConversion("Email_Settings")%></a></li>
+                                                                                                                        </ul>
+                                                                                                                    </li>
+                                                                                                                    <li id="li1" class="setting_marginleft25px">
+                                                                                                                        <h1 id="h1general" class="setting_margin10px">
+                                                                                                                            <asp:Label ID="lblGeneral" runat="server"><%=objLanguage.GetLanguageConversion("General")%></asp:Label>
+                                                                                                                            <div class="productcategory_reorder_ddl">
+                                                                                                                                <img id="imgUp7" runat="server" class="seven" src="../images/ArrowUP.GIF" />
+                                                                                                                                <img class="seven" src="../images/ArrowDown.gif" style="display: none">
+                                                                                                                            </div>
+                                                                                                                        </h1>
+                                                                                                                        <ul id="ul1" class="setting_ulpadding3px">
+                                                                                                                            <li id="li13" runat="server" class="setting_panellitxt" onclick="javascript:ItemSelected('ul1',this.id);">
+                                                                                                                                <a href="<%=strSitepath %>Settings/number_settings.aspx" class="anchor_fontsize"
+                                                                                                                                    style="color: Black">&nbsp;<%=objLanguage.GetLanguageConversion("Numbering_System")%></a></li>
+                                                                                                                            <li id="li7" runat="server" style="display: none;" class="setting_panellitxt" onclick="javascript:ItemSelected('ul1',this.id);">
+                                                                                                                                <a href="<%=strSitepath %>Settings/rates_papersize.aspx" class="anchor_fontsize"
+                                                                                                                                    style="color: Black">&nbsp;<%=objLanguage.GetLanguageConversion("Paper_Sizes")%></a></li>
+                                                                                                                            <li id="liItemtitle" runat="server" style="display: none" class="setting_panellitxt"
+                                                                                                                                onclick="javascript:ItemSelected('ul1',this.id);"><a href="<%=strSitepath %>Settings/item_title.aspx"
+                                                                                                                                    class="anchor_fontsize" style="color: Black">&nbsp;Item Titles</a></li>
+                                                                                                                            <li id="liPreFlightOptions" runat="server" style="display: none;" class="setting_panellitxt" onclick="javascript:ItemSelected('ul1',this.id);">
+                                                                                                                                <a href="<%=strSitepath %>Settings/PreFlight_Options.aspx" class="anchor_fontsize"
+                                                                                                                                    style="color: Black">&nbsp;<%=objLanguage.GetLanguageConversion("PreFlight_Options")%></a></li>
+                                                                                                                            <li id="liPreFlightProfileUpload" runat="server" style="display: none;" class="setting_panellitxt" onclick="javascript:ItemSelected('ul1',this.id);">
+                                                                                                                                <a href="<%=strSitepath %>Settings/Upload_PreFlightProfile.aspx" class="anchor_fontsize"
+                                                                                                                                    style="color: Black">&nbsp;<%=objLanguage.GetLanguageConversion("Upload_PreFlight_Profile")%></a></li>
+                                                                                                                        </ul>
+                                                                                                                    </li>
+                                                                                                                    <li id="liohtercost" runat="server" style="display: none;" class="setting_marginleft25px">
+                                                                                                                        <h1 id="h1othercost" class="setting_margin10px">
+                                                                                                                            <asp:Label ID="lblOtehrCost" runat="server"><%=objLanguage.GetLanguageConversion("Other_Costs")%></asp:Label>
+                                                                                                                            <div class="productcategory_reorder_ddl">
+                                                                                                                                <img id="imgUp8" runat="server" class="eight" src="../images/ArrowUP.GIF" />
+                                                                                                                                <img class="eight" src="../images/ArrowDown.gif" style="display: none">
+                                                                                                                            </div>
+                                                                                                                        </h1>
+                                                                                                                        <ul id="ulothercost" class="setting_ulpadding3px">
+                                                                                                                            <li id="licategory" runat="server" class="setting_panellitxt" onclick="javascript:ItemSelected('ulothercost',this.id);">
+                                                                                                                                <a href="<%=strSitepath %>Settings/othercost_category_view.aspx" class="anchor_fontsize"
+                                                                                                                                    style="color: Black">&nbsp;<%=objLanguage.GetLanguageConversion("Category")%></a></li>
+                                                                                                                            <li id="liCosts" runat="server" class="setting_panellitxt" onclick="javascript:ItemSelected('ulothercost',this.id);">
+                                                                                                                                <a href="<%=strSitepath %>Settings/othercost_view.aspx" class="anchor_fontsize" style="color: Black">&nbsp;<%=objLanguage.GetLanguageConversion("Costs")%>
+                                                                                                                                </a></li>
+                                                                                                                            <li id="lisquence" runat="server" s class="setting_panellitxt" onclick="javascript:ItemSelected('ulothercost',this.id);">
+                                                                                                                                <a href="<%=strSitepath %>Settings/Othercost_sequence.aspx?EstType=S" class="anchor_fontsize"
+                                                                                                                                    style="color: Black">&nbsp;<%=objLanguage.GetLanguageConversion("Sequence")%>
+                                                                                                                                </a></li>
+                                                                                                                        </ul>
+                                                                                                                    </li>
+                                                                                                                    <li id="liplantandpresses" style="display: none;" runat="server" class="setting_marginleft25px">
+                                                                                                                        <h1 id="h1plantprocess" class="setting_font12px">
+                                                                                                                            <asp:Label ID="lblPlantProcess" runat="server">&nbsp;&nbsp;<%=objLanguage.GetLanguageConversion("Plant_And_Presses")%></asp:Label>
+                                                                                                                            <div class="productcategory_reorder_ddl">
+                                                                                                                                <img id="imgUp9" runat="server" class="nine" src="../images/ArrowUP.GIF" />
+                                                                                                                                <img class="nine" src="../images/ArrowDown.gif" style="display: none">
+                                                                                                                            </div>
+                                                                                                                        </h1>
+                                                                                                                        <ul id="verticalmenu1" class="setting_ulpadding3px">
+                                                                                                                            <li id="childul" style="display: none;" runat="server" class="setting_plant_n_presstxt"
+                                                                                                                                onclick="javascript:ItemSelected('verticalmenu1',this.id);"><a href="<%=strSitepath %>Settings/digital_press_view.aspx"
+                                                                                                                                    class="anchor_fontsize" style="color: Black">&nbsp;
+                                                                                                                                <%=objLanguage.GetLanguageConversion("Digital_Press")%></a> </li>
+                                                                                                                            <li id="liguillotine" style="display: none;" runat="server" class="setting_plant_n_presstxt"
+                                                                                                                                onclick="javascript:ItemSelected('verticalmenu1',this.id);"><a href="<%=strSitepath %>Settings/guillotine_view.aspx"
+                                                                                                                                    class="anchor_fontsize" style="color: Black">&nbsp;
+                                                                                                                                <%=objLanguage.GetLanguageConversion("Guillotine")%></a></li>
+                                                                                                                            <li id="lilarge" style="display: none;" runat="server" class="setting_plant_n_presstxt"
+                                                                                                                                onclick="javascript:ItemSelected('verticalmenu1',this.id);"><a href="../Settings/large_format_view.aspx"
+                                                                                                                                    class="anchor_fontsize" style="color: Black">&nbsp;
+                                                                                                                                <%=objLanguage.GetLanguageConversion("Large_Format")%></a></li>
+                                                                                                                            <li id="lilargeguillotine" style="display: none;" runat="server" class="setting_plant_n_presstxt"
+                                                                                                                                onclick="javascript:ItemSelected('verticalmenu1',this.id);"><a href="<%=strSitepath %>Settings/guillotine_view.aspx?islarge=yes"
+                                                                                                                                    class="anchor_fontsize" style="color: Black">&nbsp;
+                                                                                                                                <%=objLanguage.GetLanguageConversion("cutting_table")%></a></li>
+                                                                                                                            <li id="lisinglefedoffset" style="display: none;" runat="server" class="setting_plant_n_presstxt"
+                                                                                                                                onclick="javascript:ItemSelected('verticalmenu1',this.id);"><a href="<%=strSitepath %>settings/litho_press_view.aspx"
+                                                                                                                                    class="anchor_fontsize" style="color: Black">&nbsp;
+                                                                                                                                <%=objLanguage.GetLanguageConversion("Sheet_Fed_Offset")%></a></li>
+                                                                                                                        </ul>
+                                                                                                                    </li>
+                                                                                                                    <li id="li20" visible="true" runat="server" class="setting_marginleft25px">
+                                                                                                                        <h1 id="h1processflow" class="setting_font12px">
+                                                                                                                            <asp:Label ID="lblProcessFlow" runat="server">&nbsp;&nbsp;<%=objLanguage.GetLanguageConversion("Process_Flow")%></asp:Label>
+                                                                                                                            <div class="productcategory_reorder_ddl">
+                                                                                                                                <img id="imgUp10" runat="server" class="ten" src="../images/ArrowUP.GIF" />
+                                                                                                                                <img class="ten" src="../images/ArrowDown.gif" style="display: none">
+                                                                                                                            </div>
+                                                                                                                        </h1>
+                                                                                                                        <ul id="ulprocessflow" class="setting_ulpadding3px">
+                                                                                                                            <li id="liestimate" runat="server" class="setting_processflow" onclick="javascript:ItemSelected('ulprocessflow',this.id);">
+                                                                                                                                <a href="<%=strSitepath %>Settings/DefaultSettings.aspx" class="anchor_fontsize"
+                                                                                                                                    style="color: Black">&nbsp;<%=objLanguage.GetLanguageConversion("Estimates")%></a></li>
+
+                                                                                                                            <li id="li47" runat="server" class="setting_processflow" onclick="javascript:ItemSelected('ulprocessflow',this.id);">
+                                                                                                                                <a href="<%=strSitepath %>Settings/Dates.aspx" class="anchor_fontsize"
+                                                                                                                                    style="color: Black">&nbsp;Dates</a></li>
+
+                                                                                                                             <li id="li_jobs" runat="server" class="setting_processflow" onclick="javascript:ItemSelected('ulprocessflow',this.id);">
+                                                                                                                                <a href="<%=strSitepath %>Settings/JobSettings.aspx" class="anchor_fontsize"
+                                                                                                                                    style="color: Black">&nbsp;<%=objLanguage.GetLanguageConversion("Jobs")%></a></li>
+                                                                                                                            <li id="lijvcs" runat="server" class="setting_processflow" onclick="javascript:ItemSelected('ulprocessflow',this.id);">
+                                                                                                                                <a href="<%=strSitepath %>Settings/jobView_colorSetting.aspx" class="anchor_fontsize"
+                                                                                                                                    style="color: Black">&nbsp;<%=objLanguage.GetLanguageConversion("Job_View_Colour")%>
+                                                                                                                                    <%=colorformat%>
+                                                                                                                                </a></li>
+                                                                                                                            <li id="li12" runat="server" class="setting_processflow" onclick="javascript:ItemSelected('ulprocessflow',this.id);">
+                                                                                                                                <a href="<%=strSitepath %>Settings/taxrate.aspx?type=JS" class="anchor_fontsize"
+                                                                                                                                    style="color: Black">&nbsp;<%=objLanguage.GetLanguageConversion("Status")%></a></li>
+
+                                                                                                                             <li id="li40" runat="server" class="setting_processflow" onclick="javascript:ItemSelected('ulprocessflow',this.id);">
+                                                                                                                                <a href="<%=strSitepath %>Settings/SinceSettings.aspx" class="anchor_fontsize"
+                                                                                                                                    style="color: Black">&nbsp;Days Since Settings</a></li>
+
+
+                                                                                                                            <li id="liarchivestatus" runat="server" class="setting_processflow" onclick="javascript:ItemSelected('ulprocessflow',this.id);">
+                                                                                                                                <a href="<%=strSitepath %>Settings/archivestatus.aspx" class="anchor_fontsize" style="color: Black">&nbsp;<%=objLanguage.GetLanguageConversion("Archive_Status")%></a></li>
+                                                                                                                            <li id="li30" runat="server" class="setting_processflow" onclick="javascript:ItemSelected('ulprocessflow',this.id);">
+                                                                                                                                <a href="<%=strSitepath %>Settings/PurchaseOrderDeliveryaddress.aspx" class="anchor_fontsize" style="color: Black">&nbsp;<%=objLanguage.GetLanguageConversion("Purchase_Order")%></a></li>
+
+                                                                                                                            <li id="li31" runat="server" class="setting_processflow" onclick="javascript:ItemSelected('ulprocessflow',this.id);">
+                                                                                                                                <a href="<%=strSitepath %>Settings/LockOption.aspx?type=JS" class="anchor_fontsize"
+                                                                                                                                    style="color: Black">&nbsp;Lock Option</a></li>
+                                                                                                                            
+                                                                                                                            <li id="li34" runat="server" class="setting_processflow" onclick="javascript:ItemSelected('ulprocessflow',this.id);">
+                                                                                                                                <a href="<%=strSitepath %>Settings/DeliveryCost.aspx?type=JS" class="anchor_fontsize"
+                                                                                                                                    style="color: Black">&nbsp;Delivery Cost</a></li>
+
+                                                                                                                        </ul>
+                                                                                                                    </li>
+                                                                                                                       <li id="li33" class="setting_marginleft25px" runat="server" visible="false">
+                                                                                                                        <%--<h1 class="setting_margin10px">
+                                                                                                                            <a href="<%=strSitepath %>Settings/ProofSettings.aspx" class="anchor_fontsize"
+                                                                                                                                style="color: #333" onmouseover="javascript:applystyle('v');">
+                                                                                                                                <%=objLanguage.GetLanguageConversion("Proofing")%></a>
+                                                                                                                        </h1>--%>
+
+
+
+                                                                                                                             <h1 id="h1Proofing" class="setting_font12px">
+                                                                                                                            <asp:Label ID="LabelProofing" runat="server">&nbsp;&nbsp;<%=objLanguage.GetLanguageConversion("Proofing")%></asp:Label>
+                                                                                                                            <div class="productcategory_reorder_ddl">
+                                                                                                                                <img id="imgUpProofs" runat="server" class="fourteen" src="../images/ArrowUP.GIF" />
+                                                                                                                                <img class="fourteen" src="../images/ArrowDown.gif" style="display: none">
+                                                                                                                            </div>
+                                                                                                                        </h1>
+                                                                                                                        <ul id="UlProofs" class="setting_ulpadding3px">
+                                                                                                                            <li id="li35" runat="server" class="setting_panellitxt" onclick="javascript:ItemSelected('UlProofs',this.id);">
+                                                                                                                                <a href="<%=strSitepath %>Settings/ProofSettings.aspx" class="anchor_fontsize"
+                                                                                                                                    style="color: Black">&nbsp;<%=objLanguage.GetLanguageConversion("Customer_Settings")%></a></li>
+                                                                                                                          
+                                                                                                                            <li id="li36" runat="server" class="setting_panellitxt" onclick="javascript:ItemSelected('UlTerms',this.id);">
+                                                                                                                                <a href="<%=strSitepath %>Settings/ProofTermsAndConditions.aspx" class="anchor_fontsize"
+                                                                                                                                    style="color: Black">&nbsp;<%=objLanguage.GetLanguageConversion("Terms&Conditions")%></a></li>
+                                                                                                                        </ul>
+                                                                                                                    </li>
+                                                                                                                    <li id="li_productcatalogue" style="display: none" visible="true" runat="server"
+                                                                                                                        class="setting_marginleft25px">
+                                                                                                                        <h1 id="h1warehousereport" class="setting_font12px">
+                                                                                                                            <asp:Label ID="lblWarehousereport" runat="server">&nbsp;&nbsp;<%=objLanguage.GetLanguageConversion("Warehouse_Report")%></asp:Label>
+                                                                                                                            <div class="productcategory_reorder_ddl">
+                                                                                                                                <img id="imgUp11" runat="server" class="eleven" src="../images/ArrowUP.GIF" />
+                                                                                                                                <img class="eleven" src="../images/ArrowDown.gif" style="display: none">
+                                                                                                                            </div>
+                                                                                                                        </h1>
+                                                                                                                        <ul id="Ul3" class="setting_ulpadding3px">
+                                                                                                                            <li id="liSTocklocation" runat="server" class="setting_panellitxt" onclick="javascript:ItemSelected('Ul3',this.id);">
+                                                                                                                                <a href="<%=strSitepath %>Settings/settings_warehouselocation_add.aspx" class="anchor_fontsize"
+                                                                                                                                    style="color: Black">&nbsp;<%=objLanguage.GetLanguageConversion("Stock_Location")%></a></li>
+                                                                                                                            <li id="li26" runat="server" class="setting_panellitxt" onclick="javascript:ItemSelected('Ul3',this.id);">
+                                                                                                                                <a href="<%=strSitepath %>Settings/warehouse_customsettings.aspx" class="anchor_fontsize"
+                                                                                                                                    style="color: Black">&nbsp;<%=objLanguage.GetLanguageConversion("Stock_Custom_Fields")%>
+                                                                                                                                </a></li>
+                                                                                                                            <li id="listockmanage" runat="server" class="setting_panellitxt" onclick="javascript:ItemSelected('Ul3',this.id);">
+                                                                                                                                <a href="<%=strSitepath %>Settings/stockAllocation_settings.aspx" class="anchor_fontsize"
+                                                                                                                                    style="color: Black">&nbsp;<%=objLanguage.GetLanguageConversion("Stock_Management")%></a></li>
+                                                                                                                            <li id="listStockScanning" runat="server" class="setting_panellitxt">
+                                                                                                                                <a href="<%=strSitepath %>Settings/StockScanning.aspx" class="anchor_fontsize"
+                                                                                                                                    style="color: Black">Stock Scanning</a></li>
+                                                                                                                        </ul>
+                                                                                                                    </li>
+
+                                                                                                                       <li id="li41" class="setting_marginleft25px" runat="server" visible="false">
+                                                                                                                             <h1 id="h1FTP" class="setting_font12px">
+                                                                                                                            <asp:Label ID="LabelFTP" runat="server">&nbsp;&nbsp;<%=objLanguage.GetLanguageConversion("File_Transfer")%></asp:Label>
+                                                                                                                            <div class="productcategory_reorder_ddl">
+                                                                                                                                <img id="img1" runat="server" class="fourteen" src="../images/ArrowUP.GIF" />
+                                                                                                                                <img class="fourteen" src="../images/ArrowDown.gif" style="display: none">
+                                                                                                                            </div>
+                                                                                                                        </h1>
+                                                                                                                        <ul id="UlFTP" class="setting_ulpadding3px">
+                                                                                                                            <li id="li42" runat="server" class="setting_panellitxt" onclick="javascript:ItemSelected('UlFTP',this.id);">
+                                                                                                                                <a href="<%=strSitepath %>Settings/FTPFolder.aspx" class="anchor_fontsize"
+                                                                                                                                    style="color: Black">&nbsp;<%=objLanguage.GetLanguageConversion("FTP_Folders")%></a></li>
+                                                                                                                          
+                                                                                                                            <li id="li43" runat="server" class="setting_panellitxt" onclick="javascript:ItemSelected('UlFTP',this.id);">
+                                                                                                                                <a href="<%=strSitepath %>Settings/FTPRoute.aspx" class="anchor_fontsize"
+                                                                                                                                    style="color: Black">&nbsp;<%=objLanguage.GetLanguageConversion("FTP_Route")%></a></li>
+
+                                                                                                                            <li id="li44" runat="server" class="setting_panellitxt" onclick="javascript:ItemSelected('UlFTP',this.id);">
+                                                                                                                                <a href="<%=strSitepath %>Settings/FTP_Prefix.aspx" class="anchor_fontsize"
+                                                                                                                                    style="color: Black">&nbsp;<%=objLanguage.GetLanguageConversion("Prefix")%></a></li>
+
+                                                                                                                            <li id="li45" runat="server" class="setting_panellitxt" onclick="javascript:ItemSelected('UlFTP',this.id);">
+                                                                                                                                <a href="<%=strSitepath %>Settings/FTPSuccessEmail.aspx" class="anchor_fontsize"
+                                                                                                                                    style="color: Black">&nbsp;<%=objLanguage.GetLanguageConversion("Emails")%></a></li>
+
+                                                                                                                            
+                                                                                                                            <li id="li46" runat="server" class="setting_panellitxt" onclick="javascript:ItemSelected('UlFTP',this.id);">
+                                                                                                                                <a href="<%=strSitepath %>Settings/FTPLogs.aspx" class="anchor_fontsize"
+                                                                                                                                    style="color: Black">&nbsp;<%=objLanguage.GetLanguageConversion("Logging")%></a></li>
+                                                                                                                        </ul>
+                                                                                                                    </li>
+
+                                                                                                                    <li class="setting_marginleft25px">
+                                                                                                                        <h1 id="h1templates" class="setting_margin10px">
+                                                                                                                            <asp:Label ID="lblTemplate" runat="server">
+                                                                                                                                <%=objLanguage.GetLanguageConversion("System_Templates")%></asp:Label>
+                                                                                                                            <div class="productcategory_reorder_ddl">
+                                                                                                                                <img id="imgUp12" runat="server" class="twelve" src="../images/ArrowUP.GIF" />
+                                                                                                                                <img class="twelve" src="../images/ArrowDown.gif" style="display: none">
+                                                                                                                            </div>
+                                                                                                                        </h1>
+                                                                                                                        <ul id="ultemplates" class="setting_ulpadding3px">
+                                                                                                                            <li id="liestimate11" runat="server" class="setting_panellitxt" style="display: none" onclick="javascript:ItemSelected('ultemplates',this.id);">
+                                                                                                                                <a href="<%=strSitepath %>Settings/templates.aspx?page=Estimate" class="anchor_fontsize"
+                                                                                                                                    style="color: Black">&nbsp;<%=objLanguage.GetLanguageConversion("Estimates")%></a></li>
+                                                                                                                            <li id="lisupplierrfq" runat="server" class="setting_panellitxt" onclick="javascript:ItemSelected('ultemplates',this.id);">
+                                                                                                                                <a href="<%=strSitepath %>Settings/templates.aspx?page=PrintBroker" class="anchor_fontsize"
+                                                                                                                                    style="color: Black">&nbsp;<%=objLanguage.GetLanguageConversion("Supplier_RFQs")%></a></li>
+                                                                                                                            <li id="lijobs" runat="server" class="setting_panellitxt" style="display: none" onclick="javascript:ItemSelected('ultemplates',this.id);">
+                                                                                                                                <a href="<%=strSitepath %>Settings/templates.aspx?page=Job" class="anchor_fontsize"
+                                                                                                                                    style="color: Black">&nbsp;<%=objLanguage.GetLanguageConversion("Jobs")%></a></li>
+                                                                                                                            <li id="licradsetting" runat="server" class="setting_panellitxt" style="display: none" onclick="javascript:ItemSelected('ultemplates',this.id);">
+                                                                                                                                <a href="<%=strSitepath %>Settings/jobCardsettings.aspx" class="anchor_fontsize"
+                                                                                                                                    style="color: Black">&nbsp;<%=objLanguage.GetLanguageConversion("Job_Card_Settings")%>
+                                                                                                                                </a></li>
+                                                                                                                            <li id="liinvoice" runat="server" class="setting_panellitxt" style="display: none" onclick="javascript:ItemSelected('ultemplates',this.id);">
+                                                                                                                                <a href="<%=strSitepath %>Settings/templates.aspx?page=Invoice" class="anchor_fontsize"
+                                                                                                                                    style="color: Black">&nbsp;<%=objLanguage.GetLanguageConversion("Invoice")%></a></li>
+                                                                                                                            <li id="lipurchaseorder" runat="server" class="setting_panellitxt" style="display: none" onclick="javascript:ItemSelected('ultemplates',this.id);">
+                                                                                                                                <a href="<%=strSitepath %>Settings/templates.aspx?page=Purchase" class="anchor_fontsize"
+                                                                                                                                    style="color: Black">&nbsp;<%=objLanguage.GetLanguageConversion("Purchase_Order")%></a></li>
+                                                                                                                            <li id="div_DeliveryNote" runat="server" style="display: none;" class="setting_panellitxt"
+                                                                                                                                onclick="javascript:ItemSelected('ultemplates',this.id);"><a href="<%=strSitepath %>Settings/templates.aspx?page=Note"
+                                                                                                                                    class="anchor_fontsize" style="color: Black">&nbsp;<%=objLanguage.GetLanguageConversion("Delivery_Notes")%></a></li>
+                                                                                                                            <li id="libackgroundpdf" runat="server" class="setting_panellitxt" onclick="javascript:ItemSelected('ultemplates',this.id);">
+                                                                                                                                <a href="<%=strSitepath %>Settings/templates_pdf.aspx" class="anchor_fontsize" style="color: Black">&nbsp;<%=objLanguage.GetLanguageConversion("Background_PDF")%></a></li>
+                                                                                                                        </ul>
+                                                                                                                    </li>
+                                                                                                                    <li id="liwarehouse" runat="server" style="display: none;" class="setting_marginleft25px">
+                                                                                                                        <h1 id="h1inventory" class="setting_margin10px">
+                                                                                                                            <asp:Label ID="lblInventory" runat="server">
+                                                                                                                                <%=objLanguage.GetLanguageConversion("Inventory")%></asp:Label>
+                                                                                                                            <div class="productcategory_reorder_ddl">
+                                                                                                                                <img id="imgUp13" runat="server" class="thirteen" src="../images/ArrowUP.GIF" />
+                                                                                                                                <img class="thirteen" src="../images/ArrowDown.gif" style="display: none">
+                                                                                                                            </div>
+                                                                                                                        </h1>
+                                                                                                                        <ul id="ulinventory" class="setting_ulpadding3px">
+                                                                                                                            <li id="liadjustment" runat="server" class="setting_panellitxt" onclick="javascript:ItemSelected('ulinventory',this.id);">
+                                                                                                                                <a href="<%=strSitepath %>Settings/inventory_adjustment.aspx" class="anchor_fontsize"
+                                                                                                                                    style="color: Black">
+                                                                                                                                    <%=objLanguage.GetLanguageConversion("Adjustment")%></a></li>
+                                                                                                                            <li id="liimport" runat="server" class="setting_panellitxt" onclick="javascript:ItemSelected('ulinventory',this.id);">
+                                                                                                                                <a href="<%=strSitepath %>Settings/inventory_import.aspx" class="anchor_fontsize"
+                                                                                                                                    style="color: Black">
+                                                                                                                                    <%=objLanguage.GetLanguageConversion("Import")%></a></li>
+                                                                                                                            <li id="lisettings" runat="server" class="setting_panellitxt" onclick="javascript:ItemSelected('ulinventory',this.id);">
+                                                                                                                                <a href="<%=strSitepath %>Settings/inventory_settings.aspx" class="anchor_fontsize"
+                                                                                                                                    style="color: Black">
+                                                                                                                                    <%=objLanguage.GetLanguageConversion("Settings")%></a></li>
+                                                                                                                            <li id="liStockReduction" runat="server" class="setting_panellitxt" onclick="javascript:ItemSelected('ulinventory',this.id);">
+                                                                                                                                <a href="<%=strSitepath %>Settings/inventorystockreduction.aspx" class="anchor_fontsize"
+                                                                                                                                    style="color: Black">
+                                                                                                                                    <%=objLanguage.GetLanguageConversion("Stock_Reduction")%></a></li>
+                                                                                                                            <li id="lisupplyimport" runat="server" style="display: none" class="setting_panellitxt"
+                                                                                                                                onclick="javascript:ItemSelected('ulinventory',this.id);"><a href="<%=strSitepath %>Settings/finishedgoods_import.aspx?type=ss"
+                                                                                                                                    class="anchor_fontsize" style="color: Black">
+                                                                                                                                    <%=objLanguage.GetLanguageConversion("Store_Supply_Import")%></a></li>
+                                                                                                                            <li id="liitemimport" runat="server" style="display: none" class="setting_panellitxt"
+                                                                                                                                onclick="javascript:ItemSelected('ulinventory',this.id);"><a href="<%=strSitepath %>Settings/finishedgoods_import.aspx?type=ci"
+                                                                                                                                    class="anchor_fontsize" style="color: Black">
+                                                                                                                                    <%=objLanguage.GetLanguageConversion("Customer_Item_Import")%></a></li>
+                                                                                                                        </ul>
+                                                                                                                    </li>
+                                                                                                                    <li id="liOldData" class="setting_marginleft25px" runat="server" style="display: none;">
+                                                                                                                        <h1 class="setting_margin10px">
+                                                                                                                            <a href="<%=strSitepath %>OldData/Default.aspx" target="_blank" class="anchor_fontsize"
+                                                                                                                                style="color: #333" onmouseover="javascript:applystyle('v');">
+                                                                                                                                <%=objLanguage.GetLanguageConversion("Old_Data")%></a>
+                                                                                                                        </h1>
+                                                                                                                    </li>
+                                                                                                                    <asp:PlaceHolder ID="PlaceHolder1" runat="server"></asp:PlaceHolder>
+                                                                                                                    <%--DON'T DELETE THE BELOW CODE --%>
+                                                                                                                    <%--<li><a href="#" onmouseover="javascript:applystyle('v');">&nbsp;&nbsp;Add New Estimate</a>
+                                                                                                                    <ul style="border-top: solid 1px #ccc">
+                                                                                                                        <li><a href="#">&nbsp;&nbsp;Digital</a>
+                                                                                                                            <ul>
+                                                                                                                                <li style="left:190px;border-top: solid 1px #ccc;">
+                                                                                                                                    <a href="<%=strSitepath %>Settings/templates.aspx?page=Estimate">&nbsp;&nbsp;Singel Item</a>
+                                                                                                                                </li>
+                                                                                                                                 <li style="left:190px;border-top: solid 1px #ccc;">
+                                                                                                                                    <a href="<%=strSitepath %>Settings/templates.aspx?page=Estimate">&nbsp;&nbsp;Pad Item</a>
+                                                                                                                                </li>
+                                                                                                                            </ul>
+                                                                                                                        </li>
+                                                                                                                        <li><a href="#">&nbsp;&nbsp;Litho Offset</a>
+                                                                                                                            <ul>
+                                                                                                                                <li style="left:190px;border-top: solid 1px #ccc;">
+                                                                                                                                    <a href="<%=strSitepath %>Settings/templates.aspx?page=Estimate">&nbsp;&nbsp;Singel Item</a>
+                                                                                                                                </li>
+                                                                                                                                 <li style="left:190px;border-top: solid 1px #ccc;">
+                                                                                                                                    <a href="<%=strSitepath %>Settings/templates.aspx?page=Estimate">&nbsp;&nbsp;Pad Item</a>
+                                                                                                                                </li>
+                                                                                                                            </ul>
+                                                                                                                        </li>
+                                                                                                                    </ul>
+                                                                                                                </li>--%>
+                                                                                                                </ul>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                    </td>
+                                                                                                </tr>
+                                                                                            </table>
+                                                                                        </td>
+                                                                                        <td style="width: 15px;">
+                                                                                            <img src="<%=strImagepath%>nil.gif" border="0" style="width: 15px;" alt="" />&nbsp;
+                                                                                        </td>
+                                                                                        <!--BODY TD START-->
+                                                                                        <td valign="top" style="width: 90%; height: 100%; padding-left: 10px;">
+                                                                                            <table class="Tb_BGcolor" style="height: 100%" cellspacing="0" cellpadding="0" border="0"
+                                                                                                width="100%" align="right">
+                                                                                                <tr>
+                                                                                                    <td valign="top">
+                                                                                                        <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+                                                                                                        </asp:ContentPlaceHolder>
+                                                                                                    </td>
+                                                                                                </tr>
+                                                                                            </table>
+                                                                                        </td>
+                                                                                        <!--BODY TD END-->
+                                                                                    </tr>
+                                                                                </table>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr style="height: 10px">
+                                                                            <td colspan="1"></td>
+                                                                        </tr>
+                                                                        <tr class="bodypanel" style="display: none">
+                                                                            <td colspan="1" align="right">
+                                                                                <table width="100%" border="0">
+                                                                                    <tr>
+                                                                                        <td>
+                                                                                            <img style="height: 6px; width: 1; border: 0" alt="" src="<%=strImagepath%>nil.gif" />
+                                                                                        </td>
+                                                                                        <td align="right">
+                                                                                            <asp:ContentPlaceHolder ID="ContentPlaceHolder2" runat="server">
+                                                                                            </asp:ContentPlaceHolder>
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                </table>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </table>
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div style="border-bottom: 1px solid #BDBDBD; margin-top: 7px;">
+                    </div>
+                </td>
+            </tr>
+            <tr style="height: 100%" valign="bottom" class="normalText">
+                <td style="width: 631px; padding-top: 8px;">
+                    <asp:PlaceHolder ID="plhFooter" EnableViewState="false" runat="server"></asp:PlaceHolder>
+                </td>
+            </tr>
+        </table>
+    </form>
+</body>
+</html>

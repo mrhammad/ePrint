@@ -1,0 +1,50 @@
+/* RadButton Default Skin */
+
+/* please do not try to merge this css with other file. it is a radbutton skin customized for rad button in whole project*/
+
+.RadButton_EprintbtnSkin.rbSkinnedButton
+{
+    background: #e8e8e8; /* Old browsers */
+    background: -moz-linear-gradient(top,  #e8e8e8 0%, #f9f8f8 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#e8e8e8), color-stop(100%,#f9f8f8)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top,  #e8e8e8 0%,#f9f8f8 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top,  #e8e8e8 0%,#f9f8f8 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top,  #e8e8e8 0%,#f9f8f8 100%); /* IE10+ */
+    background: linear-gradient(to bottom,  #e8e8e8 0%,#f9f8f8 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e8e8e8', endColorstr='#f9f8f8',GradientType=0 ); /* IE6-9 */
+    font: 11px "Verdana" ,Verdana,Arial,Helvetica,sans-serif;
+    border-radius: 0.5em 0.5em 0.5em 0.5em;
+    padding: 0px 8px 0px 8px;
+    border: 1px solid #A3A3A3;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+
+
+.RadButton_EprintbtnSkin .rbDecorated, .RadButton_EprintbtnSkin.rbVerticalButton, .RadButton_EprintbtnSkin.rbVerticalButton .rbDecorated, .RadButton_EprintbtnSkin .rbSplitRight, .RadButton_EprintbtnSkin .rbSplitLeft
+{
+    padding: 2px 0px 3px 0px;
+    font: 11px "Verdana" ,Verdana,Arial,Helvetica,sans-serif;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
+}
+
+.RadButton_EprintbtnSkin.rbSkinnedButton:hover
+{
+    text-decoration: none;
+    border: 1px solid rgb(60, 127, 177);
+    background: #a7d9f5; /* Old browsers */
+    background: -moz-linear-gradient(top, #a7d9f5 0%, #eaf6fd 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#a7d9f5), color-stop(100%,#eaf6fd)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top, #a7d9f5 0%,#eaf6fd 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top, #a7d9f5 0%,#eaf6fd 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top, #a7d9f5 0%,#eaf6fd 100%); /* IE10+ */
+    background: linear-gradient(to bottom, #a7d9f5 0%,#eaf6fd 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a7d9f5', endColorstr='#eaf6fd',GradientType=0 ); /* IE6-9 */
+}
+
+
+

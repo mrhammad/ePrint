@@ -1,0 +1,52 @@
+﻿ 
+      accordion {  
+         width: 400px;  
+         border: solid 1px black;  
+         background-color:Olive;
+    }  
+  
+    .contentAccordion {  
+         padding: 4px;  
+         background-color:Olive;
+      }
+
+.selectedheader {
+   
+    background-image: url('../images/down_arrow.png');
+     background-repeat: no-repeat;
+    /*color: White;*/
+      background-position: left center;
+     background-color: rgb(245, 245, 245);
+     padding: 3px 3px 3px 18px;
+    border: 1px solid #dddddd;
+     margin-top: 5px;
+     cursor: pointer;
+      height:25px;
+
+}
+ .accordionHeader a:hover
+{
+     background-image: url('../images/down_arrow.png');
+     background-repeat: no-repeat;
+    /*color: White;*/
+      background-position: left center;
+     background-color: rgb(207, 195, 195);
+     padding: 3px 3px 3px 18px;
+    border: 1px solid #dddddd;
+     margin-top: 5px;
+     cursor: pointer;
+      height:25px;
+}
+
+.headerAccordion {
+   
+    background-image: url('../images/nxtr.gif');
+    background-repeat: no-repeat;
+    background-position: left center;
+    border: 1px solid #dddddd;
+    background-color: rgb(232, 232, 232);
+    padding: 3px 3px 3px 18px;
+    margin-top: 5px;
+    cursor: pointer;
+    height:25px;
+}  

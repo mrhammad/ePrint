@@ -1,0 +1,284 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="productcatalogue.master.cs" Inherits="ePrint.ProductCatalogue.productcatalogue" %>
+
+<%@ Register TagPrefix="telerik" Namespace="Telerik.Web.UI" Assembly="Telerik.Web.UI" %>
+<%@ Register TagPrefix="crm" TagName="headerUC" Src="~/Templates/header.ascx" %>
+<%@ Register TagPrefix="crm" TagName="lowerheaderUC" Src="~/Templates/lowerheader.ascx" %>
+<%@ Register TagPrefix="crm" TagName="callclass" Src="~/usercontrol/CallClass.ascx" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head id="Head1" runat="server">
+    <title>Untitled Page</title>
+    <noscript>
+        Your browser does not support JavaScript! ...
+    </noscript>
+    <!--POPUP START-->
+    <%--<link href="../App_Themes/Theme1/popup.css" rel="Stylesheet" type="text/css" />--%>
+    <script type="text/javascript" src="../js/jquery.min.js?VN='<%#VersionNumber%>'"></script>
+    <script type="text/javascript" src="../js/jquery.popup.js?VN='<%#VersionNumber%>'"></script>
+    <!--POPUP END-->
+    <script type="text/javascript" language="javascript" src="../js/animation.js?VN='<%#VersionNumber%>'">
+    </script>
+    <script type="text/javascript">
+        var roundoff = '<%#roundoff%>';        
+    </script>
+    <script type="text/javascript" language="javascript" src="../js/commonloading.js?VN='<%#VersionNumber%>'"></script>
+    <script type="text/javascript" language="javascript" src="../js/jquery-1.3.2.js?VN='<%#VersionNumber%>'"></script>
+    <script type="text/javascript">
+        var menuids = new Array("verticalmenu", "webverticalmenu") //Enter id(s) of UL menus, separated by commas                
+        var submenuoffset = -2 //Offset of submenus from main menu. Default is -2 pixels.
+        var storeActive = '';
+        var storeDeactive = '';
+        function createcssmenu() {
+            for (var i = 0; i < menuids.length; i++) {
+                if (document.getElementById(menuids[i]) != null) {  //IE, object's null value condition, on 26.09.2011
+                    var ultags = document.getElementById(menuids[i]).getElementsByTagName("ul")
+                    for (var t = 0; t < ultags.length; t++) {
+
+                        var spanref = document.createElement("span")
+                        spanref.className = "arrowdiv"
+                        spanref.innerHTML = "&nbsp;&nbsp;"
+                        ultags[t].parentNode.getElementsByTagName("a")[0].appendChild(spanref)
+
+                        ultags[t].parentNode.onmouseover = function () {
+                            var pare = document.getElementById("verticalmenu1");
+                            var chil = pare.getElementsByTagName("li");
+
+                            var submenuoffset1 = 32;
+                            var inneroffset = 190;
+                            if (navigator.appName == 'Microsoft Internet Explorer') {
+                                submenuoffset1 = 31;
+                                inneroffset = 189;
+                            }
+
+                            this.getElementsByTagName("ul")[0].style.left = this.parentNode.offsetWidth + submenuoffset + "px"
+                            var innid1 = this.getElementsByTagName("ul")[0].id;
+                            this.getElementsByTagName("ul")[0].style.display = "block"
+                            //setTimeout("submenuon('"+innid1+"')",1000);
+
+                        }
+                        ultags[t].parentNode.onmouseout = function () {
+                            var innid = this.getElementsByTagName("ul")[0].id;
+                            //submenuoff(innid);
+                            //setTimeout("submenuoff('"+innid+"')",1000);
+                            this.getElementsByTagName("ul")[0].style.display = "none";
+                            //TestOut(this.getElementsByTagName("ul")[0]);
+
+                        }
+                    }
+                }
+            }
+        }
+        function TestOut(tes) {
+            //alert("storeDeactive: "+storeDeactive);
+            //alert("storeActive: "+storeActive);
+            tes.style.display = "none";
+
+        }
+        function submenuoff(type) {
+            //alert(type);
+            document.getElementById(type).style.display = "none";
+        }
+        function submenuon(type) {
+            //alert(type);
+            document.getElementById(type).style.display = "block";
+        }
+
+        if (window.addEventListener)
+            window.addEventListener("load", createcssmenu, false)
+        else if (window.attachEvent)
+            window.attachEvent("onload", createcssmenu)
+    </script>
+    <script language="javascript" type="text/javascript">
+        function settingstatus(status) {
+            if (status == 'none') {
+                slideup('ctl00_divsetting');
+                document.getElementById('ctl00_setting1').style.display = 'none';
+                document.getElementById('ctl00_showsetting1').style.display = 'block';
+            }
+            else {
+                slidedown('ctl00_divsetting');
+                document.getElementById('ctl00_setting1').style.display = 'block';
+                document.getElementById('ctl00_showsetting1').style.display = 'none';
+            }
+        }
+
+        function settingstatus_Webstore(status) {
+            if (status == 'none') {
+                slideup('ctl00_div_WebstoreContent');
+                document.getElementById('ctl00_divHeaderShow').style.display = 'none';
+                document.getElementById('ctl00_divHeaderHide').style.display = 'block';
+            }
+            else {
+                slidedown('ctl00_div_WebstoreContent');
+                document.getElementById('ctl00_divHeaderShow').style.display = 'block';
+                document.getElementById('ctl00_divHeaderHide').style.display = 'none';
+            }
+        }
+        function applystyle_Webstore(val) {
+            if (val == 'v') {
+                document.getElementById('ctl00_div_WebstoreContent').style.overflow = 'visible';
+            }
+            else {
+                document.getElementById('ctl00_div_WebstoreContent').style.overflow = 'hidden';
+            }
+        }
+
+        function applystyle(val) {
+            if (val == 'v') {
+                document.getElementById('ctl00_divsetting').style.overflow = 'visible';
+            }
+            else {
+                document.getElementById('ctl00_divsetting').style.overflow = 'hidden';
+            }
+        }
+        function setwidth() {
+            if (navigator.appName == 'Microsoft Internet Explorer') {
+                document.getElementById("settingclass").style.display = "block";
+            }
+            else {
+                var d = document.getElementById('maindivstyle');
+                var olddiv = document.getElementById("settingclass");
+                d.removeChild(olddiv);
+            }
+        }
+    </script>
+</head>
+<body onload="setwidth();">
+    <form id="form1" runat="server">
+    <telerik:RadScriptManager ID="ScriptManager2" runat="server" EnablePartialRendering="true"
+        EnablePageMethods="true">
+        <Services>
+            <asp:ServiceReference Path="~/AutoFill.asmx" />
+            <asp:ServiceReference Path="~/ContentManagementWebService.asmx" />
+        </Services>
+    </telerik:RadScriptManager>
+    <asp:PlaceHolder ID="plhStyle" runat="server"></asp:PlaceHolder>
+    <table id="outerTable" cellpadding="0" cellspacing="0" border="0" style="width: 100%;"
+        align="center">
+        <!--HEADER-->
+        <tr class="SrchResHeight">
+            <td>
+                <div align="left" id="maindivstyle">
+                    <crm:callclass runat="server" ID="callsettings" />
+                    <div id="settingclass" style="display: none">
+                        <asp:PlaceHolder runat="server" ID="plclass"></asp:PlaceHolder>
+                    </div>
+                </div>
+                <div align="left">
+                    <asp:PlaceHolder ID="plhHeader" EnableViewState="false" runat="server"></asp:PlaceHolder>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <table cellspacing="0" cellpadding="0" width="100%" border="0">
+                    <!-- Navigation -->
+                    <crm:headerUC ID="header1" EnableViewState="false" runat="server"></crm:headerUC>
+                    <tr>
+                        <td>
+                            <table cellpadding="0" cellspacing="0" width="100%">
+                                <tr valign="top">
+                                    <td style="width: 100%; background-color: white" align="center">
+                                        <table width="100%" cellspacing="0" cellpadding="0">
+                                            <tr>
+                                                <td>
+                                                    <table id="middleTable" cellspacing="0" cellpadding="0" width="100%" border="0" style="background-color: white">
+                                                        <crm:lowerheaderUC ID="header2" runat="server"></crm:lowerheaderUC>
+                                                        <!--navigator end -->
+                                                        <tr>
+                                                            <td>
+                                                                <table cellpadding="0" cellspacing="0" width="100%" border="0" class="">
+                                                                    <%--border_leftonly borderright--%>
+                                                                    <tr valign="top">
+                                                                        <td>
+                                                                            <%--<hr class="hrline" size="1" />--%>
+                                                                            <div class="onlyEmpty">
+                                                                                <img src="<%=strImagepath%>nil.gif" width="1" border="0" height="10px"></div>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr valign="top">
+                                                                        <td class="bodypanel" align="center" style="background-color: White">
+                                                                            <table style="width: 100%" id="innerTable" border="0">
+                                                                                <tr valign="top">
+                                                                                    <td style="width: 5px; height: 100%">
+                                                                                        &nbsp;
+                                                                                    </td>
+                                                                                    <%--  <td width="1.5%" valign="top" style="height: 100%; background-color: White; padding-left: 7px;">
+                                                                                        &nbsp;
+                                                                                    </td>--%>
+                                                                                    <!--LEFTPANEL-->
+                                                                                    <%--<td width="10%">
+                                                                                        &nbsp;
+                                                                                    </td>
+                                                                                    <td width="1.5%" valign="top" style="height: 100%; background-color: White">
+                                                                                        &nbsp;
+                                                                                    </td>--%>
+                                                                                    <!--BODY TD START-->
+                                                                                    <td valign="top" style="width: 100%; height: 100%;">
+                                                                                        <table class="Tb_BGcolor" style="height: 100%" cellspacing="0" cellpadding="0" border="0"
+                                                                                            width="100%" align="right">
+                                                                                            <tr>
+                                                                                                <td valign="top">
+                                                                                                    <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+                                                                                                    </asp:ContentPlaceHolder>
+                                                                                                </td>
+                                                                                            </tr>
+                                                                                        </table>
+                                                                                    </td>
+                                                                                    <td width="1.5%" valign="top" style="height: 100%; background-color: White; padding-left: 7px;">
+                                                                                        &nbsp;
+                                                                                    </td>
+                                                                                    <!--BODY TD END-->
+                                                                                </tr>
+                                                                            </table>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr style="height: 10px">
+                                                                        <td colspan="1">
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr class="bodypanel" style="display: none">
+                                                                        <td colspan="1" align="right">
+                                                                            <table width="100%" border="0">
+                                                                                <tr>
+                                                                                    <td>
+                                                                                        <img style="height: 6px; width: 1; border: 0" alt="" src="<%=strImagepath%>nil.gif" />
+                                                                                    </td>
+                                                                                    <td align="right">
+                                                                                        <asp:ContentPlaceHolder ID="ContentPlaceHolder2" runat="server">
+                                                                                        </asp:ContentPlaceHolder>
+                                                                                    </td>
+                                                                                </tr>
+                                                                            </table>
+                                                                        </td>
+                                                                    </tr>
+                                                                </table>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="border_views">
+                </div>
+            </td>
+        </tr>
+        <tr style="height: 100%" valign="bottom" class="normalText">
+            <td style="width: 631px">
+                <asp:PlaceHolder  ID="plhFooter" EnableViewState="false" runat="server"></asp:PlaceHolder>
+            </td>
+        </tr>
+    </table>
+    </form>
+</body>
+</html>

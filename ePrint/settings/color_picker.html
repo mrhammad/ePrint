@@ -1,0 +1,36 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Color Picker</title>
+</head>
+<body>
+    <link rel="stylesheet" href="../ODSprinting/js_color_picker_v2.css" media="screen">
+
+    <script src="../ODSprinting/Managment Print_files/js_color_picker_v2.js" type="text/javascript"></script>
+
+    <input id="txtColorNo" type="hidden">
+    <img id="imgtextcolor" onmouseover="mbtnOver(this);window.status='Font Color'" style="cursor: hand;
+        display: none" onclick="showColorPicker(this,document.getElementById('txtColorNo'),'../images/')"
+        onmouseout="mbtnOut(this);window.status=''" title="Font Color" alt="Font Color"
+        src="../ODSprinting/Managment Print_files/textcolor.gif">
+
+    <script>
+        showColorPicker(document.getElementById("imgtextcolor"),document.getElementById('txtColorNo'),'../images/');
+        
+        function appColor(clr)
+        {
+            if(clr!="")
+            {  
+	            window.opener.colorFieldFill(clr);
+                window.close();
+            }    
+        }
+        function closeColorPicker()
+	    {		
+	        window.close();
+		    color_picker_div.style.display='none';
+	    }
+    </script>
+
+</body>
+</html>

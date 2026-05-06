@@ -1,0 +1,374 @@
+﻿#container
+{
+    width: 100%;
+    height: auto;
+    margin: 0 auto;
+    float: left;
+}
+
+.header_wrapper
+{
+    width: 100%;
+    height: 55px;
+    background: #FFF;
+    float: left;
+    margin: 0 auto;
+}
+
+/*.header
+{
+    width: 98%;
+    height: 55px;
+    margin: 0 auto;
+    float: none;
+}*/
+
+.header_right
+{
+    width: 19.5%;
+    height: 30px;
+    float: right;
+    margin: 0.6em 0 0 0;
+}
+
+.prfl_img
+{
+    width: 28px;
+    height: 28px;
+    float: right;
+}
+
+.support_block
+{
+    width: auto;
+    height: auto;
+    float: left;
+    font-size: 0.9em;
+    padding: 0.3em 0 0 3.5em;
+}
+
+.support_block a
+{
+    color: #000;
+    text-decoration: underline;
+}
+
+.support_block a:hover
+{
+    color: #168ECB;
+}
+
+.settings_block
+{
+    width: auto;
+    height: auto;
+    float: left;
+    font-size: 0.9em;
+    padding: 0.3em 0 0 0;
+}
+
+.settings_block a
+{
+    color: #000;
+    text-decoration: underline;
+}
+
+.settings_block a:hover
+{
+    color: #168ECB;
+}
+
+.soft_versiontxt
+{
+    float: right;
+    margin: 0.4em 1.2em 0 0;
+    font-size: 0.8em;
+}
+
+.soft_versiontxt span
+{
+    color: #168ECB;
+    font-size: 0.8em;
+    font-weight: bold;
+}
+
+.soft_versiontxt span1
+{
+    color: #97999C;
+    font-size: 0.8em;
+}
+
+.nav_wrapper
+{
+    width: 100%;
+    height: 35px;
+    float: left;
+    margin: 0 auto;
+    border-top: #F2F1F1 solid 2px;
+    border-bottom: #000000 solid 0px;
+    background: -webkit-gradient(top, from(#FFFFFF 0%, #F0F0F0 60%), to (#abadae 100%));
+    background: -webkit-linear-gradient(top, #FFFFFF 0%, #F0F0F0 60%, #abadae 100%);
+    background: -moz-linear-gradient(top, #FFFFFF, #D4D1D1);
+    background: -ms-linear-gradient(top, #FFFFFF 0%, #F0F0F0 60%, #abadae 100%);
+    background: -o-linear-gradient(top, #FFFFFF 0%, #F0F0F0 60%, #abadae 100%);
+}
+
+nav
+{
+    width: 78%;
+    height: 35px;
+    margin: 0 auto;
+    float: left;
+}
+
+nav ul
+{
+    float: left;
+    margin: 0;
+    padding: 0;
+}
+
+nav ul li
+{
+    display: inline-block;
+}
+
+nav ul li:hover
+{
+    background: #69A5DA;
+}
+
+nav ul li a
+{
+    font-family: 'Open Sans' , sans-serif;
+    color: #2f2f2f;
+    font-size: 12px;
+    text-decoration: none;
+    display: block;
+    cursor: pointer;
+    padding: 10px;
+}
+
+nav ul a:hover
+{
+    color: #FFF;
+    display: block;
+    padding: 10px;
+}
+
+nav ul li:hover > ul
+{
+    display: block;
+}
+
+nav ul:after
+{
+    clear: both;
+    display: block;
+}
+
+.active
+{
+    background: #69A5DA;
+    margin-top: -3px;
+}
+
+.navwrappermouseover
+{
+    background: #69A5DA;
+    color: White;
+}
+
+
+/*------------------sub menu------------------*/
+
+nav ul ul
+{
+    display: none;
+    z-index: 1;
+}
+
+nav ul ul
+{
+    width: 11em;
+    margin: 0px;
+    height: auto;
+    position: absolute;
+    border-top: #000 solid 0.3em;
+}
+
+nav ul ul li
+{
+    min-width: 11em;
+    margin-top: 2px;
+    height: 2.4em;
+    float: left;
+    position: relative;
+}
+
+nav ul ul li:hover
+{
+    color: #000;
+    background: #000;
+}
+
+nav ul ul li a
+{
+    /*background: #69A5DA;*/
+    color: #fff;
+    font-size: 12px;
+    font-family: 'Open Sans' , sans-serif;
+    border-top: #FFF solid 1px;
+}
+
+nav ul ul li a:hover
+{
+    color: #000;
+    font-size: 12px;
+    font-family: 'Open Sans' , sans-serif;
+}
+
+/*------------------sub menu end------------------*/
+
+/**************for search box method 1***********************/
+#tfheader
+{
+    width: 260px;
+    height: 45px;
+    float: right;
+    margin: 3px 0px 0px 0px;
+}
+
+#tfnewsearch
+{
+    width: 250px;
+    height: auto;
+    float: left;
+    margin: 5px 0px 0 5px;
+}
+
+.tftextinput
+{
+    margin: 0;
+    padding: 5px 10px;
+    font-size: 14px;
+    color: #999;
+    border: 1px solid #cccccc;
+    border-right: 0px;
+}
+
+.tfbutton
+{
+    margin: 0;
+    padding: 5px 10px;
+    font-size: 14px;
+    outline: none;
+    cursor: pointer;
+    background-image: url(../../images/search_icon_over.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    border: solid 1px #cccccc;
+}
+
+.tfbutton:hover
+{
+    background-image: url(../../images/search_icon.png);
+    background-repeat: no-repeat;
+}
+
+/*for submit button height in Firefox */
+.tfbutton::-moz-focus-inner
+{
+    border: 0;
+}
+
+.tfclear
+{
+    clear: both;
+}
+/**************************search box ends***************************/
+
+.profile
+{
+    width: 300px;
+    min-height: 150px;
+    float: left;
+    position: absolute;
+    margin: 7px 0px 0px -270px;
+    border: solid 1px #ccc;
+    background: #fff;
+    display: none;
+    box-shadow: 0 0 10px #ccc;
+    -moz-box-shadow: 0 0 10px #ccc;
+    -ms-box-shadow: 0 0 10px #ccc;
+    -o-box-shadow: 0 0 10px #ccc;
+    -webkit-box-shadow: 0 0 10px #ccc;
+    z-index: 20000;
+}
+
+.up_arrow
+{
+    width: 12px;
+    height: 9px;
+    float: right;
+    position: absolute;
+    margin: -9px 0 0 277px;
+}
+
+.prfl_img2
+{
+    width: 100px;
+    height: 100px;
+    float: left;
+    margin: 1.5em 0 0 1.5em;
+}
+
+.profile_data
+{
+    font-size: 11px;
+    color: #000000;
+    font-weight: bold;
+    margin-top: 0;
+}
+
+.profile_email
+{
+    font-size: 11px;
+    text-decoration: none;
+    color: #999;
+    font-weight: bold;
+}
+
+.my_account
+{
+    width: 100px;
+    height: 20px;
+}
+
+.my_account a
+{
+    color: #168ECB;
+    font-size: 14px;
+    text-decoration: none;
+}
+
+.sgnout
+{
+    width: 100px;
+    height: 22px;
+    border: #CCC;
+    background: #EFEFEF;
+    font-size: 10px;
+    font-weight: bold;
+}
+
+.sgnout:hover
+{
+    color: #fff;
+    background: #000;
+    box-shadow: 0 0 5px #ccc;
+    -moz-box-shadow: 0 0 5px #fff;
+    -ms-box-shadow: 0 0 5px #ccc;
+    -o-box-shadow: 0 0 5px #ccc;
+    -webkit-box-shadow: 0 0 5px #ccc;
+}

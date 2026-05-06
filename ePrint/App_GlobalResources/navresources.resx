@@ -1,0 +1,969 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AddContact" xml:space="preserve">
+    <value>Add Contact</value>
+  </data>
+  <data name="ProductCategory" xml:space="preserve">
+    <value>Product Category</value>
+  </data>
+  <data name="ViewHierarchyLevel" xml:space="preserve">
+    <value>Users Management:  Groups</value>
+  </data>
+  <data name="CreateSolutionView" xml:space="preserve">
+    <value>Create Solution View</value>
+  </data>
+  <data name="LeadDetail" xml:space="preserve">
+    <value>Lead Details</value>
+  </data>
+  <data name="CompanyDetails" xml:space="preserve">
+    <value>Company Settings: View Profile</value>
+  </data>
+  <data name="WebToTicket" xml:space="preserve">
+    <value>Ticket</value>
+  </data>
+  <data name="Campaigns" xml:space="preserve">
+    <value>Campaigns</value>
+  </data>
+  <data name="MasterSettingsRole" xml:space="preserve">
+    <value>Master Settings: Role</value>
+  </data>
+  <data name="EditOpportunityView" xml:space="preserve">
+    <value>Edit Opportunity View</value>
+  </data>
+  <data name="MasterSettingsEmailMessageSettings" xml:space="preserve">
+    <value>Master Settings: Email Message Settings</value>
+  </data>
+  <data name="LayoutAssetsChangeorder" xml:space="preserve">
+    <value>Layout:  Change Assets  Field Order</value>
+  </data>
+  <data name="UserDetails" xml:space="preserve">
+    <value>Users Management:  User Details</value>
+  </data>
+  <data name="Contracts" xml:space="preserve">
+    <value>Contracts</value>
+  </data>
+  <data name="CustomizeOpportunitySubsection" xml:space="preserve">
+    <value>Opportunity</value>
+  </data>
+  <data name="LeadMassDelete" xml:space="preserve">
+    <value>Lead Mass Delete</value>
+  </data>
+  <data name="EmailMarketingViewall" xml:space="preserve">
+    <value>Email Marketing View All</value>
+  </data>
+  <data name="ContactMassDelete" xml:space="preserve">
+    <value>Contact Mass Delete</value>
+  </data>
+  <data name="Assets" xml:space="preserve">
+    <value>Assets</value>
+  </data>
+  <data name="ContractDuplicate" xml:space="preserve">
+    <value>Contract Duplicate</value>
+  </data>
+  <data name="UsersManagement" xml:space="preserve">
+    <value>Users Management</value>
+  </data>
+  <data name="EditCustomizedCampaignField" xml:space="preserve">
+    <value>Campaign</value>
+  </data>
+  <data name="MasterSettingsIndustry" xml:space="preserve">
+    <value>Master Settings: Industry</value>
+  </data>
+  <data name="ViewAllContractApproval" xml:space="preserve">
+    <value>ViewAll Contract Approval</value>
+  </data>
+  <data name="PartnerRole" xml:space="preserve">
+    <value>Partner Role</value>
+  </data>
+  <data name="MasterSettingsProductCategory" xml:space="preserve">
+    <value>Master Settings: Product Category</value>
+  </data>
+  <data name="MasterSettingsRating" xml:space="preserve">
+    <value>Master Settings: Rating</value>
+  </data>
+  <data name="TicketAssignment" xml:space="preserve">
+    <value>Ticket Assignment</value>
+  </data>
+  <data name="CreateOpportunityView" xml:space="preserve">
+    <value>Create Opportunity View</value>
+  </data>
+  <data name="MasterSettingsCampaignType" xml:space="preserve">
+    <value>Master Settings: Campaign Type</value>
+  </data>
+  <data name="EditForecastView" xml:space="preserve">
+    <value>Edit Forecast View</value>
+  </data>
+  <data name="ChangeContactsFieldOrder" xml:space="preserve">
+    <value>Layout: Change Contacts Field Order</value>
+  </data>
+  <data name="EditProductPrice" xml:space="preserve">
+    <value>Edit Product Price</value>
+  </data>
+  <data name="EditAssetView" xml:space="preserve">
+    <value>Edit Asset View</value>
+  </data>
+  <data name="EditCustomizedLeadField" xml:space="preserve">
+    <value>Layout: Edit Customized Lead Field</value>
+  </data>
+  <data name="LeadStatus" xml:space="preserve">
+    <value>Lead Status</value>
+  </data>
+  <data name="CustomizeClientSubsection" xml:space="preserve">
+    <value>Clients </value>
+  </data>
+  <data name="LeadSource" xml:space="preserve">
+    <value>Lead Source</value>
+  </data>
+  <data name="ContactReport" xml:space="preserve">
+    <value>Contact Report</value>
+  </data>
+  <data name="EditContractApproval" xml:space="preserve">
+    <value>Edit Contract Approval</value>
+  </data>
+  <data name="MasterSettingsSampleSubject" xml:space="preserve">
+    <value>Master Settings: Sample Subject</value>
+  </data>
+  <data name="AddCustomizedTicketField" xml:space="preserve">
+    <value>Layout: Add Customized Ticket Field</value>
+  </data>
+  <data name="AddContract" xml:space="preserve">
+    <value>Add Contract</value>
+  </data>
+  <data name="HomePageSettings" xml:space="preserve">
+    <value>Appearance: Home Page Settings</value>
+  </data>
+  <data name="File_exstensions_allowed_gif_png_jpg_jpeg_tiff_tif_bmp" xml:space="preserve">
+    <value>File exstensions allowed: .gif, .png, .jpg, .jpeg, .tiff, .tif, .bmp</value>
+  </data>
+  <data name="ProductPriceDetail" xml:space="preserve">
+    <value>Product Price Details</value>
+  </data>
+  <data name="CampaignReport" xml:space="preserve">
+    <value>Campaign Report</value>
+  </data>
+  <data name="ChangeLeadsFieldOrder" xml:space="preserve">
+    <value>Layout: Change Leads Field Order</value>
+  </data>
+  <data name="MassTicketLead" xml:space="preserve">
+    <value>Mass Ticket Lead</value>
+  </data>
+  <data name="AddForecast" xml:space="preserve">
+    <value>Add Forecast</value>
+  </data>
+  <data name="EditCampaignView" xml:space="preserve">
+    <value>Edit Campaign View</value>
+  </data>
+  <data name="CampaignStatus" xml:space="preserve">
+    <value>Campaign Status</value>
+  </data>
+  <data name="CreateContractView" xml:space="preserve">
+    <value>Create Contract View</value>
+  </data>
+  <data name="MasterSettingsTaskStatus" xml:space="preserve">
+    <value>Master Settings: Task Status</value>
+  </data>
+  <data name="Layout" xml:space="preserve">
+    <value>Layout</value>
+  </data>
+  <data name="AddHierarchyLevel" xml:space="preserve">
+    <value> Add Gropsl</value>
+  </data>
+  <data name="LeadReport" xml:space="preserve">
+    <value>Lead Report</value>
+  </data>
+  <data name="MasterSettingsPartnerRole" xml:space="preserve">
+    <value>Master Settings: Partner Role</value>
+  </data>
+  <data name="AddProductPrice" xml:space="preserve">
+    <value>Add Product Price</value>
+  </data>
+  <data name="Products" xml:space="preserve">
+    <value>Products</value>
+  </data>
+  <data name="CreateLeadView" xml:space="preserve">
+    <value>Create Lead View</value>
+  </data>
+  <data name="AddStandardPrice" xml:space="preserve">
+    <value>Add Standard Price</value>
+  </data>
+  <data name="AdvancedSearch" xml:space="preserve">
+    <value>Advanced Search</value>
+  </data>
+  <data name="MassOpportunityLead" xml:space="preserve">
+    <value>Mass Opportunity Lead</value>
+  </data>
+  <data name="EditStandardPrice" xml:space="preserve">
+    <value>Edit Standard Price</value>
+  </data>
+  <data name="CreateClientView" xml:space="preserve">
+    <value>Create Client View</value>
+  </data>
+  <data name="DocumentCategory" xml:space="preserve">
+    <value>Document Category</value>
+  </data>
+  <data name="MassCampaignLead" xml:space="preserve">
+    <value>Mass Campaign Lead</value>
+  </data>
+  <data name="AddPrivilegeRight" xml:space="preserve">
+    <value>Users Management:  Add a privilege Rights</value>
+  </data>
+  <data name="ChangeOpportunityFieldOrder" xml:space="preserve">
+    <value>Layout: Change Opportunities Field Order</value>
+  </data>
+  <data name="CampaignLayout" xml:space="preserve">
+    <value>Campaign</value>
+  </data>
+  <data name="EditCompanyHeader" xml:space="preserve">
+    <value>Appearance: Customize Header</value>
+  </data>
+  <data name="MasterSettingsDocumentCategory" xml:space="preserve">
+    <value>Master Settings: Document Category</value>
+  </data>
+  <data name="AddProduct" xml:space="preserve">
+    <value>Add Product</value>
+  </data>
+  <data name="Ticket" xml:space="preserve">
+    <value>Ticket</value>
+  </data>
+  <data name="CreateProductPriceView" xml:space="preserve">
+    <value>Create Product Price View</value>
+  </data>
+  <data name="LayoutContacts" xml:space="preserve">
+    <value>Layout: Contacts</value>
+  </data>
+  <data name="LayoutNewCustomizedCampaignField" xml:space="preserve">
+    <value>Layout:  New Customized Campaign Field</value>
+  </data>
+  <data name="SolutionView" xml:space="preserve">
+    <value>Solution View</value>
+  </data>
+  <data name="Rating" xml:space="preserve">
+    <value>Rating</value>
+  </data>
+  <data name="EditForecast" xml:space="preserve">
+    <value>Edit Forecast</value>
+  </data>
+  <data name="EditContract" xml:space="preserve">
+    <value>Edit Contract</value>
+  </data>
+  <data name="EditDocument" xml:space="preserve">
+    <value>Edit Document</value>
+  </data>
+  <data name="TicketOrigine" xml:space="preserve">
+    <value>Ticket Origine</value>
+  </data>
+  <data name="NewTask" xml:space="preserve">
+    <value>New Task</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="Tickets" xml:space="preserve">
+    <value>Tickets</value>
+  </data>
+  <data name="CampaignType" xml:space="preserve">
+    <value>Campaign Type</value>
+  </data>
+  <data name="EditCustomizedTicketField" xml:space="preserve">
+    <value>Layout: EditCustomizedTicketField</value>
+  </data>
+  <data name="SubscribeNow" xml:space="preserve">
+    <value>Subscribe Now</value>
+  </data>
+  <data name="MasterSettingsSalutation" xml:space="preserve">
+    <value>Master Settings: Salutation</value>
+  </data>
+  <data name="EditCompanyFooter" xml:space="preserve">
+    <value>Appearance: Customize  Footer</value>
+  </data>
+  <data name="EditProductListPrice" xml:space="preserve">
+    <value>Edit Product List Price</value>
+  </data>
+  <data name="LayoutTicket" xml:space="preserve">
+    <value>Layout: Tickets</value>
+  </data>
+  <data name="Forecasts" xml:space="preserve">
+    <value>Forecasts</value>
+  </data>
+  <data name="MasterSettingsClientType" xml:space="preserve">
+    <value>Master Settings: Client Type</value>
+  </data>
+  <data name="SubsectionOpportunities" xml:space="preserve">
+    <value>Subsection: Opportunities</value>
+  </data>
+  <data name="CampaignDetail" xml:space="preserve">
+    <value>Campaign Details</value>
+  </data>
+  <data name="CampaignMassDelete" xml:space="preserve">
+    <value>Campaign Mass Delete</value>
+  </data>
+  <data name="CampaignClone" xml:space="preserve">
+    <value>Campaign Clone</value>
+  </data>
+  <data name="ProductScheduleType" xml:space="preserve">
+    <value>Product Schedule Type</value>
+  </data>
+  <data name="SolutionStatus" xml:space="preserve">
+    <value>Solution Status</value>
+  </data>
+  <data name="SolutionReport" xml:space="preserve">
+    <value>Solution Report</value>
+  </data>
+  <data name="ClientDuplicate" xml:space="preserve">
+    <value>Client Duplicate</value>
+  </data>
+  <data name="AddEmailMarketing" xml:space="preserve">
+    <value>Add Email Marketing</value>
+  </data>
+  <data name="LayoutLeads" xml:space="preserve">
+    <value>Layout: Leads</value>
+  </data>
+  <data name="AddMember" xml:space="preserve">
+    <value>Users Management: Add Member</value>
+  </data>
+  <data name="Industry" xml:space="preserve">
+    <value>Industry</value>
+  </data>
+  <data name="ClientClone" xml:space="preserve">
+    <value>Client Clone</value>
+  </data>
+  <data name="AddClient" xml:space="preserve">
+    <value>Add Client</value>
+  </data>
+  <data name="MasterSettingsTicketAssignmentRules" xml:space="preserve">
+    <value>Master Settings: Ticket Assignment Rules</value>
+  </data>
+  <data name="SolutionDetail" xml:space="preserve">
+    <value>Solution Details</value>
+  </data>
+  <data name="CreateCampaignView" xml:space="preserve">
+    <value>Create Campaign View</value>
+  </data>
+  <data name="EditCompanyDetails" xml:space="preserve">
+    <value>Company Settings: Edit Profile</value>
+  </data>
+  <data name="ChangeTicketFieldOrder" xml:space="preserve">
+    <value>Layout: Change Tickets  Field Order</value>
+  </data>
+  <data name="AddCustomizedClientField" xml:space="preserve">
+    <value>Layout: New Customized Client Field</value>
+  </data>
+  <data name="HierarchyLevelDetails" xml:space="preserve">
+    <value>Group Details</value>
+  </data>
+  <data name="Clients" xml:space="preserve">
+    <value>Clients</value>
+  </data>
+  <data name="LayoutAssetsNewCustomizeField" xml:space="preserve">
+    <value>Layout:  New Customize Asset  Field</value>
+  </data>
+  <data name="SubsectionContacts" xml:space="preserve">
+    <value>Subsection: Contacts</value>
+  </data>
+  <data name="LeadClone" xml:space="preserve">
+    <value>Lead Clone</value>
+  </data>
+  <data name="OpportunityMassDelete" xml:space="preserve">
+    <value>Opportunity Mass Delete</value>
+  </data>
+  <data name="CustomizeLeadSubsection" xml:space="preserve">
+    <value>Lead</value>
+  </data>
+  <data name="AddTicket" xml:space="preserve">
+    <value>Add Ticket</value>
+  </data>
+  <data name="ForecastView" xml:space="preserve">
+    <value>View Forecast</value>
+  </data>
+  <data name="MasterSettingsTicketPriority" xml:space="preserve">
+    <value>Master Settings: Ticket Priority</value>
+  </data>
+  <data name="Dashboard" xml:space="preserve">
+    <value>Dashboard</value>
+  </data>
+  <data name="ViewUsers" xml:space="preserve">
+    <value>Users Management:  Users</value>
+  </data>
+  <data name="CreateAssetView" xml:space="preserve">
+    <value>Create Asset View</value>
+  </data>
+  <data name="ContractClone" xml:space="preserve">
+    <value>Contract Clone</value>
+  </data>
+  <data name="ForecastReport" xml:space="preserve">
+    <value>Forecast Report</value>
+  </data>
+  <data name="MasterSettingsContractStatus" xml:space="preserve">
+    <value>Master Settings: Contract Status</value>
+  </data>
+  <data name="EditOpportunity" xml:space="preserve">
+    <value>Edit Opportunity</value>
+  </data>
+  <data name="ProductDetail" xml:space="preserve">
+    <value>Product Details</value>
+  </data>
+  <data name="LayoutClients" xml:space="preserve">
+    <value>Layout: Clients</value>
+  </data>
+  <data name="MasterSettingsOpportunityStage" xml:space="preserve">
+    <value>Master Settings: Opportunity Stage</value>
+  </data>
+  <data name="ContractApprovalDetail" xml:space="preserve">
+    <value>Contract Approval Details</value>
+  </data>
+  <data name="LayoutAssets" xml:space="preserve">
+    <value>Layout: Assets</value>
+  </data>
+  <data name="MasterSettingsTicketType" xml:space="preserve">
+    <value>Master Settings: Ticket Type</value>
+  </data>
+  <data name="ViewPrivilegeRight" xml:space="preserve">
+    <value>Users Management: Privilege Rights</value>
+  </data>
+  <data name="AddDocumentCategory" xml:space="preserve">
+    <value>Document</value>
+  </data>
+  <data name="LayoutOpportunities" xml:space="preserve">
+    <value>Layout: Opportunities</value>
+  </data>
+  <data name="ContactDuplicate" xml:space="preserve">
+    <value>Contact Duplicate</value>
+  </data>
+  <data name="MasterSettingsTicketReason" xml:space="preserve">
+    <value>Master Settings: Ticket Reason</value>
+  </data>
+  <data name="LayoutContracts" xml:space="preserve">
+    <value>Layout: Contracts</value>
+  </data>
+  <data name="ProductMassDelete" xml:space="preserve">
+    <value> Mass Delete</value>
+  </data>
+  <data name="TicketDetail" xml:space="preserve">
+    <value>Ticket Details</value>
+  </data>
+  <data name="OpportunityType" xml:space="preserve">
+    <value>Opportunity Type</value>
+  </data>
+  <data name="ScheduleType" xml:space="preserve">
+    <value>Schedule Type</value>
+  </data>
+  <data name="ForecastDetail" xml:space="preserve">
+    <value>Forecast Details</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="Event" xml:space="preserve">
+    <value>Event</value>
+  </data>
+  <data name="EditPrivilegeRight" xml:space="preserve">
+    <value>Users Management: Edit Privilege Rights</value>
+  </data>
+  <data name="Admin" xml:space="preserve">
+    <value>System Settings</value>
+  </data>
+  <data name="EditSolutionView" xml:space="preserve">
+    <value>Edit Solution View</value>
+  </data>
+  <data name="Leads" xml:space="preserve">
+    <value>Leads</value>
+  </data>
+  <data name="EditTicketView" xml:space="preserve">
+    <value>Edit Ticket View</value>
+  </data>
+  <data name="EditContact" xml:space="preserve">
+    <value>Edit Contact</value>
+  </data>
+  <data name="EditHierarchyLevel" xml:space="preserve">
+    <value>Edit Group</value>
+  </data>
+  <data name="SubsectionAssets" xml:space="preserve">
+    <value>Subsection: Assets</value>
+  </data>
+  <data name="EditContactView" xml:space="preserve">
+    <value>Edit Contact View</value>
+  </data>
+  <data name="AddLead" xml:space="preserve">
+    <value>Add Lead</value>
+  </data>
+  <data name="AddUser" xml:space="preserve">
+    <value>Users Management: Add User</value>
+  </data>
+  <data name="AssetClone" xml:space="preserve">
+    <value>Asset Clone</value>
+  </data>
+  <data name="Contacts" xml:space="preserve">
+    <value>Contacts</value>
+  </data>
+  <data name="ContractMassDelete" xml:space="preserve">
+    <value>Mass Delete</value>
+  </data>
+  <data name="MasterSettingsTicketStatus" xml:space="preserve">
+    <value>Master Settings: Ticket Status</value>
+  </data>
+  <data name="MassContactLead" xml:space="preserve">
+    <value>Mass Contact Lead</value>
+  </data>
+  <data name="TicketMassDelete" xml:space="preserve">
+    <value>Ticket Mass Delete</value>
+  </data>
+  <data name="EditTicket" xml:space="preserve">
+    <value>Edit Ticket</value>
+  </data>
+  <data name="EditProductView" xml:space="preserve">
+    <value>Edit Product View</value>
+  </data>
+  <data name="TicketLayout" xml:space="preserve">
+    <value>Ticket</value>
+  </data>
+  <data name="DocumentCategoryDetails" xml:space="preserve">
+    <value>Document</value>
+  </data>
+  <data name="ClientReport" xml:space="preserve">
+    <value>Clients Report</value>
+  </data>
+  <data name="Solutions" xml:space="preserve">
+    <value>Solutions</value>
+  </data>
+  <data name="Opportunities" xml:space="preserve">
+    <value>Opportunities</value>
+  </data>
+  <data name="ChangeClientsFieldOrder" xml:space="preserve">
+    <value>Layout: Change Clients Field Order</value>
+  </data>
+  <data name="LeadsLayout" xml:space="preserve">
+    <value>Leads</value>
+  </data>
+  <data name="MasterSettingsSolutionStatus" xml:space="preserve">
+    <value>Master Settings: Solution Status</value>
+  </data>
+  <data name="MergeContract" xml:space="preserve">
+    <value>Merge Contract</value>
+  </data>
+  <data name="ContractStatus" xml:space="preserve">
+    <value>Contract Status</value>
+  </data>
+  <data name="AddProductListPrice" xml:space="preserve">
+    <value>Add Product List Price</value>
+  </data>
+  <data name="EditClientView" xml:space="preserve">
+    <value>Edit Client View</value>
+  </data>
+  <data name="TicketClone" xml:space="preserve">
+    <value>Ticket Clone</value>
+  </data>
+  <data name="TicketClose" xml:space="preserve">
+    <value>Ticket Close</value>
+  </data>
+  <data name="MasterSettingsOwnershipType" xml:space="preserve">
+    <value>Master Settings: Ownership Type</value>
+  </data>
+  <data name="TicketPriority" xml:space="preserve">
+    <value>Ticket Priority</value>
+  </data>
+  <data name="SolutionMassDelete" xml:space="preserve">
+    <value>Solution Mass Delete</value>
+  </data>
+  <data name="AddOpportunity" xml:space="preserve">
+    <value>Add Opportunity</value>
+  </data>
+  <data name="PaymentInformation" xml:space="preserve">
+    <value>Payment Information</value>
+  </data>
+  <data name="TicketOrigin" xml:space="preserve">
+    <value>Ticket Origin</value>
+  </data>
+  <data name="MasterSettingsWebToTicket" xml:space="preserve">
+    <value>Master Settings: Web-To-Ticket</value>
+  </data>
+  <data name="AddCustomizedLeadField" xml:space="preserve">
+    <value>Layout: New Customized Lead Field</value>
+  </data>
+  <data name="OpportunityReport" xml:space="preserve">
+    <value>Opportunity Report</value>
+  </data>
+  <data name="MasterSettingsTicketOrigin" xml:space="preserve">
+    <value>Master Settings: Ticket Origin</value>
+  </data>
+  <data name="ManageProductPrice" xml:space="preserve">
+    <value>Manage Product Price</value>
+  </data>
+  <data name="ClientStatus" xml:space="preserve">
+    <value>Client Status</value>
+  </data>
+  <data name="TicketReport" xml:space="preserve">
+    <value>Ticket Report</value>
+  </data>
+  <data name="MasterSettingsScheduleType" xml:space="preserve">
+    <value>Master Settings: Schedule Type</value>
+  </data>
+  <data name="TicketReason" xml:space="preserve">
+    <value>Ticket Reason</value>
+  </data>
+  <data name="LeadDuplicate" xml:space="preserve">
+    <value>Lead Duplicate</value>
+  </data>
+  <data name="TicketStatus" xml:space="preserve">
+    <value>Ticket Status</value>
+  </data>
+  <data name="ClientType" xml:space="preserve">
+    <value>Client Type</value>
+  </data>
+  <data name="ContactsLayout" xml:space="preserve">
+    <value>Contacts</value>
+  </data>
+  <data name="AddCustomizedContactField" xml:space="preserve">
+    <value>Layout: New Customized Contact Field</value>
+  </data>
+  <data name="ClientsLayout" xml:space="preserve">
+    <value>Clients</value>
+  </data>
+  <data name="ClientMassDelete" xml:space="preserve">
+    <value>Client Mass Delete</value>
+  </data>
+  <data name="MassDeleteClient" xml:space="preserve">
+    <value>Mass Delete Client</value>
+  </data>
+  <data name="TicketType" xml:space="preserve">
+    <value>Ticket Type</value>
+  </data>
+  <data name="MemberStatus" xml:space="preserve">
+    <value>Member Status</value>
+  </data>
+  <data name="ContractDetail" xml:space="preserve">
+    <value>Contract Details</value>
+  </data>
+  <data name="MasterSettingsLeadSource" xml:space="preserve">
+    <value>Master Settings: Lead Source</value>
+  </data>
+  <data name="OpportunityLayout" xml:space="preserve">
+    <value>Opportunity</value>
+  </data>
+  <data name="MasterSettingsLeadStatus" xml:space="preserve">
+    <value>Master Settings: Lead Status</value>
+  </data>
+  <data name="SubsectionLeads" xml:space="preserve">
+    <value>Subsection: Leads</value>
+  </data>
+  <data name="AddCustomizedOpportunityField" xml:space="preserve">
+    <value>Layout: Add Customized Opportunity Field</value>
+  </data>
+  <data name="SubsectionTicket" xml:space="preserve">
+    <value>Subsection: Tickets</value>
+  </data>
+  <data name="EditUser" xml:space="preserve">
+    <value>Users Management: Edit User</value>
+  </data>
+  <data name="EditLead" xml:space="preserve">
+    <value>Edit Lead</value>
+  </data>
+  <data name="ClientDetail" xml:space="preserve">
+    <value>Client Details</value>
+  </data>
+  <data name="CreateProductView" xml:space="preserve">
+    <value>Create Product View</value>
+  </data>
+  <data name="LayoutCampaigns" xml:space="preserve">
+    <value>Layout: Campaigns</value>
+  </data>
+  <data name="EditClient" xml:space="preserve">
+    <value>Edit Client</value>
+  </data>
+  <data name="AddCampaign" xml:space="preserve">
+    <value>Add Campaign</value>
+  </data>
+  <data name="EditCampaign" xml:space="preserve">
+    <value>Edit Campaign</value>
+  </data>
+  <data name="EditContractView" xml:space="preserve">
+    <value>Edit Contract View</value>
+  </data>
+  <data name="AddSampleSubject" xml:space="preserve">
+    <value>Add Sample Subject</value>
+  </data>
+  <data name="AddDocument" xml:space="preserve">
+    <value>Add Document</value>
+  </data>
+  <data name="MasterSettingsAssetStatus" xml:space="preserve">
+    <value>Master Settings: Asset Status</value>
+  </data>
+  <data name="SubsectionCampaigns" xml:space="preserve">
+    <value>Subsection: Campaigns</value>
+  </data>
+  <data name="Reports" xml:space="preserve">
+    <value>Reports</value>
+  </data>
+  <data name="LeadSourceReport" xml:space="preserve">
+    <value>Lead Source Report</value>
+  </data>
+  <data name="OpportunityDetail" xml:space="preserve">
+    <value>Opportunity Details</value>
+  </data>
+  <data name="EditCustomizedClientField" xml:space="preserve">
+    <value>Layour: Edit Customized Client Field</value>
+  </data>
+  <data name="TabColor" xml:space="preserve">
+    <value>Appearance: Customize Tab Color</value>
+  </data>
+  <data name="CreateForecastView" xml:space="preserve">
+    <value>Create Forecast View</value>
+  </data>
+  <data name="ChangeCampaignFieldOrder" xml:space="preserve">
+    <value>Layout:  Change Campaign Field Order</value>
+  </data>
+  <data name="TabOrder" xml:space="preserve">
+    <value>Appearance: Customize Tab Order</value>
+  </data>
+  <data name="MasterSettingsCampaignStatus" xml:space="preserve">
+    <value>Master Settings: Campaign Status</value>
+  </data>
+  <data name="AddContractApproval" xml:space="preserve">
+    <value>Add Contract Approval</value>
+  </data>
+  <data name="EmailMessageSettings" xml:space="preserve">
+    <value>Email Message Settings</value>
+  </data>
+  <data name="EditCustomizedContactField" xml:space="preserve">
+    <value>Contac</value>
+  </data>
+  <data name="EditProduct" xml:space="preserve">
+    <value>Edit Product</value>
+  </data>
+  <data name="ProductInstallmentPeriod" xml:space="preserve">
+    <value>Product Installment Period</value>
+  </data>
+  <data name="MasterSettingsProductInstallmentPeriod" xml:space="preserve">
+    <value>Master Settings: Product Installment Period</value>
+  </data>
+  <data name="ContactClone" xml:space="preserve">
+    <value>Contact Clone</value>
+  </data>
+  <data name="SampleSubject" xml:space="preserve">
+    <value>Sample Subject</value>
+  </data>
+  <data name="AssetMassDelete" xml:space="preserve">
+    <value>Mass Delete</value>
+  </data>
+  <data name="AssetStatus" xml:space="preserve">
+    <value>Master Settings: Asset Status</value>
+  </data>
+  <data name="MasterSettingsProductScheduleType" xml:space="preserve">
+    <value>Maste rSettings: Product Schedule Type</value>
+  </data>
+  <data name="CreateTicketView" xml:space="preserve">
+    <value>Create Ticket View</value>
+  </data>
+  <data name="ProductClone" xml:space="preserve">
+    <value>Product Clone</value>
+  </data>
+  <data name="ProductPrice" xml:space="preserve">
+    <value>Product Price</value>
+  </data>
+  <data name="OpportunityStage" xml:space="preserve">
+    <value>Opportunity Stage</value>
+  </data>
+  <data name="OpportunityClone" xml:space="preserve">
+    <value>Opportunity Clone</value>
+  </data>
+  <data name="AddSolution" xml:space="preserve">
+    <value>Add Solution</value>
+  </data>
+  <data name="Documents" xml:space="preserve">
+    <value>Documents</value>
+  </data>
+  <data name="EditLeadView" xml:space="preserve">
+    <value>Edit Lead View</value>
+  </data>
+  <data name="ChangeContractsFieldOrder" xml:space="preserve">
+    <value>Layout: Change Contracts Field Order</value>
+  </data>
+  <data name="AssetDetail" xml:space="preserve">
+    <value>Asset Details</value>
+  </data>
+  <data name="EditCustomizedContractField" xml:space="preserve">
+    <value>Layout: Edit Customized Contract Field</value>
+  </data>
+  <data name="Salutation" xml:space="preserve">
+    <value>Salutation</value>
+  </data>
+  <data name="EditCustomizedOpportunityField" xml:space="preserve">
+    <value>Layout: Edit Customized Opportunity Field</value>
+  </data>
+  <data name="AddCustomizedCampaignField" xml:space="preserve">
+    <value>Campaign</value>
+  </data>
+  <data name="CustomizeContactSubsection" xml:space="preserve">
+    <value>Contact</value>
+  </data>
+  <data name="ProductPriceClone" xml:space="preserve">
+    <value>Product Price Clone</value>
+  </data>
+  <data name="TaskStatus" xml:space="preserve">
+    <value>Task Status</value>
+  </data>
+  <data name="SubsectionContracts" xml:space="preserve">
+    <value>Subsection: Contracts</value>
+  </data>
+  <data name="AddAsset" xml:space="preserve">
+    <value>Add Asset</value>
+  </data>
+  <data name="ConvertLead" xml:space="preserve">
+    <value>Convert Lead</value>
+  </data>
+  <data name="SubsectionClients" xml:space="preserve">
+    <value>Subsection:  Clients</value>
+  </data>
+  <data name="OwnershipType" xml:space="preserve">
+    <value>Ownership Type</value>
+  </data>
+  <data name="AddCustomizedContractField" xml:space="preserve">
+    <value>Layout: Add Customized Contract Field</value>
+  </data>
+  <data name="ContactDetail" xml:space="preserve">
+    <value>Contact Details</value>
+  </data>
+  <data name="EditAsset" xml:space="preserve">
+    <value>Edit Asset</value>
+  </data>
+  <data name="EditProductPriceView" xml:space="preserve">
+    <value>Edit Product Price View</value>
+  </data>
+  <data name="CreateContactView" xml:space="preserve">
+    <value>Create Contact View</value>
+  </data>
+  <data name="MasterSettingsOpportunityType" xml:space="preserve">
+    <value>Master Settings: Opportunity Type</value>
+  </data>
+  <data name="Home" xml:space="preserve">
+    <value>Home</value>
+  </data>
+  <data name="Task" xml:space="preserve">
+    <value>Task</value>
+  </data>
+  <data name="Role" xml:space="preserve">
+    <value>Role</value>
+  </data>
+  <data name="DisplaySettings" xml:space="preserve">
+    <value>Appearance: Form Display Settings</value>
+  </data>
+  <data name="TicketAssignmentRules" xml:space="preserve">
+    <value>Ticket Assignment Rules</value>
+  </data>
+</root>

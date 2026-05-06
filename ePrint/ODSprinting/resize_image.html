@@ -1,0 +1,68 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+	<meta http-equiv="Content-Language" content="en-us" />
+	<title>Image Cropping</title>
+<?php 
+  // DEFINE VARIABLES
+$imageFileName = $_REQUEST['imageFileName'];
+$x1      = $_POST['x1'];
+$y1           = $_POST['y1'];
+$x2     = $_POST['x2'];
+$y2   = $_POST['y2'];
+$width           = $_POST['width'];
+$height       = $_POST['height'];
+  $sourceFile      = "images/". $imageFileName;
+  $destinationFile = "images/dest" . $imageFileName;
+
+  if(file_exists($destinationFile)) { 
+  chmod($destinationFile, 0777);
+  unlink($destinationFile); 
+  }
+
+  // CHECK TO SEE IF WE NEED TO CROP
+  if($width!= 0) {
+    $convertString = "convert $sourceFile -crop " . $width . "x" . $height . "+" . $x1 . "+" . $y1 . " $destinationFile";
+    exec($convertString);
+    chmod($destinationFile, 0777);
+    chmod($sourceFile, 0777);
+   // unlink($sourceFile);
+  
+  } else {
+    // CROP WAS SKIPPED -- MOVE TO CROPPED FOLDER ANYWAY  
+    $cmd = "cp " . $sourceFile . " " . $destinationFile;
+    exec($cmd);
+  }
+  
+  
+?>
+<table align="center">
+<tr><td>
+Please enter the width os the image that you wish to see on the product. (Please remember that the height will get calculated automatically)
+</td></tr>
+<tr><td valign="middle">
+<table align="center">
+<form name="resizeimg" action="" method="post">
+<tr>
+<td colspan="2" align="center">
+<div id="resizeImage">
+  <?php echo "  <img src=\"" . $destinationFile . "\" id=\"theImage\" alt=\"Image to Resize\" />"; ?>
+
+</div>
+</td>
+</tr>
+<!-- <tr><td width="100">Enter Width</td><td><input size="4" type="text" name="width"></td></tr> -->
+<tr><td width="100" align="right"><input type="button" value="Goback" onclick="history.back();" /></td><td><input size="4" type="button" value="Submit" onClick="resizeimage()"></td></tr>
+</form></table>
+</td></tr></table>
+<script>
+function resizeimage()
+{
+	var f = document.forms['resizeimg'];
+	f.action = "uploadimage.php?imagename=<?php echo 'dest'.$imageFileName;?>&imgid=<?php echo $_REQUEST['imgid'] ?>";
+	f.submit();
+}
+</script>
+</body>
+</html>

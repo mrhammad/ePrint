@@ -1,0 +1,944 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
+  <Import Project="..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{D5369251-9B75-4C70-AA4F-817EDCFA2E46}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ePrint.MyPublicStore</RootNamespace>
+    <AssemblyName>ePrint.MyPublicStore</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <Use64BitIISExpress />
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="BouncyCastle.Crypto, Version=1.8.6.0, Culture=neutral, PublicKeyToken=0e99375e54769942">
+      <HintPath>..\packages\BouncyCastle.1.8.6.1\lib\BouncyCastle.Crypto.dll</HintPath>
+    </Reference>
+    <Reference Include="Braintree-3.12.0">
+      <HintPath>..\ePrint.WebStore\DLL\Braintree-3.12.0.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework">
+      <HintPath>..\ePrint\DLL\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="iText, Version=1.4.6.2, Culture=neutral, PublicKeyToken=bd3736a929f259c3, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\ePrint.WebStore\DLL\iText.dll</HintPath>
+    </Reference>
+    <Reference Include="iTextAsian, Version=1.1.0.0, Culture=neutral, PublicKeyToken=bd3736a929f259c3, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\ePrint.WebStore\DLL\iTextAsian.dll</HintPath>
+    </Reference>
+    <Reference Include="itextsharp, Version=5.5.13.2, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\iTextSharp.5.5.13.2\lib\itextsharp.dll</HintPath>
+    </Reference>
+    <Reference Include="itextsharp.xmlworker, Version=5.5.13.2, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\itextsharp.xmlworker.5.5.13.2\lib\itextsharp.xmlworker.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.1.1.0\lib\net461\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Practices.EnterpriseLibrary.Common, Version=4.1.0.0, Culture=neutral, PublicKeyToken=e44a2bc38ed2c13c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>DLL\Microsoft.Practices.EnterpriseLibrary.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.EnterpriseLibrary.Data, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>DLL\Microsoft.Practices.EnterpriseLibrary.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.ObjectBuilder, Version=1.0.51206.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>DLL\Microsoft.Practices.ObjectBuilder.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>DLL\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="RewriteModule">
+      <HintPath>..\ePrint\DLL\RewriteModule.dll</HintPath>
+    </Reference>
+    <Reference Include="Stripe.net, Version=39.74.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Stripe.net.39.74.0\lib\net461\Stripe.net.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.2\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.InteropServices.RuntimeInformation, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.InteropServices.RuntimeInformation.4.3.0\lib\net45\System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.2\lib\netstandard2.0\System.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="Telerik.Web.UI">
+      <HintPath>..\ePrint\DLL\Telerik.Web.UI.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="404.aspx" />
+    <Content Include="account\account.aspx" />
+    <Content Include="account\accountedit.aspx" />
+    <Content Include="account\addressbook.aspx" />
+    <Content Include="account\addressbooknew.aspx" />
+    <Content Include="account\myorder.aspx" />
+    <Content Include="advanced_paypalapi.aspx" />
+    <Content Include="App_Themes\Theme1\Menu.css" />
+    <Content Include="App_Themes\Theme1\StyleSheet.css" />
+    <Content Include="BlanckPageForCart.aspx" />
+    <Content Include="BlanckPageForCart_html5.aspx" />
+    <Content Include="BlanckPageForCart_html5_V2.aspx" />
+    <Content Include="checkoutnew.aspx" />
+    <Content Include="checkout_paypal.aspx" />
+    <Content Include="cms.aspx" />
+    <Content Include="common\artwork_common.aspx" />
+    <Content Include="ConfirmBeforeOrdernew.aspx" />
+    <Content Include="create_account.aspx" />
+    <Content Include="DLL\Microsoft.Practices.EnterpriseLibrary.Common.dll" />
+    <Content Include="DLL\Microsoft.Practices.EnterpriseLibrary.Data.dll" />
+    <Content Include="DLL\Microsoft.Practices.ObjectBuilder.dll" />
+    <Content Include="DLL\Newtonsoft.Json.dll" />
+    <Content Include="error.aspx" />
+    <Content Include="error_report.aspx" />
+    <Content Include="forgotpassword.aspx" />
+    <Content Include="images\closeimg1.jpeg" />
+    <Content Include="images\common_sprite_v1.png" />
+    <Content Include="images\downloadImage.png" />
+    <Content Include="images\radimg1.gif" />
+    <Content Include="images\StoreImages\arrowleftmonth.gif" />
+    <Content Include="images\StoreImages\arrowrightmonth.gif" />
+    <Content Include="images\StoreImages\Artworkicon.PNG" />
+    <Content Include="images\StoreImages\bbox_top_bg.jpg" />
+    <Content Include="images\StoreImages\bgorder_Confirm.PNG" />
+    <Content Include="images\StoreImages\Blue1.jpeg" />
+    <Content Include="images\StoreImages\Blue2.jpg" />
+    <Content Include="images\StoreImages\Blue3.jpeg" />
+    <Content Include="images\StoreImages\box-content-bg.gif" />
+    <Content Include="images\StoreImages\box-header-bg.gif" />
+    <Content Include="images\StoreImages\btn_continue.jpg" />
+    <Content Include="images\StoreImages\btn_trash.gif" />
+    <Content Include="images\StoreImages\category-icon.png" />
+    <Content Include="images\StoreImages\cc_amex_icon.jpg" />
+    <Content Include="images\StoreImages\cc_discover_icon.jpg" />
+    <Content Include="images\StoreImages\cc_master_card_icon.jpg" />
+    <Content Include="images\StoreImages\cc_visa_icon.jpg" />
+    <Content Include="images\StoreImages\close.png" />
+    <Content Include="images\StoreImages\close1.png" />
+    <Content Include="images\StoreImages\close2.png" />
+    <Content Include="images\StoreImages\close_pop.png" />
+    <Content Include="images\StoreImages\Edit.gif" />
+    <Content Include="images\StoreImages\empty_cart_icon.gif" />
+    <Content Include="images\StoreImages\ePrint_banner.jpg" />
+    <Content Include="images\StoreImages\erase.png" />
+    <Content Include="images\StoreImages\footer-bg.gif" />
+    <Content Include="images\StoreImages\gradient-gray1.GIF" />
+    <Content Include="images\StoreImages\gradient-gray2.GIF" />
+    <Content Include="images\StoreImages\header-bg.gif" />
+    <Content Include="images\StoreImages\help.png" />
+    <Content Include="images\StoreImages\icon_tooltip.gif" />
+    <Content Include="images\StoreImages\image9.JPG" />
+    <Content Include="images\StoreImages\image_07_lft.png" />
+    <Content Include="images\StoreImages\image_07_rgt.png" />
+    <Content Include="images\StoreImages\i_arrow-top.gif" />
+    <Content Include="images\StoreImages\i_ma-info.gif" />
+    <Content Include="images\StoreImages\i_msg-error.gif" />
+    <Content Include="images\StoreImages\i_msg-success.gif" />
+    <Content Include="images\StoreImages\loadingGraphic.gif" />
+    <Content Include="images\StoreImages\logo-white-orange.png" />
+    <Content Include="images\StoreImages\Logo4.png" />
+    <Content Include="images\StoreImages\masterCards3.jpg" />
+    <Content Include="images\StoreImages\menu_hoverbg.jpeg" />
+    <Content Include="images\StoreImages\menu_hoverbg_white.JPG" />
+    <Content Include="images\StoreImages\mminus.gif" />
+    <Content Include="images\StoreImages\mplus.gif" />
+    <Content Include="images\StoreImages\m_category-icon.png" />
+    <Content Include="images\StoreImages\m_no_image_available.gif" />
+    <Content Include="images\StoreImages\navigation-bg.gif" />
+    <Content Include="images\StoreImages\Order1.png" />
+    <Content Include="images\StoreImages\radimg1.gif" />
+    <Content Include="images\StoreImages\search.gif" />
+    <Content Include="images\StoreImages\Search1.png" />
+    <Content Include="images\StoreImages\storefront.png" />
+    <Content Include="images\StoreImages\t_154_weekview.gif" />
+    <Content Include="images\StoreImages\t_category-icon.png" />
+    <Content Include="images\StoreImages\t_no_image_available.gif" />
+    <Content Include="images\StoreImages\validation_advice_bg.gif" />
+    <Content Include="images\StoreImages\zoom1.jpg" />
+    <Content Include="js\Account.js" />
+    <Content Include="js\addressbook.js" />
+    <Content Include="js\cart.js" />
+    <Content Include="js\checkout.js" />
+    <Content Include="js\checkoutnew.js" />
+    <Content Include="js\checkout_header.js" />
+    <Content Include="js\commonloading.js" />
+    <Content Include="js\create_account.js" />
+    <Content Include="js\default.js" />
+    <Content Include="js\general.js" />
+    <Content Include="js\jquery-1.3.1.min.js" />
+    <Content Include="ImageHandler.ashx" />
+    <None Include="js\jquery-1.7-vsdoc.js" />
+    <Content Include="js\jquery-1.7.min.js" />
+    <Content Include="js\jquery-ui.js" />
+    <Content Include="js\jquery-ui.min.js" />
+    <Content Include="js\jquery.easing.1.3.js" />
+    <Content Include="js\jquery.js" />
+    <Content Include="js\jquery.min_new.js" />
+    <Content Include="js\jquery.scrollTo.js" />
+    <Content Include="js\jquery.simplemodal.js" />
+    <Content Include="js\jquery.smartWizard.js" />
+    <Content Include="js\jqueryLib.js" />
+    <Content Include="js\jQueryv1.4.2.js" />
+    <Content Include="js\jquery_innerfade.js" />
+    <Content Include="js\Js_Wizard.js" />
+    <Content Include="js\login_new.js" />
+    <Content Include="js\master.js" />
+    <Content Include="js\min.js" />
+    <Content Include="js\osx.js" />
+    <Content Include="js\pdf_preview.js" />
+    <Content Include="js\popup.js" />
+    <Content Include="js\Products.js" />
+    <Content Include="js\product_item.js" />
+    <Content Include="js\progress_File.js" />
+    <Content Include="js\purchaseadd.js" />
+    <Content Include="js\Slide\builder.js" />
+    <Content Include="js\Slide\ccard.js" />
+    <Content Include="js\Slide\controls.js" />
+    <Content Include="js\Slide\cookies.js" />
+    <Content Include="js\Slide\dragdrop.js" />
+    <Content Include="js\Slide\effects.js" />
+    <Content Include="js\Slide\form.js" />
+    <Content Include="js\Slide\imagepreloader.js" />
+    <Content Include="js\Slide\jquery-1.2.6.min.js" />
+    <Content Include="js\Slide\jquery-1.js" />
+    <Content Include="js\Slide\jquery.js" />
+    <Content Include="js\Slide\jquery_002.js" />
+    <Content Include="js\Slide\js.js" />
+    <Content Include="js\Slide\jsPopup.js" />
+    <Content Include="js\Slide\menu.js" />
+    <Content Include="js\Slide\prototype.js" />
+    <Content Include="js\Slide\slider.js" />
+    <Content Include="js\Slide\slider_002.js" />
+    <Content Include="js\Slide\translate.js" />
+    <Content Include="js\Slide\validation.js" />
+    <Content Include="js\SlidingDescription.js" />
+    <Content Include="js\stage1_new.js" />
+    <Content Include="js\swazz_calendar_store.js" />
+    <Content Include="js\tab.js" />
+    <Content Include="js\wizard.js" />
+    <Content Include="Login.aspx" />
+    <Content Include="LoginMethods.aspx" />
+    <Content Include="logout.aspx" />
+    <Content Include="order.aspx" />
+    <Content Include="order_confirmation.aspx" />
+    <Content Include="packages.config" />
+    <Content Include="payment_information.aspx" />
+    <Content Include="preview.aspx" />
+    <Content Include="preview_HTML5.aspx" />
+    <Content Include="preview_HTML5_V2.aspx" />
+    <Content Include="products\edit_template.aspx" />
+    <Content Include="products\product.aspx" />
+    <Content Include="products\productdetails.aspx" />
+    <Content Include="products\searchproducts.aspx" />
+    <Content Include="node_modules\angular\angular-csp.css" />
+    <Content Include="node_modules\angular\angular.js" />
+    <Content Include="node_modules\angular\angular.min.js" />
+    <Content Include="node_modules\angular\index.js" />
+    <Content Include="node_modules\bootstrap\dist\css\bootstrap-theme.css" />
+    <Content Include="node_modules\bootstrap\dist\css\bootstrap-theme.min.css" />
+    <Content Include="node_modules\bootstrap\dist\css\bootstrap.css" />
+    <Content Include="node_modules\bootstrap\dist\css\bootstrap.min.css" />
+    <Content Include="node_modules\bootstrap\dist\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="node_modules\bootstrap\dist\js\bootstrap.js" />
+    <Content Include="node_modules\bootstrap\dist\js\bootstrap.min.js" />
+    <Content Include="node_modules\bootstrap\dist\js\npm.js" />
+    <Content Include="node_modules\bootstrap\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Public\node_modules\angular\angular-csp.css" />
+    <Content Include="Public\node_modules\angular\angular.js" />
+    <Content Include="Public\node_modules\angular\angular.min.js" />
+    <Content Include="Public\node_modules\angular\index.js" />
+    <Content Include="Public\node_modules\bootstrap\dist\css\bootstrap-theme.css" />
+    <Content Include="Public\node_modules\bootstrap\dist\css\bootstrap-theme.min.css" />
+    <Content Include="Public\node_modules\bootstrap\dist\css\bootstrap.css" />
+    <Content Include="Public\node_modules\bootstrap\dist\css\bootstrap.min.css" />
+    <Content Include="Public\node_modules\bootstrap\dist\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Public\node_modules\bootstrap\dist\js\bootstrap.js" />
+    <Content Include="Public\node_modules\bootstrap\dist\js\bootstrap.min.js" />
+    <Content Include="Public\node_modules\bootstrap\dist\js\npm.js" />
+    <Content Include="Public\node_modules\bootstrap\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Public\node_modules\bootstrap\Gruntfile.js" />
+    <Content Include="Public\node_modules\bootstrap\grunt\browsers.js" />
+    <Content Include="Public\node_modules\bootstrap\grunt\bs-commonjs-generator.js" />
+    <Content Include="Public\node_modules\bootstrap\grunt\bs-glyphicons-data-generator.js" />
+    <Content Include="Public\node_modules\bootstrap\grunt\bs-lessdoc-parser.js" />
+    <Content Include="Public\node_modules\bootstrap\grunt\bs-raw-files-generator.js" />
+    <Content Include="Public\node_modules\bootstrap\grunt\change-version.js" />
+    <Content Include="Public\node_modules\bootstrap\grunt\generate-sri.js" />
+    <Content Include="Public\node_modules\bootstrap\grunt\karma.conf.js" />
+    <Content Include="Public\node_modules\bootstrap\js\affix.js" />
+    <Content Include="Public\node_modules\bootstrap\js\alert.js" />
+    <Content Include="Public\node_modules\bootstrap\js\button.js" />
+    <Content Include="Public\node_modules\bootstrap\js\carousel.js" />
+    <Content Include="Public\node_modules\bootstrap\js\collapse.js" />
+    <Content Include="Public\node_modules\bootstrap\js\dropdown.js" />
+    <Content Include="Public\node_modules\bootstrap\js\modal.js" />
+    <Content Include="Public\node_modules\bootstrap\js\popover.js" />
+    <Content Include="Public\node_modules\bootstrap\js\scrollspy.js" />
+    <Content Include="Public\node_modules\bootstrap\js\tab.js" />
+    <Content Include="Public\node_modules\bootstrap\js\tooltip.js" />
+    <Content Include="Public\node_modules\bootstrap\js\transition.js" />
+    <Content Include="ShoppingCart.aspx" />
+    <Content Include="sitemap.aspx" />
+    <Content Include="StoreAutoFill.asmx" />
+    <Content Include="Templates\masterPageDefault.Master" />
+    <Content Include="Imagename.ashx" />
+    <None Include="Properties\PublishProfiles\PublicStore.pubxml" />
+    <None Include="Properties\PublishProfiles\PublicStoreB2C.pubxml" />
+    <Content Include="node_modules\angular\angular.min.js.gzip" />
+    <Content Include="node_modules\angular\angular.min.js.map" />
+    <Content Include="node_modules\angular\bower.json" />
+    <Content Include="node_modules\angular\LICENSE.md" />
+    <Content Include="node_modules\angular\package.json" />
+    <Content Include="node_modules\angular\README.md" />
+    <Content Include="node_modules\bootstrap\CHANGELOG.md" />
+    <Content Include="node_modules\bootstrap\dist\css\bootstrap-theme.css.map" />
+    <Content Include="node_modules\bootstrap\dist\css\bootstrap-theme.min.css.map" />
+    <Content Include="node_modules\bootstrap\dist\css\bootstrap.css.map" />
+    <Content Include="node_modules\bootstrap\dist\css\bootstrap.min.css.map" />
+    <Content Include="node_modules\bootstrap\dist\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="node_modules\bootstrap\dist\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="node_modules\bootstrap\dist\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="node_modules\bootstrap\dist\fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="node_modules\bootstrap\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="node_modules\bootstrap\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="node_modules\bootstrap\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="node_modules\bootstrap\fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="node_modules\bootstrap\grunt\.jshintrc" />
+    <Content Include="Public\node_modules\angular\angular.min.js.gzip" />
+    <Content Include="Public\node_modules\angular\angular.min.js.map" />
+    <Content Include="Public\node_modules\angular\bower.json" />
+    <Content Include="Public\node_modules\angular\LICENSE.md" />
+    <Content Include="Public\node_modules\angular\package.json" />
+    <Content Include="Public\node_modules\angular\README.md" />
+    <Content Include="Public\node_modules\bootstrap\CHANGELOG.md" />
+    <Content Include="Public\node_modules\bootstrap\dist\css\bootstrap-theme.css.map" />
+    <Content Include="Public\node_modules\bootstrap\dist\css\bootstrap-theme.min.css.map" />
+    <Content Include="Public\node_modules\bootstrap\dist\css\bootstrap.css.map" />
+    <Content Include="Public\node_modules\bootstrap\dist\css\bootstrap.min.css.map" />
+    <Content Include="Public\node_modules\bootstrap\dist\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Public\node_modules\bootstrap\dist\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Public\node_modules\bootstrap\dist\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Public\node_modules\bootstrap\dist\fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="Public\node_modules\bootstrap\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Public\node_modules\bootstrap\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Public\node_modules\bootstrap\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Public\node_modules\bootstrap\fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="Public\node_modules\bootstrap\grunt\.jshintrc" />
+    <Content Include="Public\node_modules\bootstrap\grunt\.stylelintrc" />
+    <Content Include="Public\node_modules\bootstrap\grunt\configBridge.json" />
+    <Content Include="Public\node_modules\bootstrap\less\alerts.less" />
+    <Content Include="Public\node_modules\bootstrap\less\badges.less" />
+    <Content Include="Public\node_modules\bootstrap\less\bootstrap.less" />
+    <Content Include="Public\node_modules\bootstrap\less\breadcrumbs.less" />
+    <Content Include="Public\node_modules\bootstrap\less\button-groups.less" />
+    <Content Include="Public\node_modules\bootstrap\less\buttons.less" />
+    <Content Include="Public\node_modules\bootstrap\less\carousel.less" />
+    <Content Include="Public\node_modules\bootstrap\less\close.less" />
+    <Content Include="Public\node_modules\bootstrap\less\code.less" />
+    <Content Include="Public\node_modules\bootstrap\less\component-animations.less" />
+    <Content Include="Public\node_modules\bootstrap\less\dropdowns.less" />
+    <Content Include="Public\node_modules\bootstrap\less\forms.less" />
+    <Content Include="Public\node_modules\bootstrap\less\glyphicons.less" />
+    <Content Include="Public\node_modules\bootstrap\less\grid.less" />
+    <Content Include="Public\node_modules\bootstrap\less\input-groups.less" />
+    <Content Include="Public\node_modules\bootstrap\less\jumbotron.less" />
+    <Content Include="Public\node_modules\bootstrap\less\labels.less" />
+    <Content Include="Public\node_modules\bootstrap\less\list-group.less" />
+    <Content Include="Public\node_modules\bootstrap\less\media.less" />
+    <Content Include="Public\node_modules\bootstrap\less\mixins.less" />
+    <Content Include="Public\node_modules\bootstrap\less\mixins\alerts.less" />
+    <Content Include="Public\node_modules\bootstrap\less\mixins\background-variant.less" />
+    <Content Include="Public\node_modules\bootstrap\less\mixins\border-radius.less" />
+    <Content Include="Public\node_modules\bootstrap\less\mixins\buttons.less" />
+    <Content Include="Public\node_modules\bootstrap\less\mixins\center-block.less" />
+    <Content Include="Public\node_modules\bootstrap\less\mixins\clearfix.less" />
+    <Content Include="Public\node_modules\bootstrap\less\mixins\forms.less" />
+    <Content Include="Public\node_modules\bootstrap\less\mixins\gradients.less" />
+    <Content Include="Public\node_modules\bootstrap\less\mixins\grid-framework.less" />
+    <Content Include="Public\node_modules\bootstrap\less\mixins\grid.less" />
+    <Content Include="Public\node_modules\bootstrap\less\mixins\hide-text.less" />
+    <Content Include="Public\node_modules\bootstrap\less\mixins\image.less" />
+    <Content Include="Public\node_modules\bootstrap\less\mixins\labels.less" />
+    <Content Include="Public\node_modules\bootstrap\less\mixins\list-group.less" />
+    <Content Include="Public\node_modules\bootstrap\less\mixins\nav-divider.less" />
+    <Content Include="Public\node_modules\bootstrap\less\mixins\nav-vertical-align.less" />
+    <Content Include="Public\node_modules\bootstrap\less\mixins\opacity.less" />
+    <Content Include="Public\node_modules\bootstrap\less\mixins\pagination.less" />
+    <Content Include="Public\node_modules\bootstrap\less\mixins\panels.less" />
+    <Content Include="Public\node_modules\bootstrap\less\mixins\progress-bar.less" />
+    <Content Include="Public\node_modules\bootstrap\less\mixins\reset-filter.less" />
+    <Content Include="Public\node_modules\bootstrap\less\mixins\reset-text.less" />
+    <Content Include="Public\node_modules\bootstrap\less\mixins\resize.less" />
+    <Content Include="Public\node_modules\bootstrap\less\mixins\responsive-visibility.less" />
+    <Content Include="Public\node_modules\bootstrap\less\mixins\size.less" />
+    <Content Include="Public\node_modules\bootstrap\less\mixins\tab-focus.less" />
+    <Content Include="Public\node_modules\bootstrap\less\mixins\table-row.less" />
+    <Content Include="Public\node_modules\bootstrap\less\mixins\text-emphasis.less" />
+    <Content Include="Public\node_modules\bootstrap\less\mixins\text-overflow.less" />
+    <Content Include="Public\node_modules\bootstrap\less\mixins\vendor-prefixes.less" />
+    <Content Include="Public\node_modules\bootstrap\less\modals.less" />
+    <Content Include="Public\node_modules\bootstrap\less\navbar.less" />
+    <Content Include="Public\node_modules\bootstrap\less\navs.less" />
+    <Content Include="Public\node_modules\bootstrap\less\normalize.less" />
+    <Content Include="Public\node_modules\bootstrap\less\pager.less" />
+    <Content Include="Public\node_modules\bootstrap\less\pagination.less" />
+    <Content Include="Public\node_modules\bootstrap\less\panels.less" />
+    <Content Include="Public\node_modules\bootstrap\less\popovers.less" />
+    <Content Include="Public\node_modules\bootstrap\less\print.less" />
+    <Content Include="Public\node_modules\bootstrap\less\progress-bars.less" />
+    <Content Include="Public\node_modules\bootstrap\less\responsive-embed.less" />
+    <Content Include="Public\node_modules\bootstrap\less\responsive-utilities.less" />
+    <Content Include="Public\node_modules\bootstrap\less\scaffolding.less" />
+    <Content Include="Public\node_modules\bootstrap\less\tables.less" />
+    <Content Include="Public\node_modules\bootstrap\less\theme.less" />
+    <Content Include="Public\node_modules\bootstrap\less\thumbnails.less" />
+    <Content Include="Public\node_modules\bootstrap\less\tooltip.less" />
+    <Content Include="Public\node_modules\bootstrap\less\type.less" />
+    <Content Include="Public\node_modules\bootstrap\less\utilities.less" />
+    <Content Include="Public\node_modules\bootstrap\less\variables.less" />
+    <Content Include="Public\node_modules\bootstrap\less\wells.less" />
+    <Content Include="Public\node_modules\bootstrap\LICENSE" />
+    <Content Include="Public\node_modules\bootstrap\package.json" />
+    <Content Include="Public\node_modules\bootstrap\README.md" />
+    <None Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="AutoFill.asmx" />
+    <Content Include="Default.aspx" />
+    <Content Include="Global.asax" />
+    <Content Include="usercontrol\account_leftpanel.ascx" />
+    <Content Include="usercontrol\invoice_del_Info.ascx" />
+    <Content Include="usercontrol\orderinformation.ascx" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="404.aspx.cs">
+      <DependentUpon>404.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="404.aspx.designer.cs">
+      <DependentUpon>404.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="account\account.aspx.cs">
+      <DependentUpon>account.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="account\account.aspx.designer.cs">
+      <DependentUpon>account.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="account\accountedit.aspx.cs">
+      <DependentUpon>accountedit.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="account\accountedit.aspx.designer.cs">
+      <DependentUpon>accountedit.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="account\addressbook.aspx.cs">
+      <DependentUpon>addressbook.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="account\addressbook.aspx.designer.cs">
+      <DependentUpon>addressbook.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="account\addressbooknew.aspx.cs">
+      <DependentUpon>addressbooknew.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="account\addressbooknew.aspx.designer.cs">
+      <DependentUpon>addressbooknew.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="account\myorder.aspx.cs">
+      <DependentUpon>myorder.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="account\myorder.aspx.designer.cs">
+      <DependentUpon>myorder.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="advanced_paypalapi.aspx.cs">
+      <DependentUpon>advanced_paypalapi.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="advanced_paypalapi.aspx.designer.cs">
+      <DependentUpon>advanced_paypalapi.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\english_to_english.designer.cs">
+      <DependentUpon>english_to_english.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="App_GlobalResources\english_to_russian.designer.cs">
+      <DependentUpon>english_to_russian.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="App_GlobalResources\non_print.designer.cs">
+      <DependentUpon>non_print.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="App_GlobalResources\resource_coralcost.designer.cs">
+      <DependentUpon>resource_coralcost.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="App_GlobalResources\resource_dmc.designer.cs">
+      <DependentUpon>resource_dmc.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="App_GlobalResources\resource_dmcsport.designer.cs">
+      <DependentUpon>resource_dmcsport.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="App_GlobalResources\resource_handy.designer.cs">
+      <DependentUpon>resource_handy.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="AutoFill.asmx.cs">
+      <DependentUpon>AutoFill.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="BaseClass.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="BlanckPageForCart.aspx.cs">
+      <DependentUpon>BlanckPageForCart.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="BlanckPageForCart.aspx.designer.cs">
+      <DependentUpon>BlanckPageForCart.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="BlanckPageForCart_html5.aspx.cs">
+      <DependentUpon>BlanckPageForCart_html5.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="BlanckPageForCart_html5.aspx.designer.cs">
+      <DependentUpon>BlanckPageForCart_html5.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="BlanckPageForCart_html5_V2.aspx.cs">
+      <DependentUpon>BlanckPageForCart_html5_V2.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="BlanckPageForCart_html5_V2.aspx.designer.cs">
+      <DependentUpon>BlanckPageForCart_html5_V2.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="checkoutnew.aspx.cs">
+      <DependentUpon>checkoutnew.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="checkoutnew.aspx.designer.cs">
+      <DependentUpon>checkoutnew.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="checkout_paypal.aspx.cs">
+      <DependentUpon>checkout_paypal.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="checkout_paypal.aspx.designer.cs">
+      <DependentUpon>checkout_paypal.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="cms.aspx.cs">
+      <DependentUpon>cms.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="cms.aspx.designer.cs">
+      <DependentUpon>cms.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="common\artwork_common.aspx.cs">
+      <DependentUpon>artwork_common.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="common\artwork_common.aspx.designer.cs">
+      <DependentUpon>artwork_common.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ConfirmBeforeOrdernew.aspx.cs">
+      <DependentUpon>ConfirmBeforeOrdernew.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ConfirmBeforeOrdernew.aspx.designer.cs">
+      <DependentUpon>ConfirmBeforeOrdernew.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="createImageThumnail.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="create_account.aspx.cs">
+      <DependentUpon>create_account.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="create_account.aspx.designer.cs">
+      <DependentUpon>create_account.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CustomDatabaseFactory.cs" />
+    <Compile Include="Default.aspx.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Default.aspx.designer.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="EprintService\EprintService.cs" />
+    <Compile Include="EprintService\ReturnCurrentDateTimeByTimeZoneIDCompletedEventArgs.cs" />
+    <Compile Include="EprintService\ReturnCurrentDateTimeByTimeZoneIDCompletedEventHandler.cs" />
+    <Compile Include="error.aspx.cs">
+      <DependentUpon>error.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="error.aspx.designer.cs">
+      <DependentUpon>error.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="error_report.aspx.cs">
+      <DependentUpon>error_report.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="error_report.aspx.designer.cs">
+      <DependentUpon>error_report.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="forgotpassword.aspx.cs">
+      <DependentUpon>forgotpassword.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="forgotpassword.aspx.designer.cs">
+      <DependentUpon>forgotpassword.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Imagename.ashx.cs">
+      <DependentUpon>Imagename.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Login.aspx.cs">
+      <DependentUpon>Login.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Login.aspx.designer.cs">
+      <DependentUpon>Login.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="LoginMethods.aspx.cs">
+      <DependentUpon>LoginMethods.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="LoginMethods.aspx.designer.cs">
+      <DependentUpon>LoginMethods.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="logout.aspx.cs">
+      <DependentUpon>logout.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="logout.aspx.designer.cs">
+      <DependentUpon>logout.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="MathFunctions\MathParser.cs" />
+    <Compile Include="MathFunctions\Parameters.cs" />
+    <Compile Include="nmsCommon\commonclass.cs" />
+    <Compile Include="nmsCommon\Encryption.cs" />
+    <Compile Include="nmsConnection\ConnectionClass.cs" />
+    <Compile Include="nmsEmail\EmailClass.cs" />
+    <Compile Include="nmsEmail\storeEmail.cs" />
+    <Compile Include="nmsLanguage\languageClass.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="nmsLoginclass\loginclass.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="order.aspx.cs">
+      <DependentUpon>order.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="order.aspx.designer.cs">
+      <DependentUpon>order.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="order_confirmation.aspx.cs">
+      <DependentUpon>order_confirmation.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="order_confirmation.aspx.designer.cs">
+      <DependentUpon>order_confirmation.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="payment_information.aspx.cs">
+      <DependentUpon>payment_information.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="payment_information.aspx.designer.cs">
+      <DependentUpon>payment_information.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="PayPalExample\NVPAPICaller.cs" />
+    <Compile Include="PayPalExample\NVPCodec.cs" />
+    <Compile Include="Prefligt\PreflightParameters.cs" />
+    <Compile Include="Prefligt\Preflight_documents.cs" />
+    <Compile Include="preview.aspx.cs">
+      <DependentUpon>preview.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="preview.aspx.designer.cs">
+      <DependentUpon>preview.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="preview_HTML5.aspx.cs">
+      <DependentUpon>preview_HTML5.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="preview_HTML5.aspx.designer.cs">
+      <DependentUpon>preview_HTML5.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="preview_HTML5_V2.aspx.cs">
+      <DependentUpon>preview_HTML5_V2.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="preview_HTML5_V2.aspx.designer.cs">
+      <DependentUpon>preview_HTML5_V2.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Printcenter.BusinessAccessLayer.Carts\Carts.cs" />
+    <Compile Include="Printcenter.BusinessAccessLayer.CMS\CMS.cs" />
+    <Compile Include="Printcenter.BusinessAccessLayer.Login\Login.cs" />
+    <Compile Include="Printcenter.BusinessAccessLayer.Orders\Orders.cs" />
+    <Compile Include="Printcenter.BusinessAccessLayer.Products\Products.cs" />
+    <Compile Include="Printcenter.DataAccessLayer.Cart\DBCart.cs" />
+    <Compile Include="Printcenter.DataAccessLayer.CMS\DBCMS.cs" />
+    <Compile Include="Printcenter.DataAccessLayer.Login\DbLogin.cs" />
+    <Compile Include="Printcenter.DataAccessLayer.Order\DBOrder.cs" />
+    <Compile Include="Printcenter.DataAccessLayer.Products\DBProducts.cs" />
+    <Compile Include="Printcenter.UI.CatrsNew\CartBasePage.cs" />
+    <Compile Include="Printcenter.UI.CMS\CMSBasePage.cs" />
+    <Compile Include="Printcenter.UI.LoginNew\LoginBasePage.cs" />
+    <Compile Include="Printcenter.UI.OrdersNew\OrderBasePage.cs" />
+    <Compile Include="Printcenter.UI.Products\ProductBasePage.cs" />
+    <Compile Include="products\edit_template.aspx.cs">
+      <DependentUpon>edit_template.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="products\edit_template.aspx.designer.cs">
+      <DependentUpon>edit_template.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="products\product.aspx.cs">
+      <DependentUpon>product.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="products\product.aspx.designer.cs">
+      <DependentUpon>product.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="products\productdetails.aspx.cs">
+      <DependentUpon>productdetails.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="products\productdetails.aspx.designer.cs">
+      <DependentUpon>productdetails.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="products\searchproducts.aspx.cs">
+      <DependentUpon>searchproducts.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="products\searchproducts.aspx.designer.cs">
+      <DependentUpon>searchproducts.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Properties.cs" />
+    <Compile Include="ShoppingCart.aspx.cs">
+      <DependentUpon>ShoppingCart.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ShoppingCart.aspx.designer.cs">
+      <DependentUpon>ShoppingCart.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="sitemap.aspx.cs">
+      <DependentUpon>sitemap.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="sitemap.aspx.designer.cs">
+      <DependentUpon>sitemap.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="System.Configuration\EprintAppSettings.cs" />
+    <Compile Include="System.Configuration\EprintConfigurationManager.cs" />
+    <Compile Include="System.Configuration\EprintConnectionStrings.cs" />
+    <Compile Include="Templates\masterPageDefault.Master.cs">
+      <DependentUpon>masterPageDefault.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Templates\masterPageDefault.Master.designer.cs">
+      <DependentUpon>masterPageDefault.Master</DependentUpon>
+    </Compile>
+    <Compile Include="usercontrol\account_leftpanel.ascx.cs">
+      <DependentUpon>account_leftpanel.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="usercontrol\account_leftpanel.ascx.designer.cs">
+      <DependentUpon>account_leftpanel.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="usercontrol\invoice_del_Info.ascx.cs">
+      <DependentUpon>invoice_del_Info.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="usercontrol\invoice_del_Info.ascx.designer.cs">
+      <DependentUpon>invoice_del_Info.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="usercontrol\orderinformation.ascx.cs">
+      <DependentUpon>orderinformation.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="usercontrol\orderinformation.ascx.designer.cs">
+      <DependentUpon>orderinformation.ascx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+    <Folder Include="document\demo\store\0\pdf\" />
+    <Folder Include="document\demo\store\260\pdf\" />
+    <Folder Include="document\store\0\pdf\" />
+    <Folder Include="document\store\260\pdf\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_GlobalResources\english_to_english.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>english_to_english.designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_GlobalResources\english_to_russian.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>english_to_russian.designer.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_GlobalResources\non_print.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>non_print.designer.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_GlobalResources\resource_coralcost.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>resource_coralcost.designer.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_GlobalResources\resource_dmc.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>resource_dmc.designer.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_GlobalResources\resource_dmcsport.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>resource_dmcsport.designer.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_GlobalResources\resource_handy.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>resource_handy.designer.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>False</UseIIS>
+          <AutoAssignPort>False</AutoAssignPort>
+          <DevelopmentServerPort>36058</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>
+          </IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,236 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="masterPageDefault.master.cs" Inherits="ePrint.WebStore.Templates_Sample" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head id="Head1" runat="server">
+
+                    <!-- replace the inline expressions with server-side link controls -->
+        <link id="Link1" runat="server" rel="stylesheet" type="text/css" />
+        <link id="MainStyle2" runat="server" rel="stylesheet" type="text/css" />
+        <link id="Link2" runat="server" rel="stylesheet" type="text/css" />
+
+    <title></title>
+    <noscript>
+        Your browser does not support JavaScript! ...
+    </noscript>
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+    <asp:PlaceHolder runat="server">
+        <script type="text/javascript" language="javascript">
+            DateFormat = '<%#DateFormat%>';
+        </script>
+        <script type="text/javascript" src="<%#strSitePath%>js/jquery-1.3.1.min.js?VN='<%#VersionNumber%>'"></script>
+        <script type="text/javascript" src="<%#strSitePath%>js/jquery.scrollTo.js?VN='<%#VersionNumber%>'"></script>
+        <script type="text/javascript" src="<%#strSitePath%>js/SlidingDescription.js?VN='<%#VersionNumber%>'"></script>
+        <script type="text/javascript" src="<%#strSitePath%>js/swazz_calendar_store.js?VN='<%#VersionNumber%>'"></script>
+        <script type="text/javascript" src="<%#strSitePath%>js/master.js?VN='<%#VersionNumber%>'"></script>
+
+<%--        <link href="<%#StyleSheetPathMaster +"/Themes/StyleSheet_B2B_Live404.css"%>" id="Link1" rel="Stylesheet" type="text/css" />
+        <link href="<%#StyleSheetPath +"/Themes/StyleSheet_B2B.css"%>" id="MainStyle2" rel="Stylesheet" type="text/css" />
+        <link href="<%#StyleSheetPath +"/Themes/CustomStyleSheet.css"%>" id="Link2" rel="Stylesheet" type="text/css" />--%>
+
+
+                <!-- server-side script placeholders: set src/contents in code-behind -->
+        <script id="scriptDateFormat" runat="server" type="text/javascript"></script>
+        <script id="scriptJquery" runat="server" type="text/javascript"></script>
+        <script id="scriptScrollTo" runat="server" type="text/javascript"></script>
+        <script id="scriptSliding" runat="server" type="text/javascript"></script>
+        <script id="scriptCalendar" runat="server" type="text/javascript"></script>
+        <script id="scriptMaster" runat="server" type="text/javascript"></script>
+
+
+
+
+        <link rel="shortcut icon" href="favicon.ico" />
+        <script type="text/javascript" language="javascript">
+            var roundoff = '<%=roundoff %>';
+            var MeasurementValue = '<%=MeasurementValue %>';
+            var currentdate = '<%=newdate %>';
+            var StyleSheetPath = '<%=StyleSheetPath %>';
+            var accid = '<%=AccountID %>';
+            var strSitePath = '<%=strSitePath%>';
+            var AccountType = '<%=AccountType%>';
+            var SystemName = '<%=SystemName%>';
+            var PreviewPageName = '<%=PreviewPageName%>';
+            var StyleSheetPathMaster = '<%=StyleSheetPathMaster%>';
+            var jsCurrencySymbol = '<%=CurrencySymbol%>';
+           
+        </script>
+
+                <!-- server-side: single literal to emit page-level JS variables (set in code-behind) -->
+        <asp:Literal ID="litPageVars" runat="server"></asp:Literal>
+
+
+    </asp:PlaceHolder>
+    <style type="text/css">
+        .li
+        {
+            text-decoration: none;
+            cursor: pointer;
+            text-align: left;
+            width: 82px;
+            float: none;
+            height: 28px;
+            padding-top: 7px;
+            imageurl: "~/images/topnav_s.gif";
+        }
+        
+        
+    </style>
+    <script type="text/javascript">
+
+
+        $(window).load(function () {
+
+          //  var ul = document.getElementById("topnav");            
+          //  document.getElementById('div_reportsb2bmenu').style.backgroundColor = ul.style.backgroundColor;
+       
+        })
+    </script>
+</head>
+<body class="height100p width100p">
+    
+    <form id="form1" runat="server" class="height100p width100p">
+    <div id="divBackGroundLeftPanelMasterPage">
+    </div>
+    <table border="0" cellpadding="0" cellspacing="0" style="width: 100%;">
+        <tr>
+            <td>
+                <asp:Panel ID="HeaderPanel" runat="server">
+                    <div align="center" id="header">
+                        <div id="header-content">
+                            <div id="headertop" runat="server">
+                                <div id="headertopLeft" runat="server">
+                                    <div id="myDetails" runat="server">
+                                        <table id="headertable" runat="server">
+                                            <tr>
+                                                <td id="headerdetailsid" runat="server">
+                                                    <asp:PlaceHolder ID="ph_headerLeft" runat="server"></asp:PlaceHolder>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div id="div_searchProducts" runat="server">
+                                    <div id="header-topRight" class="width100p">
+                                        <div id="divSearchImage" style="display: none;">
+                                            <a id="href_search" href="#" onclick="Onclick_Search()">
+                                                <asp:Image ID="img_search" runat="server" CssClass="imgSearch" ImageUrl="../ImageHandler.ashx?Imagename=search_Product.png&amp;type=r"
+                                                    alt="" ToolTip="Search" />
+                                            </a>
+                                        </div>
+                                        <div id="divSearchBox" class="divSearchBox">
+                                            <input id="txt_search" runat="server" type="text" value="Free Text Search" style="margin-left: -100%;
+                                                width: 120%; height: 23px; font-style: italic; background-color: White; color: rgb(169, 164, 164);
+                                                border: solid 1px gray; border-radius: 5px; padding: 2px 0px 2px 25px; background-position: 4px 5px;"
+                                                 onclick="vaidate_Search();" onblur="defaultText();" onkeypress="return capturekey(event);"
+                                                class="txtWidthSearch" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="clearBoth paddingTop5">
+                            </div>
+                            <div align="center" class="fontBold width100p">
+                                <%--<div id='div_reportsb2bmenu' onmouseover='javascript:display_reportsmenu();' onmouseout='javascript:displaynone_reportsmenu();' style='display: none;position: fixed;'>
+                                    <ul style='list-style-type: none;'>
+                                        <li class='li'><a style='color: White;' href="#">ORDERS</a></li>
+                                        <li class='li'><a style='color: White;' href="#">JOBS</a></li>
+                                        <li class='li'><a style='color: White;' href="#">INVOICES</a></li>
+                                        <li class='li'><a style='color: White;' href="#">STOCK</a></li>
+                                    </ul>
+                                </div>--%>
+                                <asp:PlaceHolder ID="ph_topNavi" runat="server"></asp:PlaceHolder>
+                                <div class="width100p">
+                                    <div class="divNavigation">
+                                        <div id="divNavigatePannel" runat="server" class="floatLeft">
+                                            <div id="div_lblNotifications">
+                                                <asp:Label ID="lblNotifications" runat="server" CssClass="lblNotifications"></asp:Label>
+                                            </div>
+                                            <div id="divsitepath" runat="server">
+                                                <asp:Label ID="lblPathLink" runat="server" CssClass="DisplayBlock"></asp:Label>
+                                            </div>
+                                        </div>
+                                        <div id="Divlbl_loginName" runat="server" class="floatRight clearRight">
+                                            <div class="floatLeft">
+                                                <asp:Label ID="lbl_loginName" runat="server" class="WelcomeLoginName"></asp:Label>
+                                            </div>
+                                            <div class="floatLeft">
+                                                &nbsp;&nbsp;<span>|</span>
+                                            </div>
+                                            <div class="floatLeft paddingLeft5">
+                                                <asp:LinkButton ID="lnkLogout" runat="server" Text="Logout" OnClick="lnk_LogoutClick"><%#objLanguage.GetLanguageConversion("Logout") %></asp:LinkButton>
+                                            </div>
+                                            <div id="divMyCart_Icon">
+                                                <div id="divMyCart" runat="server">
+                                                    <a href="javascript:void(0);" id="lbl_mycard" runat="server" onclick="OpenMyAccount('cart');"
+                                                        target="_self">
+                                                        <img id="Img_cart" runat="server" class="basketbtn" src="~/images/StoreImages/empty_cart_icon.png"
+                                                            alt="" />
+                                                    </a>
+                                                    <asp:Label ID="lblMycarSpliter" runat="server" Text=""></asp:Label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="divNotifications" runat="server" class="divNotifications" align="left">
+                                    <div class="DisplayNone">
+                                        <asp:LinkButton ID="lnkApprUser" runat="server" Text="3 Users Approval pending"></asp:LinkButton>
+                                    </div>
+                                    <div id="divlnkEditAddres" runat="server" class="divlnkEditAddres">
+                                        <asp:LinkButton ID="lnkEditAddres" runat="server" OnClick="lnkEditAddres_Click"></asp:LinkButton>
+                                    </div>
+                                    <div id="divlnkApprOrders" runat="server" class="divlnkApprOrders">
+                                        <asp:LinkButton ID="lnkApprOrders" runat="server" Text="3 Orders Approval pending"
+                                            OnClick="lnkApprOrders_Click"></asp:LinkButton>
+                                    </div>
+                                    <div class="floatRight">
+                                        <img id="imgClose" src="~/images/StoreImages/close1.png" runat="server" class="imageclose"
+                                            alt="" title="Close" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </asp:Panel>
+               
+                <div class="clearBoth">
+                </div>
+                <div id="contentPlaceHolder" runat="server">
+                    <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+                    </asp:ContentPlaceHolder>
+                </div>
+                <asp:Panel ID="FooterPanel" runat="server">
+                    <div align="left" id="footer_content">
+                        <div class="footer_div">
+                            <asp:PlaceHolder ID="ph_footer" runat="server"></asp:PlaceHolder>
+                        </div>
+                        <div class="clearBoth">
+                        </div>
+                        <div id="divfooterMain" runat="server" align="left">
+                            <div id="divfootersub" runat="server">
+                                <asp:Label ID="lbl_copyWriter" runat="server" Visible="false"></asp:Label>
+                                <asp:PlaceHolder ID="ph_copyWriter" runat="server"></asp:PlaceHolder>
+                            </div>
+                        </div>
+                    </div>
+                </asp:Panel>                
+            </td>
+        </tr>
+    </table>
+    <script type="text/javascript" language="javascript">
+        var StoreUserID = '<%=StoreUserID %>';
+        var Rewritemodule = '<%=Rewritemodule %>';
+        var KeySeparator = '<%=KeySeparator %>';
+        var FileExtension = '<%=FileExtension %>';
+        var strSitepath = '<%=strSitePath %>';
+        var txt_search = document.getElementById("<%#txt_search.ClientID %>");
+        var divSearchBox = document.getElementById("divSearchBox");
+
+        
+    </script>
+    </form>
+</body>
+</html>
+

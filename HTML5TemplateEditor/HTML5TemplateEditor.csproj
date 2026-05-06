@@ -1,0 +1,316 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{AD4A88BA-D357-430A-AD2F-7C3C62F009DE}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>HTML5TemplateEditor</RootNamespace>
+    <AssemblyName>HTML5TemplateEditor</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <TargetFrameworkProfile />
+    <WcfConfigValidationEnabled>True</WcfConfigValidationEnabled>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <UseGlobalApplicationHostFile />
+    <Use64BitIISExpress />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\ePrint\DLL\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceModel.Web" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Web.Mobile" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="Telerik.Web.UI, Version=2013.3.1324.40, Culture=neutral, PublicKeyToken=121fae78165ba3d4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\ePrint\DLL\Telerik.Web.UI.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Default.aspx" />
+    <Content Include="DLL\Telerik.Web.UI.dll" />
+    <Content Include="editableproduct.aspx" />
+    <Content Include="ee247_1-4d0.png.png" />
+    <Content Include="ImageEditorDialogs\AddText.ascx" />
+    <Content Include="ImageEditorDialogs\BrightnessContrast.ascx" />
+    <Content Include="ImageEditorDialogs\Crop.ascx" />
+    <Content Include="ImageEditorDialogs\DrawCircle.ascx" />
+    <Content Include="ImageEditorDialogs\DrawRectangle.ascx" />
+    <Content Include="ImageEditorDialogs\EmptyDialog.ascx" />
+    <Content Include="ImageEditorDialogs\Export.ascx" />
+    <Content Include="ImageEditorDialogs\Flip.ascx" />
+    <Content Include="ImageEditorDialogs\HueSaturation.ascx" />
+    <Content Include="ImageEditorDialogs\InsertImage.ascx" />
+    <Content Include="ImageEditorDialogs\Line.ascx" />
+    <Content Include="ImageEditorDialogs\Opacity.ascx" />
+    <Content Include="ImageEditorDialogs\Pencil.ascx" />
+    <Content Include="ImageEditorDialogs\Print.ascx" />
+    <Content Include="ImageEditorDialogs\Resize.ascx" />
+    <Content Include="ImageEditorDialogs\Rotate.ascx" />
+    <Content Include="ImageEditorDialogs\Save.ascx" />
+    <Content Include="ImageEditorDialogs\Zoom.ascx" />
+    <Content Include="js\common.js" />
+    <Content Include="js\Jquery-1.11.1.js" />
+    <Content Include="js\jquery-3.0.0.js" />
+    <Content Include="js\jquery-migrate-3.0.0.min.js" />
+    <Content Include="js\Jquery-ui-1.11.0.js" />
+    <Content Include="js\jquery.colorpicker.js" />
+    <Content Include="js\jquery.ui.touch-punch.min.js" />
+    <Content Include="js\LeftPanelChange.js" />
+    <Content Include="js\LoadPage.js" />
+    <Content Include="js\TemplateEditor.js" />
+    <Content Include="Scripts\jquery-1.7.1.intellisense.js" />
+    <Content Include="Scripts\jquery-1.7.1.js" />
+    <Content Include="Scripts\jquery-1.7.1.min.js" />
+    <Content Include="start.aspx" />
+    <Content Include="StyleSheets\common.css" />
+    <Content Include="StyleSheets\Images\128\bar-alpha.png" />
+    <Content Include="StyleSheets\Images\128\bar.png" />
+    <Content Include="StyleSheets\Images\128\map.png" />
+    <Content Include="StyleSheets\Images\accordion-background.png" />
+    <Content Include="StyleSheets\Images\addimg.jpg" />
+    <Content Include="StyleSheets\Images\aligncenter.png" />
+    <Content Include="StyleSheets\Images\alignjustify.png" />
+    <Content Include="StyleSheets\Images\alignleft.png" />
+    <Content Include="StyleSheets\Images\alignright.png" />
+    <Content Include="StyleSheets\Images\animated-overlay.gif" />
+    <Content Include="StyleSheets\Images\arrow-down-disabled.png" />
+    <Content Include="StyleSheets\Images\arrow-down.png" />
+    <Content Include="StyleSheets\Images\arrow-down1.png" />
+    <Content Include="StyleSheets\Images\arrow-left.png" />
+    <Content Include="StyleSheets\Images\Back.png" />
+    <Content Include="StyleSheets\Images\bar-alpha.png" />
+    <Content Include="StyleSheets\Images\bar-opacity.png" />
+    <Content Include="StyleSheets\Images\bar-pointer.png" />
+    <Content Include="StyleSheets\Images\bar.png" />
+    <Content Include="StyleSheets\Images\bold.png" />
+    <Content Include="StyleSheets\Images\bordera.png" />
+    <Content Include="StyleSheets\Images\calender-text.png" />
+    <Content Include="StyleSheets\Images\Capture.png" />
+    <Content Include="StyleSheets\Images\Ccenter.png" />
+    <Content Include="StyleSheets\Images\Cleft.png" />
+    <Content Include="StyleSheets\Images\close-gray1.png" />
+    <Content Include="StyleSheets\Images\copy.png" />
+    <Content Include="StyleSheets\Images\Cright.png" />
+    <Content Include="StyleSheets\Images\cross.png" />
+    <Content Include="StyleSheets\Images\cut.png" />
+    <Content Include="StyleSheets\Images\Delete-icon.png" />
+    <Content Include="StyleSheets\Images\delete.png" />
+    <Content Include="StyleSheets\Images\delete_icon.png" />
+    <Content Include="StyleSheets\Images\delete_icon1.png" />
+    <Content Include="StyleSheets\Images\edit-icon.png" />
+    <Content Include="StyleSheets\Images\editgrp.png" />
+    <Content Include="StyleSheets\Images\edit_picture.png" />
+    <Content Include="StyleSheets\Images\expandspace.png" />
+    <Content Include="StyleSheets\Images\FirstPage.png" />
+    <Content Include="StyleSheets\Images\folder_imgnew5.png" />
+    <Content Include="StyleSheets\Images\fontcolor.png" />
+    <Content Include="StyleSheets\Images\gradient_background-1.png" />
+    <Content Include="StyleSheets\Images\gradient_background.PNG" />
+    <Content Include="StyleSheets\Images\Help-icon.png" />
+    <Content Include="StyleSheets\Images\info.png" />
+    <Content Include="StyleSheets\Images\insert-text.png" />
+    <Content Include="StyleSheets\Images\italic.png" />
+    <Content Include="StyleSheets\Images\justifyFull.png" />
+    <Content Include="StyleSheets\Images\LastPage.png" />
+    <Content Include="StyleSheets\Images\loading.gif" />
+    <Content Include="StyleSheets\Images\loading_new.gif" />
+    <Content Include="StyleSheets\Images\map-opacity.png" />
+    <Content Include="StyleSheets\Images\map-pointer.png" />
+    <Content Include="StyleSheets\Images\map.png" />
+    <Content Include="StyleSheets\Images\NavBack.png" />
+    <Content Include="StyleSheets\Images\NavForward.png" />
+    <Content Include="StyleSheets\Images\NextPage.png" />
+    <Content Include="StyleSheets\Images\noimage-1.jpg" />
+    <Content Include="StyleSheets\Images\noimage.jpg" />
+    <Content Include="StyleSheets\Images\paragraph.png" />
+    <Content Include="StyleSheets\Images\pastespecial.png" />
+    <Content Include="StyleSheets\Images\popup.png" />
+    <Content Include="StyleSheets\Images\popup2.png" />
+    <Content Include="StyleSheets\Images\preview-opacity.png" />
+    <Content Include="StyleSheets\Images\PrevPage.png" />
+    <Content Include="StyleSheets\Images\processing.png" />
+    <Content Include="StyleSheets\Images\quickadjust.png" />
+    <Content Include="StyleSheets\Images\radimg1.gif" />
+    <Content Include="StyleSheets\Images\RadPannelItem.png" />
+    <Content Include="StyleSheets\Images\Rectangle.png" />
+    <Content Include="StyleSheets\Images\Refresh.png" />
+    <Content Include="StyleSheets\Images\reset.png" />
+    <Content Include="StyleSheets\Images\rotate.png" />
+    <Content Include="StyleSheets\Images\search_icon.png" />
+    <Content Include="StyleSheets\Images\stock_group.png" />
+    <Content Include="StyleSheets\Images\Sucesful.png" />
+    <Content Include="StyleSheets\Images\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <Content Include="StyleSheets\Images\ui-bg_flat_75_ffffff_40x100.png" />
+    <Content Include="StyleSheets\Images\ui-bg_glass_55_fbf9ee_1x400.png" />
+    <Content Include="StyleSheets\Images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="StyleSheets\Images\ui-bg_glass_75_dadada_1x400.png" />
+    <Content Include="StyleSheets\Images\ui-bg_glass_75_e6e6e6_1x400.png" />
+    <Content Include="StyleSheets\Images\ui-bg_glass_95_fef1ec_1x400.png" />
+    <Content Include="StyleSheets\Images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
+    <Content Include="StyleSheets\Images\ui-colorpicker.png" />
+    <Content Include="StyleSheets\Images\ui-icons_222222_256x240.png" />
+    <Content Include="StyleSheets\Images\ui-icons_2e83ff_256x240.png" />
+    <Content Include="StyleSheets\Images\ui-icons_454545_256x240.png" />
+    <Content Include="StyleSheets\Images\ui-icons_888888_256x240.png" />
+    <Content Include="StyleSheets\Images\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="StyleSheets\Images\up-arrow-icon.png" />
+    <Content Include="StyleSheets\Images\warning.png" />
+    <Content Include="StyleSheets\Images\zoom_in.png" />
+    <Content Include="StyleSheets\Images\zoom_out.png" />
+    <Content Include="StyleSheets\Jquery-ui.css" />
+    <Content Include="StyleSheets\jquery.colorpicker.css" />
+    <Content Include="TemplateEditorService.svc" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Default.aspx.cs">
+      <SubType>ASPXCodeBehind</SubType>
+      <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Default.aspx.designer.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="editableproduct.aspx.cs">
+      <DependentUpon>editableproduct.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="editableproduct.aspx.designer.cs">
+      <DependentUpon>editableproduct.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="EprintAppSettings.cs" />
+    <Compile Include="EprintConfigurationManager.cs" />
+    <Compile Include="EprintConnectionStrings.cs" />
+    <Compile Include="ITemplateEditorService.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="start.aspx.cs">
+      <DependentUpon>start.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="start.aspx.designer.cs">
+      <DependentUpon>start.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="TemplateEditorService.svc.cs">
+      <DependentUpon>TemplateEditorService.svc</DependentUpon>
+    </Compile>
+    <Compile Include="TemplateEditor\CategoryList.cs" />
+    <Compile Include="TemplateEditor\ColorStyle.cs" />
+    <Compile Include="TemplateEditor\createThumbnail.cs" />
+    <Compile Include="TemplateEditor\CustomTag.cs" />
+    <Compile Include="TemplateEditor\DatabaseContent.cs" />
+    <Compile Include="TemplateEditor\DeafultContent.cs" />
+    <Compile Include="TemplateEditor\Encrypt.cs" />
+    <Compile Include="TemplateEditor\Font.cs" />
+    <Compile Include="TemplateEditor\Globals.cs" />
+    <Compile Include="TemplateEditor\GlobalSitePaths.cs" />
+    <Compile Include="TemplateEditor\GlobalVariables.cs" />
+    <Compile Include="TemplateEditor\HorzontalGroupDetails.cs" />
+    <Compile Include="TemplateEditor\ImageCategory.cs" />
+    <Compile Include="TemplateEditor\ImageCtegory.cs" />
+    <Compile Include="TemplateEditor\ImageGalleryParentResponse.cs" />
+    <Compile Include="TemplateEditor\QueryStringPara.cs" />
+    <Compile Include="TemplateEditor\SQL.cs" />
+    <Compile Include="TemplateEditor\SqlParameterCache.cs" />
+    <Compile Include="TemplateEditor\TemplateDetails.cs" />
+    <Compile Include="TemplateEditor\TemplateFieldProperties.cs" />
+    <Compile Include="TemplateEditor\VerticalGroupDetails.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="UploadHandler.ashx" />
+    <None Include="Properties\PublishProfiles\editableproducts.pubxml" />
+    <None Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>25226</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:12345/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

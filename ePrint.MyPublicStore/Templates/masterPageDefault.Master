@@ -1,0 +1,1025 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="masterPageDefault.master.cs" Inherits="ePrint.MyPublicStore.Templates.masterPageDefault" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head id="Head1" runat="server">
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, minimum-scale=1.0">
+    <title></title>
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+    <asp:PlaceHolder runat="server">
+        <script type="text/javascript" language="javascript">
+            DateFormat = '<%=DateFormat%>';
+        </script>
+        <link href="<%#StyleSheetPathMaster_withPPW%>" id="MainStyle1" rel="Stylesheet" type="text/css" />
+        <link href="<%#StyleSheetPath +"/Themes/StyleSheet.css"%>" id="MainStyle2" rel="Stylesheet"
+            type="text/css" />
+        <link href="<%#StyleSheetPath +"/Themes/CustomStyleSheet.css"%>" id="Link1" rel="Stylesheet"
+            type="text/css" />
+         <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
+           <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+          
+           <script type="text/javascript" src="<%#strSitePath%>js/jquery.scrollTo.js?VN='<%=VersionNumber%>'"></script>
+        <script type="text/javascript" src="<%#strSitePath%>js/SlidingDescription.js?VN='<%=VersionNumber%>'"></script>
+        
+        
+        <%--
+        <script type="text/javascript" src="<%#strSitePath%>js/swazz_calendar_store.js?VN='<%=VersionNumber%>'"></script>--%>
+        <link href="../public/node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+        <script src="../public/node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="<%#strSitePath%>js/login_new.js?VN='<%=VersionNumber%>'"></script>
+        <%-- For Live --%>
+
+        <link rel="shortcut icon" href="favicon.ico">
+        <script type="text/javascript" language="javascript">
+            var roundoff = '<%=roundoff %>';
+            var currentdate = '<%=newdate %>';
+            var MeasurementValue = '<%=MeasurementValue %>';
+            var StyleSheetPath = '<%=StyleSheetPath %>';
+            var accid = '<%=AccountID %>';
+            var strSitePath = '<%=strSitePath%>';
+            var AccountType = '<%=AccountType%>';
+            var SystemName = '<%=SystemName%>';
+            var StyleSheetPathMaster = '<%=StyleSheetPathMaster%>';
+            var jsCurrencySymbol = '<%=CurrencySymbol%>';
+            var LoginRewritemodule = '<%=Rewritemodule %>';
+            var LoginKeySeparator = '<%=KeySeparator %>';
+            var LoginFileExtension = '<%=FileExtension %>';
+            var IsValidAgentCode = '<%=IsValidAgentCode %>';
+            var LoginOrgAgentCode = '<%=LoginOrgAgentCode %>';
+        </script>
+        <script type="text/javascript" language="javascript">
+
+            if ("<%=SystemName.ToLower()%>" == "ppw") {
+                var _gaq = _gaq || [];
+                _gaq.push(['_setAccount', 'UA-35929306-1']);
+                _gaq.push(['_trackPageview']);
+
+                (function () {
+                    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+                    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+                    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+                })();
+            }
+        </script>
+        <style type="text/css">
+            .common-sprite {
+                background-image: url('images/common_sprite_v1.png');
+                background-repeat: no-repeat;
+            }
+
+            .displayImage {
+                display: none;
+                position: fixed;
+                z-index: 1000;
+                top: 0;
+                left: 0;
+                height: 100%;
+                width: 100%;
+                background: rgba( 255, 255, 255, .8 ) url('../../../../images/radimg1.gif') 50% 50% no-repeat;
+            }
+
+            /* When the body has the loading class, we turnE:\sPrint Latest Code\MyFirstProject\ePrint.PublicStores\images\8kpb.gif
+   the scrollbar off with overflow:hidden */
+            body.loading .displayImage {
+                overflow: hidden;
+            }
+
+            /* Anytime the body has the loading class, our
+   modal element will be visible */
+            body.loading .displayImage {
+                display: block;
+            }
+
+            /*Navigation Bar Styles*/
+            /* Add a black background color to the top navigation */
+            .topnav {
+                background-color: #333;
+                overflow: hidden;
+            }
+
+                /* Style the links inside the navigation bar */
+                .topnav a {
+                    float: left;
+                    display: block;
+                    color: #f2f2f2;
+                    text-align: center;
+                    padding: 14px 16px;
+                    text-decoration: none;
+                    font-size: 17px;
+                }
+
+                    /* Change the color of links on hover */
+                    .topnav a:hover {
+                        background-color: #ddd;
+                        color: black;
+                        line-height: normal;
+                    }
+
+                    /* Add an active class to highlight the current page */
+                    .topnav a.active {
+                        background-color: #4CAF50;
+                        color: white;
+                    }
+
+                /* Hide the link that should open and close the topnav on small screens */
+                .topnav .icon {
+                    display: none;
+                }
+
+                .topnav .menu {
+                    display: block;
+                }
+
+            /* When the screen is less than 600 pixels wide, hide all links, except for the first one ("Home"). Show the link that contains should open and close the topnav (.icon) */
+
+            @media screen and (max-width: 600px) {
+                .menu a:not(:first-child) {
+                    display: none;
+                }
+
+                .topnav a.icon {
+                    float: right;
+                    display: block;
+                }
+
+                #header-content {
+                    width: auto;
+                }
+
+                .web_dialog_overlay_login {
+                    display: none;
+                }
+
+                #ctl00_divSearchBox {
+                    padding-bottom: 40px;
+                }
+
+                #center_div {
+                    width: auto;
+                }
+
+                #center_div {
+                    width: auto;
+                    min-width: auto;
+                }
+            }
+
+            /* The "responsive" class is added to the topnav with JavaScript when the user clicks on the icon. This class makes the topnav look good on small screens (display the links vertically instead of horizontally) */
+            @media screen and (max-width: 600px) {
+                .img-responsive {
+                    display: block;
+                    max-width: 35%;
+                    height: auto;
+                }
+                
+                .topnav {
+                    position: relative;
+                }
+
+                    .topnav a {
+                        float: none;
+                        display: block;
+                        text-align: left;
+                    }
+
+                .disable-h-scroll-mobile {
+                    overflow-x: hidden !important;
+                }
+
+                #divSignUp {
+                    margin-top: -158px;
+                    height: fit-content;
+                    display: block;
+                    width: 342px;
+                    margin-left: -171px;
+                }
+
+                #logindialog {
+                    margin-left: -170px;
+                }
+
+                #divForgotPassword {
+                    margin-left: -171px;
+                }
+            }
+
+            .centered-form {
+                margin-top: 60px;
+            }
+
+                .centered-form .panel {
+                    background: rgba(255, 255, 255, 0.8);
+                    box-shadow: rgba(0, 0, 0, 0.3) 20px 20px 20px;
+                }
+
+            .row {
+                margin-top: 10px;
+            }
+
+            .modal {
+                padding: 0px;
+            }
+
+            .error {
+                border-color: red;
+            }
+
+            .active {
+                background-color: #4CAF50;
+            }
+
+            #txt_search {
+                margin: -20px;
+                margin-left: -141px;
+            }
+
+
+
+
+
+             @media 
+only screen and (max-width: 760px),
+(min-device-width: 768px) and (max-device-width: 1024px)  {
+
+	 #ctl00_ContentPlaceHolder1_div_ShoppingItems table {
+      border: 0;
+    }
+
+   #ctl00_ContentPlaceHolder1_div_ShoppingItems table th {
+      display: none;
+    }
+
+   #ctl00_ContentPlaceHolder1_div_ShoppingItems table tr {
+      margin-bottom: 20px;
+      display: block;
+      border-bottom: 2px solid #ddd;
+	 box-shadow: 2px 2px 1px #dadada;
+
+    }
+
+   #ctl00_ContentPlaceHolder1_div_ShoppingItems table td {
+      display: block;
+      text-align: right;
+      font-size: 13px;
+      padding:17px;
+    }
+   #ctl00_ContentPlaceHolder1_div_ShoppingItems table .displayNone{
+       display:none;
+   }
+   #ctl00_ContentPlaceHolder1_div_ShoppingItems table .productdescription_td
+   {
+       width: auto;
+   }
+   #ctl00_ContentPlaceHolder1_div_ShoppingItems table .productname_td{
+        width: auto;
+   }
+   #ctl00_ContentPlaceHolder1_div_ShoppingItems table #tableFooter{
+       width: auto;
+   }
+   #ctl00_ContentPlaceHolder1_div_ShoppingItems table .selected_img_td{
+       border: none;
+       margin-left: 70px;
+       width: 45%;
+   }
+   #ctl00_ContentPlaceHolder1_div_ShoppingItems table .floatLeft{
+       float: right;
+       margin-top: -20px;
+   }
+   #ctl00_ContentPlaceHolder1_btn_ContinueShopping{
+       float:left;
+   }
+   #ctl00_ContentPlaceHolder1_div_ShoppingItems table .ShoppingCart_HeaderFooter
+   {
+       padding-bottom:3%;
+   }
+   #ctl00_ContentPlaceHolder1_div_ShoppingItems table td:last-child {
+      border-bottom: 0;
+    }
+
+   #ctl00_ContentPlaceHolder1_div_ShoppingItems table td::before {
+      content: attr(data-label);
+      float: left;
+/*      text-transform: uppercase;
+*/      font-weight: bold;
+    }
+    	#ctl00_ContentPlaceHolder1_div_ShoppingItems	tbody{
+			line-height:0!important;
+		}
+
+
+
+
+
+
+
+         #orderConfirm_body table {
+      border: 0;
+    }
+
+   #orderConfirm_body table th {
+      display: none;
+    }
+
+   #orderConfirm_body table tr {
+      margin-bottom: 20px;
+      display: block;
+      border-bottom: 2px solid #ddd;
+	 box-shadow: 2px 2px 1px #dadada;
+
+    }
+
+   #orderConfirm_body table td {
+      display: block;
+      text-align: right;
+      font-size: 13px;
+      padding:17px;
+    }
+   #orderConfirm_body table .displayNone{
+       display:none;
+   }
+  
+   #ctl00_ContentPlaceHolder1_btn_ContinueShopping{
+       float:left;
+   }
+   #orderConfirm_body table .ShoppingCart_HeaderFooter
+   {
+       padding-bottom:3%;
+   }
+   #orderConfirm_body table td:last-child {
+      border-bottom: 0;
+    }
+   #orderConfirm_body table .b_productName_td{
+       width:auto;
+   }
+
+   #orderConfirm_body table .b_productDescription_td{
+       width:auto;
+   }
+
+   #orderConfirm_body table .b_productPrice_td{
+      width:auto;
+   }
+
+    #orderConfirm_body table .b_productQty_td{
+       width:auto;
+   }
+
+     #orderConfirm_body table .b_productTotal_td{
+       width:auto;
+   }
+    #orderConfirm_body{
+        width: 97%;
+    }
+    #orderConfirm_body .b_productName_table{
+        width: 100%;
+    }
+   #orderConfirm_body table td::before {
+      content: attr(data-label);
+      float: left;
+/*      text-transform: uppercase;
+*/      font-weight: bold;
+    }
+    	#orderConfirm_body	tbody{
+			line-height:0!important;
+		}
+    #OrderConfirmContent_div{
+        float:left;
+        padding:18px;
+        width:462px;
+    }
+    #ctl00_txt_search{
+        margin-left: 61px;
+    }
+}
+
+
+
+          
+        </style>
+    </asp:PlaceHolder>
+</head>
+<body id="masterBody" class="container mt-100 disable-h-scroll-mobile">
+    <form id="form1" runat="server">
+        <%-- <asp:ScriptManager runat="server">
+                     <Services>
+                <asp:ServiceReference Path="~/AutoFill.asmx" />
+            </Services>
+        </asp:ScriptManager>--%>
+        <div id="header" class="container-fluid">
+            <div id="header-content" class="container-fluid">
+                <div id="header-top" class="row">
+                    <div id="div_searchproducts_ppw" class="floatLeft col-lg-5 col-md-5 col-sm-5" runat="server">
+                        <div id="header-topLeft-serchppw">
+                            <div class="divSearchBox" id="divSearchBox_ppw">
+                                <input id="txt_search_ppw" class="txtWidthSearch" type="text" value="Search" runat="server"
+                                    onclick="vaidate_Search();" onblur="defaultText();" onkeypress="return capturekey_ppw(event);" />
+                                <a id="A1" href="#" onclick="Onclick_Search_ppw()">
+                                    <asp:Image ID="img_search_ppw" runat="server" CssClass="imgSearch" ImageUrl="../ImageHandler.ashx?Imagename=search.gif&amp;type=r"
+                                        alt="" />
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="header-topLeft" class="col-lg-5 col-md-5 col-sm-5" style="float: <%=floatvalue %>;">
+                        <div id="myDetails" style="float: <%=floatvalue %>;">
+                            <div>
+                                <div>
+                                    <div>
+                                        <div id="divWelcome" runat="server">
+                                            <asp:Label ID="lbl_loginName" runat="server" Text="Welcome: Guest!" class="WelcomeLoginName"></asp:Label>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <table>
+                                            <tr>
+                                                <td class="LinksNextToWelcome_td">
+                                                    <div id="divMyAccount" runat="server">
+                                                        <a href="javascript:void(0);" runat="server" id="lbl_myaccount" target="_self" onclick="OpenMyAccount('account');">
+                                                            <%=objLanguage.GetLanguageConversion("My_Account") %></a>
+                                                        <asp:Label ID="lbl_myaccountSpliter" runat="server" Text=" | "></asp:Label>
+                                                    </div>
+                                                </td>
+                                                <td class="LinksNextToWelcome_td">
+                                                    <div id="divMyOrder" runat="server">
+                                                        <a href="javascript:void(0);" runat="server" id="lbl_myorder" target="_self" onclick="OpenMyAccount('order');">
+                                                            <%=objLanguage.GetLanguageConversion("My_orders") %></a>
+                                                        <asp:Label ID="lbl_myorderSpliter" runat="server" Text=" | "></asp:Label>
+                                                    </div>
+                                                </td>
+                                                <td class="LinksNextToWelcome_td">
+                                                    <div id="divMyCart" runat="server">
+                                                        <a href="javascript:void(0);" id="lbl_mycard" runat="server" onclick="OpenMyAccount('cart');"
+                                                            target="_self">
+                                                            <%=objLanguage.GetLanguageConversion("My_Cart") %>
+                                                        </a>
+                                                        <asp:Label ID="lblMycarSpliter" runat="server" Text=" | "></asp:Label>
+                                                    </div>
+                                                </td>
+                                                <td class="LinksNextToWelcome_td" style="display: none;">
+                                                    <div id="divCheckOut" runat="server">
+                                                        <a href="javascript:void(0);" id="lnk_checkout" target="_self" runat="server" onclick="OpenMyAccount('checkout');">
+                                                            <%=objLanguage.GetLanguageConversion("Checkout") %>
+                                                        </a>
+                                                        <asp:Label ID="lblCheckoutSpliter" runat="server" Text=" | "></asp:Label>
+                                                    </div>
+                                                </td>
+                                                <td class="LinksNextToWelcome_td">
+                                                    <div id="Signup" runat="server" style="display: none;">
+                                                        <span><a href="javascript:void(0);" onclick="ShowSignUpDialog()">Sign Up</a></span>
+                                                        <asp:Label ID="lblsignupSpliter" runat="server" Text=" | "></asp:Label>
+                                                    </div>
+                                                </td>
+                                                <td class="LinksNextToWelcome_td">
+                                                    <div id="divLogIn" runat="server">
+                                                        <%--OnClientClick="javascript:JobNameUpdate_InLogin();"--%>
+                                                        <asp:LinkButton ID="lnk_Login" OnClientClick="return ShowLogin()" runat="server"
+                                                            CssClass="displayNone" Text="Log In" OnClick="btnlogin_Click"></asp:LinkButton>
+                                                        <asp:LinkButton  ID="lnk_Logout" runat="server" CssClass="displayNone" OnClick="lnk_LogoutClick"
+                                                            Text="Logout"></asp:LinkButton>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="clearBoth">
+                </div>
+                <div id="header-bottom">
+                    <div class="imglogo_div">
+                        <asp:PlaceHolder ID="ph_headerLeft" runat="server"></asp:PlaceHolder>
+                    </div>
+                    <div id="header_bottom_empty_div">
+                        <asp:Label ID="header_bottom_empty_lbl" runat="server" Text=""></asp:Label>
+                    </div>
+                </div>
+                <div class="clearBoth">
+                </div>
+                <div id="header-nav" class="row topnav container-fluid">
+                    <asp:PlaceHolder ID="ph_topNavi" runat="server"></asp:PlaceHolder>
+                    <div id="div_searchProducts" class="displayBlock col-lg-8 col-md-8 col-sm-8" runat="server">
+                        <div id="header-topRight">
+                            <div class="divSearchBox" runat="server" id="divSearchBox">
+                                <input id="txt_search" class="form-control" type="text" value="Search" runat="server"
+                                    onclick="vaidate_Search();" onblur="defaultText();" onkeypress="return capturekey(event);" />
+                                <a id="href_search" href="#" onclick="Onclick_Search()">
+                                    <asp:Image ID="img_search" runat="server" CssClass="imgSearch" ImageUrl="../ImageHandler.ashx?Imagename=search.gif&amp;type=r"
+                                        alt="" />
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="divLogInNew" style="width: 150px;" >
+            <div id="loginoverlay" class="web_dialog_overlay_login">
+            </div>
+            <asp:Panel runat="server" DefaultButton="btnlogin">
+                <div class="sign-in-box bg-fff c666" id="logindialog">
+                    <a href="javascript:void(0);" class="close-pop-box common-sprite fr" onclick="closePops()"></a>
+                    <div class="d-none loader-img">
+                    </div>
+                    <div class="fadeInBox">
+                        <div class="sign-box-head pb10">
+                            <span class="fr fs11 mt5"><span>New User?</span> <a href="javascript:void(0);" class="ml10 c666 txt-deco-under"
+                                onclick="ShowSignUpDialog()">Sign Up</a></span>
+                            <h2 class="headh2">Log In</h2>
+                        </div>
+                        <div class="f-error-msg m5 clr-fff fs10 txt-center" id="login-error" style="visibility: hidden;">
+                            Please enter your email address
+                        </div>
+                        <div class="pop-form-row pb10 full-width">
+                            <label for="signin_email">
+                                Email</label>
+                            <input type="email" autocomplete="off" autocorrect="off" autocapitalize="off" name="signin_email"
+                                class="txtbx txtbx-wid" id="signInemail" placeholder="example@example.com" />
+                        </div>
+                        <div class="pop-form-row pb10 full-width">
+                            <label for="signIn-pass">
+                                Password</label>
+                            <input type="password" autocapitalize="off" name="signin_password" class="txtbx txtbx-wid7"
+                                id="signIn-pass" placeholder="Enter Password">
+                        </div>
+
+                   
+
+
+
+                        <div class="pop-form-row pb10 full-width" id="divlogin">
+                            <%--<asp:Button runat="server" class="clr-fff btn-common2 sign-btn btn-primary" CausesValidation="false" ID="Button1"  OnClientClick="return ValidateLogin()"
+                                Text="Log In" />--%>
+                            <asp:Button runat="server" class="clr-fff btn-common2 sign-btn btn-primary" CausesValidation="false" ID="btnlogin" OnClientClick="return ValidateLogin()"
+                                Text="Log In" />
+                            <asp:Button ID="btnloginsave" runat="server" Style="display: none;" OnClick="btnlogin_Click" />
+                            <a href="javascript:void(0);" class="mt5 ml20 txt-deco-under fs11 c666" id="qa-forgot-password-link"
+                                onclick="ShowForgotPasswordDialog()">Forgot Password?</a>
+                        </div>
+                        <%-- <div id="div1" class="pop-form-row pb10 full-width clr-fff btn-common2 sign-btn"
+                    align="center" style="display: block; width: 5px; min-width: 82px; height: 21px;">--%>
+                        <div id="divlgimg" class="pop-form-row pb10 full-width clr-fff btn-common2 sign-btn"
+                            align="center" style="display: none; width: 5px; min-width: 82px; height: 21px;">
+                            <img src="<%=strloginImagepath %>images/radimg1.gif" class="trans" alt="loading"
+                                border="0" />
+                            <div>
+                                <a href="javascript:void(0);" class="mt5 ml20 txt-deco-under fs11 c666" id="A2" onclick="ShowForgotPasswordDialog()">Forgot Password?</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="clear">
+                    </div>
+                </div>
+            </asp:Panel>
+            <asp:Panel runat="server" DefaultButton="btnSendEmail">
+                <div class="sign-in-box bg-fff c666" id="divForgotPassword">
+                    <a href="javascript:void(0);" class="close-pop-box common-sprite fr" onclick="closePops()"></a>
+                    <div class="d-none loader-img">
+                    </div>
+                    <div class="fadeInBox">
+                        <div class="sign-box-head pb10">
+                            <h2 class="headh2">Forgot Password</h2>
+                        </div>
+                        <div class="f-error-msg m5 clr-fff fs10 txt-center" id="forgot-error" style="visibility: hidden">
+                            Please enter your email address
+                        </div>
+                        Please enter your email below and we will send your password.
+                    <div class="pop-form-row pb10 full-width">
+                        <label for="signin_forgotemail">
+                            Email</label>
+                        <input type="email" autocomplete="off" autocorrect="off" autocapitalize="off" name="signin_forgotemail"
+                            class="txtbx txtbx-wid" id="txtEmail" placeholder="example@example.com">
+                    </div>
+                        <div class="pop-form-row pb10 full-width" id="divfp">
+                            <asp:Button runat="server" class="clr-fff btn-common2 sign-btn btn-primary" ID="btnSendEmail"
+                                OnClientClick="return validateForgotPassword()" Text="Send Email" />
+                            <%--<button type="submit" class="clr-fff btn-common2 sign-btn" id="btnSendEmail" onclick="return validateForgotPassword()">
+                        Send Email</button>--%>
+                            <%--  <a href="javascript:void(0);" class="mt5 ml20 txt-deco-under fs11 c666" onclick="ShowLogin()">
+                        Log In</a>--%>
+                        </div>
+                        <div id="divfpimg" class="pop-form-row pb10 full-width clr-fff btn-common2 sign-btn"
+                            align="center" style="display: none; width: 5px; min-width: 82px; height: 21px;">
+                            <img src="<%=strloginImagepath %>images/radimg1.gif" class="trans" alt="loading"
+                                border="0" />
+                        </div>
+                    </div>
+                    <div class="clear">
+                    </div>
+                </div>
+            </asp:Panel>
+            <asp:Panel runat="server" DefaultButton="btnCreateAccount">
+                <div class="sign-up-box bg-fff c666" id="divSignUp" style="display:none;">
+                    <a href="javascript:void(0);" class="close-pop-box common-sprite fr" onclick="closePops()"></a>
+                    <div class="d-none loader-img">
+                    </div>
+                    <div class="fadeInBox">
+                        <div class="signup-box-head pb10">
+                            <span class="fr fs11 mt5"><span>Already registered?</span> <a href="javascript:void(0);"
+                                class="ml10 c666 txt-deco-under" onclick="ShowLogin()">Log In</a></span>
+                            <h2 class="headh2">Sign Up</h2>
+                        </div>
+                        <div class="f-error-msg m5 clr-fff fs10 txt-center" id="signUp-error" style="visibility: hidden;">
+                            Please enter your first name
+                        </div>
+                        <div class="pop-form-row pb10 full-width" id="divcompanyname" runat="server">
+                            <label for="txtcompanyname">
+                                Conpany</label>
+                            <input type="text" autocomplete="off" autocorrect="off" placeholder="Company Name"
+                                name="company_name" class="txtbx txtbx-wid" id="txtcompanyname">
+                        </div>
+                        <div class="pop-form-row pb10 full-width">
+                            <label for="txtuname">
+                                Name</label>
+                            <input type="text" autocorrect="off" autocomplete="off" placeholder="First Name"
+                                name="first_name" class="txtbx txtbx-wid1" id="txtuname">
+                            <input type="text" autocorrect="off" autocomplete="off" placeholder="Last Name" name="last_name"
+                                class="txtbx txtbx-wid1 lname" id="txtlname">
+                        </div>
+
+                          <div class="pop-form-row pb10 full-width">
+                            <label for="txtPhone">
+                                Phone</label>
+                            <input type="text" autocorrect="off" autocomplete="off" placeholder="Phone No"
+                                name="txtPhoneNo" class="txtbx txtbx-wid1" id="txtPhoneNo">
+                            <input type="text" autocorrect="off" autocomplete="off" placeholder="Mobile Phone" name="Mobile_Phone"
+                                class="txtbx txtbx-wid1 lname" id="txtMobile_Phone">
+                        </div>
+
+                        <div class="pop-form-row pb10 full-width">
+                            <label for="txtsignupEmail">
+                                Email</label>
+                            <input type="email" autocorrect="off" autocomplete="off" autocapitalize="off" name="signup_email"
+                                class="txtbx txtbx-wid txt-error" id="txtsignupEmail" placeholder="example@example.com">
+                        </div>
+                        <div class="pop-form-row pb10 full-width">
+                            <label for="txtupass">
+                                <%=objLanguage.GetLanguageConversion("Password")%></label>
+                            <input type="password" placeholder="Enter Password" name="password" class="txtbx txtbx-wid1"
+                                id="txtupass">
+                            <input type="password" placeholder="Confirm Password" name="confirm_password" class="txtbx txtbx-wid1 lname"
+                                id="txtcpass">
+                        </div>
+
+                                                <%-- <div class="pop-form-row pb10 full-width">
+                            <label for="signIn-pass">
+                                Captcha</label>
+
+                            <input type="text" id="txtcaptcha" name="txtcaptcha" class="txtbx txtbx-wid7"
+                                placeholder="Captcha"/>   
+
+                              <asp:Button runat="server" class="clr-fff btn-common2 txtbx-wid7" CausesValidation="false" ID="Button1" OnClientClick="return Captcha()"
+                                Text="Refresh" />  
+                           
+                        </div>--%>
+
+                     
+<%--                         <div class="pop-form-row pb10 full-width">
+                            <label for="signIn-pass">
+                                &nbsp; </label>
+
+                            <input type="text" id="txtcaptchaInput" name="txtcaptchaInput" class="txtbx txtbx-wid7"
+                                placeholder="Enter Captcha"/>   
+
+                           
+                            
+                           
+                        </div>--%>
+
+                        <div id="divsubscribe" runat="server" class="pop-form-row pb10 full-width ml30">
+                            <asp:CheckBox ID="chkAddEmilDmc" runat="server" Checked="true" />
+                            <asp:Label ID="Label1" runat="server" CssClass="labelsub">
+                       <%=objLanguage.GetLanguageConversion("Add_Email_to_EDM_Database")%></asp:Label>
+                        </div>
+                        <div class="pop-form-row pb10 full-width" id="divsu">
+                            <%-- <button type="submit" class="clr-fff btn-common2 sign-btn" id="Button2"  OnClientClick="return validateForgotPassword()" OnClick="btnSendEmail_Click">
+                        Sign Up</button> OnClick="btnSendEmail_Click"--%>
+                            <asp:Button runat="server" class="clr-fff btn-common2 sign-btn btn-primary" ID="btnCreateAccount"
+                                OnClientClick="return validateaccount()" Text="Sign Up" />
+                        </div>
+                        <div id="divsuimg" class="pop-form-row pb10 full-width clr-fff btn-common2 sign-btn"
+                            align="center" style="display: none; width: 5px; min-width: 82px; height: 21px;">
+                            Sign Up
+                        <%--<img src="<%=strloginImagepath %>images/radimg1.gif" class="trans" alt="loading"
+                            border="0" />--%>
+                        </div>
+                    </div>
+                    <div class="clear">
+                    </div>
+                </div>
+            </asp:Panel>
+        </div>
+        <div id="divagentcode" style="display: none">
+            <div id="agentcodeoverlay" class="web_dialog_overlay_login">
+            </div>
+            <asp:Panel runat="server" DefaultButton="btnSubmit">
+                <div class="agent-up-box bg-fff c666" id="agentdialog" style="margin-left: -189px; margin-top: -158px;">
+                    <a href="javascript:void(0);" class="agentclose-pop-box common-sprite fr" onclick="closeagentcode()"></a>
+                    <div class="fadeInBox">
+                        <div class="agent-box-head pb10">
+                            <h2 class="headh2">Agent Code</h2>
+                        </div>
+                        <div class="f-error-msg m5 clr-fff fs10 txt-center" id="agent-error" style="visibility: hidden;">
+                            Please enter agent code
+                        </div>
+                        <div class="pop-form-row pb10 full-width">
+                            <label for="agent_code">
+                                Agent Code</label>
+                            <input type="text" autocorrect="off" autocomplete="off" autocapitalize="off" name="agent_code"
+                                class="txtvalidagentcode" id="agentcode" />
+                        </div>
+                        <div class="pop-form-row pb10 full-width" id="divag">
+                            <asp:Button runat="server" class="clr-fff btn-common2 sign-btn" ID="btnSubmit" OnClientClick="return CreateCookieforagentCode()"
+                                Text="Submit" />
+                            <asp:Button ID="btnagentsubmit" runat="server" Style="display: none;" OnClick="btnagentsubmit_Click" />
+                        </div>
+                        <div id="divagimg" class="pop-form-row pb10 full-width clr-fff btn-common2 sign-btn"
+                            align="center" style="display: none; width: 5px; min-width: 82px; height: 21px;">
+                            <img src="<%=strloginImagepath %>images/radimg1.gif" class="trans" alt="loading"
+                                border="0" />
+                        </div>
+                    </div>
+                </div>
+            </asp:Panel>
+        </div>
+        <asp:HiddenField ID="hdnIsfromPage" runat="server" />
+        <asp:HiddenField ID="hdnloginproductID" runat="server" />
+        <asp:HiddenField ID="hdnloginproductname" runat="server" />
+        <div class="clearBoth">
+        </div>
+        <div id="contentPlaceHolder">
+            <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+            </asp:ContentPlaceHolder>
+        </div>
+        <div class="clearBoth">
+        </div>
+        <div id="footer_content">
+            <%----------- Footer Area div -------------%>
+            <div class="footer_div">
+                <asp:PlaceHolder ID="ph_footer" runat="server"></asp:PlaceHolder>
+            </div>
+            <div class="clearBoth">
+            </div>
+            <div class="footer_div">
+                <div id="footer_LogoTypeDiv">
+                    <asp:Label ID="lbl_copyWriter" runat="server" Visible="false"></asp:Label>
+                    <asp:PlaceHolder ID="ph_copyWriter" runat="server"></asp:PlaceHolder>
+                </div>
+            </div>
+        </div>
+
+    </form>
+
+    <div class="displayImage">
+        <!-- Place at bottom of page -->
+    </div>
+
+    <script type="text/javascript" language="javascript">
+
+        $body = $("body");
+       
+
+        var StoreUserID = '<%=StoreUserID %>';
+        var Rewritemodule = '<%=Rewritemodule %>';
+        var KeySeparator = '<%=KeySeparator %>';
+        var FileExtension = '<%=FileExtension %>';
+        var strSitepath = '<%=strSitePath %>';
+
+        var txt_search = document.getElementById("<%=txt_search.ClientID %>");
+        var txt_search_ppw = document.getElementById("<%=txt_search_ppw.ClientID %>"); //for ppw
+        var divSearchBox = document.getElementById("divSearchBox");
+        var divSearchBox_ppw = document.getElementById("divSearchBox_ppw"); //for ppw
+
+        $(document).on({
+            ajaxStart: function () { $body.addClass("loading"); },
+            ajaxStop: function () { $body.removeClass("loading"); }
+        });
+
+        function defaultText() {
+            //txt_search.className = "txtWidthSearch";
+            //txt_search_ppw.className = "txtWidthSearch"; //for ppw
+            //divSearchBox.className = "divSearchBox";
+            //divSearchBox_ppw.className = "divSearchBox"; //for ppw
+            if (txt_search.value == "")
+                txt_search.value = "Search";
+            if (txt_search_ppw.value == "")//for ppw
+                txt_search_ppw.value = "Search";
+        }
+
+        function vaidate_Search() {
+            txt_search_ppw.value = ""; //for ppw
+            txt_search.value = "";
+            //txt_search_ppw.className = "txtWidthSearchColor"; //for ppw
+            //txt_search.className = "txtWidthSearchColor";
+            //divSearchBox_ppw.className = "divSearchBoxColor"; //for ppw
+            //divSearchBox.className = "divSearchBoxColor";
+        }
+
+        function vaidate_SearchImg() {
+
+            if (txt_search.value == "" || txt_search.value == "Search") {
+                alert("Please enter search text");
+                return false;
+            }
+            else {
+                return true;
+            }
+        }
+
+        function validate_SearchImg_ppw() {
+            if (txt_search_ppw.value == "" || txt_search_ppw.value == "Search") {
+                alert("Please enter search text");
+                return false;
+            } else {
+                return true;
+            }
+        }
+
+        function Onclick_Search() {
+
+            var search = true;
+
+            search = vaidate_SearchImg();
+
+            if (search) {
+
+                if (txt_search.value != "") {
+                    var str = txt_search.value;
+                }
+
+                var newSearchStr = str; //.replace(/[^a-z0-9\s]/gi, '').replace(/[_\s]/g, ' ');(commented on request of reopened bugid - 2203 only in b2c)
+                document.cookie = "spcookie=" + newSearchStr;
+
+                if (Rewritemodule.toLowerCase() == 'on') {
+                    window.location = "<%=strSitePath %>" + "products/searchproducts" + KeySeparator + newSearchStr + FileExtension;
+                }
+                else {
+                    window.location = "<%=strSitePath%>" + "products/searchproducts.aspx?sp=" + newSearchStr;
+                }
+            }
+            else
+                return false;
+        }
+
+        function Onclick_Search_ppw() {
+
+            var search = true;
+
+            search = validate_SearchImg_ppw();
+
+            if (search) {
+
+
+
+                if (txt_search_ppw.value != "") {
+                    var str = txt_search_ppw.value;
+                }
+
+                var newSearchStr = str.replace(/[^a-z0-9\s]/gi, '').replace(/[_\s]/g, '-');
+                document.cookie = "spcookie=" + newSearchStr;
+
+                if (Rewritemodule.toLowerCase() == 'on') {
+                    window.location = "<%=strSitePath %>" + "products/searchproducts" + KeySeparator + newSearchStr + FileExtension;
+                }
+                else {
+                    window.location = "<%=strSitePath%>" + "products/searchproducts.aspx?sp=" + newSearchStr;
+                }
+            }
+            else
+                return false;
+        }
+
+
+        function Onclick_Productnew() {
+            debugger;
+            if (Rewritemodule.toLowerCase() == 'on') {
+                window.location = "<%=strSitePath %>" + "products" + KeySeparator + 0 + FileExtension;
+            }
+            else {
+                window.location = "<%=strSitePath%>" + "products/product.aspx?ID=0";
+            }
+        }
+
+        function Onclick_Sitemap() {
+
+            debugger;
+            if (Rewritemodule.toLowerCase() == 'on') {
+                window.location = "<%=strSitePath%>" + "sitemap.aspx";
+            }
+            else {
+                window.location = "<%=strSitePath%>" + "sitemap.aspx";
+            }
+        }
+
+        function OpenMyAccount(val) {
+            debugger;
+            if (Rewritemodule.toLowerCase() == 'on') {
+               if (val == 'cart')
+                    window.location = "<%=strSitePath %>" + "shoppingcart" + KeySeparator + 0 + KeySeparator + 0 + FileExtension;
+                else if (val == 'order')
+                    window.location = "<%=strSitePath %>" + "account/myorder" + FileExtension;
+                else if (val == 'checkout')
+                    window.location = "<%=strSitePath %>" + "checkoutnew" + FileExtension;
+                else if (val == 'account')
+                    window.location = "<%=strSitePath %>" + "account/account" + FileExtension;
+            }
+            else {
+                if (val == 'cart')
+                    window.location = "<%=strSitePath%>" + "shoppingcart.aspx?ID=0&amp;PID=0";
+                else if (val == 'order')
+                    window.location = "<%=strSitePath%>" + "account/myorder.aspx";
+                else if (val == 'checkout')
+                    window.location = "<%=strSitePath%>" + "checkoutnew.aspx";
+                else if (val == 'account')
+                    window.location = "<%=strSitePath%>" + "account/account.aspx";
+            }
+        }
+
+        function capturekey(e) {
+
+            var evt = e ? e : window.event;
+            var bt = document.getElementById("<%=img_search.ClientID %>");
+
+            if (bt) {
+                if (evt.keyCode == 13) {
+                    Onclick_Search();
+                    return false;
+                }
+            }
+        }
+
+        function capturekey_ppw(e) {
+
+            var evt = e ? e : window.event;
+
+            var bt = document.getElementById("<%=img_search_ppw.ClientID %>");
+            if (bt) {
+                if (evt.keyCode == 13) {
+                    Onclick_Search_ppw();
+                    return false;
+                }
+            }
+        }
+        // LogOut to Default.
+        function RedirectTo_Default() {
+            if (Rewritemodule.toLowerCase() == 'on') {
+                window.location = "<%=strSitePath %>" + "default" + KeySeparator + "logout" + FileExtension + "";
+            }
+            else {
+                window.location = "<%=strSitePath%>" + "default.aspx?frm=logout";
+            }
+        }
+
+
+        function JobNameUpdate_InLogin() {
+
+            for (var i = 0; i < hid_ItemsLength.value; i++) {
+                lbl_CatrItemId = document.getElementById("ctl00_ContentPlaceHolder1_lbl_CatrItemId_" + i + "");
+                txt_jobName = document.getElementById("ctl00_ContentPlaceHolder1_txt_jobName_" + i + "");
+                hid_finalSave.value = hid_finalSave.value + "CartItemID±" + lbl_CatrItemId.innerHTML + "»JobName±" + txt_jobName.value + "µ";
+
+                hid_SaveToAdditionalItems.value = document.getElementById("ctl00_ContentPlaceHolder1_hid_SaveToAdditionalItems").value;
+
+                AutoFill.Update_CartItems(hid_finalSave.value, hid_SaveToAdditionalItems.value, RedirctToLogin());
+            }
+        }
+        $("#txtcaptcha").prop('disabled', true); 
+         Captcha ();
+ function Captcha  () {
+            var alpha = new Array('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z');
+            var i;
+            var code = "";
+            for (i = 0; i < 6; i++) {
+                code = code + alpha[Math.floor(Math.random() * alpha.length)] + " ";
+            }
+            //    var code = a + ' ' + b + ' ' + ' ' + c + ' ' + d + ' ' + e + ' ' + f + ' ' + g;
+          //  document.getElementById("txtcaptcha").value = code;
+            return false;
+        };
+
+
+
+    </script>
+
+</body>
+</html>
+
+<%--<script type="text/javascript">
+    SendRequest();
+    function SendRequest() {
+        debugger;
+        var message = ePrint.PublicStores.AutoFill.CalculateFormulaCost(1,1,message, onTimeout, onError);
+    }
+    function message(result) {
+        debugger;
+    }
+    function onTimeout(request, context) { }
+    function onError(er) {
+        debugger;
+    }
+</script>--%>

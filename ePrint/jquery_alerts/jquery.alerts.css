@@ -1,0 +1,188 @@
+#popup_container
+{
+    font-family: Lucida Sans Unicode,Arial,Helvetica,sans-serif;
+    font-size: 13px;
+    min-width: 300px; /* Dialog will be no smaller than this */
+    max-width: 600px; /* Dialog will wrap after this width */
+    background: #FFF;
+    border: solid 5px #999;
+    color: #000;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;    
+}
+
+#popup_title
+{
+    font-family: Lucida Sans Unicode,Arial,Helvetica,sans-serif;
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+    line-height: 1.75em;
+    color: #666;
+    background: #CCC url(images/title.gif) top repeat-x;
+    border: solid 1px #FFF;
+    border-bottom: solid 1px #999;
+    cursor: default;
+    padding: 0em;
+    margin: 0em;
+}
+
+#popup_content
+{
+    background: 16px 16px no-repeat url(images/info.gif);
+    padding: 1em 1.75em;
+    margin: 0em;
+}
+
+#popup_content.alert
+{
+    background-image: url(images/info.gif);
+}
+
+#popup_content.confirm
+{
+    background-image: url(images/important.gif);
+}
+
+#popup_content.prompt
+{
+    background-image: url(images/help.gif);
+}
+
+#popup_message
+{
+    padding-left: 48px;
+}
+
+#popup_panel
+{
+    text-align: center;
+    margin: 1em 0em 0em 1em;
+}
+
+#popup_prompt
+{
+    margin: .5em 0em;
+}
+
+.btnOk
+{
+    background-color: #FCFCFC;
+    background: -webkit-linear-gradient(#FCFCFC,#DBDBDB);
+    background: -moz-linear-gradient(#FCFCFC,#DBDBDB);
+    background: -o-linear-gradient(#FCFCFC,#DBDBDB);
+    background: -ms-linear-gradient(#FCFCFC,#DBDBDB);
+    background: linear-gradient(#FCFCFC,#DBDBDB);
+    height: 25px;
+    border: 0px;
+    padding: 0px 10px 1px 10px;
+    text-align: center;
+    font-size: 13px;
+    border: 1px solid #A0A0A0;
+    border-radius: 3px 3px 3px 3px;
+    color: Black;
+    cursor: pointer;    
+    font-family:Lucida Sans Unicode,Arial,Helvetica,sans-serif;
+}
+
+.btnOk:hover
+{
+    background: #D2554F;
+    background: -webkit-linear-gradient(#D2554F,#B4342E);
+    background: -moz-linear-gradient(#D2554F,#B4342E);
+    background: -o-linear-gradient(#D2554F,#B4342E);
+    background: -ms-linear-gradient(#D2554F,#B4342E);
+    background: linear-gradient(#D2554F,#B4342E);
+     height: 25px;
+    border: 0px;
+    padding: 0px 10px 1px 10px;
+    text-align: center;
+    font-size: 13px;
+    border: 1px solid transparent;
+    border-radius: 3px 3px 3px 3px;
+    color: White;
+    cursor: pointer;    
+    font-family:Lucida Sans Unicode,Arial,Helvetica,sans-serif;
+}
+
+.btnCancel
+{
+    background-color: #FCFCFC;
+    background: -webkit-linear-gradient(#FCFCFC,#DBDBDB);
+    background: -moz-linear-gradient(#FCFCFC,#DBDBDB);
+    background: -o-linear-gradient(#FCFCFC,#DBDBDB);
+    background: -ms-linear-gradient(#FCFCFC,#DBDBDB);
+    background: linear-gradient(#FCFCFC,#DBDBDB);
+    height: 25px;
+    border: 0px;
+    padding: 0px 10px 1px 10px;
+    text-align: center;
+    font-size: 13px;
+    border: 1px solid #A0A0A0;
+    border-radius: 3px 3px 3px 3px;
+    color: Black;
+    cursor: pointer;
+    font-family:Lucida Sans Unicode,Arial,Helvetica,sans-serif;
+    margin-left:6px;
+}
+
+.btnCancel:hover
+{
+    background: #5092D3;
+    background: -webkit-linear-gradient(#5092D3,#3179C1);
+    background: -moz-linear-gradient(#5092D3,#3179C1);
+    background: -o-linear-gradient(#5092D3,#3179C1);
+    background: -ms-linear-gradient(#5092D3,#3179C1);
+    background: linear-gradient(#5092D3,#3179C1);
+   height: 25px;
+    border: 0px;
+    padding: 0px 10px 1px 10px;
+    text-align: center;
+    font-size: 13px;
+    border: 1px solid transparent;
+    border-radius: 3px 3px 3px 3px;
+    color: White;
+    cursor: pointer;
+    font-family:Lucida Sans Unicode,Arial,Helvetica,sans-serif;
+    margin-left:6px;
+}
+
+.btnAlert
+{
+    background-color: #FCFCFC;
+    background: -webkit-linear-gradient(#FCFCFC,#DBDBDB);
+    background: -moz-linear-gradient(#FCFCFC,#DBDBDB);
+    background: -o-linear-gradient(#FCFCFC,#DBDBDB);
+    background: -ms-linear-gradient(#FCFCFC,#DBDBDB);
+    background: linear-gradient(#FCFCFC,#DBDBDB);
+    height: 25px;
+    border: 0px;
+    padding: 0px 10px 1px 10px;
+    text-align: center;
+    font-size: 13px;
+    border: 1px solid #A0A0A0;
+    border-radius: 3px 3px 3px 3px;
+    color: Black;
+    cursor: pointer;
+    font-family:Lucida Sans Unicode,Arial,Helvetica,sans-serif;
+}
+
+.btnAlert:hover
+{
+    background: #5092D3;
+    background: -webkit-linear-gradient(#5092D3,#3179C1);
+    background: -moz-linear-gradient(#5092D3,#3179C1);
+    background: -o-linear-gradient(#5092D3,#3179C1);
+    background: -ms-linear-gradient(#5092D3,#3179C1);
+    background: linear-gradient(#5092D3,#3179C1);
+    height: 25px;
+    border: 0px;
+    padding: 0px 10px 1px 10px;
+    text-align: center;
+    font-size: 13px;
+    border: 0px solid #A0A0A0;
+    color: white;
+    cursor: pointer;
+    font-family:Lucida Sans Unicode,Arial,Helvetica,sans-serif;
+}

@@ -1,0 +1,20 @@
+﻿img.ProductsImgBorder{
+border:none;
+}
+
+#center_div .productDetails_div {
+height:330px;
+}
+
+.price_table_content_left_B2B {
+    text-align: left;
+    display: none;
+}
+
+#price_table_header{
+display:none;
+}
+
+#lblMultiplePrice_0{
+display:none;
+}

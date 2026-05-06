@@ -1,0 +1,813 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Please Note: System generated User Role cant be edited or deleted" xml:space="preserve">
+    <value>Please Note: System generated User Role cant be edited or deleted</value>
+  </data>
+  <data name="Please select PDF to upload" xml:space="preserve">
+    <value>Please select PDF to upload</value>
+  </data>
+  <data name="Hourly Rate" xml:space="preserve">
+    <value>Hourly Rate</value>
+  </data>
+  <data name="Please Note" xml:space="preserve">
+    <value>Please Note</value>
+  </data>
+  <data name="Please enter Prompt" xml:space="preserve">
+    <value>Please enter Prompt</value>
+  </data>
+  <data name="Please enter Profit" xml:space="preserve">
+    <value>Please enter Profit</value>
+  </data>
+  <data name="Please select Category" xml:space="preserve">
+    <value>Please select Category</value>
+  </data>
+  <data name="System Markup" xml:space="preserve">
+    <value>System Markup</value>
+  </data>
+  <data name="Open the Suppliers Inventory CSV file" xml:space="preserve">
+    <value>Open the Suppliers Inventory CSV file</value>
+  </data>
+  <data name="Confirm Password" xml:space="preserve">
+    <value>Confirm Password</value>
+  </data>
+  <data name="Inventory Items" xml:space="preserve">
+    <value>Inventory Items</value>
+  </data>
+  <data name="Action" xml:space="preserve">
+    <value>Action</value>
+  </data>
+  <data name="PDF Title" xml:space="preserve">
+    <value>PDF Title</value>
+  </data>
+  <data name="Please upload only image file" xml:space="preserve">
+    <value>Please upload only image file</value>
+  </data>
+  <data name="Supplier" xml:space="preserve">
+    <value>Supplier</value>
+  </data>
+  <data name="Jobs value should not be blank" xml:space="preserve">
+    <value>Jobs value should not be blank</value>
+  </data>
+  <data name="Add New Inventory" xml:space="preserve">
+    <value>Add New Inventory</value>
+  </data>
+  <data name="Delivery value should not be blank" xml:space="preserve">
+    <value>Delivery value should not be blank</value>
+  </data>
+  <data name="Please enter Paper Markup" xml:space="preserve">
+    <value>Please enter Paper Markup</value>
+  </data>
+  <data name="Accounting Code" xml:space="preserve">
+    <value>Accounting Code</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="Markup" xml:space="preserve">
+    <value>Markup</value>
+  </data>
+  <data name="Category Name already exists" xml:space="preserve">
+    <value>Category Name already exists</value>
+  </data>
+  <data name="Item Custom Size" xml:space="preserve">
+    <value>Item Custom Size</value>
+  </data>
+  <data name="Job Card Settings" xml:space="preserve">
+    <value>Job Card Settings</value>
+  </data>
+  <data name="Pre Press" xml:space="preserve">
+    <value>Pre Press</value>
+  </data>
+  <data name="Colour" xml:space="preserve">
+    <value>Colour</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="Enter numeric value" xml:space="preserve">
+    <value>Enter numeric value</value>
+  </data>
+  <data name="Custom" xml:space="preserve">
+    <value>Custom</value>
+  </data>
+  <data name="Import Process Steps:" xml:space="preserve">
+    <value>Import Process Steps:</value>
+  </data>
+  <data name="File_exstensions_allowed_gif_png_jpg_jpeg_tiff_tif_bmp" xml:space="preserve">
+    <value>File exstensions allowed: .gif, .png, .jpg, .jpeg, .tiff, .tif, .bmp</value>
+  </data>
+  <data name="Import" xml:space="preserve">
+    <value>Import</value>
+  </data>
+  <data name="Please select this box if you want eprint to price paper in estimates based on a whole pack by default" xml:space="preserve">
+    <value>Please select this box if you want eprint to price paper in estimates based on a whole pack by default</value>
+  </data>
+  <data name="Restore Default" xml:space="preserve">
+    <value>Restore Default</value>
+  </data>
+  <data name="Cost Matrix" xml:space="preserve">
+    <value>Cost Matrix</value>
+  </data>
+  <data name="should be in the same order as the sample file" xml:space="preserve">
+    <value>should be in the same order as the sample file</value>
+  </data>
+  <data name="Default Profit Margin" xml:space="preserve">
+    <value>Default Profit Margin</value>
+  </data>
+  <data name="No record(s) found" xml:space="preserve">
+    <value>No record(s) found</value>
+  </data>
+  <data name="Select the data(s) below you wish to import from" xml:space="preserve">
+    <value>Select the data(s) below you wish to import from</value>
+  </data>
+  <data name="Please select Calculation" xml:space="preserve">
+    <value>Please select Calculation</value>
+  </data>
+  <data name="Save &amp; Lock" xml:space="preserve">
+    <value>Save &amp; Lock</value>
+  </data>
+  <data name="given by" xml:space="preserve">
+    <value>given by</value>
+  </data>
+  <data name="Per Hour" xml:space="preserve">
+    <value>Per Hour</value>
+  </data>
+  <data name="Update" xml:space="preserve">
+    <value>Update</value>
+  </data>
+  <data name="Per Hour Cost" xml:space="preserve">
+    <value>Per Hour Cost</value>
+  </data>
+  <data name="Please select file name for import" xml:space="preserve">
+    <value>Please select file name for import</value>
+  </data>
+  <data name="Line Spacing" xml:space="preserve">
+    <value>Line Spacing</value>
+  </data>
+  <data name="Send all emails via your preferred local email client [Outlook, Lotus...]" xml:space="preserve">
+    <value>Send all emails via your preferred local email client [Outlook, Lotus...]</value>
+  </data>
+  <data name="Templates attached to the emails will appear as a web link within the body of the email" xml:space="preserve">
+    <value>Templates attached to the emails will appear as a web link within the body of the email</value>
+  </data>
+  <data name="Enter value" xml:space="preserve">
+    <value>Enter value</value>
+  </data>
+  <data name="Weight" xml:space="preserve">
+    <value>Weight</value>
+  </data>
+  <data name="Name already exists" xml:space="preserve">
+    <value>Name already exists</value>
+  </data>
+  <data name="Decimals" xml:space="preserve">
+    <value>Decimals</value>
+  </data>
+  <data name="Please enter Per Hour Cost" xml:space="preserve">
+    <value>Please enter Per Hour Cost</value>
+  </data>
+  <data name="Role Name" xml:space="preserve">
+    <value>Role Name</value>
+  </data>
+  <data name="Total Records:" xml:space="preserve">
+    <value>Total Records:</value>
+  </data>
+  <data name="Please enter Role Name" xml:space="preserve">
+    <value>Please enter Role Name</value>
+  </data>
+  <data name="Remove" xml:space="preserve">
+    <value>Remove</value>
+  </data>
+  <data name="Changes made to the job card settings will only apply to job cards created after the change to the settings" xml:space="preserve">
+    <value>Changes made to the job card settings will only apply to job cards created after the change to the settings</value>
+  </data>
+  <data name="Please Note System generated User Role cant be edited or deleted" xml:space="preserve">
+    <value>Please Note System generated User Role cant be edited or deleted</value>
+  </data>
+  <data name="This prevents the start of an item description appearing on onepage and the rest of the item description appearing on the next page" xml:space="preserve">
+    <value>This prevents the start of an item description appearing on onepage and the rest of the item description appearing on the next page</value>
+  </data>
+  <data name="Add new record" xml:space="preserve">
+    <value>Add new record</value>
+  </data>
+  <data name="Plates" xml:space="preserve">
+    <value>Plates</value>
+  </data>
+  <data name="Please enter Outwork Markup" xml:space="preserve">
+    <value>Please enter Outwork Markup</value>
+  </data>
+  <data name="This is the default super admin access to the system and hence cannot be changed" xml:space="preserve">
+    <value>This is the default super admin access to the system and hence cannot be changed</value>
+  </data>
+  <data name="Purchases" xml:space="preserve">
+    <value>Purchases</value>
+  </data>
+  <data name="Round off Numbers to" xml:space="preserve">
+    <value>Round off Numbers to</value>
+  </data>
+  <data name="Please enter Other Costs Markup" xml:space="preserve">
+    <value>Please enter Other Costs Markup</value>
+  </data>
+  <data name="Category" xml:space="preserve">
+    <value>Category</value>
+  </data>
+  <data name="Filter the list below based on your keyword match" xml:space="preserve">
+    <value>Filter the list below based on your keyword match</value>
+  </data>
+  <data name="Select the Stock Category and Sub Category" xml:space="preserve">
+    <value>Select the Stock Category and Sub Category</value>
+  </data>
+  <data name="Please enter Fixed Hours" xml:space="preserve">
+    <value>Please enter Fixed Hours</value>
+  </data>
+  <data name="Delivery" xml:space="preserve">
+    <value>Delivery</value>
+  </data>
+  <data name="Price For Whole Pack" xml:space="preserve">
+    <value>Price For Whole Pack</value>
+  </data>
+  <data name="Add More Label" xml:space="preserve">
+    <value>Add More Label</value>
+  </data>
+  <data name="Please enter Email" xml:space="preserve">
+    <value>Please enter Email</value>
+  </data>
+  <data name="Section Name" xml:space="preserve">
+    <value>Section Name</value>
+  </data>
+  <data name="Please enter Title" xml:space="preserve">
+    <value>Please enter Title</value>
+  </data>
+  <data name="Calculation Type" xml:space="preserve">
+    <value>Calculation Type</value>
+  </data>
+  <data name="Calculation Used" xml:space="preserve">
+    <value>Calculation Used</value>
+  </data>
+  <data name="Change PDF" xml:space="preserve">
+    <value>Change PDF</value>
+  </data>
+  <data name="Select Excel File to Import" xml:space="preserve">
+    <value>Select Excel File to Import</value>
+  </data>
+  <data name="Please Enter the Formula" xml:space="preserve">
+    <value>Please Enter the Formula</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="Selection E" xml:space="preserve">
+    <value>Selection E</value>
+  </data>
+  <data name="Selection D" xml:space="preserve">
+    <value>Selection D</value>
+  </data>
+  <data name="Selection F" xml:space="preserve">
+    <value>Selection F</value>
+  </data>
+  <data name="Selection A" xml:space="preserve">
+    <value>Selection A</value>
+  </data>
+  <data name="Selection C" xml:space="preserve">
+    <value>Selection C</value>
+  </data>
+  <data name="Selection B" xml:space="preserve">
+    <value>Selection B</value>
+  </data>
+  <data name="Clear all Filters" xml:space="preserve">
+    <value>Clear all Filters</value>
+  </data>
+  <data name="Invoices value should not be blank" xml:space="preserve">
+    <value>Invoices value should not be blank</value>
+  </data>
+  <data name="Time Based Type" xml:space="preserve">
+    <value>Time Based Type</value>
+  </data>
+  <data name="Please enter Name" xml:space="preserve">
+    <value>Please enter Name</value>
+  </data>
+  <data name="Please enter Time" xml:space="preserve">
+    <value>Please enter Time</value>
+  </data>
+  <data name="Generated Type" xml:space="preserve">
+    <value>Generated Type</value>
+  </data>
+  <data name="Coating Type" xml:space="preserve">
+    <value>Coating Type</value>
+  </data>
+  <data name="Item Title" xml:space="preserve">
+    <value>Item Title</value>
+  </data>
+  <data name="Item Paper Size" xml:space="preserve">
+    <value>Item Paper Size</value>
+  </data>
+  <data name="Please select Tax Code" xml:space="preserve">
+    <value>Please select Tax Code</value>
+  </data>
+  <data name="Hourly Run Speed" xml:space="preserve">
+    <value>Hourly Run Speed</value>
+  </data>
+  <data name="Please enter Password" xml:space="preserve">
+    <value>Please enter Password</value>
+  </data>
+  <data name="Please enter User Name" xml:space="preserve">
+    <value>Please enter User Name</value>
+  </data>
+  <data name="Please enter Confirm Password" xml:space="preserve">
+    <value>Please enter Confirm Password</value>
+  </data>
+  <data name="Max Size Limit" xml:space="preserve">
+    <value>Max Size Limit</value>
+  </data>
+  <data name="s" xml:space="preserve">
+    <value>s</value>
+  </data>
+  <data name="MB" xml:space="preserve">
+    <value>MB</value>
+  </data>
+  <data name="Invoices" xml:space="preserve">
+    <value>Invoices</value>
+  </data>
+  <data name="Other Cost Categories" xml:space="preserve">
+    <value>Other Cost Categories</value>
+  </data>
+  <data name="found" xml:space="preserve">
+    <value>found</value>
+  </data>
+  <data name="Show All" xml:space="preserve">
+    <value>Show All</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="From Email Name" xml:space="preserve">
+    <value>From Email Name</value>
+  </data>
+  <data name="Films" xml:space="preserve">
+    <value>Films</value>
+  </data>
+  <data name="Import Options from Inventory" xml:space="preserve">
+    <value>Import Options from Inventory</value>
+  </data>
+  <data name="Clear" xml:space="preserve">
+    <value>Clear</value>
+  </data>
+  <data name="Image" xml:space="preserve">
+    <value>Image</value>
+  </data>
+  <data name="Title" xml:space="preserve">
+    <value>Title</value>
+  </data>
+  <data name="Paper" xml:space="preserve">
+    <value>Paper</value>
+  </data>
+  <data name="Please select Variable Qty" xml:space="preserve">
+    <value>Please select Variable Qty</value>
+  </data>
+  <data name="Inventory Categories" xml:space="preserve">
+    <value>Inventory Categories</value>
+  </data>
+  <data name="Default Values to recommend" xml:space="preserve">
+    <value>Default Values to recommend</value>
+  </data>
+  <data name="Please enter Unit Cost" xml:space="preserve">
+    <value>Please enter Unit Cost</value>
+  </data>
+  <data name="Add New" xml:space="preserve">
+    <value>Add New</value>
+  </data>
+  <data name="Hide the markup profit margin of Gross profit fields from the user" xml:space="preserve">
+    <value>Hide the markup profit margin of Gross profit fields from the user</value>
+  </data>
+  <data name="Check the inputs you have given &amp; then click on the submit button" xml:space="preserve">
+    <value>Check the inputs you have given &amp; then click on the submit button</value>
+  </data>
+  <data name="Quantity" xml:space="preserve">
+    <value>Quantity</value>
+  </data>
+  <data name="WebStore Other Cost" xml:space="preserve">
+    <value>WebStore Other Cost</value>
+  </data>
+  <data name="Ready For Use" xml:space="preserve">
+    <value>Ready For Use</value>
+  </data>
+  <data name="Purchases value should not be blank" xml:space="preserve">
+    <value>Purchases value should not be blank</value>
+  </data>
+  <data name="Please enter User friendly Name" xml:space="preserve">
+    <value>Please enter User friendly Name</value>
+  </data>
+  <data name="Please select Calculation Type" xml:space="preserve">
+    <value>Please select Calculation Type</value>
+  </data>
+  <data name="Please enter Layout Name" xml:space="preserve">
+    <value>Please enter Layout Name</value>
+  </data>
+  <data name="DOWNLOAD SAMPLE FILE" xml:space="preserve">
+    <value>DOWNLOAD SAMPLE FILE</value>
+  </data>
+  <data name="Set as default Template" xml:space="preserve">
+    <value>Set as default Template</value>
+  </data>
+  <data name="Please enter Make Ready Time" xml:space="preserve">
+    <value>Please enter Make Ready Time</value>
+  </data>
+  <data name="WebStore Other Costs" xml:space="preserve">
+    <value>WebStore Other Costs</value>
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="Make Ready Time" xml:space="preserve">
+    <value>Make Ready Time</value>
+  </data>
+  <data name="Templates PDF" xml:space="preserve">
+    <value>Templates PDF</value>
+  </data>
+  <data name="Run Speed value cannot be less than 1" xml:space="preserve">
+    <value>Run Speed value cannot be less than 1</value>
+  </data>
+  <data name="Please enter numeric value" xml:space="preserve">
+    <value>Please enter numeric value</value>
+  </data>
+  <data name="Send all emails from eprint" xml:space="preserve">
+    <value>Send all emails from eprint</value>
+  </data>
+  <data name="Please enter Fixed Qty" xml:space="preserve">
+    <value>Please enter Fixed Qty</value>
+  </data>
+  <data name="Template Name" xml:space="preserve">
+    <value>Template Name</value>
+  </data>
+  <data name="Please select Markup" xml:space="preserve">
+    <value>Please select Markup</value>
+  </data>
+  <data name="Please specify where you would like this category to appear on the Job Card" xml:space="preserve">
+    <value>Please specify where you would like this category to appear on the Job Card</value>
+  </data>
+  <data name="Unit Price" xml:space="preserve">
+    <value>Unit Price</value>
+  </data>
+  <data name="criteria" xml:space="preserve">
+    <value>criteria</value>
+  </data>
+  <data name="No record" xml:space="preserve">
+    <value>No record</value>
+  </data>
+  <data name="Job Card Catagory" xml:space="preserve">
+    <value>Job Card Catagory</value>
+  </data>
+  <data name="Job Card Category" xml:space="preserve">
+    <value>Job Card Category</value>
+  </data>
+  <data name="Please enter Minimum" xml:space="preserve">
+    <value>Please enter Minimum</value>
+  </data>
+  <data name="Formula String" xml:space="preserve">
+    <value>Formula String</value>
+  </data>
+  <data name="Minimum Charge" xml:space="preserve">
+    <value>Minimum Charge</value>
+  </data>
+  <data name="Download the sample file &amp; input your data as per columns laid in the file" xml:space="preserve">
+    <value>Download the sample file &amp; input your data as per columns laid in the file</value>
+  </data>
+  <data name="Set this as starting value for the Estimates, Jobs, Purchases, Invoices and Delivery:" xml:space="preserve">
+    <value>Set this as starting value for the Estimates, Jobs, Purchases, Invoices and Delivery:</value>
+  </data>
+  <data name="Outwork" xml:space="preserve">
+    <value>Outwork</value>
+  </data>
+  <data name="Numbering System" xml:space="preserve">
+    <value>Numbering System</value>
+  </data>
+  <data name="If you are using external excel file, then All columns in the excel file" xml:space="preserve">
+    <value>If you are using external excel file, then All columns in the excel file</value>
+  </data>
+  <data name="User Email" xml:space="preserve">
+    <value>User Email</value>
+  </data>
+  <data name="Please enter integer value" xml:space="preserve">
+    <value>Please enter integer value</value>
+  </data>
+  <data name="Max. length of textbox is" xml:space="preserve">
+    <value>Max. length of textbox is</value>
+  </data>
+  <data name="Select PDF" xml:space="preserve">
+    <value>Select PDF</value>
+  </data>
+  <data name="Default Quantity to recommend" xml:space="preserve">
+    <value>Default Quantity to recommend</value>
+  </data>
+  <data name="Please upload only .pdf format files" xml:space="preserve">
+    <value>Please upload only .pdf format files</value>
+  </data>
+  <data name="Assign Role" xml:space="preserve">
+    <value>Assign Role</value>
+  </data>
+  <data name="Footer Space" xml:space="preserve">
+    <value>Footer Space</value>
+  </data>
+  <data name="Inventory Settings View" xml:space="preserve">
+    <value>Inventory Settings View</value>
+  </data>
+  <data name="Custom HTML" xml:space="preserve">
+    <value>Custom HTML</value>
+  </data>
+  <data name="Default Tax Code" xml:space="preserve">
+    <value>Default Tax Code</value>
+  </data>
+  <data name="Loading" xml:space="preserve">
+    <value>Loading</value>
+  </data>
+  <data name="Default Outwork Markup type" xml:space="preserve">
+    <value>Default Outwork Markup type</value>
+  </data>
+  <data name="Enter the Question" xml:space="preserve">
+    <value>Enter the Question</value>
+  </data>
+  <data name="User Role" xml:space="preserve">
+    <value>User Role</value>
+  </data>
+  <data name="User Name" xml:space="preserve">
+    <value>User Name</value>
+  </data>
+  <data name="Simple single question" xml:space="preserve">
+    <value>Simple single question</value>
+  </data>
+  <data name="Properties" xml:space="preserve">
+    <value>Properties</value>
+  </data>
+  <data name="PDF backgrounds in RGB format only are supported in the templates of eprint" xml:space="preserve">
+    <value>PDF backgrounds in RGB format only are supported in the templates of eprint</value>
+  </data>
+  <data name="Please enter Category Code" xml:space="preserve">
+    <value>Please enter Category Code</value>
+  </data>
+  <data name="Please enter Category Name" xml:space="preserve">
+    <value>Please enter Category Name</value>
+  </data>
+  <data name="Tabs available for this role:" xml:space="preserve">
+    <value>Tabs available for this role:</value>
+  </data>
+  <data name="Product Name already exists" xml:space="preserve">
+    <value>Product Name already exists</value>
+  </data>
+  <data name="Unit Cost" xml:space="preserve">
+    <value>Unit Cost</value>
+  </data>
+  <data name="Category Code" xml:space="preserve">
+    <value>Category Code</value>
+  </data>
+  <data name="Category Name" xml:space="preserve">
+    <value>Category Name</value>
+  </data>
+  <data name="Estimates value should not be blank" xml:space="preserve">
+    <value>Estimates value should not be blank</value>
+  </data>
+  <data name="fields are mandatory" xml:space="preserve">
+    <value>fields are mandatory</value>
+  </data>
+  <data name="Please enter Markup Rate" xml:space="preserve">
+    <value>Please enter Markup Rate</value>
+  </data>
+  <data name="Please enter Markup Name" xml:space="preserve">
+    <value>Please enter Markup Name</value>
+  </data>
+  <data name="Email Settings" xml:space="preserve">
+    <value>Email Settings</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="Please enter Hourly Rate" xml:space="preserve">
+    <value>Please enter Hourly Rate</value>
+  </data>
+  <data name="Markup Name" xml:space="preserve">
+    <value>Markup Name</value>
+  </data>
+  <data name="Please select Variable Hours" xml:space="preserve">
+    <value>Please select Variable Hours</value>
+  </data>
+  <data name="Other Costs" xml:space="preserve">
+    <value>Other Costs</value>
+  </data>
+  <data name="Please enter Inks Markup" xml:space="preserve">
+    <value>Please enter Inks Markup</value>
+  </data>
+  <data name="Please Enter the Question" xml:space="preserve">
+    <value>Please Enter the Question</value>
+  </data>
+  <data name="User Friendly Name" xml:space="preserve">
+    <value>User Friendly Name</value>
+  </data>
+  <data name="Please enter Inv. Items Markup" xml:space="preserve">
+    <value>Please enter Inv. Items Markup</value>
+  </data>
+  <data name="Helptext" xml:space="preserve">
+    <value>Helptext</value>
+  </data>
+  <data name="Store Supply Import" xml:space="preserve">
+    <value>Store Supply Import</value>
+  </data>
+  <data name="Please enter Other Cost Name" xml:space="preserve">
+    <value>Please enter Other Cost Name</value>
+  </data>
+  <data name="Existing jobs will still have the old settings apply to them" xml:space="preserve">
+    <value>Existing jobs will still have the old settings apply to them</value>
+  </data>
+  <data name="the supplier" xml:space="preserve">
+    <value>the supplier</value>
+  </data>
+  <data name="Time Per Unit (Mins)" xml:space="preserve">
+    <value>Time Per Unit (Mins)</value>
+  </data>
+  <data name="Special Privileges" xml:space="preserve">
+    <value>Special Privileges</value>
+  </data>
+  <data name="Other Cost Name already exists" xml:space="preserve">
+    <value>Other Cost Name already exists</value>
+  </data>
+  <data name="Privilege Rights" xml:space="preserve">
+    <value>Privilege Rights</value>
+  </data>
+  <data name="Estimates" xml:space="preserve">
+    <value>Estimates</value>
+  </data>
+  <data name="Edit Role" xml:space="preserve">
+    <value>Edit Role</value>
+  </data>
+  <data name="Estimate Valid for" xml:space="preserve">
+    <value>Estimate Valid for</value>
+  </data>
+  <data name="Formula" xml:space="preserve">
+    <value>Formula</value>
+  </data>
+  <data name="Default Settings" xml:space="preserve">
+    <value>Default Settings</value>
+  </data>
+  <data name="Set the starting value for Individuals:" xml:space="preserve">
+    <value>Set the starting value for Individuals:</value>
+  </data>
+  <data name="days" xml:space="preserve">
+    <value>days</value>
+  </data>
+  <data name="Auto" xml:space="preserve">
+    <value>Auto</value>
+  </data>
+  <data name="Mins" xml:space="preserve">
+    <value>Mins</value>
+  </data>
+  <data name="Back" xml:space="preserve">
+    <value>Back</value>
+  </data>
+  <data name="Inks" xml:space="preserve">
+    <value>Inks</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="Jobs" xml:space="preserve">
+    <value>Jobs</value>
+  </data>
+  <data name="Text" xml:space="preserve">
+    <value>Text</value>
+  </data>
+  <data name="Rate" xml:space="preserve">
+    <value>Rate</value>
+  </data>
+  <data name="Role" xml:space="preserve">
+    <value>Role</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="Select that file &amp; click on the import button" xml:space="preserve">
+    <value>Select that file &amp; click on the import button</value>
+  </data>
+  <data name="the CSV file and import" xml:space="preserve">
+    <value>the CSV file and import</value>
+  </data>
+  <data name="Default Estimate Type" xml:space="preserve">
+    <value>Default Estimate Type</value>
+  </data>
+  <data name="Please Enter value for atlest one Row" xml:space="preserve">
+    <value>Please Enter value for atlest one Row</value>
+  </data>
+</root>

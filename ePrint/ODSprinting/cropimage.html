@@ -1,0 +1,110 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+	<meta http-equiv="Content-Language" content="en-us" />
+	<title>Image Cropping</title>
+	<script src="lib/prototype.js" type="text/javascript"></script>	
+ 	<script src="lib/scriptaculous.js?load=builder,dragdrop" type="text/javascript"></script>
+	<script src="cropper.js" type="text/javascript"></script>
+	
+	
+	<script type="text/javascript" charset="utf-8">
+		
+		// setup the callback function
+		function onEndCrop( coords, dimensions ) {
+			$( 'x1' ).value = coords.x1;
+			$( 'y1' ).value = coords.y1;
+			$( 'x2' ).value = coords.x2;
+			$( 'y2' ).value = coords.y2;
+			$( 'width' ).value = dimensions.width;
+			$( 'height' ).value = dimensions.height;
+		}
+		
+		// basic example
+		Event.observe( 
+			window, 
+			'load', 
+			function() { 
+				new Cropper.Img( 
+					'testImage',
+					{
+						onEndCrop: onEndCrop 
+					}
+				) 
+			}
+		); 		
+		
+		
+		if( typeof(dump) != 'function' ) {
+			Debug.init(true, '/');
+			
+			function dump( msg ) {
+				//Debug.raise( msg );
+			};
+		} else dump( '---------------------------------------\n' );
+		
+		
+	</script>
+	<link rel="stylesheet" type="text/css" href="debug.css" media="all" />
+	<style type="text/css">
+		label { 
+			clear: left;
+			margin-left: 50px;
+			float: left;
+			width: 5em;
+		}
+		
+		html, body { 
+			margin: 0;
+		}
+		
+		#testWrap {
+			margin: 20px 0 0 50px; /* Just while testing, to make sure we return the correct positions for the image & not the window */
+		}
+	</style>
+</head>
+<body>
+<table align="center">
+<tr><td>
+Place your mouse pointer on the image and left click and then drag on the picture. Resize the picture using the scroll pointers at the end of the crop frame.
+</td></tr>
+<tr><td  align="center" valign="middle">
+<form name="cropimg" action="" method="post">
+	<div id="testWrap">
+		<img src="images/<?php echo $_REQUEST['img'] ?>" alt="test image" id="testImage"/>
+	</div>
+	
+	<p>
+		<input type="hidden" name="x1" id="x1" />
+	</p>
+	<p>
+		<input type="hidden" name="y1" id="y1" />
+	</p>
+	<p>
+		<input type="hidden" name="x2" id="x2" />
+	</p>
+	<p>
+		<input type="hidden" name="y2" id="y2" />
+	</p>
+	<p>
+		<input type="hidden" name="width" id="width" />
+	</p>
+	<p>
+		<input type="hidden" name="height" id="height" />
+	</p>  
+	<p>
+		<input type="button" value="crop" onclick="gonext()"/>
+	</p>  
+</form>	
+</td></tr></table>
+</body>
+</html>
+<script>
+function gonext()
+{
+var f = document.forms['cropimg'];
+f.action = "resize_image.php?imageFileName=<?php echo $_REQUEST['img'] ?>&imgid=<?php echo $_REQUEST['imgid'] ?>";
+f.submit();
+}
+</script>

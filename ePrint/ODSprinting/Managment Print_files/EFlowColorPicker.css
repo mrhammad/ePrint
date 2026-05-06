@@ -1,0 +1,75 @@
+.CLCP {
+	DISPLAY: none; Z-INDEX: 8; BACKGROUND: #0c0c0c; POSITION: absolute
+}
+.CLCP TD {
+	FONT: 11px/14px Arial, sans-serif; COLOR: #cecece; TEXT-ALIGN: left
+}
+.CLCP DIV {
+	FONT: 11px/14px Arial, sans-serif; COLOR: #cecece; TEXT-ALIGN: left
+}
+.CLCPDragDiv {
+	PADDING-RIGHT: 10px; PADDING-LEFT: 10px; PADDING-BOTTOM: 10px; WIDTH: 242px; CURSOR: move; PADDING-TOP: 10px; POSITION: relative; HEIGHT: 248px
+}
+.CLCPIinnerShell {
+	WIDTH: 242px; CURSOR: default; HEIGHT: 248px
+}
+.CLCPPicker {
+	MARGIN-BOTTOM: 9px; WIDTH: 242px; HEIGHT: 152px
+}
+.CLCPSatVal {
+	BORDER-RIGHT: #000000 1px solid; BORDER-TOP: #000000 1px solid; BACKGROUND: url(http://colourlovers.com.s3.amazonaws.com/images/copaso/basic/hsvBG.png) #ff0000 no-repeat; FILTER: progid:DXImageTransform.Microsoft.AlphaImageLoader(src="/images/copaso/basic/hsvBG.png", sizingMethod="scale"); FLOAT: left; BORDER-LEFT: #000000 1px solid; WIDTH: 150px; CURSOR: crosshair; BORDER-BOTTOM: #000000 1px solid; POSITION: relative; HEIGHT: 150px; moz-user-select: none; khtml-user-select: none; user-select: none
+}
+.CLCPSatValSlide {
+	FONT-SIZE: 0px; BACKGROUND: url(http://colourlovers.com.s3.amazonaws.com/images/copaso/colorPickerLarge.png) no-repeat; LEFT: -3px; WIDTH: 14px; LINE-HEIGHT: 0; POSITION: relative; TOP: -3px; HEIGHT: 14px
+}
+.CLCPHueContainer {
+	FLOAT: left; MARGIN-LEFT: 8px; WIDTH: 22px; CURSOR: crosshair; POSITION: relative; TOP: -5px; HEIGHT: 154px; moz-user-select: none; khtml-user-select: none; user-select: none
+}
+.CLCPSatContainer {
+	FLOAT: left; MARGIN-LEFT: 8px; WIDTH: 22px; CURSOR: crosshair; POSITION: relative; TOP: -5px; HEIGHT: 154px; moz-user-select: none; khtml-user-select: none; user-select: none
+}
+.CLCPValContainer {
+	FLOAT: left; MARGIN-LEFT: 8px; WIDTH: 22px; CURSOR: crosshair; POSITION: relative; TOP: -5px; HEIGHT: 154px; moz-user-select: none; khtml-user-select: none; user-select: none
+}
+.CLCPHueSlide {
+	FONT-SIZE: 0px; Z-INDEX: 10; BACKGROUND: url(http://colourlovers.com.s3.amazonaws.com/images/copaso/verticalSliderTransparent.png) no-repeat; WIDTH: 18px; LINE-HEIGHT: 0; POSITION: relative; HEIGHT: 18px
+}
+.CLCPSatSlide {
+	FONT-SIZE: 0px; Z-INDEX: 10; BACKGROUND: url(http://colourlovers.com.s3.amazonaws.com/images/copaso/verticalSliderTransparent.png) no-repeat; WIDTH: 18px; LINE-HEIGHT: 0; POSITION: relative; HEIGHT: 18px
+}
+.CLCPValSlide {
+	FONT-SIZE: 0px; Z-INDEX: 10; BACKGROUND: url(http://colourlovers.com.s3.amazonaws.com/images/copaso/verticalSliderTransparent.png) no-repeat; WIDTH: 18px; LINE-HEIGHT: 0; POSITION: relative; HEIGHT: 18px
+}
+.CLCPHue {
+	BORDER-RIGHT: #000000 1px solid; BORDER-TOP: #000000 1px solid; BORDER-LEFT: #000000 1px solid; WIDTH: 20px; BORDER-BOTTOM: #000000 1px solid; POSITION: relative; TOP: -13px; HEIGHT: 150px
+}
+.CLCPSat {
+	BORDER-RIGHT: #000000 1px solid; BORDER-TOP: #000000 1px solid; BORDER-LEFT: #000000 1px solid; WIDTH: 20px; BORDER-BOTTOM: #000000 1px solid; POSITION: relative; TOP: -13px; HEIGHT: 150px
+}
+.CLCPVal {
+	BORDER-RIGHT: #000000 1px solid; BORDER-TOP: #000000 1px solid; BORDER-LEFT: #000000 1px solid; WIDTH: 20px; BORDER-BOTTOM: #000000 1px solid; POSITION: relative; TOP: -13px; HEIGHT: 150px
+}
+.CLCPHue {
+	BACKGROUND: url(http://colourlovers.com.s3.amazonaws.com/images/copaso/basic/hueBG.jpg) no-repeat
+}
+.CLCPSat {
+	BACKGROUND: url(http://colourlovers.com.s3.amazonaws.com/images/copaso/basic/satBG.png) #ff0000 no-repeat
+}
+.CLCPVal {
+	BACKGROUND: url(http://colourlovers.com.s3.amazonaws.com/images/copaso/basic/valBG.png) #ff0000 no-repeat
+}
+.CLCPbPE {
+	MARGIN: 0px auto; WIDTH: 242px; HEIGHT: 85px
+}
+.CLCPbPE DIV {
+	FONT-SIZE: 11px; FLOAT: left; WIDTH: 28px; COLOR: #808080; LINE-HEIGHT: 11px; MARGIN-RIGHT: 1px; HEIGHT: 14px; TEXT-ALIGN: center
+}
+.CLCPbPE INPUT {
+	BORDER-RIGHT: 0px; PADDING-RIGHT: 0px; BORDER-TOP: 0px; PADDING-LEFT: 0px; FONT-SIZE: 11px; BACKGROUND: url(http://colourlovers.com.s3.amazonaws.com/images/copaso/basic/formFieldSmallBG.png) no-repeat; FLOAT: left; PADDING-BOTTOM: 5px; TEXT-TRANSFORM: uppercase; BORDER-LEFT: 0px; WIDTH: 28px; COLOR: #cccccc; LINE-HEIGHT: 11px; PADDING-TOP: 4px; BORDER-BOTTOM: 0px; HEIGHT: 11px; TEXT-ALIGN: center
+}
+.CLCPClear {
+	CLEAR: both! important; PADDING-RIGHT: 0px! important; PADDING-LEFT: 0px! important; FLOAT: none! important; PADDING-BOTTOM: 0px! important; MARGIN: 0px; LINE-HEIGHT: 0! important; PADDING-TOP: 0px! important
+}
+.CLCPNoDim {
+	WIDTH: 0px! important; HEIGHT: 0px! important
+}

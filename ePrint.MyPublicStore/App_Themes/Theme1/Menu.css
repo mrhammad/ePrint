@@ -1,0 +1,64 @@
+﻿
+.editBtn
+{
+    background-image: url(../../images/StoreImages/Edit.gif);
+    background-repeat: no-repeat;
+    height: 16px;
+    width: 16px;
+    cursor: pointer;
+    display: block;
+}
+.PdfIcon
+{
+    background-image: url(../../images/StoreImages/pdf12-icon.png);
+    background-repeat: no-repeat;
+    height: 16px;
+    width: 16px;
+    cursor: pointer;
+    display: block;
+}
+.ReorderIcon
+{
+    background-image: url(../../images/StoreImages/Order1.png);
+    background-repeat: no-repeat;
+    height: 16px;
+    width: 16px;
+    cursor: pointer;
+    display: block;
+}
+.deleteBtn
+{
+    background-image: url(../../images/StoreImages/erase.png);
+    background-repeat: no-repeat;
+    height: 16px;
+    width: 16px;
+    cursor: pointer;
+    display: block;
+    border: 0px;
+    background-color: transparent;
+}
+
+.swMain .buttonNextLoading
+{
+    background: #BEBEBE url(../../images/radimg1.gif) no-repeat 38px;
+    border-color: #9B9B9B;
+    text-decoration: none;
+    padding: 4px 20px;
+    min-width: 55px;
+    min-height: 5px;
+    -webkit-box-shadow: 0 0 1px #EEE,rgba(255, 255, 255, 0.6) 0 0 1px inset;
+    box-shadow: 0 0 1px #EEE,rgba(255, 255, 255, 0.6) 0 0 1px inset;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    display: inline-block;
+    font-weight: bold;
+    margin: 0 10px 0 0;
+    text-align: center;
+    white-space: nowrap;
+    font-family: Helvetica,sans-serif;
+    font-size: 13px;
+    color: #4F4F4F;
+    float: left;
+    border-width: 1px;
+    border-style: solid; 
+}

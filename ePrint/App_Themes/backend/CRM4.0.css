@@ -1,0 +1,1322 @@
+/*==================================== Main Region Starts ===================================*/
+
+html, body
+{
+    margin: 0;
+    padding: 0;
+    background-color: #ffffff;
+    font-family: Verdana Bold, Helvetica, sans-serif;
+    font-size: 11px;
+    min-width: 1000px;
+}
+form
+{
+    padding: 0px;
+    margin: 0px;
+}
+
+a
+{
+    color: #5386B5;
+    text-decoration: none;
+    outline: none;
+}
+a:hover
+{
+    color: #5386B5;
+    text-decoration: none;
+    outline: none;
+}
+/*for FireFox*/
+input[type="submit"]::-moz-focus-inner, input[type="button"]::-moz-focus-inner
+{
+    border: 0px;
+}
+/*for IE8 */
+input[type="submit"]:focus, input[type="button"]:focus
+{
+    outline: none;
+}
+.clear
+{
+    clear: both;
+    padding-top: 12px;
+}
+.customFields
+{
+    height: 160px;
+    overflow-y: scroll;
+    width: 98%;
+}
+
+/*==================================== Main Region Ends ===================================*/
+
+/*==================================== Header Region Starts ===================================*/
+
+.header-left
+{
+    background-image: url(../../images/tab/header-left1.PNG);
+    background-repeat: no-repeat;
+    height: 48px;
+    width: 17px;
+}
+.header-bg
+{
+    background-image: url(../../images/tab/header-bg1.PNG);
+    background-repeat: repeat-x;
+    height: 48px;
+}
+.header-right
+{
+    background-image: url(../../images/tab/header-right1.PNG);
+    background-repeat: no-repeat;
+    height: 48px;
+    width: 17px;
+}
+.search-left
+{
+    float: left;
+    background-image: url(../../images/tab/search-left1.PNG);
+    background-repeat: no-repeat;
+    height: 25px;
+    width: 12px;
+}
+.search-right
+{
+    float: left;
+    background-image: url(../../images/tab/search-right1.PNG);
+    background-repeat: no-repeat;
+    height: 25px;
+    width: 12px;
+}
+.search-bg
+{
+    float: left;
+    background-image: url(../../images/tab/search-bg.PNG);
+    background-repeat: repeat-x;
+    text-align: left;
+    outline: none;
+    border: solid 0px #CDCDCD;
+    height: 20px;
+    font-size: 12px;
+    color: #333333;
+    padding-top: 5px;
+}
+.SearchImg
+{
+    height: 16px;
+    width: 16px;
+    background-image: url(../../images/tab/Search-icon.png);
+    background-repeat: no-repeat;
+    float: left;
+    outline: none;
+    cursor: pointer;
+    margin: 4px 0px 0px -25px;
+    border: none;
+    background-color: Transparent;
+}
+.message
+{
+    color: #5386B5;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+a.header-link
+{
+    color: #ffffff;
+    font-size: 10px;
+    cursor: pointer;
+}
+a.header-link:hover
+{
+    color: #ffffff;
+    text-decoration: underline;
+    font-size: 10px;
+    cursor: pointer;
+}
+a.header-link:visited
+{
+    color: #ffffff;
+    text-decoration: underline;
+    font-size: 10px;
+    cursor: pointer;
+}
+.delimiter
+{
+    float: left;
+    padding: 0px 5px 0px 5px;
+    color: #ffffff;
+    font-size: 16px;
+}
+.home-right
+{
+    height: 16px;
+    width: 16px;
+    background-image: url(../../images/tab/menu-home-16.png);
+    background-repeat: no-repeat;
+}
+.addStuff-right
+{
+    height: 16px;
+    width: 16px;
+    background-image: url(../../images/tab/add-icon-16.png);
+    background-repeat: no-repeat;
+    margin-top: 2px;
+}
+.logout
+{
+    height: 16px;
+    width: 16px;
+    background-image: url(../../images/tab/icon-16-logout.png);
+    background-repeat: no-repeat;
+}
+
+
+/*==================================== Header Region Ends ===================================*/
+
+
+/*==================================== Menu Region Starts ===================================*/
+
+.menu-icon-plus
+{
+    background-image: url(../../images/tab/add-green.png);
+    background-repeat: no-repeat;
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+}
+.menu-icon-minus
+{
+    background-image: url(../../images/tab/minus-green.png);
+    background-repeat: no-repeat;
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+}
+.add-icon-16
+{
+    background-image: url(../../images/tab/add-icon-16.png);
+    background-repeat: no-repeat;
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+    margin-top: 15px;
+}
+.minus-icon-16
+{
+    background-image: url(../../images/tab/minus-small.PNG);
+    background-repeat: no-repeat;
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+    margin-top: 20px;
+}
+.legend-heading
+{
+    font-size: 12px;
+    font-weight: bold;
+    color: #000000;
+}
+.image-menu
+{
+    float: left;
+    margin: 0px 10px 0px 10px;
+    padding: 10px 0px 2px 0px;
+    border-width: 0px;
+}
+.menutext
+{
+    clear: both;
+    float: left;
+    padding-bottom: 0px;
+    padding-left: 10px;
+}
+.menutext1
+{
+    clear: both;
+    float: left;
+    padding-bottom: 0px;
+    padding-left: 12px;
+}
+.menu-box
+{
+    float: left;
+    width: 395px;
+}
+.menu-box2
+{
+    padding: 1px 14px 6px 14px;
+}
+.fieldset
+{
+    border: solid 1px #CDCDCD;
+    color: Red;
+}
+.fieldset:hover
+{
+    border: solid 1px #CDCDCD;
+    color: #000000;
+}
+a.menu
+{
+    float: left;
+    text-decoration: none;
+    color: #000000;
+}
+a.menu:hover
+{
+    float: left;
+    text-decoration: none;
+    color: #000000;
+}
+
+.menu-icon-notes
+{
+    background-image: url(../../images/tab/page.png);
+    background-repeat: no-repeat;
+    height: 32px;
+    width: 32px;
+    margin: 10px 10px 3px 10px;
+    cursor: pointer;
+}
+.menu-icon-email
+{
+    background-image: url(../../images/tab/email.png);
+    background-repeat: no-repeat;
+    height: 32px;
+    width: 32px;
+    margin: 10px 10px 3px 10px;
+    cursor: pointer;
+}
+.menu-icon-letter
+{
+    background-image: url(../../images/tab/letter.png);
+    background-repeat: no-repeat;
+    height: 32px;
+    width: 32px;
+    margin: 10px 10px 3px 10px;
+    cursor: pointer;
+}
+.menu-icon-phone
+{
+    background-image: url(../../images/tab/phone.png);
+    background-repeat: no-repeat;
+    height: 32px;
+    width: 32px;
+    margin: 10px 10px 3px 10px;
+    cursor: pointer;
+}
+.menu-icon-lead
+{
+    background-image: url(../../images/tab/lead.png);
+    background-repeat: no-repeat;
+    height: 32px;
+    width: 32px;
+    margin: 10px 10px 3px 10px;
+    cursor: pointer;
+}
+.menu-icon-service
+{
+    background-image: url(../../images/tab/service.png);
+    background-repeat: no-repeat;
+    height: 32px;
+    width: 32px;
+    margin: 10px 10px 3px 10px;
+    cursor: pointer;
+}
+.menu-icon-home
+{
+    background-image: url(../../images/tab/home.png);
+    background-repeat: no-repeat;
+    height: 32px;
+    width: 32px;
+    margin: 10px 10px 3px 20px;
+    cursor: pointer;
+}
+.menu-icon-user
+{
+    background-image: url(../../images/tab/user.png);
+    background-repeat: no-repeat;
+    height: 32px;
+    width: 32px;
+    margin: 10px 10px 3px 20px;
+    cursor: pointer;
+}
+.menu-icon-flag
+{
+    background-image: url(../../images/tab/flag.png);
+    background-repeat: no-repeat;
+    height: 32px;
+    width: 32px;
+    margin: 10px 10px 3px 25px;
+    cursor: pointer;
+}
+.menu-icon-flag1
+{
+    background-image: url(../../images/tab/flag.png);
+    background-repeat: no-repeat;
+    height: 32px;
+    width: 32px;
+    margin: 10px 10px 3px 35px;
+    cursor: pointer;
+}
+.menu-icon-contactlist
+{
+    background-image: url(../../images/tab/contactlist.png);
+    background-repeat: no-repeat;
+    height: 32px;
+    width: 32px;
+    margin: 10px 10px 3px 25px;
+    cursor: pointer;
+}
+.menu-icon-business
+{
+    background-image: url(../../images/tab/business.png);
+    background-repeat: no-repeat;
+    height: 32px;
+    width: 32px;
+    margin: 10px 10px 3px 30px;
+    cursor: pointer;
+}
+
+/*==================================== Menu Region Ends ===================================*/
+
+
+/*==================================== Widget Region Starts ===================================*/
+
+h2
+{
+    font-size: 12px;
+    cursor: move;
+    margin: 0;
+    padding: 0;
+}
+.column
+{
+    min-height: 300px;
+    float: left;
+}
+.column .dragbox
+{
+    margin: 5px 2px 20px;
+    position: relative;
+}
+.dragbox-content
+{
+    font-family: 'Lucida Grande' , Verdana;
+}
+.column .placeholder
+{
+    background: #D9F0FB;
+    border: dashed 2px #51BBEE;
+}
+.dragbox h2.collapse
+{
+    background: url('collapse.png') no-repeat top right;
+}
+.dragbox h2 .configure
+{
+    font-size: 11px;
+    font-weight: normal;
+    margin-right: 30px;
+    float: right;
+}
+.widget-header
+{
+    float: left;
+    font-size: 12px;
+    cursor: move;
+    margin: 0;
+    padding: 15px 0px 0px 25px;
+}
+.widget-header-search
+{
+    float: left;
+    font-size: 12px;
+    margin: 0;
+    padding: 15px 0px 0px 25px;
+    font-weight: bold;
+}
+/*==================================== Widget Region Ends ===================================*/
+
+/*==================================== Widget Resizable Region Starts ===================================*/
+
+.ui-resizable
+{
+    position: relative;
+}
+.ui-resizable-handle
+{
+    position: absolute;
+    font-size: 0.1px;
+    z-index: 99999;
+    display: block;
+}
+.ui-resizable-disabled .ui-resizable-handle, .ui-resizable-autohide .ui-resizable-handle
+{
+    display: none;
+}
+.ui-resizable-n
+{
+    cursor: n-resize;
+    height: 7px;
+    width: 100%;
+    top: -5px;
+    left: 0;
+}
+.ui-resizable-s
+{
+    cursor: s-resize;
+    height: 7px;
+    width: 100%;
+    bottom: -5px;
+    left: 0;
+}
+.ui-resizable-e
+{
+    cursor: e-resize;
+    width: 7px;
+    right: -5px;
+    top: 0;
+    height: 100%;
+}
+.ui-resizable-w
+{
+    cursor: w-resize;
+    width: 7px;
+    left: -5px;
+    top: 0;
+    height: 100%;
+}
+.ui-resizable-se
+{
+    cursor: se-resize;
+    width: 12px;
+    height: 12px;
+    right: 1px;
+    bottom: 1px;
+}
+.ui-resizable-sw
+{
+    cursor: sw-resize;
+    width: 9px;
+    height: 9px;
+    left: -5px;
+    bottom: -5px;
+}
+.ui-resizable-nw
+{
+    cursor: nw-resize;
+    width: 9px;
+    height: 9px;
+    left: -5px;
+    top: -5px;
+}
+.ui-resizable-ne
+{
+    cursor: ne-resize;
+    width: 9px;
+    height: 9px;
+    right: -5px;
+    top: -5px;
+}
+
+/*==================================== Widget Resizable Region Ends ===================================*/
+
+/*==================================== Round Corners Region Starts ===================================*/
+
+/*---------toolbar-box----------*/
+div.toolbar-box
+{
+    background: #ffffff;
+    padding: 0;
+}
+
+div.t
+{
+    height: 40px;
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+}
+div.m
+{
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+}
+div.b
+{
+    height: 43px;
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+}
+
+div.toolbar-box div.t
+{
+    background: url(../../images/tab/top-bg.PNG) 0 0 repeat-x;
+}
+
+div.toolbar-box div.t div.t
+{
+    background: url(../../images/tab/tc-right.PNG) 100% 0 no-repeat;
+}
+
+div.toolbar-box div.t div.t div.t
+{
+    background: url(../../images/tab/tc-left.PNG) 0 0 no-repeat;
+}
+div.toolbar-box div.m
+{
+    background: #ffffff;
+    padding: 0;
+}
+
+div.toolbar-box div.m div.m
+{
+    background: url(../../images/tab/right-bg.PNG) 100% 0 repeat-y;
+}
+
+div.toolbar-box div.m div.m div.m
+{
+    background: url(../../images/tab/left-bg.PNG) 0 0 repeat-y;
+}
+
+div.toolbar-box div.b
+{
+    background: url(../../images/tab/bottom-bg.PNG) 0 100% repeat-x;
+}
+
+div.toolbar-box div.b div.b
+{
+    background: url(../../images/tab/bc-right.PNG) 100% 0 no-repeat;
+}
+
+div.toolbar-box div.b div.b div.b
+{
+    background: url(../../images/tab/bc-left.PNG) 0 0 no-repeat;
+}
+
+/*---------toolbar-box----------*/
+
+/*---------simple-box----------*/
+div.simple-box
+{
+    background: #ffffff;
+    padding: 0;
+}
+
+div.t-simple
+{
+    height: 20px;
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+}
+div.m-simple
+{
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+}
+div.b-simple
+{
+    height: 20px;
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+}
+
+div.simple-box div.t-simple
+{
+    background: url(../../images/tab/top-simple-bg.PNG) 0 0 repeat-x;
+}
+
+div.simple-box div.t-simple div.t-simple
+{
+    background: url(../../images/tab/tc-simple-r.png) 100% 0 no-repeat;
+}
+
+div.simple-box div.t-simple div.t-simple div.t-simple
+{
+    background: url(../../images/tab/tc-simple-l.png) 0 0 no-repeat;
+}
+div.simple-box div.m-simple
+{
+    background: #ffffff;
+    padding: 0;
+}
+
+div.simple-box div.m-simple div.m-simple
+{
+    background: url(../../images/tab/left-bg.PNG) 100% 0 repeat-y;
+}
+
+div.simple-box div.m-simple div.m-simple div.m-simple
+{
+    background: url(../../images/tab/right-bg.PNG) 0 0 repeat-y;
+}
+
+div.simple-box div.b-simple
+{
+    background: url(../../images/tab/bottom-simple-bg.PNG) 0 100% repeat-x;
+}
+
+div.simple-box div.b-simple div.b-simple
+{
+    background: url(../../images/tab/bc-simple-r.png) 100% 0 no-repeat;
+}
+
+div.simple-box div.b-simple div.b-simple div.b-simple
+{
+    background: url(../../images/tab/bc-simple-l.png) 0 0 no-repeat;
+}
+
+/*---------simple-box----------*/
+
+/*---------normal-box----------*/
+
+div.normal-box
+{
+    background: #F0F9FD;
+    padding: 0;
+}
+
+div.t-normal
+{
+    height: 12px;
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+}
+div.m-normal
+{
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+    border-left: solid 1px #BCDBED;
+    border-right: solid 1px #BCDBED;
+}
+div.b-normal
+{
+    height: 12px;
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+}
+
+div.normal-box div.t-normal
+{
+    background: url(../../images/tab/j_border.png) 0 0 repeat-x;
+}
+
+div.normal-box div.t-normal div.t-normal
+{
+    background: url(../../images/tab/tc-normal-right1.PNG) 100% 0 no-repeat;
+}
+
+div.normal-box div.t-normal div.t-normal div.t-normal
+{
+    background: url(../../images/tab/tc-normal-left1.PNG) 0 0 no-repeat;
+}
+div.normal-box div.m-normal
+{
+    background: #F0F9FD;
+    padding: 0;
+}
+
+div.normal-box div.b-normal
+{
+    background: url(../../images/tab/j_border.png) 0 100% repeat-x;
+}
+
+div.normal-box div.b-normal div.b-normal
+{
+    background: url(../../images/tab/bc-normal-right1.PNG) 100% 0 no-repeat;
+}
+
+div.normal-box div.b-normal div.b-normal div.b-normal
+{
+    background: url(../../images/tab/bc-normal-left1.PNG) 0 0 no-repeat;
+}
+
+/*---------normal-box----------*/
+
+/*---------login-box----------*/
+
+div.login-box
+{
+    background: #ffffff;
+    padding: 0;
+}
+
+div.t-login
+{
+    height: 37px;
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+}
+div.m-login
+{
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+}
+
+div.b-login
+{
+    height: 23px;
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+}
+
+div.login-box div.t-login
+{
+    background: url(../../images/tab/login-tmbg.PNG) 0 0 repeat-x;
+}
+
+div.login-box div.t-login div.t-login
+{
+    background: url(../../images/tab/login-tr.png) 100% 0 no-repeat;
+}
+
+div.login-box div.t-login div.t-login div.t-login
+{
+    background: url(../../images/tab/login-tl.png) 0 0 no-repeat;
+}
+div.login-box div.m-login
+{
+    background: #ffffff;
+    padding: 0;
+}
+
+div.login-box div.m-login div.m-login
+{
+    background: url(../../images/tab/login-mlr.png) 100% 0 repeat-y;
+}
+
+div.login-box div.m-login div.m-login div.m-login
+{
+    background: url(../../images/tab/login-mlr.png) 0 0 repeat-y;
+}
+
+div.login-box div.b-login
+{
+    background: url(../../images/tab/login-bmbg.PNG) 0 100% repeat-x;
+}
+
+div.login-box div.b-login div.b-login
+{
+    background: url(../../images/tab/login-br.png) 100% 0 no-repeat;
+}
+
+div.login-box div.b-login div.b-login div.b-login
+{
+    background: url(../../images/tab/login-bl.png) 0 0 no-repeat;
+}
+
+/*---------login-box----------*/
+/*==================================== Round Corners Region Ends ===================================*/
+
+
+/*==================================== PopUp Panel Region Starts ===================================*/
+
+.popup-top-leftcorner
+{
+    background-image: url(../../images/tab/pop_tl.png);
+    background-repeat: no-repeat;
+    width: 29px;
+    height: 46px;
+}
+.popup-top-middlebg
+{
+    background-image: url(../../images/tab/pop_t_bg.png);
+    background-repeat: repeat-x;
+    height: 46px;
+}
+.popup-top-rightcorner
+{
+    background-image: url(../../images/tab/pop_tr.png);
+    background-repeat: no-repeat;
+    width: 29px;
+    height: 46px;
+}
+.popup-bottom-leftcorner
+{
+    background-image: url(../../images/tab/pop_bl.png);
+    background-repeat: no-repeat;
+    width: 29px;
+    height: 46px;
+}
+.popup-bottom-middlebg
+{
+    background-image: url(../../images/tab/pop_b_bg.png);
+    background-repeat: repeat-x;
+    height: 46px;
+}
+.popup-bottom-rightcorner
+{
+    background-image: url(../../images/tab/pop_br.png);
+    background-repeat: no-repeat;
+    width: 29px;
+    height: 46px;
+}
+
+.popup-middle-leftcorner
+{
+    background-image: url(../../images/tab/pop_lm.png);
+    background-repeat: repeat-y;
+    width: 14px;
+}
+.popup-middlebg
+{
+    background-color: #ffffff;
+}
+.popup-middle-rightcorner
+{
+    background-image: url(../../images/tab/pop_rm.png);
+    background-repeat: repeat-y;
+    width: 27px;
+}
+
+#divBackGround
+{
+    /*CSS used for transparent black background*/
+    display: block;
+    position: absolute;
+    background-color: #9DC6DB;
+    filter: alpha(opacity=50);
+    opacity: 0.50;
+    -moz-opacity: 0.50;
+    z-index: 10;
+}
+#divBackGround1
+{
+    /*CSS used for transparent black background*/
+    display: block;
+    position: absolute;
+    background-color: #232323;
+    filter: alpha(opacity=50);
+    opacity: 0.50;
+    -moz-opacity: 0.50;
+    z-index: 10;
+}
+.popupWindow
+{
+    position: absolute;
+    z-index: 600;
+}
+.Graphic
+{
+    overflow: hidden;
+    padding: 15px 10px 15px 10px;
+}
+
+#CancelButtonDiv
+{
+    background: none;
+    margin: 0;
+    padding: 0;
+    cursor: pointer;
+    position: absolute;
+    right: 25px;
+    top: 15px;
+    height: 19px;
+    width: 20px;
+    overflow: hidden;
+}
+
+#CancelButtonDiv:hover input, .CancelButtonDiv input
+{
+    margin-top: -19px; /* Negative height of half the sprite, to push the image up */
+}
+
+
+/*==================================== PopUp Panel Region Ends ===================================*/
+
+
+/*==================================== GridView Region Starts ===================================*/
+
+.GV-HeaderStyle
+{
+    /* CSS used for GridView Header Font */
+    background-color: #CAE1F3;
+    color: #3F89C3;
+    font-size: 12px;
+    border: 0px;
+    padding-left: 3px;
+    padding-right: 3px;
+    text-decoration: none;
+    cursor: pointer;
+}
+.GV-HeaderStyle:hover
+{
+    /* CSS used for GridView Header Font */
+    background-color: #CAE1F3;
+    color: #3F89C3;
+    font-size: 12px;
+    border: 0px;
+    padding-left: 3px;
+    padding-right: 3px;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.GV-ItemStyle
+{
+    font-family: verdana,Arial;
+    color: #000000;
+    font-size: 11px;
+    padding: 3px;
+    vertical-align: top;
+    white-space: normal;
+}
+
+.GV-ItemStyle:hover
+{
+    font-family: verdana,Arial;
+    color: #000000;
+    font-size: 11px;
+    padding: 3px;
+    vertical-align: top;
+    white-space: normal;
+}
+
+.GridRow_Style
+{
+    background-color: #ffffff;
+}
+
+.GridRow_Style:hover
+{
+    background-color: #DBF1FB;
+}
+
+.GridAlternateRow_Style
+{
+    background-color: #F0F9FD;
+}
+.GridAlternateRow_Style:hover
+{
+    background-color: #DBF1FB;
+}
+
+/*==================================== GridView Region Ends ===================================*/
+
+/*==================================== Font Region Starts ===================================*/
+
+.Label-HeadingLarge
+{
+    font-family: Arial;
+    font-size: 14px;
+    font-weight: bold;
+}
+.Label-HeadingNormal
+{
+    font-family: Arial;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.Label-HeadingMedium
+{
+    font-family: Arial;
+    font-size: 11px;
+    font-weight: bold;
+}
+.Label-HeadingNormal-nobold
+{
+    font-family: Arial;
+    font-size: 12px;
+}
+.RequiredFieldValidator
+{
+    /* CSS used for Required Field Validator message font */
+    font-size: 10px;
+    font-family: Verdana;
+    color: Red;
+}
+/*==================================== Font Region Ends ===================================*/
+
+/*==================================== Table Region Starts ===================================*/
+
+.table-header
+{
+    background-color: #CAE1F3;
+    height: 20px;
+    border-bottom: solid 1px #BCDBED;
+    font-weight: bold;
+}
+.table-row-bg
+{
+    background-color: #ffffff;
+    padding-top: 3px;
+    padding-bottom: 2px;
+    height: 18px;
+}
+.table-alternaterow-bg
+{
+    background-color: #F0F9FD;
+    padding-top: 3px;
+    padding-bottom: 2px;
+    height: 18px;
+}
+.table-row-bg:hover
+{
+    background-color: #DBF1FB;
+    padding-top: 3px;
+    padding-bottom: 2px;
+    height: 18px;
+}
+.table-alternaterow-bg:hover
+{
+    background-color: #DBF1FB;
+    padding-top: 3px;
+    padding-bottom: 2px;
+    height: 18px;
+}
+.myDay
+{
+    height: 353px;
+}
+/*==================================== Table Region Ends ===================================*/
+
+/*==================================== Tab Region Starts ===================================*/
+
+.tab-off-first
+{
+    background-image: url(../../images/tabs/tab-off-first.PNG);
+    background-repeat: no-repeat;
+    width: 15px;
+    height: 30px;
+}
+
+.tab-on-first
+{
+    background-image: url(../../images/tab/tab-on-first.PNG);
+    background-repeat: no-repeat;
+    width: 19px;
+    height: 30px;
+}
+.tab-off-bg
+{
+    background-image: url(../../images/tab/tab-off-bg.PNG);
+    background-repeat: repeat-x;
+    height: 30px;
+    padding-top: 5px;
+    cursor: pointer;
+}
+.tab-on-bg
+{
+    background-image: url(../../images/tab/tab-on-bg.PNG);
+    background-repeat: repeat-x;
+    height: 30px;
+    padding-top: 5px;
+    cursor: pointer;
+}
+.tab-off-last
+{
+    background-image: url(../../images/tab/tab-off-last.PNG);
+    background-repeat: no-repeat;
+    width: 16px;
+    height: 30px;
+}
+.tab-on-last
+{
+    background-image: url(../../images/tab/tab-on-last.PNG);
+    background-repeat: no-repeat;
+    width: 19px;
+    height: 30px;
+}
+.tab-off-middle
+{
+    background-image: url(../../images/tab/tab-off-middle.PNG);
+    background-repeat: no-repeat;
+    width: 19px;
+    height: 30px;
+}
+.tab-off-on-middle
+{
+    background-image: url(../../images/tab/tab-off-on-middle.PNG);
+    background-repeat: no-repeat;
+    width: 19px;
+    height: 30px;
+}
+.tab-on-off-middle
+{
+    background-image: url(../../images/tab/tab-on-off-middle.PNG);
+    background-repeat: no-repeat;
+    width: 19px;
+    height: 30px;
+}
+.tablink
+{
+    text-decoration: none;
+    color: Black;
+}
+.tablink:hover
+{
+    text-decoration: none;
+    color: #5386B5;
+}
+.tabSelected
+{
+    text-decoration: none;
+    color: #5386B5;
+    font-weight: bold;
+}
+.tabSelected:hover
+{
+    text-decoration: none;
+    color: #5386B5;
+}
+/*==================================== Tab Region Ends ===================================*/
+
+
+/*==================================== Icons Region Starts ===================================*/
+
+.lnkSocial-icons
+{
+    margin: 0px 7px 0px 7px;
+    float: left;
+}
+.Social-Twitter
+{
+    background-image: url(../../images/social-icons/Social_Twitter.png);
+    background-repeat: no-repeat;
+    height: 48px;
+    width: 48px;
+    cursor: pointer;
+}
+.Social-Facebook
+{
+    background-image: url(../../images/social-icons/Social_Facebook.png);
+    background-repeat: no-repeat;
+    height: 48px;
+    width: 48px;
+    cursor: pointer;
+}
+.Social-Flickr
+{
+    background-image: url(../../images/social-icons/Social_Flickr.png);
+    background-repeat: no-repeat;
+    height: 48px;
+    width: 48px;
+    cursor: pointer;
+}
+.Social-Stumble
+{
+    background-image: url(../../images/social-icons/Social_Stumble.png);
+    background-repeat: no-repeat;
+    height: 48px;
+    width: 48px;
+    cursor: pointer;
+}
+.Social-Delicious
+{
+    background-image: url(../../images/social-icons/Social_Delicious.png);
+    background-repeat: no-repeat;
+    height: 48px;
+    width: 48px;
+    cursor: pointer;
+}
+.Social-Digg
+{
+    background-image: url(../../images/social-icons/Social_Digg.png);
+    background-repeat: no-repeat;
+    height: 48px;
+    width: 48px;
+    cursor: pointer;
+}
+.Social-Yahoo-Buzz
+{
+    background-image: url(../../images/social-icons/Social_Yahoo_Buzz.png);
+    background-repeat: no-repeat;
+    height: 48px;
+    width: 48px;
+    cursor: pointer;
+    display: block;
+}
+/*==================================== Icons Region Ends ===================================*/
+
+
+/*==================================== Buttons Region Starts ===================================*/
+.blue-btn-left
+{
+    background-image: url(../../images/blue-btn-left.jpg);
+    background-repeat: no-repeat;
+    height: 26px;
+    width: 6px;
+    cursor: pointer;
+    float: left;
+}
+.blue-btn-bg
+{
+    background-image: url(../../images/blue-btn-bg.jpg);
+    background-repeat: repeat-x;
+    height: 26px;
+    cursor: pointer;
+    color: #ffffff;
+    font-weight: bold;
+    font-size: 12px;
+    font-family: Arial;
+    text-align: center;
+    float: left;
+    border: none;
+    display: block;
+}
+.blue-btn-right
+{
+    background-image: url(../../images/blue-btn-right.jpg);
+    background-repeat: no-repeat;
+    height: 26px;
+    width: 5px;
+    cursor: pointer;
+    float: left;
+}
+
+
+.red-btn-left
+{
+    background-image: url(../../images/red-btn-left.jpg);
+    background-repeat: no-repeat;
+    height: 26px;
+    width: 5px;
+    cursor: pointer;
+    float: left;
+}
+.red-btn-bg
+{
+    background-image: url(../../images/red-btn-bg.jpg);
+    background-repeat: repeat-x;
+    height: 26px;
+    cursor: pointer;
+    color: #ffffff;
+    font-weight: bold;
+    font-size: 12px;
+    font-family: Arial;
+    text-align: center;
+    float: left;
+    border: none;
+}
+.red-btn-right
+{
+    background-image: url(../../images/red-btn-right.jpg);
+    background-repeat: no-repeat;
+    height: 26px;
+    width: 6px;
+    cursor: pointer;
+    float: left;
+}
+
+/*==================================== Buttons Region Ends ===================================*/
+
+
+
+
+
+

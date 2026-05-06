@@ -1,0 +1,251 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="UserEditProfile.master.cs" Inherits="ePrint.Templates.UserEditProfile" %>
+
+<%@ Register TagPrefix="telerik" Namespace="Telerik.Web.UI" Assembly="Telerik.Web.UI" %>
+<%@ Register TagPrefix="crm" TagName="headerUC" Src="~/Templates/header.ascx" %>
+<%@ Register TagPrefix="crm" TagName="lowerheaderUC" Src="~/Templates/lowerheader.ascx" %>
+<%@ Register TagPrefix="crm" TagName="callclass" Src="~/usercontrol/CallClass.ascx" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head id="Head1" runat="server">
+    <title>Untitled Page</title>
+    <noscript>
+        Your browser does not support JavaScript! ...
+    </noscript>
+    <!--POPUP START-->
+    <link href="../App_Themes/backend/user.css" rel="Stylesheet" type="text/css" />
+    <script type="text/javascript" src="../js/jquery.min.js?VN='<%#VersionNumber%>'"></script>
+    <script type="text/javascript" src="../js/jquery.popup.js?VN='<%#VersionNumber%>'"></script>
+    <!--POPUP END-->
+    <script type="text/javascript" language="javascript" src="../js/animation.js?VN='<%#VersionNumber%>'">
+    </script>  
+    <script type="text/javascript" language="javascript" src="../js/commonloading.js?VN='<%#VersionNumber%>'"></script>
+    <script type="text/javascript" language="javascript" src="../js/jquery-1.3.2.js?VN='<%#VersionNumber%>'"></script>
+    <script type="text/javascript">
+        //function getcookiesvalue() {
+
+        //    var hdnGetCookiesValue = document.getElementById("ctl00_hdnGetCookiesValue");
+        //    var hdngetparticularLIid = document.getElementById("ctl00_hdngetparticularLIid");
+
+        //    hdnGetCookiesValue.value = sessionStorage.getItem('MainTab');//ReadCookie('MainTabSelect');
+        //    hdngetparticularLIid.value = sessionStorage.getItem('SubTab');//ReadCookie('SubTabSelect');
+
+        //    var imgUp2 = document.getElementById("ctl00_imgUp2");
+
+
+        //    if (hdnGetCookiesValue != null) {
+
+        //        $('ul#accordion > li > ul').hide();
+        //        $('#' + hdnGetCookiesValue.value).show();
+
+        //        if (hdnGetCookiesValue.value == "ul2") {
+        //            $(".two").toggle();
+        //            imgUp2.style.display = 'none';
+        //        }
+
+        //    }
+        //}
+
+        //$(document).ready(function () 
+        //{
+        //    // initialise
+        //    $('#accordion > li > ul').hide();
+
+        //    $('#h1EditProfile').click(function () {
+        //        $(".two").toggle();
+        //        $("#ul2").slideUp();
+        //    });
+
+        //    $('ul#accordion > li > h1').click(function () {
+        //        if ($(this).next().css('display') == 'none') {
+        //            $('ul#accordion > li > ul').slideUp();
+        //            $(this).next().slideDown();
+        //        }
+        //    });
+
+        //    getcookiesvalue();
+
+        //});
+
+    </script>
+    <style type="text/css">
+        #accordion ul li:hover
+        {
+            background-color: #D3D3D3;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        #accordion ul li ul:hover
+        {
+            background-color: White;
+            cursor: pointer; /*border-radius: 5px;*/
+            width: 100px;
+        }
+
+        #accordion h1 a .ui-icon
+        {
+            float: right;
+        }
+    </style>
+</head>
+<body>
+    <form id="form1" runat="server">
+        <telerik:RadScriptManager ID="ScriptManager2" runat="server" EnablePartialRendering="true"
+            EnablePageMethods="true">
+        </telerik:RadScriptManager>
+        <asp:PlaceHolder ID="plhStyle" runat="server"></asp:PlaceHolder>
+        <asp:HiddenField ID="hdnGetCookiesValue" runat="server" Value='' />
+        <asp:HiddenField ID="hdngetparticularLIid" runat="server" Value='' />
+        <table id="outerTable" cellpadding="0" cellspacing="0" border="0" style="width: 100%;"
+            align="center">
+            <!--HEADER-->
+            <tr class="SrchResHeight">
+                <td>
+                    <div align="left" id="maindivstyle">
+                        <crm:callclass runat="server" ID="callsettings" />
+                        <div id="settingclass" style="display: none">
+                            <asp:PlaceHolder runat="server" ID="plclass"></asp:PlaceHolder>
+                        </div>
+                    </div>
+                    <div align="left">
+                        <asp:PlaceHolder ID="plhHeader" EnableViewState="false" runat="server"></asp:PlaceHolder>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <table cellspacing="0" cellpadding="0" width="100%" border="0">
+                        <!-- Navigation -->
+                        <crm:headerUC ID="header1" EnableViewState="false" runat="server"></crm:headerUC>
+                        <tr>
+                            <td>
+                                <table cellpadding="0" cellspacing="0" width="100%">
+                                    <tr valign="top">
+                                        <td style="width: 100%; background-color: white" align="center">
+                                            <table width="100%" cellspacing="0" cellpadding="0">
+                                                <tr>
+                                                    <td>
+                                                        <table id="middleTable" cellspacing="0" cellpadding="0" width="100%" border="0" style="background-color: white">
+                                                            <crm:lowerheaderUC ID="header2" runat="server"></crm:lowerheaderUC>
+                                                            <!--navigator end -->
+                                                            <tr>
+                                                                <td>
+                                                                    <table cellpadding="0" cellspacing="0" width="100%" border="0" class="">
+                                                                        <%--border_leftonly borderright--%>
+                                                                        <tr valign="top">
+                                                                            <td>
+                                                                                <div class="onlyEmpty">
+                                                                                    <img src="<%=strImagepath%>nil.gif" width="1" border="0" height="10px" alt="" />
+                                                                                </div>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr valign="top">
+                                                                            <td class="bodypanel" align="center" style="background-color: White">
+                                                                                <table style="width: 100%" id="innerTable" border="0" cellpadding="0" cellspacing="0">
+                                                                                    <tr valign="top">
+                                                                                        <!--LEFTPANEL-->
+                                                                                        <td width="175px" align="left" style="padding-left: 1px;">
+                                                                                            <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                                                                                                <tr style="display: block;">
+                                                                                                    <td align="left">
+                                                                                                        <%--Original Menu--%>
+                                                                                                        <div id="divsetting" style="height: auto;" runat="server">
+                                                                                                            <div class="setting_eprint_title">
+                                                                                                                <asp:Label ID="lbltxt" runat="server" Text="" CssClass="eprint_mis13px"></asp:Label>
+                                                                                                            </div>
+                                                                                                            <div class="setting_divtop">
+                                                                                                                <ul class="accordion setting_accordiondiv" id="accordion">
+                                                                                                                    <li id="li2" class="setting_marginleft25px">
+                                                                                                                        <h1 id="h1EditProfile" class="setting_font12px">
+                                                                                                                            <asp:Label ID="lblEditProfile" runat="server">&nbsp;&nbsp;<%=objLanguage.GetLanguageConversion("User_Setting")%></asp:Label>                                                                                                                            
+                                                                                                                        </h1>
+                                                                                                                        <ul id="ul2" class="setting_ulpadding3px">
+                                                                                                                            <li id="li24" runat="server" class="setting_panellitxt">
+                                                                                                                                <a href="<%=strSitepath %>Settings/user_edit.aspx" class="anchor_fontsize"
+                                                                                                                                    style="color: Black">&nbsp;<%=objLanguage.GetLanguageConversion("User_Profile")%></a></li>
+                                                                                                                            <li id="li23" runat="server" class="setting_panellitxt">
+                                                                                                                                <a href="<%=strSitepath %>Settings/change_password.aspx" class="anchor_fontsize"
+                                                                                                                                    style="color: Black">&nbsp<%=objLanguage.GetLanguageConversion("Change_Password")%></a></li>
+                                                                                                                            <li id="li22" runat="server" class="setting_panellitxt">
+                                                                                                                                <a href="<%=strSitepath %>Settings/alert_settings.aspx" class="anchor_fontsize" style="color: Black">&nbsp;<%=objLanguage.GetLanguageConversion("TaskCall_Alert_Settings")%></a></li>                                                                                                                            
+                                                                                                                        </ul>
+                                                                                                                    </li>
+                                                                                                                  
+                                                                                                                    <asp:PlaceHolder ID="PlaceHolder1" runat="server"></asp:PlaceHolder>
+                                                                                                                    
+                                                                                                                </ul>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                    </td>
+                                                                                                </tr>
+                                                                                            </table>
+                                                                                        </td>
+                                                                                        <td style="width: 15px;">
+                                                                                            <img src="<%=strImagepath%>nil.gif" border="0" style="width: 15px;" alt="" />&nbsp;
+                                                                                        </td>
+                                                                                        <!--BODY TD START-->
+                                                                                        <td valign="top" style="width: 90%; height: 100%; padding-left: 10px;">
+                                                                                            <table class="Tb_BGcolor" style="height: 100%" cellspacing="0" cellpadding="0" border="0"
+                                                                                                width="100%" align="right">
+                                                                                                <tr>
+                                                                                                    <td valign="top">
+                                                                                                        <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+                                                                                                        </asp:ContentPlaceHolder>
+                                                                                                    </td>
+                                                                                                </tr>
+                                                                                            </table>
+                                                                                        </td>
+                                                                                        <!--BODY TD END-->
+                                                                                    </tr>
+                                                                                </table>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr style="height: 10px">
+                                                                            <td colspan="1"></td>
+                                                                        </tr>
+                                                                        <tr class="bodypanel" style="display: none">
+                                                                            <td colspan="1" align="right">
+                                                                                <table width="100%" border="0">
+                                                                                    <tr>
+                                                                                        <td>
+                                                                                            <img style="height: 6px; width: 1; border: 0" alt="" src="<%=strImagepath%>nil.gif" />
+                                                                                        </td>
+                                                                                        <td align="right">
+                                                                                            <asp:ContentPlaceHolder ID="ContentPlaceHolder2" runat="server">
+                                                                                            </asp:ContentPlaceHolder>
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                </table>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </table>
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div style="border-bottom: 1px solid #BDBDBD; margin-top: 7px;">
+                    </div>
+                </td>
+            </tr>
+            <tr style="height: 100%" valign="bottom" class="normalText">
+                <td style="width: 631px; padding-top: 8px;">
+                    <asp:PlaceHolder ID="plhFooter" EnableViewState="false" runat="server"></asp:PlaceHolder>
+                </td>
+            </tr>
+        </table>
+    </form>
+</body>
+</html>
+

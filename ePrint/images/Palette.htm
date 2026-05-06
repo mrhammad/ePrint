@@ -1,0 +1,327 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>Palette 
+			Window</TITLE>
+		<META content="text/html; charset=windows-1252" http-equiv="Content-Type">
+		<SCRIPT language="javascript">
+	var layerRef
+	var styleRef	
+	var backgroundColorRef		
+	
+	if (navigator.appName == "Netscape")
+	{
+    	   layerRef="document"
+           styleRef=""
+           backgroundColorRef=".bgColor"
+        }
+        else
+        {
+     	   layerRef="document.all"
+     	   styleRef=".style"
+     	   backgroundColorRef=".backgroundColor"
+        }
+	locked = new Array(1);
+	locked['topColorLayer'] = "no";
+	layerName = "";
+	colors = new Array(1);
+
+	for (i=0; i < 1; i++)
+	{
+	   colors[i] = new Array(1);
+	}
+
+	i = 0;
+	while (i < 1)
+	{
+	j = 0;
+	   while (j < 3)
+	   {
+		colors[i][j]--;
+		colors[i][j] = 0;
+		j++;
+	    }
+	    i++;
+	}
+
+	layerName = 'topColorLayer';
+
+ function r(hval) 		
+        {
+        		
+         if ( locked[layerName] == "no" )
+            {
+            	if (layerName != "")
+            	{
+            		//document.all["topColorLayer"].style.backgroundColor = "#FFFFFF"
+			eval(layerRef + '["' + layerName + '"]' + styleRef + backgroundColorRef + ' = "' + hval + '"')
+			window.opener.colorFieldFill(hval);
+            	}
+
+                //assign values so lighten, darken and rotate will work
+                //1. split hval into its RGB components
+                red = hval.substring(1,3);
+                green = hval.substring(3,5);
+                blue = hval.substring(5,7);
+
+                // 2. assign values to color matrix
+                if (layerName == 'topColorLayer')
+                {
+                        colors[0][0] = red;
+                        colors[0][1] = green;
+                        colors[0][2] = blue;
+                        topColor = hval.substring(1,7);;
+             	}
+             }
+        }
+
+        function l()
+        {	
+        	
+        	lockedLayerName = 'locked' + layerName;
+       	
+        	if (locked[layerName] == "no")
+        	{
+ //       		eval(layerRef + '["colorcube"].' + layerRef + '["' + lockedLayerName + '"]' + styleRef + '.visibility = "visible"')
+        		locked[layerName] = "yes";
+        	}
+        	else if (locked[layerName] == "yes")
+        	{	
+   //     		eval(layerRef + '["colorcube"].' + layerRef + '["' + lockedLayerName + '"]' + styleRef + '.visibility = "hidden"')
+        		locked[layerName] = "no";
+        	}
+	}
+		</SCRIPT>
+		<STYLE type="text/css">DIV { FONT-FAMILY: serif; FONT-SIZE: 12px }
+	H2 { FONT-SIZE: 20px }
+	#lockedtopColorLayer { POSITION: relative; VISIBILITY: hidden; Z-INDEX: 2 }
+	#topColorLayer { LEFT: 5px; POSITION: absolute; TOP: 160px; WIDTH: 80px; Z-INDEX: 4 }
+	#lockunlock { LEFT: 160px; POSITION: absolute; TOP: 150px; VISIBILITY: hidden; WIDTH: 300px; Z-INDEX: 10 }
+	#colorcube { LEFT: 5px; POSITION: absolute; TOP: 20px; Z-INDEX: 20 }
+	</STYLE>
+		<META content="MSHTML 5.00.2614.3500" name="GENERATOR">
+	</HEAD>
+	<BODY bgColor="#000000">
+		<DIV id="colorcube"><IMG alt="" border="1" isMap src="images/colorcube.gif" useMap="#cube" width="180" height="120">
+		</DIV>
+		<DIV id="topColorLayer"><IMG height="10" src="" width="180">
+		</DIV>
+		<MAP name="cube" onclick="window.close()">
+			<AREA coords="0,0,9,9" href="javascript:l('#000000')" onmouseover="r('#000000'); return true" shape="RECT">
+			<AREA coords="10,0,19,9" href="javascript:l('#000033')" onmouseover="r('#000033'); return true" shape="RECT">
+			<AREA coords="20,0,29,9" href="javascript:l('#000066')" onmouseover="r('#000066'); return true" shape="RECT">
+			<AREA coords="30,0,39,9" href="javascript:l('#000099')" onmouseover="r('#000099'); return true" shape="RECT">
+			<AREA coords="40,0,49,9" href="javascript:l('#0000CC')" onmouseover="r('#0000CC'); return true" shape="RECT">
+			<AREA coords="50,0,59,9" href="javascript:l('#0000FF')" onmouseover="r('#0000FF'); return true" shape="RECT">
+			<AREA coords="60,0,69,9" href="javascript:l('#006600')" onmouseover="r('#006600'); return true" shape="RECT">
+			<AREA coords="70,0,79,9" href="javascript:l('#006633')" onmouseover="r('#006633'); return true" shape="RECT">
+			<AREA coords="80,0,89,9" href="javascript:l('#006666')" onmouseover="r('#006666'); return true" shape="RECT">
+			<AREA coords="90,0,99,9" href="javascript:l('#006699')" onmouseover="r('#006699'); return true" shape="RECT">
+			<AREA coords="100,0,109,9" href="javascript:l('#0066CC')" onmouseover="r('#0066CC'); return true" shape="RECT">
+			<AREA coords="110,0,119,9" href="javascript:l('#0066FF')" onmouseover="r('#0066FF'); return true" shape="RECT">
+			<AREA coords="120,0,129,9" href="javascript:l('#00CC00')" onmouseover="r('#00CC00'); return true" shape="RECT">
+			<AREA coords="130,0,139,9" href="javascript:l('#00CC33')" onmouseover="r('#00CC33'); return true" shape="RECT">
+			<AREA coords="140,0,149,9" href="javascript:l('#00CC66')" onmouseover="r('#00CC66'); return true" shape="RECT">
+			<AREA coords="150,0,159,9" href="javascript:l('#00CC99')" onmouseover="r('#00CC99'); return true" shape="RECT">
+			<AREA coords="160,0,169,9" href="javascript:l('#00CCCC')" onmouseover="r('#00CCCC'); return true" shape="RECT">
+			<AREA coords="170,0,179,9" href="javascript:l('#00CCFF')" onmouseover="r('#00CCFF'); return true" shape="RECT">
+			<AREA coords="0,10,9,19" href="javascript:l('#003300')" onmouseover="r('#003300'); return true" shape="RECT">
+			<AREA coords="10,10,19,19" href="javascript:l('#003333')" onmouseover="r('#003333'); return true" shape="RECT">
+			<AREA coords="20,10,29,19" href="javascript:l('#003366')" onmouseover="r('#003366'); return true" shape="RECT">
+			<AREA coords="30,10,39,19" href="javascript:l('#003399')" onmouseover="r('#003399'); return true" shape="RECT">
+			<AREA coords="40,10,49,19" href="javascript:l('#0033CC')" onmouseover="r('#0033CC'); return true" shape="RECT">
+			<AREA coords="50,10,59,19" href="javascript:l('#0033FF')" onmouseover="r('#0033FF'); return true" shape="RECT">
+			<AREA coords="60,10,69,19" href="javascript:l('#009900')" onmouseover="r('#009900'); return true" shape="RECT">
+			<AREA coords="70,10,79,19" href="javascript:l('#009933')" onmouseover="r('#009933'); return true" shape="RECT">
+			<AREA coords="80,10,89,19" href="javascript:l('#009966')" onmouseover="r('#009966'); return true" shape="RECT">
+			<AREA coords="90,10,99,19" href="javascript:l('#009999')" onmouseover="r('#009999'); return true" shape="RECT">
+			<AREA coords="100,10,109,19" href="javascript:l('#0099CC')" onmouseover="r('#0099CC'); return true" shape="RECT">
+			<AREA coords="110,10,119,19" href="javascript:l('#0099FF')" onmouseover="r('#0099FF'); return true" shape="RECT">
+			<AREA coords="120,10,129,19" href="javascript:l('#00FF00')" onmouseover="r('#00FF00'); return true" shape="RECT">
+			<AREA coords="130,10,139,19" href="javascript:l('#00FF33')" onmouseover="r('#00FF33'); return true" shape="RECT">
+			<AREA coords="140,10,149,19" href="javascript:l('#00FF66')" onmouseover="r('#00FF66'); return true" shape="RECT">
+			<AREA coords="150,10,159,19" href="javascript:l('#00FF99')" onmouseover="r('#00FF99'); return true" shape="RECT">
+			<AREA coords="160,10,169,19" href="javascript:l('#00FFCC')" onmouseover="r('#00FFCC'); return true" shape="RECT">
+			<AREA coords="170,10,179,19" href="javascript:l('#00FFFF')" onmouseover="r('#00FFFF'); return true" shape="RECT">
+			<AREA coords="0,20,9,29" href="javascript:l('#330000')" onmouseover="r('#330000'); return true" shape="RECT">
+			<AREA coords="10,20,19,29" href="javascript:l('#330033')" onmouseover="r('#330033'); return true" shape="RECT">
+			<AREA coords="20,20,29,29" href="javascript:l('#330066')" onmouseover="r('#330066'); return true" shape="RECT">
+			<AREA coords="30,20,39,29" href="javascript:l('#330099')" onmouseover="r('#330099'); return true" shape="RECT">
+			<AREA coords="40,20,49,29" href="javascript:l('#3300CC')" onmouseover="r('#3300CC'); return true" shape="RECT">
+			<AREA coords="50,20,59,29" href="javascript:l('#3300FF')" onmouseover="r('#3300FF'); return true" shape="RECT">
+			<AREA coords="60,20,69,29" href="javascript:l('#336600')" onmouseover="r('#336600'); return true" shape="RECT">
+			<AREA coords="70,20,79,29" href="javascript:l('#336633')" onmouseover="r('#336633'); return true" shape="RECT">
+			<AREA coords="80,20,89,29" href="javascript:l('#336666')" onmouseover="r('#336666'); return true" shape="RECT">
+			<AREA coords="90,20,99,29" href="javascript:l('#336699')" onmouseover="r('#336699'); return true" shape="RECT">
+			<AREA coords="100,20,109,29" href="javascript:l('#3366CC')" onmouseover="r('#3366CC'); return true" shape="RECT">
+			<AREA coords="110,20,119,29" href="javascript:l('#3366FF')" onmouseover="r('#3366FF'); return true" shape="RECT">
+			<AREA coords="120,20,129,29" href="javascript:l('#33CC00')" onmouseover="r('#33CC00'); return true" shape="RECT">
+			<AREA coords="130,20,139,29" href="javascript:l('#33CC33')" onmouseover="r('#33CC33'); return true" shape="RECT">
+			<AREA coords="140,20,149,29" href="javascript:l('#33CC66')" onmouseover="r('#33CC66'); return true" shape="RECT">
+			<AREA coords="150,20,159,29" href="javascript:l('#33CC99')" onmouseover="r('#33CC99'); return true" shape="RECT">
+			<AREA coords="160,20,169,29" href="javascript:l('#33CCCC')" onmouseover="r('#33CCCC'); return true" shape="RECT">
+			<AREA coords="170,20,179,29" href="javascript:l('#33CCFF')" onmouseover="r('#33CCFF'); return true" shape="RECT">
+			<AREA coords="0,30,9,39" href="javascript:l('#333300')" onmouseover="r('#333300'); return true" shape="RECT">
+			<AREA coords="10,30,19,39" href="javascript:l('#333333')" onmouseover="r('#333333'); return true" shape="RECT">
+			<AREA coords="20,30,29,39" href="javascript:l('#333366')" onmouseover="r('#333366'); return true" shape="RECT">
+			<AREA coords="30,30,39,39" href="javascript:l('#333399')" onmouseover="r('#333399'); return true" shape="RECT">
+			<AREA coords="40,30,49,39" href="javascript:l('#3333CC')" onmouseover="r('#3333CC'); return true" shape="RECT">
+			<AREA coords="50,30,59,39" href="javascript:l('#3333FF')" onmouseover="r('#3333FF'); return true" shape="RECT">
+			<AREA coords="60,30,69,39" href="javascript:l('#339900')" onmouseover="r('#339900'); return true" shape="RECT">
+			<AREA coords="70,30,79,39" href="javascript:l('#339933')" onmouseover="r('#339933'); return true" shape="RECT">
+			<AREA coords="80,30,89,39" href="javascript:l('#339966')" onmouseover="r('#339966'); return true" shape="RECT">
+			<AREA coords="90,30,99,39" href="javascript:l('#339999')" onmouseover="r('#339999'); return true" shape="RECT">
+			<AREA coords="100,30,109,39" href="javascript:l('#3399CC')" onmouseover="r('#3399CC'); return true" shape="RECT">
+			<AREA coords="110,30,119,39" href="javascript:l('#3399FF')" onmouseover="r('#3399FF'); return true" shape="RECT">
+			<AREA coords="120,30,129,39" href="javascript:l('#33FF00')" onmouseover="r('#33FF00'); return true" shape="RECT">
+			<AREA coords="130,30,139,39" href="javascript:l('#33FF33')" onmouseover="r('#33FF33'); return true" shape="RECT">
+			<AREA coords="140,30,149,39" href="javascript:l('#33FF66')" onmouseover="r('#33FF66'); return true" shape="RECT">
+			<AREA coords="150,30,159,39" href="javascript:l('#33FF99')" onmouseover="r('#33FF99'); return true" shape="RECT">
+			<AREA coords="160,30,169,39" href="javascript:l('#33FFCC')" onmouseover="r('#33FFCC'); return true" shape="RECT">
+			<AREA coords="170,30,179,39" href="javascript:l('#33FFFF')" onmouseover="r('#33FFFF'); return true" shape="RECT">
+			<AREA coords="0,40,9,49" href="javascript:l('#660000')" onmouseover="r('#660000'); return true" shape="RECT">
+			<AREA coords="10,40,19,49" href="javascript:l('#660033')" onmouseover="r('#660033'); return true" shape="RECT">
+			<AREA coords="20,40,29,49" href="javascript:l('#660066')" onmouseover="r('#660066'); return true" shape="RECT">
+			<AREA coords="30,40,39,49" href="javascript:l('#660099')" onmouseover="r('#660099'); return true" shape="RECT">
+			<AREA coords="40,40,49,49" href="javascript:l('#6600CC')" onmouseover="r('#6600CC'); return true" shape="RECT">
+			<AREA coords="50,40,59,49" href="javascript:l('#6600FF')" onmouseover="r('#6600FF'); return true" shape="RECT">
+			<AREA coords="60,40,69,49" href="javascript:l('#666600')" onmouseover="r('#666600'); return true" shape="RECT">
+			<AREA coords="70,40,79,49" href="javascript:l('#666633')" onmouseover="r('#666633'); return true" shape="RECT">
+			<AREA coords="80,40,89,49" href="javascript:l('#666666')" onmouseover="r('#666666'); return true" shape="RECT">
+			<AREA coords="90,40,99,49" href="javascript:l('#666699')" onmouseover="r('#666699'); return true" shape="RECT">
+			<AREA coords="100,40,109,49" href="javascript:l('#6666CC')" onmouseover="r('#6666CC'); return true" shape="RECT">
+			<AREA coords="110,40,119,49" href="javascript:l('#6666FF')" onmouseover="r('#6666FF'); return true" shape="RECT">
+			<AREA coords="120,40,129,49" href="javascript:l('#66CC00')" onmouseover="r('#66CC00'); return true" shape="RECT">
+			<AREA coords="130,40,139,49" href="javascript:l('#66CC33')" onmouseover="r('#66CC33'); return true" shape="RECT">
+			<AREA coords="140,40,149,49" href="javascript:l('#66CC66')" onmouseover="r('#66CC66'); return true" shape="RECT">
+			<AREA coords="150,40,159,49" href="javascript:l('#66CC99')" onmouseover="r('#66CC99'); return true" shape="RECT">
+			<AREA coords="160,40,169,49" href="javascript:l('#66CCCC')" onmouseover="r('#66CCCC'); return true" shape="RECT">
+			<AREA coords="170,40,179,49" href="javascript:l('#66CCFF')" onmouseover="r('#66CCFF'); return true" shape="RECT">
+			<AREA coords="0,50,9,59" href="javascript:l('#663300')" onmouseover="r('#663300'); return true" shape="RECT">
+			<AREA coords="10,50,19,59" href="javascript:l('#663333')" onmouseover="r('#663333'); return true" shape="RECT">
+			<AREA coords="20,50,29,59" href="javascript:l('#663366')" onmouseover="r('#663366'); return true" shape="RECT">
+			<AREA coords="30,50,39,59" href="javascript:l('#663399')" onmouseover="r('#663399'); return true" shape="RECT">
+			<AREA coords="40,50,49,59" href="javascript:l('#6633CC')" onmouseover="r('#6633CC'); return true" shape="RECT">
+			<AREA coords="50,50,59,59" href="javascript:l('#6633FF')" onmouseover="r('#6633FF'); return true" shape="RECT">
+			<AREA coords="60,50,69,59" href="javascript:l('#669900')" onmouseover="r('#669900'); return true" shape="RECT">
+			<AREA coords="70,50,79,59" href="javascript:l('#669933')" onmouseover="r('#669933'); return true" shape="RECT">
+			<AREA coords="80,50,89,59" href="javascript:l('#669966')" onmouseover="r('#669966'); return true" shape="RECT">
+			<AREA coords="90,50,99,59" href="javascript:l('#669999')" onmouseover="r('#669999'); return true" shape="RECT">
+			<AREA coords="100,50,109,59" href="javascript:l('#6699CC')" onmouseover="r('#6699CC'); return true" shape="RECT">
+			<AREA coords="110,50,119,59" href="javascript:l('#6699FF')" onmouseover="r('#6699FF'); return true" shape="RECT">
+			<AREA coords="120,50,129,59" href="javascript:l('#66FF00')" onmouseover="r('#66FF00'); return true" shape="RECT">
+			<AREA coords="130,50,139,59" href="javascript:l('#66FF33')" onmouseover="r('#66FF33'); return true" shape="RECT">
+			<AREA coords="140,50,149,59" href="javascript:l('#66FF66')" onmouseover="r('#66FF66'); return true" shape="RECT">
+			<AREA coords="150,50,159,59" href="javascript:l('#66FF99')" onmouseover="r('#66FF99'); return true" shape="RECT">
+			<AREA coords="160,50,169,59" href="javascript:l('#66FFCC')" onmouseover="r('#66FFCC'); return true" shape="RECT">
+			<AREA coords="170,50,179,59" href="javascript:l('#66FFFF')" onmouseover="r('#66FFFF'); return true" shape="RECT">
+			<AREA coords="0,60,9,69" href="javascript:l('#990000')" onmouseover="r('#990000'); return true" shape="RECT">
+			<AREA coords="10,60,19,69" href="javascript:l('#990033')" onmouseover="r('#990033'); return true" shape="RECT">
+			<AREA coords="20,60,29,69" href="javascript:l('#990066')" onmouseover="r('#990066'); return true" shape="RECT">
+			<AREA coords="30,60,39,69" href="javascript:l('#990099')" onmouseover="r('#990099'); return true" shape="RECT">
+			<AREA coords="40,60,49,69" href="javascript:l('#9900CC')" onmouseover="r('#9900CC'); return true" shape="RECT">
+			<AREA coords="50,60,59,69" href="javascript:l('#9900FF')" onmouseover="r('#9900FF'); return true" shape="RECT">
+			<AREA coords="60,60,69,69" href="javascript:l('#996600')" onmouseover="r('#996600'); return true" shape="RECT">
+			<AREA coords="70,60,79,69" href="javascript:l('#996633')" onmouseover="r('#996633'); return true" shape="RECT">
+			<AREA coords="80,60,89,69" href="javascript:l('#996666')" onmouseover="r('#996666'); return true" shape="RECT">
+			<AREA coords="90,60,99,69" href="javascript:l('#996699')" onmouseover="r('#996699'); return true" shape="RECT">
+			<AREA coords="100,60,109,69" href="javascript:l('#9966CC')" onmouseover="r('#9966CC'); return true" shape="RECT">
+			<AREA coords="110,60,119,69" href="javascript:l('#9966FF')" onmouseover="r('#9966FF'); return true" shape="RECT">
+			<AREA coords="120,60,129,69" href="javascript:l('#99CC00')" onmouseover="r('#99CC00'); return true" shape="RECT">
+			<AREA coords="130,60,139,69" href="javascript:l('#99CC33')" onmouseover="r('#99CC33'); return true" shape="RECT">
+			<AREA coords="140,60,149,69" href="javascript:l('#99CC66')" onmouseover="r('#99CC66'); return true" shape="RECT">
+			<AREA coords="150,60,159,69" href="javascript:l('#99CC99')" onmouseover="r('#99CC99'); return true" shape="RECT">
+			<AREA coords="160,60,169,69" href="javascript:l('#99CCCC')" onmouseover="r('#99CCCC'); return true" shape="RECT">
+			<AREA coords="170,60,179,69" href="javascript:l('#99CCFF')" onmouseover="r('#99CCFF'); return true" shape="RECT">
+			<AREA coords="0,70,9,79" href="javascript:l('#993300')" onmouseover="r('#993300'); return true" shape="RECT">
+			<AREA coords="10,70,19,79" href="javascript:l('#993333')" onmouseover="r('#993333'); return true" shape="RECT">
+			<AREA coords="20,70,29,79" href="javascript:l('#993366')" onmouseover="r('#993366'); return true" shape="RECT">
+			<AREA coords="30,70,39,79" href="javascript:l('#993399')" onmouseover="r('#993399'); return true" shape="RECT">
+			<AREA coords="40,70,49,79" href="javascript:l('#9933CC')" onmouseover="r('#9933CC'); return true" shape="RECT">
+			<AREA coords="50,70,59,79" href="javascript:l('#9933FF')" onmouseover="r('#9933FF'); return true" shape="RECT">
+			<AREA coords="60,70,69,79" href="javascript:l('#999900')" onmouseover="r('#999900'); return true" shape="RECT">
+			<AREA coords="70,70,79,79" href="javascript:l('#999933')" onmouseover="r('#999933'); return true" shape="RECT">
+			<AREA coords="80,70,89,79" href="javascript:l('#999966')" onmouseover="r('#999966'); return true" shape="RECT">
+			<AREA coords="90,70,99,79" href="javascript:l('#999999')" onmouseover="r('#999999'); return true" shape="RECT">
+			<AREA coords="100,70,109,79" href="javascript:l('#9999CC')" onmouseover="r('#9999CC'); return true" shape="RECT">
+			<AREA coords="110,70,119,79" href="javascript:l('#9999FF')" onmouseover="r('#9999FF'); return true" shape="RECT">
+			<AREA coords="120,70,129,79" href="javascript:l('#99FF00')" onmouseover="r('#99FF00'); return true" shape="RECT">
+			<AREA coords="130,70,139,79" href="javascript:l('#99FF33')" onmouseover="r('#99FF33'); return true" shape="RECT">
+			<AREA coords="140,70,149,79" href="javascript:l('#99FF66')" onmouseover="r('#99FF66'); return true" shape="RECT">
+			<AREA coords="150,70,159,79" href="javascript:l('#99FF99')" onmouseover="r('#99FF99'); return true" shape="RECT">
+			<AREA coords="160,70,169,79" href="javascript:l('#99FFCC')" onmouseover="r('#99FFCC'); return true" shape="RECT">
+			<AREA coords="170,70,179,79" href="javascript:l('#99FFFF')" onmouseover="r('#99FFFF'); return true" shape="RECT">
+			<AREA coords="0,80,9,89" href="javascript:l('#CC0000')" onmouseover="r('#CC0000'); return true" shape="RECT">
+			<AREA coords="10,80,19,89" href="javascript:l('#CC0033')" onmouseover="r('#CC0033'); return true" shape="RECT">
+			<AREA coords="20,80,29,89" href="javascript:l('#CC0066')" onmouseover="r('#CC0066'); return true" shape="RECT">
+			<AREA coords="30,80,39,89" href="javascript:l('#CC0099')" onmouseover="r('#CC0099'); return true" shape="RECT">
+			<AREA coords="40,80,49,89" href="javascript:l('#CC00CC')" onmouseover="r('#CC00CC'); return true" shape="RECT">
+			<AREA coords="50,80,59,89" href="javascript:l('#CC00FF')" onmouseover="r('#CC00FF'); return true" shape="RECT">
+			<AREA coords="60,80,69,89" href="javascript:l('#CC6600')" onmouseover="r('#CC6600'); return true" shape="RECT">
+			<AREA coords="70,80,79,89" href="javascript:l('#CC6633')" onmouseover="r('#CC6633'); return true" shape="RECT">
+			<AREA coords="80,80,89,89" href="javascript:l('#CC6666')" onmouseover="r('#CC6666'); return true" shape="RECT">
+			<AREA coords="90,80,99,89" href="javascript:l('#CC6699')" onmouseover="r('#CC6699'); return true" shape="RECT">
+			<AREA coords="100,80,109,89" href="javascript:l('#CC66CC')" onmouseover="r('#CC66CC'); return true" shape="RECT">
+			<AREA coords="110,80,119,89" href="javascript:l('#CC66FF')" onmouseover="r('#CC66FF'); return true" shape="RECT">
+			<AREA coords="120,80,129,89" href="javascript:l('#CCCC00')" onmouseover="r('#CCCC00'); return true" shape="RECT">
+			<AREA coords="130,80,139,89" href="javascript:l('#CCCC33')" onmouseover="r('#CCCC33'); return true" shape="RECT">
+			<AREA coords="140,80,149,89" href="javascript:l('#CCCC66')" onmouseover="r('#CCCC66'); return true" shape="RECT">
+			<AREA coords="150,80,159,89" href="javascript:l('#CCCC99')" onmouseover="r('#CCCC99'); return true" shape="RECT">
+			<AREA coords="160,80,169,89" href="javascript:l('#CCCCCC')" onmouseover="r('#CCCCCC'); return true" shape="RECT">
+			<AREA coords="170,80,179,89" href="javascript:l('#CCCCFF')" onmouseover="r('#CCCCFF'); return true" shape="RECT">
+			<AREA coords="0,90,9,99" href="javascript:l('#CC3300')" onmouseover="r('#CC3300'); return true" shape="RECT">
+			<AREA coords="10,90,19,99" href="javascript:l('#CC3333')" onmouseover="r('#CC3333'); return true" shape="RECT">
+			<AREA coords="20,90,29,99" href="javascript:l('#CC3366')" onmouseover="r('#CC3366'); return true" shape="RECT">
+			<AREA coords="30,90,39,99" href="javascript:l('#CC3399')" onmouseover="r('#CC3399'); return true" shape="RECT">
+			<AREA coords="40,90,49,99" href="javascript:l('#CC33CC')" onmouseover="r('#CC33CC'); return true" shape="RECT">
+			<AREA coords="50,90,59,99" href="javascript:l('#CC33FF')" onmouseover="r('#CC33FF'); return true" shape="RECT">
+			<AREA coords="60,90,69,99" href="javascript:l('#CC9900')" onmouseover="r('#CC9900'); return true" shape="RECT">
+			<AREA coords="70,90,79,99" href="javascript:l('#CC9933')" onmouseover="r('#CC9933'); return true" shape="RECT">
+			<AREA coords="80,90,89,99" href="javascript:l('#CC9966')" onmouseover="r('#CC9966'); return true" shape="RECT">
+			<AREA coords="90,90,99,99" href="javascript:l('#CC9999')" onmouseover="r('#CC9999'); return true" shape="RECT">
+			<AREA coords="100,90,109,99" href="javascript:l('#CC99CC')" onmouseover="r('#CC99CC'); return true" shape="RECT">
+			<AREA coords="110,90,119,99" href="javascript:l('#CC99FF')" onmouseover="r('#CC99FF'); return true" shape="RECT">
+			<AREA coords="120,90,129,99" href="javascript:l('#CCFF00')" onmouseover="r('#CCFF00'); return true" shape="RECT">
+			<AREA coords="130,90,139,99" href="javascript:l('#CCFF33')" onmouseover="r('#CCFF33'); return true" shape="RECT">
+			<AREA coords="140,90,149,99" href="javascript:l('#CCFF66')" onmouseover="r('#CCFF66'); return true" shape="RECT">
+			<AREA coords="150,90,159,99" href="javascript:l('#CCFF99')" onmouseover="r('#CCFF99'); return true" shape="RECT">
+			<AREA coords="160,90,169,99" href="javascript:l('#CCFFCC')" onmouseover="r('#CCFFCC'); return true" shape="RECT">
+			<AREA coords="170,90,179,99" href="javascript:l('#CCFFFF')" onmouseover="r('#CCFFFF'); return true" shape="RECT">
+			<AREA coords="0,100,9,109" href="javascript:l('#FF0000')" onmouseover="r('#FF0000'); return true" shape="RECT">
+			<AREA coords="10,100,19,109" href="javascript:l('#FF0033')" onmouseover="r('#FF0033'); return true" shape="RECT">
+			<AREA coords="20,100,29,109" href="javascript:l('#FF0066')" onmouseover="r('#FF0066'); return true" shape="RECT">
+			<AREA coords="30,100,39,109" href="javascript:l('#FF0099')" onmouseover="r('#FF0099'); return true" shape="RECT">
+			<AREA coords="40,100,49,109" href="javascript:l('#FF00CC')" onmouseover="r('#FF00CC'); return true" shape="RECT">
+			<AREA coords="50,100,59,109" href="javascript:l('#FF00FF')" onmouseover="r('#FF00FF'); return true" shape="RECT">
+			<AREA coords="60,100,69,109" href="javascript:l('#FF6600')" onmouseover="r('#FF6600'); return true" shape="RECT">
+			<AREA coords="70,100,79,109" href="javascript:l('#FF6633')" onmouseover="r('#FF6633'); return true" shape="RECT">
+			<AREA coords="80,100,89,109" href="javascript:l('#FF6666')" onmouseover="r('#FF6666'); return true" shape="RECT">
+			<AREA coords="90,100,99,109" href="javascript:l('#FF6699')" onmouseover="r('#FF6699'); return true" shape="RECT">
+			<AREA coords="100,100,109,109" href="javascript:l('#FF66CC')" onmouseover="r('#FF66CC'); return true" shape="RECT">
+			<AREA coords="110,100,119,109" href="javascript:l('#FF66FF')" onmouseover="r('#FF66FF'); return true" shape="RECT">
+			<AREA coords="120,100,129,109" href="javascript:l('#FFCC00')" onmouseover="r('#FFCC00'); return true" shape="RECT">
+			<AREA coords="130,100,139,109" href="javascript:l('#FFCC33')" onmouseover="r('#FFCC33'); return true" shape="RECT">
+			<AREA coords="140,100,149,109" href="javascript:l('#FFCC66')" onmouseover="r('#FFCC66'); return true" shape="RECT">
+			<AREA coords="150,100,159,109" href="javascript:l('#FFCC99')" onmouseover="r('#FFCC99'); return true" shape="RECT">
+			<AREA coords="160,100,169,109" href="javascript:l('#FFCCCC')" onmouseover="r('#FFCCCC'); return true" shape="RECT">
+			<AREA coords="170,100,179,109" href="javascript:l('#FFCCFF')" onmouseover="r('#FFCCFF'); return true" shape="RECT">
+			<AREA coords="0,110,9,119" href="javascript:l('#FF3300')" onmouseover="r('#FF3300'); return true" shape="RECT">
+			<AREA coords="10,110,19,119" href="javascript:l('#FF3333')" onmouseover="r('#FF3333'); return true" shape="RECT">
+			<AREA coords="20,110,29,119" href="javascript:l('#FF3366')" onmouseover="r('#FF3366'); return true" shape="RECT">
+			<AREA coords="30,110,39,119" href="javascript:l('#FF3399')" onmouseover="r('#FF3399'); return true" shape="RECT">
+			<AREA coords="40,110,49,119" href="javascript:l('#FF33CC')" onmouseover="r('#FF33CC'); return true" shape="RECT">
+			<AREA coords="50,110,59,119" href="javascript:l('#FF33FF')" onmouseover="r('#FF33FF'); return true" shape="RECT">
+			<AREA coords="60,110,69,119" href="javascript:l('#FF9900')" onmouseover="r('#FF9900'); return true" shape="RECT">
+			<AREA coords="70,110,79,119" href="javascript:l('#FF9933')" onmouseover="r('#FF9933'); return true" shape="RECT">
+			<AREA coords="80,110,89,119" href="javascript:l('#FF9966')" onmouseover="r('#FF9966'); return true" shape="RECT">
+			<AREA coords="90,110,99,119" href="javascript:l('#FF9999')" onmouseover="r('#FF9999'); return true" shape="RECT">
+			<AREA coords="100,110,109,119" href="javascript:l('#FF99CC')" onmouseover="r('#FF99CC'); return true" shape="RECT">
+			<AREA coords="110,110,119,119" href="javascript:l('#FF99FF')" onmouseover="r('#FF99FF'); return true" shape="RECT">
+			<AREA coords="120,110,129,119" href="javascript:l('#FFFF00')" onmouseover="r('#FFFF00'); return true" shape="RECT">
+			<AREA coords="130,110,139,119" href="javascript:l('#FFFF33')" onmouseover="r('#FFFF33'); return true" shape="RECT">
+			<AREA coords="140,110,149,119" href="javascript:l('#FFFF66')" onmouseover="r('#FFFF66'); return true" shape="RECT">
+			<AREA coords="150,110,159,119" href="javascript:l('#FFFF99')" onmouseover="r('#FFFF99'); return true" shape="RECT">
+			<AREA coords="160,110,169,119" href="javascript:l('#FFFFCC')" onmouseover="r('#FFFFCC'); return true" shape="RECT">
+			<AREA coords="170,110,179,119" href="javascript:l('#FFFFFF')" onmouseover="r('#FFFFFF'); return true" shape="RECT">
+		</MAP>
+		
+	</BODY>
+</HTML>

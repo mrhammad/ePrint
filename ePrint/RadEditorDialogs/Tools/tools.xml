@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<root>
+    <tools name="MainToolbar" enabled="true">
+        <tool name="Bold" />
+        <tool name="Italic" />
+        <tool name="Underline" />
+        <tool name="StrikeThrough" />
+        <tool separator="true"/>
+        <tool name="InsertOrderedList" />
+        <tool name="InsertUnorderedList" />
+        <tool name="Indent" />
+        <tool name="Outdent" />
+        <tool separator="true"/>
+        <tool name="JustifyLeft" />
+        <tool name="JustifyCenter" />
+        <tool name="JustifyRight"  />
+        <tool name="JustifyFull"  />
+        <tool separator="true"/>
+        <tool name="LinkManager" />
+        <tool name="Unlink" />
+        <tool separator="true"/>
+        <tool name="InsertLink" text="Insert Anchor" />
+        <tool name="FlashManager" />
+        <tool name="InsertTableLight" />
+        <tool name="SetTableProperties" />
+        <tool name="InsertHorizontalRule" />
+        <tool name="InsertSymbol" />
+        <tool separator="true"/>
+        <tool name="ImageManager" ShortCut="CTRL+M" />
+        <tool name="ToggleScreenMode" />
+    </tools>
+    <fontNames>
+        <item name="None" />
+        <item name="Arial" />
+        <item name="Abadi Cond ExtraBold" />
+        <item name="Abadi Cond light" />
+        <item name="Calibri" />
+        <item name="Century Gothic" />
+        <item name="Comic Sans MS" />
+        <item name="Courier New" />
+        <item name="Futura Heavy-italic" />
+        <item name="Futura Light-italic" />
+        <item name="Georgia" />
+        <item name="Gill Sans" />
+        <item name="Gill Sans Bold" />
+        <item name="Gill Sans Light" />
+        <item name="Gotham" />
+        <item name="Gotham Book" />
+        <item name="Gotham Light" />
+        <item name="Gotham Medium" />
+        <item name="Helvetica neue LT STD" />
+        <item name="HelveticaNeue Bold" />
+        <item name="Helvetica-Neue-light" />
+        <item name="HelveticaNeue Roman" />
+        <item name="Impact" />
+        <item name="ITC Garamond Bold Italic" />
+        <item name="ITC Century Book Cond" />
+        <item name="ITC Century Bold Cond" />
+        <item name="ITC Garamond Book-italic" />
+        <item name="ITC Garamond Book Cond" />
+        <item name="ITC Garamond Bold Cond" />
+        <item name="News Gothic Bold-italic" />
+        <item name="News Gothic-italic" />
+        <item name="Tahoma" />
+        <item name="Times New Roman" />
+        <item name="Trebuchet Ms" />
+        <item name="Verdana" />
+        <item name="Wedding-Text" />
+        <item name="Free 3 of 9" />
+        <item name="Free 3 of 9 Extended" />
+        <item name="Barcode39" />
+        <item name="NewsGothicBT-Bold" />
+        <item name="NewsGothicBT-BoldItalic" />
+        <item name="NewsGothicBT-Light" />
+        <item name="NewsGothicBT-Roman" />
+        <item name="CAMBRIA" />
+    </fontNames>
+    <tools  enabled="true">
+        <tool name="ForeColor" />
+        <tool name="BackColor" />
+        <tool name="FontName" />
+        <tool name="FontSize" />
+        <tool name="RealFontSize" />
+        <tool name="FormatBlock" />
+        <tool separator="true"/>
+        <tool name="SelectAll" />
+        <tool name="InsertGroupbox"/>
+        <tool name="Print" />
+    </tools>
+
+</root>

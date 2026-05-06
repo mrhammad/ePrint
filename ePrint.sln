@@ -1,0 +1,157 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31702.278
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ePrint", "ePrint\ePrint.csproj", "{A9FDDD9E-B28A-4D0A-AD2C-1DC9922686A8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HTML5TemplateEditor", "HTML5TemplateEditor\HTML5TemplateEditor.csproj", "{AD4A88BA-D357-430A-AD2F-7C3C62F009DE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ePrint.WebStore", "ePrint.WebStore\ePrint.WebStore.csproj", "{46C645F6-9F7B-4A69-B826-749439597971}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HTML5TemplateEditor_etclient", "HTML5TemplateEditor_etclient\HTML5TemplateEditor_etclient.csproj", "{6F7B4F7D-9B7F-4814-8053-DED750B58296}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DMCOrdersImportProcess", "orderimportprocess\DMCOrdersImportProcess.csproj", "{8D7D266D-9EA0-4BA7-AFF8-7573FFD200AA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DMCOrdersImport", "orderImport\DMCOrdersImport.csproj", "{110D65C0-F7E6-4F17-BBA5-1ADE9D6A6869}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ePrint.MyPublicStore", "ePrint.MyPublicStore\ePrint.MyPublicStore.csproj", "{D5369251-9B75-4C70-AA4F-817EDCFA2E46}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|Mixed Platforms = Debug|Mixed Platforms
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|Mixed Platforms = Release|Mixed Platforms
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A9FDDD9E-B28A-4D0A-AD2C-1DC9922686A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A9FDDD9E-B28A-4D0A-AD2C-1DC9922686A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A9FDDD9E-B28A-4D0A-AD2C-1DC9922686A8}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{A9FDDD9E-B28A-4D0A-AD2C-1DC9922686A8}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{A9FDDD9E-B28A-4D0A-AD2C-1DC9922686A8}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{A9FDDD9E-B28A-4D0A-AD2C-1DC9922686A8}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{A9FDDD9E-B28A-4D0A-AD2C-1DC9922686A8}.Debug|x64.Build.0 = Debug|Any CPU
+		{A9FDDD9E-B28A-4D0A-AD2C-1DC9922686A8}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{A9FDDD9E-B28A-4D0A-AD2C-1DC9922686A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A9FDDD9E-B28A-4D0A-AD2C-1DC9922686A8}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{A9FDDD9E-B28A-4D0A-AD2C-1DC9922686A8}.Release|Mixed Platforms.Build.0 = Release|x86
+		{A9FDDD9E-B28A-4D0A-AD2C-1DC9922686A8}.Release|x64.ActiveCfg = Release|Any CPU
+		{A9FDDD9E-B28A-4D0A-AD2C-1DC9922686A8}.Release|x86.ActiveCfg = Release|x86
+		{A9FDDD9E-B28A-4D0A-AD2C-1DC9922686A8}.Release|x86.Build.0 = Release|x86
+		{AD4A88BA-D357-430A-AD2F-7C3C62F009DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AD4A88BA-D357-430A-AD2F-7C3C62F009DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AD4A88BA-D357-430A-AD2F-7C3C62F009DE}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{AD4A88BA-D357-430A-AD2F-7C3C62F009DE}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{AD4A88BA-D357-430A-AD2F-7C3C62F009DE}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{AD4A88BA-D357-430A-AD2F-7C3C62F009DE}.Debug|x64.Build.0 = Debug|Any CPU
+		{AD4A88BA-D357-430A-AD2F-7C3C62F009DE}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{AD4A88BA-D357-430A-AD2F-7C3C62F009DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AD4A88BA-D357-430A-AD2F-7C3C62F009DE}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{AD4A88BA-D357-430A-AD2F-7C3C62F009DE}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{AD4A88BA-D357-430A-AD2F-7C3C62F009DE}.Release|x64.ActiveCfg = Release|Any CPU
+		{AD4A88BA-D357-430A-AD2F-7C3C62F009DE}.Release|x86.ActiveCfg = Release|Any CPU
+		{46C645F6-9F7B-4A69-B826-749439597971}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{46C645F6-9F7B-4A69-B826-749439597971}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{46C645F6-9F7B-4A69-B826-749439597971}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{46C645F6-9F7B-4A69-B826-749439597971}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{46C645F6-9F7B-4A69-B826-749439597971}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{46C645F6-9F7B-4A69-B826-749439597971}.Debug|x64.Build.0 = Debug|Any CPU
+		{46C645F6-9F7B-4A69-B826-749439597971}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{46C645F6-9F7B-4A69-B826-749439597971}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{46C645F6-9F7B-4A69-B826-749439597971}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{46C645F6-9F7B-4A69-B826-749439597971}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{46C645F6-9F7B-4A69-B826-749439597971}.Release|x64.ActiveCfg = Release|x64
+		{46C645F6-9F7B-4A69-B826-749439597971}.Release|x64.Build.0 = Release|x64
+		{46C645F6-9F7B-4A69-B826-749439597971}.Release|x86.ActiveCfg = Release|Any CPU
+		{6F7B4F7D-9B7F-4814-8053-DED750B58296}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6F7B4F7D-9B7F-4814-8053-DED750B58296}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6F7B4F7D-9B7F-4814-8053-DED750B58296}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{6F7B4F7D-9B7F-4814-8053-DED750B58296}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{6F7B4F7D-9B7F-4814-8053-DED750B58296}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{6F7B4F7D-9B7F-4814-8053-DED750B58296}.Debug|x64.Build.0 = Debug|Any CPU
+		{6F7B4F7D-9B7F-4814-8053-DED750B58296}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{6F7B4F7D-9B7F-4814-8053-DED750B58296}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6F7B4F7D-9B7F-4814-8053-DED750B58296}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{6F7B4F7D-9B7F-4814-8053-DED750B58296}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{6F7B4F7D-9B7F-4814-8053-DED750B58296}.Release|x64.ActiveCfg = Release|Any CPU
+		{6F7B4F7D-9B7F-4814-8053-DED750B58296}.Release|x86.ActiveCfg = Release|Any CPU
+		{8D7D266D-9EA0-4BA7-AFF8-7573FFD200AA}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{8D7D266D-9EA0-4BA7-AFF8-7573FFD200AA}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{8D7D266D-9EA0-4BA7-AFF8-7573FFD200AA}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{8D7D266D-9EA0-4BA7-AFF8-7573FFD200AA}.Debug|x64.ActiveCfg = Debug|x86
+		{8D7D266D-9EA0-4BA7-AFF8-7573FFD200AA}.Debug|x86.ActiveCfg = Debug|x86
+		{8D7D266D-9EA0-4BA7-AFF8-7573FFD200AA}.Debug|x86.Build.0 = Debug|x86
+		{8D7D266D-9EA0-4BA7-AFF8-7573FFD200AA}.Release|Any CPU.ActiveCfg = Release|x86
+		{8D7D266D-9EA0-4BA7-AFF8-7573FFD200AA}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{8D7D266D-9EA0-4BA7-AFF8-7573FFD200AA}.Release|Mixed Platforms.Build.0 = Release|x86
+		{8D7D266D-9EA0-4BA7-AFF8-7573FFD200AA}.Release|x64.ActiveCfg = Release|x86
+		{8D7D266D-9EA0-4BA7-AFF8-7573FFD200AA}.Release|x86.ActiveCfg = Release|x86
+		{8D7D266D-9EA0-4BA7-AFF8-7573FFD200AA}.Release|x86.Build.0 = Release|x86
+		{110D65C0-F7E6-4F17-BBA5-1ADE9D6A6869}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{110D65C0-F7E6-4F17-BBA5-1ADE9D6A6869}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{110D65C0-F7E6-4F17-BBA5-1ADE9D6A6869}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{110D65C0-F7E6-4F17-BBA5-1ADE9D6A6869}.Debug|x64.ActiveCfg = Debug|x86
+		{110D65C0-F7E6-4F17-BBA5-1ADE9D6A6869}.Debug|x86.ActiveCfg = Debug|x86
+		{110D65C0-F7E6-4F17-BBA5-1ADE9D6A6869}.Debug|x86.Build.0 = Debug|x86
+		{110D65C0-F7E6-4F17-BBA5-1ADE9D6A6869}.Release|Any CPU.ActiveCfg = Release|x86
+		{110D65C0-F7E6-4F17-BBA5-1ADE9D6A6869}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{110D65C0-F7E6-4F17-BBA5-1ADE9D6A6869}.Release|Mixed Platforms.Build.0 = Release|x86
+		{110D65C0-F7E6-4F17-BBA5-1ADE9D6A6869}.Release|x64.ActiveCfg = Release|x86
+		{110D65C0-F7E6-4F17-BBA5-1ADE9D6A6869}.Release|x86.ActiveCfg = Release|x86
+		{110D65C0-F7E6-4F17-BBA5-1ADE9D6A6869}.Release|x86.Build.0 = Release|x86
+		{D5369251-9B75-4C70-AA4F-817EDCFA2E46}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D5369251-9B75-4C70-AA4F-817EDCFA2E46}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D5369251-9B75-4C70-AA4F-817EDCFA2E46}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{D5369251-9B75-4C70-AA4F-817EDCFA2E46}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{D5369251-9B75-4C70-AA4F-817EDCFA2E46}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{D5369251-9B75-4C70-AA4F-817EDCFA2E46}.Debug|x64.Build.0 = Debug|Any CPU
+		{D5369251-9B75-4C70-AA4F-817EDCFA2E46}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{D5369251-9B75-4C70-AA4F-817EDCFA2E46}.Debug|x86.Build.0 = Debug|Any CPU
+		{D5369251-9B75-4C70-AA4F-817EDCFA2E46}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D5369251-9B75-4C70-AA4F-817EDCFA2E46}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D5369251-9B75-4C70-AA4F-817EDCFA2E46}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{D5369251-9B75-4C70-AA4F-817EDCFA2E46}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{D5369251-9B75-4C70-AA4F-817EDCFA2E46}.Release|x64.ActiveCfg = Release|Any CPU
+		{D5369251-9B75-4C70-AA4F-817EDCFA2E46}.Release|x64.Build.0 = Release|Any CPU
+		{D5369251-9B75-4C70-AA4F-817EDCFA2E46}.Release|x86.ActiveCfg = Release|Any CPU
+		{D5369251-9B75-4C70-AA4F-817EDCFA2E46}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {ACF529A8-0B6B-4E0E-BB1A-5FC52C669EE1}
+	EndGlobalSection
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 8
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://hexicomsoftware.visualstudio.com/
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = HTML5TemplateEditor\\HTML5TemplateEditor.csproj
+		SccProjectName1 = HTML5TemplateEditor
+		SccLocalPath1 = HTML5TemplateEditor
+		SccProjectUniqueName2 = ePrint.WebStore\\ePrint.WebStore.csproj
+		SccProjectName2 = ePrint.WebStore
+		SccLocalPath2 = ePrint.WebStore
+		SccProjectUniqueName3 = ePrint\\ePrint.csproj
+		SccProjectName3 = ePrint
+		SccLocalPath3 = ePrint
+		SccProjectUniqueName4 = HTML5TemplateEditor_etclient\\HTML5TemplateEditor_etclient.csproj
+		SccProjectName4 = HTML5TemplateEditor_etclient
+		SccLocalPath4 = HTML5TemplateEditor_etclient
+		SccProjectUniqueName5 = orderimportprocess\\DMCOrdersImportProcess.csproj
+		SccProjectName5 = orderimportprocess
+		SccLocalPath5 = orderimportprocess
+		SccProjectUniqueName6 = orderImport\\DMCOrdersImport.csproj
+		SccProjectName6 = orderImport
+		SccLocalPath6 = orderImport
+		SccProjectUniqueName7 = ePrint.MyPublicStore\\ePrint.MyPublicStore.csproj
+		SccProjectName7 = ePrint.MyPublicStore
+		SccLocalPath7 = ePrint.MyPublicStore
+	EndGlobalSection
+EndGlobal

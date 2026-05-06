@@ -1,0 +1,112 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" Inherits="ePrint.Templates.innerMasterPage_withoutLeftTD" %>
+
+<%@ Register TagPrefix="crm" TagName="headerUC" Src="~/Templates/header.ascx" %>
+<%@ Register TagPrefix="crm" TagName="lowerheaderUC" Src="~/Templates/lowerheader.ascx" %>
+
+<!DOCTYPE html>
+<html>
+<head id="Head1" runat="server">
+    <title>Untitled Page</title>
+    <noscript>Your browser does not support JavaScript! ...</noscript>
+
+    <script type="text/javascript" src="../common/Report.js?VN='<%#VersionNumber%>'"></script>
+    <script type="text/javascript" src="../common/calendar.js?VN='<%#VersionNumber%>'"></script>
+    <script type="text/javascript" src="../common/swazz_calendar.js?VN='<%#VersionNumber%>'"></script>
+    <script type="text/javascript" src="../js/jquery-1.3.2.js?VN='<%#VersionNumber%>'"></script>
+    <script type="text/javascript">
+        var roundoff = '<%#roundoff%>';
+    </script>
+    <script type="text/javascript" src="../js/commonloading.js?VN='<%#VersionNumber%>'"></script>
+    <script type="text/javascript" src="../js/jquery.min.js?VN='<%#VersionNumber%>'"></script>
+    <script type="text/javascript" src="../js/jquery.popup.js?VN='<%#VersionNumber%>'"></script>
+
+    <asp:ContentPlaceHolder ID="HeadContent" runat="server"></asp:ContentPlaceHolder>
+
+    <style type="text/css">
+        html, body {
+            margin: 0; 
+            padding: 0; 
+            height: 100%;
+            font-family: Arial, sans-serif;
+        }
+    #container {
+        display: flex;
+        min-height: 100vh;
+        width: 100%;
+    }
+
+    #leftNav {
+        flex-shrink: 0;
+        position: relative;
+        z-index: 1000;
+        width: 250px;
+    }
+
+    #mainContent {
+        flex: 1;
+        background-color: #fff;
+        min-width: 0;
+        position: relative;
+        z-index: 1;
+        padding:20px;
+    }
+
+    </style>
+</head>
+<body>
+    <asp:PlaceHolder ID="plhStyle" runat="server"></asp:PlaceHolder>
+    <form id="form1" runat="server">
+        <asp:ScriptManager ID="sm1" runat="server" EnablePartialRendering="true" EnablePageMethods="true" AsyncPostBackTimeout="360000">
+            <Services>
+                <asp:ServiceReference Path="~/AutoFill.asmx" />
+                <asp:ServiceReference Path="~/ContentManagementWebService.asmx" />
+                <asp:ServiceReference Path="~/press_select.asmx" />
+                <asp:ServiceReference Path="~/item_summary.asmx" />
+                <asp:ServiceReference Path="~/PDFGenration.asmx" />
+            </Services>
+        </asp:ScriptManager>
+        <input id="Hidden1" type="hidden" name="Hidden1" runat="server" />
+
+        <div id="container">
+            <div id="leftNav">
+                <asp:PlaceHolder ID="plhHeader" runat="server"></asp:PlaceHolder>
+               <crm:headerUC ID="header1" runat="server"></crm:headerUC>
+            </div>
+
+            <div id="mainContent"> 
+                <crm:lowerheaderUC ID="header2" runat="server"></crm:lowerheaderUC>
+                <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server"></asp:ContentPlaceHolder>
+                <div class="border_views"></div>
+                <asp:PlaceHolder ID="plhFooter" runat="server"></asp:PlaceHolder>
+            </div>
+        </div>
+    </form>
+
+    <script type="text/javascript">
+        // The previous JavaScript alignment logic is now removed as it is not needed
+
+        Telerik.Web.UI.RadListBox.prototype.saveClientState = function () {
+            return "{" +
+                "\"isEnabled\":" + this._enabled +
+                ",\"logEntries\":" + this._logEntriesJson +
+                ",\"selectedIndices\":" + this._selectedIndicesJson +
+                ",\"checkedIndices\":" + this._checkedIndicesJson +
+                ",\"scrollPosition\":" + Math.round(this._scrollPosition) +
+                "}";
+        }
+        // ... (remaining Telerik scripts) ...
+        Telerik.Web.UI.RadTreeView.prototype.saveClientState = function () {
+            return "{\"expandedNodes\":" + this._expandedNodesJson +
+                ",\"collapsedNodes\":" + this._collapsedNodesJson +
+                ",\"logEntries\":" + this._logEntriesJson +
+                ",\"selectedNodes\":" + this._selectedNodesJson +
+                ",\"checkedNodes\":" + this._checkedNodesJson +
+                ",\"scrollPosition\":" + Math.round(this._scrollPosition) + "}";
+        }
+
+        Telerik.Web.UI.RadScheduler.prototype.saveClientState = function () {
+            return '{"scrollTop":' + Math.round(this._scrollTop) + ',"scrollLeft":' + Math.round(this._scrollLeft) + ',"isDirty":' + this._isDirty + '}';
+        }
+    </script>
+</body>
+</html>

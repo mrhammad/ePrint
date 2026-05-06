@@ -1,0 +1,227 @@
+<script>
+ 
+	var zoomLevel = 1.00;
+	var MAX_ZOOM = 3.10;
+	var MIN_ZOOM = 1.00;
+	
+	var width = 386;
+	var height = 386;
+	
+	var zoomWidth = 386;
+	var zoomHeight = 386;
+	
+	var zoomed = false;
+	var zooming = false; 
+	
+	var mouseDown = false;
+	
+	var pos = new Object();
+	pos.x = 0;
+	pos.y = 0;
+	
+ 
+	function zoomIn(){
+		
+		zoomLevel += .1;
+		
+		if (zoomLevel > MAX_ZOOM){
+			zoomLevel = MAX_ZOOM;
+			zoomed = true;
+			zooming = false;
+			
+			document.getElementById('zoom').style.width = zoomLevel * width;
+			document.getElementById('zoom').style.height = zoomLevel * height;
+			
+			// calculate new left / top
+			var newLeft=  ((zoomLevel * width) - width) / 2;
+			var newTop =  ((zoomLevel * height) - height) / 2;
+			pos.x = newLeft;
+			pos.y = newTop;
+			document.getElementById('zoom').style.left = newLeft * -1;
+			document.getElementById('zoom').style.top = newTop * -1;
+ 
+				
+			return;
+			
+		}
+		
+		document.getElementById('zoom').style.width = zoomLevel * width;
+		document.getElementById('zoom').style.height = zoomLevel * height;
+		
+		// calculate new left / top
+		var newLeft=  ((zoomLevel * width) - width) / 2;
+		var newTop =  ((zoomLevel * height) - height) / 2;
+		pos.x = newLeft;
+		pos.y = newTop;
+		document.getElementById('zoom').style.left = newLeft * -1;
+		document.getElementById('zoom').style.top = newTop * -1;
+ 
+		setTimeout("zoomIn()",10);
+	
+	}
+	
+	function zoomOut(x, y){
+		zoomLevel -= .1;
+		
+		if (zoomLevel < MIN_ZOOM){
+			zoomLevel = MIN_ZOOM;
+			
+			placeImage();
+			document.getElementById('zoom').style.left  = 0;
+			document.getElementById('zoom').style.top = 0;
+			document.getElementById('zoom').style.width = zoomLevel * width;
+			document.getElementById('zoom').style.height = zoomLevel * height;
+			zoomed = false;
+			zooming = false;
+			return;
+		}
+		
+		placeImage();
+		
+		var percent = ( (zoomLevel - MIN_ZOOM) *  47.6190 ) ;
+		
+		// calculate new left
+	
+		document.getElementById('zoom').style.left  = x / 100 * (percent );
+		document.getElementById('zoom').style.top = y / 100 * (percent );
+		
+		// calculate new right
+		
+		setTimeout("zoomOut(" + x * 1.0 + "," + y * 1.0 + ")", 10);
+	}
+	
+	function placeImage(){
+		document.getElementById('zoom').style.width = zoomLevel * width;
+		document.getElementById('zoom').style.height = zoomLevel * height;
+		
+	}
+	
+	function toggleZoom() {
+		if (zooming) return;
+		
+		zooming = true;
+		
+		if (zoomed){
+		
+			var left = document.getElementById('zoom').style.left.replace('px','') ;
+			var top = document.getElementById('zoom').style.top.replace('px','')  ;
+			
+			zoomOut(left, top);
+			
+		} else {
+			zoomIn();
+		}
+		
+		
+	}
+	
+	function move(e){
+		if (! mouseDown || ! zoomed || zooming) {
+			return;
+		} 
+		
+		var newPos = getMousePos(e);
+		
+		var oldLeft = document.getElementById('zoom').offsetLeft;
+		var oldTop = document.getElementById('zoom').offsetTop;
+		
+		var newLeft = oldLeft + ( newPos.x - pos.x );
+		var newTop = oldTop + ( newPos.y - pos.y );
+ 
+		var actualWidth = zoomLevel * width;
+		var actualHeight = zoomLevel * height;
+		
+		if (newLeft <= 0 && ( (newLeft + actualWidth) > (width)) ){
+			document.getElementById('zoom').style.left = newLeft;
+		}
+		
+		if (newTop <= 0 && ( (newTop + actualHeight) > (height)) ) {
+			document.getElementById('zoom').style.top  = newTop;
+		}
+		
+		
+		//zoomLevel * width;
+		//zoomLevel * height;
+		
+		pos = getMousePos(e);
+ 
+	}
+	
+	function down(e){
+		// get mouse position when clicked;
+		pos = getMousePos(e);
+ 
+		mouseDown = true;
+	}
+	
+	function up(e){
+		
+		mouseDown = false;
+	}
+	
+	function getMousePos(e){
+	
+		if (!e) var e = window.event;
+		var pos = Object();
+		
+		if (e.pageX && e.pageY) {
+			pos.x = e.pageX; 
+			pos.y = e.pageY;
+		}
+ 
+		else if (e.clientX && e.clientY) {
+			pos.x = e.clientX;
+			pos.y = e.clientY;
+		}
+		
+		return pos;
+	}
+	
+	function log(t){
+	
+		document.getElementById('log').innerHTML = t;
+	}
+ 
+ 
+ 
+ 
+</script> 
+ 
+ 
+ 
+ 
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>zoom</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<meta http-equiv="Content-Script-Type" content="text/javascript">
+ 
+<script type="text/JavaScript" src="zoom.js"></script>
+ 
+<!--[if IE]>
+<style>
+	#zoomContainer{
+	 filter: alpha(opacity=1);
+	 background:#FFF;
+	}
+</style>
+<![endif]-->
+ 
+</head>
+ 
+<body >
+<a href="#" onClick="toggleZoom(); return false;">zoom</a>
+<br />
+<div id="container1" onMouseMove="move(event);" onMouseDown="down(event);" onMouseUp="up(event);" style="position:relative; overflow:hidden; float:left; width:386px; height:386px; ">
+	<div id="zoomContainer" style="left:0px; top:0px; position:absolute; width:386px; height:386px; z-index:5;"></div>
+	<img onFocus="blur();" id="zoom" style="left:0px; top:0px; position:absolute; width:386px; height:386px; z-index:1; " src="zoom.jpg"  border="0">
+	
+ 
+</div>
+ 
+<br clear="all" />
+<div id="log"></div>
+ 
+</body>
+</html>

@@ -1,0 +1,498 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="WelCome" xml:space="preserve">
+    <value>WelCome</value>
+  </data>
+  <data name="Address_Book" xml:space="preserve">
+    <value>Address Book</value>
+  </data>
+  <data name="Choose_Address" xml:space="preserve">
+    <value>Choose Address</value>
+  </data>
+  <data name="Default_Invoice_Address" xml:space="preserve">
+    <value>Default Invoice Address</value>
+  </data>
+  <data name="Contact_Us" xml:space="preserve">
+    <value>Contact US</value>
+  </data>
+  <data name="Your_Last_Edit_Account_Profile_Is_Pending" xml:space="preserve">
+    <value>Your Last edit profile is pending</value>
+  </data>
+  <data name="Action" xml:space="preserve">
+    <value>Action</value>
+  </data>
+  <data name="Grand_Total" xml:space="preserve">
+    <value>Grand Total</value>
+  </data>
+  <data name="Unit_Price" xml:space="preserve">
+    <value>Unit_Price</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="Add_To_Cart" xml:space="preserve">
+    <value>Add to cart</value>
+  </data>
+  <data name="Total_Price_inc_tax" xml:space="preserve">
+    <value>Total Price(inc Tax)</value>
+  </data>
+  <data name="Middle_Name" xml:space="preserve">
+    <value>Middle Name</value>
+  </data>
+  <data name="New_Password" xml:space="preserve">
+    <value>New Password</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="Order_On_Behalf_Of" xml:space="preserve">
+    <value>Order On behalf of</value>
+  </data>
+  <data name="Order_Status" xml:space="preserve">
+    <value>Order Status</value>
+  </data>
+  <data name="Orders" xml:space="preserve">
+    <value>Orders</value>
+  </data>
+  <data name="New_User_Register" xml:space="preserve">
+    <value>New User - Register</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>Logout</value>
+  </data>
+  <data name="Update" xml:space="preserve">
+    <value>Update</value>
+  </data>
+  <data name="Email_Address" xml:space="preserve">
+    <value>Email Address</value>
+  </data>
+  <data name="Products" xml:space="preserve">
+    <value>Products</value>
+  </data>
+  <data name="Thankyou_For_Your_Order_and_OrderNumber" xml:space="preserve">
+    <value>Thank you for your order and order number</value>
+  </data>
+  <data name="Items_For_Action" xml:space="preserve">
+    <value>items for action</value>
+  </data>
+  <data name="Additional_Address" xml:space="preserve">
+    <value>Additional Address</value>
+  </data>
+  <data name="Create_An_Account" xml:space="preserve">
+    <value>Create an Account</value>
+  </data>
+  <data name="Address_Information" xml:space="preserve">
+    <value>Address Information</value>
+  </data>
+  <data name="Contact_Information" xml:space="preserve">
+    <value>Contact Information</value>
+  </data>
+  <data name="Select" xml:space="preserve">
+    <value>Select</value>
+  </data>
+  <data name="Price_List" xml:space="preserve">
+    <value>Price List</value>
+  </data>
+  <data name="Order_Reference" xml:space="preserve">
+    <value>Order Reference</value>
+  </data>
+  <data name="Delivery_Date" xml:space="preserve">
+    <value>Delivery Date</value>
+  </data>
+  <data name="Edit_Account" xml:space="preserve">
+    <value>Edit Account</value>
+  </data>
+  <data name="Delivery_Required_By" xml:space="preserve">
+    <value>Delivery Required By</value>
+  </data>
+  <data name="Edit_Address" xml:space="preserve">
+    <value>Edit Address</value>
+  </data>
+  <data name="Address_Example_Note" xml:space="preserve">
+    <value>Address Example Note</value>
+  </data>
+  <data name="Order_Number" xml:space="preserve">
+    <value>Order Number</value>
+  </data>
+  <data name="Please_Enter_Quantity" xml:space="preserve">
+    <value>Please enter quantity</value>
+  </data>
+  <data name="Country" xml:space="preserve">
+    <value>Country</value>
+  </data>
+  <data name="Terms_And_Condition" xml:space="preserve">
+    <value>Terms And Condition</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="Hide_More" xml:space="preserve">
+    <value>Hide More</value>
+  </data>
+  <data name="List_Of_Available_Address" xml:space="preserve">
+    <value>List of available Addresses</value>
+  </data>
+  <data name="Login_Information" xml:space="preserve">
+    <value>Login Information</value>
+  </data>
+  <data name="Clear_All_Filters" xml:space="preserve">
+    <value>Clear All Filters</value>
+  </data>
+  <data name="Order_Information" xml:space="preserve">
+    <value>Order Information</value>
+  </data>
+  <data name="Order_Details" xml:space="preserve">
+    <value>Order Details</value>
+  </data>
+  <data name="This_is_a_required_file" xml:space="preserve">
+    <value>This is a required file</value>
+  </data>
+  <data name="Payment_Information" xml:space="preserve">
+    <value>Payment Information</value>
+  </data>
+  <data name="Formula_With_Direct_Value" xml:space="preserve">
+    <value>Formula with direct value</value>
+  </data>
+  <data name="Required_Fields" xml:space="preserve">
+    <value>Required Fields</value>
+  </data>
+  <data name="View_More" xml:space="preserve">
+    <value>View More</value>
+  </data>
+  <data name="Example_Note" xml:space="preserve">
+    <value>eg: My Stationalry Item,My Company Order</value>
+  </data>
+  <data name="Confirm_Order" xml:space="preserve">
+    <value>Confirm_Order</value>
+  </data>
+  <data name="Confirm_Password" xml:space="preserve">
+    <value>Confirm Password</value>
+  </data>
+  <data name="Job_Name" xml:space="preserve">
+    <value>Job Name</value>
+  </data>
+  <data name="First_Name" xml:space="preserve">
+    <value>First Name</value>
+  </data>
+  <data name="Or" xml:space="preserve">
+    <value>or</value>
+  </data>
+  <data name="New_Address" xml:space="preserve">
+    <value>New Address</value>
+  </data>
+  <data name="Enter_Quantity_To_Order" xml:space="preserve">
+    <value>Enter Quantity to order</value>
+  </data>
+  <data name="logut" xml:space="preserve">
+    <value>logut</value>
+  </data>
+  <data name="Fax" xml:space="preserve">
+    <value>Fax</value>
+  </data>
+  <data name="Qty" xml:space="preserve">
+    <value>Qty</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="Order_Title" xml:space="preserve">
+    <value>Order Title</value>
+  </data>
+  <data name="Address_Label" xml:space="preserve">
+    <value>Address Label</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>Login</value>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>Total</value>
+  </data>
+  <data name="Order_Confirmation" xml:space="preserve">
+    <value>Order Conformation</value>
+  </data>
+  <data name="Notification" xml:space="preserve">
+    <value>Notification</value>
+  </data>
+  <data name="Address" xml:space="preserve">
+    <value>Address</value>
+  </data>
+  <data name="Continue" xml:space="preserve">
+    <value>Continue</value>
+  </data>
+  <data name="Quantity" xml:space="preserve">
+    <value>Quantity</value>
+  </data>
+  <data name="Order_Date" xml:space="preserve">
+    <value>Order Date</value>
+  </data>
+  <data name="Please_Enter_Order_Title" xml:space="preserve">
+    <value>Please enter order title</value>
+  </data>
+  <data name="Comments" xml:space="preserve">
+    <value>Comments</value>
+  </data>
+  <data name="My_Address_Book" xml:space="preserve">
+    <value>My Adress Book</value>
+  </data>
+  <data name="Contact_Address" xml:space="preserve">
+    <value>Contact Address</value>
+  </data>
+  <data name="Job_Name_Optional" xml:space="preserve">
+    <value>Job Name (Optional)</value>
+  </data>
+  <data name="Telephone" xml:space="preserve">
+    <value>Telephone</value>
+  </data>
+  <data name="Save_And_Use_This_Address" xml:space="preserve">
+    <value>Save and Use this address</value>
+  </data>
+  <data name="Price_For_1_Ex_Gst" xml:space="preserve">
+    <value>Price for 1 ($) (ex GST)</value>
+  </data>
+  <data name="Default_Invoice_Addresss" xml:space="preserve">
+    <value>Default Invoice Address</value>
+  </data>
+  <data name="Price_Starts_From" xml:space="preserve">
+    <value>Price Starts From</value>
+  </data>
+  <data name="My_Account" xml:space="preserve">
+    <value>My Account</value>
+  </data>
+  <data name="Company_Name" xml:space="preserve">
+    <value>Company Name</value>
+  </data>
+  <data name="Artwork" xml:space="preserve">
+    <value>Artwork</value>
+  </data>
+  <data name="Personal_Information" xml:space="preserve">
+    <value>Personal Information</value>
+  </data>
+  <data name="Your_Order_Number" xml:space="preserve">
+    <value>Your Order Number</value>
+  </data>
+  <data name="No_Records_Found" xml:space="preserve">
+    <value>No Records Found</value>
+  </data>
+  <data name="Click_Here_To_Login_Again" xml:space="preserve">
+    <value>Click Here to Login Again</value>
+  </data>
+  <data name="Back_To_Products" xml:space="preserve">
+    <value>Back To Products</value>
+  </data>
+  <data name="Department" xml:space="preserve">
+    <value>Department</value>
+  </data>
+  <data name="Please_Enter_Valid_Month" xml:space="preserve">
+    <value>Please Enter Valida Month</value>
+  </data>
+  <data name="Minimum_Quantity_Is" xml:space="preserve">
+    <value>Minimum Quantity is</value>
+  </data>
+  <data name="Consignment_Note_Number" xml:space="preserve">
+    <value>Consignment Note Number</value>
+  </data>
+  <data name="Please_Click_Here_To_Continue" xml:space="preserve">
+    <value>Please Click here to continue</value>
+  </data>
+  <data name="Checkout" xml:space="preserve">
+    <value>Checkout</value>
+  </data>
+  <data name="Add_New_Address" xml:space="preserve">
+    <value>Add New Address</value>
+  </data>
+  <data name="Proceed_To_Checkout" xml:space="preserve">
+    <value>Proceed To Checkout</value>
+  </data>
+  <data name="Default_Delivery_Address" xml:space="preserve">
+    <value>Default Delivery Address</value>
+  </data>
+  <data name="Please_Select_Your_Options_Below" xml:space="preserve">
+    <value>Please select your options below:</value>
+  </data>
+  <data name="Product_Name" xml:space="preserve">
+    <value>Product Name</value>
+  </data>
+  <data name="Product_List" xml:space="preserve">
+    <value>Product List</value>
+  </data>
+  <data name="Saved_Drafts" xml:space="preserve">
+    <value>Saved Drafts</value>
+  </data>
+  <data name="Maximum_Quantity_is" xml:space="preserve">
+    <value>Maximum Quantity is</value>
+  </data>
+  <data name="Product_Categories" xml:space="preserve">
+    <value>Product Categories</value>
+  </data>
+  <data name="Last_Name" xml:space="preserve">
+    <value>Last Name</value>
+  </data>
+  <data name="Sub_Toal" xml:space="preserve">
+    <value>Sub Total</value>
+  </data>
+  <data name="Change_Password" xml:space="preserve">
+    <value>Change Password</value>
+  </data>
+  <data name="CostCentre" xml:space="preserve">
+    <value>Cost Centre</value>
+  </data>
+  <data name="All_Orders" xml:space="preserve">
+    <value>All Orders</value>
+  </data>
+  <data name="Remember_Me" xml:space="preserve">
+    <value>Remember Me?</value>
+  </data>
+  <data name="Confirm_New_Password" xml:space="preserve">
+    <value>Confirm New Password</value>
+  </data>
+  <data name="Account_Information" xml:space="preserve">
+    <value>Account Information</value>
+  </data>
+  <data name="Sub_Total" xml:space="preserve">
+    <value>Sub Total</value>
+  </data>
+  <data name="Edit_Account_Information" xml:space="preserve">
+    <value>Edit Account Information</value>
+  </data>
+  <data name="Forgot_Password" xml:space="preserve">
+    <value>Forgot Password</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="Back" xml:space="preserve">
+    <value>Back</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="Invoice_Address" xml:space="preserve">
+    <value>Invoice Address</value>
+  </data>
+  <data name="Search_Address" xml:space="preserve">
+    <value>Search Address</value>
+  </data>
+  <data name="Manage_Address" xml:space="preserve">
+    <value>Manage Address</value>
+  </data>
+</root>

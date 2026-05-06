@@ -1,0 +1,64 @@
+﻿using Printcenter.BusinessAccessLayer.Setting;
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+
+namespace ePrint.usercontrol.Fields
+{
+    public partial class ApprovalDate_Update : System.Web.UI.UserControl
+    {
+        public string DateFormat { get; set; }
+        public long CompanyID;
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            this.CompanyID = Convert.ToInt64(base.Session["CompanyID"]);
+            if (!Page.IsPostBack)
+            {
+                DateFormat = hdnDateFormat.Value;
+            }
+        }
+
+        protected void btnSaveApprovalDate_Click(object sender, EventArgs e)
+        {
+            this.divLoadingImage.Style.Add("display", "block");
+            //Validation on client side to be applied
+            string approvalDate = txtApprovalDate.Text;
+            string jobId = hdnJobId.Value;
+            string estimateItemID = hdnEstimateItemID.Value;
+            DateTime parsedApprovalDate = new DateTime();
+            if (hdnDateFormat.Value == "dd/mm/yyyy")
+            {
+                CultureInfo currentCulture = CultureInfo.CurrentCulture;
+
+                System.Globalization.CultureInfo cultureInfo = new System.Globalization.CultureInfo("en-GB");
+                System.Threading.Thread.CurrentThread.CurrentCulture = CultureInfo.GetCultureInfo("en-GB");
+                // fetch the en-GB culture
+                CultureInfo ukCulture = new CultureInfo("en-GB");
+                parsedApprovalDate = DateTime.Parse(approvalDate, ukCulture.DateTimeFormat);
+
+                System.Threading.Thread.CurrentThread.CurrentCulture = currentCulture;
+            }
+            else
+            {
+                parsedApprovalDate = DateTime.Parse(approvalDate);
+            }
+
+            if (!string.IsNullOrEmpty(jobId) && !string.IsNullOrEmpty(estimateItemID))
+            {
+                //update the delivery date
+                string type = "ApprovalDate";
+                Settings.UpdateJobDates(this.CompanyID, long.Parse(jobId), long.Parse(estimateItemID), parsedApprovalDate, type);
+
+                var script = "saveCallback();";
+                Page.ClientScript.RegisterStartupScript(typeof(Page), "ButtonAlert", script, true);
+
+            }
+
+
+        }
+    }
+}

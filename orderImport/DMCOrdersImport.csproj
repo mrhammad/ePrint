@@ -1,0 +1,87 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <ProjectGuid>{110D65C0-F7E6-4F17-BBA5-1ADE9D6A6869}</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <AssemblyName>DMCOrdersImport</AssemblyName>
+    <OutputType>Library</OutputType>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <DebugSymbols>true</DebugSymbols>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <Optimize>false</Optimize>
+    <WarningLevel>4</WarningLevel>
+    <DebugType>full</DebugType>
+    <ErrorReport>prompt</ErrorReport>
+    <PlatformTarget>x86</PlatformTarget>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <DebugSymbols>false</DebugSymbols>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <WarningLevel>4</WarningLevel>
+    <DebugType>pdbonly</DebugType>
+    <ErrorReport>prompt</ErrorReport>
+    <PlatformTarget>x86</PlatformTarget>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Spire.XLS">
+      <HintPath>.\DMCOrdersImportReferences\Spire.XLS.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Web.Extensions, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="System" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="Eprint.DataAccessLayer\SqlParameterCache.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="DMCOrdersImport\Program.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="Import.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="Eprint.DataAccessLayer\SQL.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="DMCOrdersImport.license.elic.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="DLL\Spire.XLS.dll" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

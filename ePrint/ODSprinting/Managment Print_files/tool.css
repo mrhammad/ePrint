@@ -1,0 +1,172 @@
+.div_wrap {
+	FONT-SIZE: 0px
+}
+.div_wrap  {
+	FONT-SIZE: 0px
+}
+.div_selArea {
+	DISPLAY: inline; Z-INDEX: 2; BACKGROUND: none transparent scroll repeat 0% 0%; LEFT: 0px; WIDTH: 100%; CURSOR: move; POSITION: absolute; TOP: 0px; HEIGHT: 100%
+}
+.div_clickArea {
+	FILTER: alpha(opacity=01); WIDTH: 100%; HEIGHT: 100%; BACKGROUND-COLOR: #fff; opacity: 0.01; 
+}
+.div_marqueeHoriz {
+	BACKGROUND: url(marqueeHoriz.gif) repeat-x 0px 0px; WIDTH: 100%; POSITION: absolute; HEIGHT: 1px; margin-top:3px; margin-bottom:3px; 
+}
+.div_marqueeVert {
+	BACKGROUND: url(marqueeVert.gif) repeat-y 0px 0px; WIDTH: 1px; POSITION: absolute; HEIGHT: 100%; margin-left:3px;margin-right:3px;
+	}
+.div_marqueeNorth {
+	LEFT: 0px; TOP: 0px
+}
+.div_marqueeEast {
+	RIGHT: 0px; TOP: 0px
+}
+.div_marqueeSouth {
+	LEFT: 0px; BOTTOM: 0px
+}
+.div_marqueeWest {
+	LEFT: 0px; TOP: 0px
+}
+.div_handle {
+	BORDER-RIGHT: #333 1px solid; BORDER-TOP: #333 1px solid; Z-INDEX: 0; BACKGROUND: #fff; FILTER: alpha(opacity=50); BORDER-LEFT: #333 1px solid; WIDTH: 6px; BORDER-BOTTOM: #333 1px solid; POSITION: absolute; HEIGHT: 6px;z-index:1000; opacity: 1;
+}
+.div_handle1 {
+	BACKGROUND: url(devider.gif)  WIDTH: 6px; POSITION: absolute; HEIGHT: 6px
+}
+.div_handleN {
+	/*MARGIN-LEFT: 50%; CURSOR: n-resize; TOP: 0px*/
+	RIGHT: 0px; CURSOR: n-resize; TOP: 0px; MARGIN-RIGHT: 50%
+}
+.div_handleNE {
+	RIGHT: 0px; CURSOR: ne-resize; TOP: 0px;
+}
+.div_handleE {
+	RIGHT: 0px; CURSOR: e-resize; TOP: 35%;
+}
+.div_handleSE {
+	RIGHT: 0px; CURSOR: se-resize; BOTTOM: 0px;
+}
+.div_handleS {
+	RIGHT: 0px; CURSOR: s-resize; BOTTOM: 0px; MARGIN-RIGHT: 50%
+}
+.div_handleSW {
+	LEFT: 0px; CURSOR: sw-resize; BOTTOM: 0px;
+}
+.div_handleW {
+	LEFT: 0px; CURSOR: e-resize; TOP: 35%;
+}
+.div_handleNW {
+	LEFT: 0px; CURSOR: nw-resize; TOP: 0px;
+	
+}
+
+/*New from blogmasti*/
+	/*
+	.div_wrap {
+	FONT-SIZE: 0px
+}
+.div_wrap  {
+	FONT-SIZE: 0px
+}
+.div_selArea {
+	DISPLAY: inline; Z-INDEX: 2; BACKGROUND: none transparent scroll repeat 0% 0%; LEFT: 0px; WIDTH: 100%; CURSOR: move; POSITION: absolute; TOP: 0px; HEIGHT: 100%
+}
+.div_clickArea {
+	FILTER: alpha(opacity=01); WIDTH: 100%; HEIGHT: 100%; BACKGROUND-COLOR: #fff; opacity: 0.01
+}
+.div_marqueeHoriz {
+	BACKGROUND: url(marqueeHoriz.gif) repeat-x 0px 0px; WIDTH: 100%; POSITION: absolute; HEIGHT: 1px; margin-top:3px; margin-bottom:3px; 
+}
+.div_marqueeVert {
+	BACKGROUND: url(marqueeVert.gif) repeat-y 0px 0px; WIDTH: 1px; POSITION: absolute; HEIGHT: 100%; margin-left:3px;margin-right:3px;
+	}
+.div_marqueeHoriz_img {
+	BACKGROUND: url(marqueeHoriz.gif) repeat-x 0px 0px; WIDTH: 100%; POSITION: absolute; HEIGHT: 1px; 
+}
+.div_marqueeVert_img {
+	BACKGROUND: url(marqueeVert.gif) repeat-y 0px 0px; WIDTH: 1px; POSITION: absolute; HEIGHT: 100%;
+	}
+.div_marqueeNorth {
+	LEFT: 0px; TOP: 0px
+}
+.div_marqueeEast {
+	RIGHT: 0px; TOP: 0px
+}
+.div_marqueeSouth {
+	LEFT: 0px; BOTTOM: 0px
+}
+.div_marqueeWest {
+	LEFT: 0px; TOP: 0px
+}
+.div_handle {
+	BORDER-RIGHT: #333 1px solid; BORDER-TOP: #333 1px solid; Z-INDEX: 1; BACKGROUND: #fff; FILTER: alpha(opacity=50); BORDER-LEFT: #333 1px solid; WIDTH: 6px; BORDER-BOTTOM: #333 1px solid; POSITION: absolute; HEIGHT: 6px; opacity: 1
+}
+.div_handle1 {
+	BACKGROUND: url(devider.gif)  WIDTH: 6px; POSITION: absolute; HEIGHT: 6px
+}
+.div_handleN {
+left: 50%; CURSOR: n-resize; TOP: 0px
+}
+.div_handleNE {
+	RIGHT: 0px; CURSOR: ne-resize; TOP: 0px
+}
+.div_handleE {
+	RIGHT: 0px; CURSOR: e-resize; TOP: 45%
+}
+.div_handleSE {
+	RIGHT: 0px; CURSOR: se-resize; BOTTOM: 0px
+}
+.div_handleS {
+	CURSOR: s-resize; BOTTOM: 0px; left: 50%
+}
+.div_handleSW {
+	LEFT: 0px; CURSOR: sw-resize; BOTTOM: 0px
+}
+.div_handleW {
+	LEFT: 0px; CURSOR: e-resize; TOP: 45%
+}
+.div_handleNW {
+	LEFT: 0px; CURSOR: nw-resize; TOP: 0px
+}
+.div_handleN_img {
+	top: -3px;
+	left: 0;
+	cursor: n-resize;
+}
+.div_handleNE_img {
+	top: -3px;
+	right: -3px;
+	cursor: ne-resize;
+}
+.div_handleE_img {
+	top: 0;
+	right: -3px;
+	cursor: e-resize;
+}
+.div_handleSE_img {
+	right: -3px;
+	bottom: -3px;
+	cursor: se-resize;
+}
+.div_handleS_img {
+	right: 0;
+	bottom: -3px;
+	cursor: s-resize;
+}
+.div_handleSW_img {
+	left: -3px;
+	bottom: -3px;
+	cursor: sw-resize;
+}
+.div_handleW_img {
+	top: 0;
+	left: -3px;
+	cursor: w-resize;
+}
+.div_handleNW_img {
+	top: -3px;
+	left: -3px;
+	cursor: nw-resize;
+}
+*/

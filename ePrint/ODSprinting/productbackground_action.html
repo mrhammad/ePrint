@@ -1,0 +1,45 @@
+<?php
+
+function get_file_extension($filename) {
+		ereg( ".*\.([a-zA-z0-9]{0,5})$", $filename, $regs );
+		//trigger_error($regs[1]);
+		$e = strtolower($regs[1]);
+		return $e;
+	} 
+
+	//---------------UPLOAD DIRECTORY----------------
+	$uploaddir	= "images/";
+	//---------------UPLOAD DIRECTORY----------------
+	
+	//---------------FILE EXTENSION----------------
+	$extension	=	basename($_FILES['image_filename']['name']);
+	$ext		=	get_file_extension($extension);
+	//---------------FILE EXTENSION----------------
+
+	$random_number	=	rand(1111,9999);
+	
+	$image_path		=	$random_number. basename($_FILES['image_filename']['name']);
+	
+
+
+	//---------------UPLOAD FILE PATH----------------
+	$uploadfile 			=	$uploaddir .$image_path;
+	$uploadfile				=	str_replace(" ","_",$uploadfile);
+	//---------------UPLOAD FILE PATH----------------
+	//exit();
+	
+	if(($_FILES['image_filename']['size'] < 9900000)&&($_FILES['image_filename']['size'] != 0))
+	{
+		if(move_uploaded_file($_FILES['image_filename']['tmp_name'], $uploadfile)) 
+		{
+			chmod($uploadfile,0777);
+				
+				//$query	=	"insert into new_ods_image_details(image_path)"."values('".$image_path."')";
+				//exit();
+				//$resultset  		=  	db_query($query);
+							
+		} 
+	}
+			header("Location:productbackground.php?imagename=".basename($uploadfile)."&imgid=".$_REQUEST['imgid']);
+	
+?>

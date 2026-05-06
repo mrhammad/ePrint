@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <ProjectGuid>{8D7D266D-9EA0-4BA7-AFF8-7573FFD200AA}</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <AssemblyName>DMCOrdersImportProcess</AssemblyName>
+    <OutputType>Library</OutputType>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <DebugSymbols>true</DebugSymbols>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <Optimize>false</Optimize>
+    <WarningLevel>4</WarningLevel>
+    <DebugType>full</DebugType>
+    <ErrorReport>prompt</ErrorReport>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <DebugSymbols>false</DebugSymbols>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <WarningLevel>4</WarningLevel>
+    <DebugType>pdbonly</DebugType>
+    <ErrorReport>prompt</ErrorReport>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System.Data" />
+    <Reference Include="Microsoft.Practices.EnterpriseLibrary.Data">
+      <HintPath>.\DMCOrdersImportProcessReferences\Microsoft.Practices.EnterpriseLibrary.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="Microsoft.Practices.EnterpriseLibrary.Common">
+      <HintPath>.\DMCOrdersImportProcessReferences\Microsoft.Practices.EnterpriseLibrary.Common.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="CustomDatabaseFactory.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="Extensions.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="Eprint.DataAccessLayer\SqlParameterCache.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="nmsCommon\commonclass.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="Eprint.DataAccessLayer\SQL.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="DMCOrdersImportProcess\Program.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="DLL\Microsoft.Practices.EnterpriseLibrary.Common.dll" />
+    <Content Include="DLL\Microsoft.Practices.EnterpriseLibrary.Data.dll" />
+    <Content Include="DLL\Spire.XLS.dll" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

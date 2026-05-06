@@ -1,0 +1,557 @@
+﻿
+body
+{
+    font-family: Arial,Verdana;
+    font-size: 11px;
+    margin: 0px;
+    padding: 0px;
+    height: 100%;
+}
+form
+{
+    font-family: Arial,Verdana;
+    font-size: 11px;
+    margin: 0px;
+    padding: 0px;
+    
+}
+html
+{
+   font-family: Arial,Verdana;
+    font-size: 11px;
+    margin: 0px;
+    padding: 0px;
+    height: 100%;
+}
+.logo
+{
+    background-image: url(../../images/Eprint_logo.JPG);
+    background-repeat: no-repeat;
+    width: 199px;
+    height: 67px;
+}
+.Help_heading_bg
+{
+    background-image: url(../../images5/Help_heading_bg1.PNG);
+    height: 84px;
+    background-repeat: repeat-x;
+}
+.Help_navigation_bg
+{
+    background-image: url(../../images5/Help_navigation_bg1.PNG);
+    height: 35px;
+    background-repeat: repeat-x;
+    border-bottom: solid 1px #c1c1c1;
+}
+.SubMenu_bg
+{
+    background-color: #F2F2F2;
+    color: #000000;
+    font-size: 11px;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    border-bottom: solid 2px #bbbbbb;
+}
+
+/*===========================================================
+Font or Text or link CSS
+============================================================*/
+A
+{
+    font-family: Arial,Verdana;
+    color: #0808AB;
+    text-decoration: none;
+    font-size: 12px;
+}
+A:link
+{
+    color: #0808AB;
+    text-decoration: none;
+}
+A:visited
+{
+    color: #0808AB;
+    text-decoration: none;
+}
+A:hover
+{
+    color: #FF8040;
+    text-decoration: none;
+}
+
+A.lnkhome
+{
+    font-size: 13px;
+    white-space: nowrap;
+    text-decoration: none;
+}
+a.seeall
+{
+    font-size: 11px;
+    font-weight: lighter;
+    text-decoration: none;
+}
+a.seeall:link
+{
+    color: #0808AB;
+}
+a.seeall:visited
+{
+    color: #0808AB;
+}
+a.seeall:hover
+{
+    color: #FF8040;
+    text-decoration: underline;
+}
+a.ViewAll
+{
+    font-family: Arial,Verdana;
+    font-size: 12px;
+    font-weight: normal;
+    text-decoration: none;
+    color: #21FFFF;
+}
+a.ViewAll:link
+{
+    color: #21FFFF;
+}
+a.ViewAll:visited
+{
+    color: #21FFFF;
+}
+a.ViewAll:hover
+{
+    color: #FF8040;
+    text-decoration: none;
+}
+.NormalText
+{
+    font-size: 12px;
+    text-decoration: none;
+}
+.FontBold
+{
+    font-family: Arial;
+    font-size: 13px;
+    font-weight: bold;
+    color: #0808AB;
+}
+.Text_Heading
+{
+    font-size: 13px;
+    font-weight: bold;
+    color: #5A5A65;
+}
+.error
+{
+    background-color: #FFEBE8;
+    border: 1px solid #DD3C10;
+    padding: 3px 10px 3px 10px;
+    font-family: Arial;
+    font-size: 12px;
+    text-align: center;
+    font-weight: bold;
+    color: #333333;
+    position: relative;
+    margin-bottom: 5px;
+}
+.ArticleCss
+{
+    font-family: verdana;
+    color: #444444;
+    font-size: 11px;
+    font-weight: bold;
+    margin: 5px 0px 2px 0px;
+}
+.AnsCss
+{
+    font-size: 11px;
+    line-height: 20px;
+    margin: 4px 0px 4px 0px;
+    padding: 3px 0px 3px 0px;
+    border-bottom: solid 1px wheat;
+    border-top: solid 1px wheat;
+}
+.pagingLink
+{
+    color: #999900;
+}
+.smallfont
+{
+    font-family: Arial,Verdana;
+    font-size: 11px;
+    font-weight: lighter;
+    color: #10357F;
+    text-align: right;
+    padding-bottom: 0px;
+    text-decoration: none;
+    padding-left: 10px;
+}
+.header
+{
+    font-family: Arial;
+    font-size: 15px;
+    font-weight: bold;
+    padding-bottom: 0px;
+    color: #0808AB;
+    vertical-align: top;
+    text-transform: uppercase;
+}
+.PopularCss
+{
+    font-family: Verdana, Arial, Helvetica, Geneva;
+    font-size: 12px;
+    line-height: 20px;
+    margin: 5px 0px 5px 8px;
+    padding: 8px 5px 8px 0px;
+}
+.TopClass
+{
+    font-family: Arial;
+    font-size: 15px;
+    font-weight: bold;
+    padding-bottom: 0px;
+    color: #0808AB;
+    text-transform: uppercase;
+}
+
+.helpText
+{
+    font-size: 12px;
+    padding-left: 3px;
+    border: 1px solid silver;
+    white-space: nowrap;
+}
+.adLink
+{
+    font-size: 11px;
+    margin-top: 0%;
+    padding-bottom: 0px;
+    color: blue;
+    border-bottom: #cccccc 1px solid;
+    vertical-align: top;
+    text-decoration: none;
+}
+
+/*===========================================================
+Controls CSS
+============================================================*/
+.DataListClass
+{
+    white-space: normal;
+}
+.helpButton
+{
+    background-color: #999999;
+    font-size: 11px;
+    color: White;
+    font-weight: bold;
+    height: 22px;
+    border: solid 0px white;
+    cursor: pointer;
+}
+.helpDDL
+{
+    font-family: Arial,Verdana;
+    border: 1px solid silver;
+    font-size: 12px;
+}
+
+Button
+{
+    cursor: pointer;
+    text-align: center;
+}
+input.Button
+{
+    background-color: #0808AB;
+    border: ridge 1px silver;
+    color: #ffffff;
+    font-weight: bold;
+    text-align: center;
+}
+input.Button:hover
+{
+    background-color: #0B0BF4;
+    border: ridge 1px silver;
+    color: #ffffff;
+    font-weight: bold;
+    text-align: center;
+}
+
+/*===========================================================
+Box CSS
+============================================================*/
+#LeftPanel .divMain
+{
+    padding-top: 0px;
+}
+#RightPanel .divMain
+{
+    padding-top: 0px;
+}
+.divRightTop_y
+{
+    text-align: left;
+    background: #F8F8F8 url(../../images5/right_top_y.JPG) repeat-y right top;
+}
+.divRightTop
+{
+    background: transparent url(../../images5/right_top.gif) no-repeat right top;
+}
+.divRightBottom_x
+{
+    background: transparent url(../../images5/left_bottom_x.JPG) repeat-x right bottom;
+}
+.divRightBottom
+{
+    background: transparent url(../../images5/right_bottom.gif) no-repeat right bottom;
+}
+.divLeftBottom
+{
+    background: transparent url(../../images5/left_bottom.gif) no-repeat left bottom;
+}
+.divMain
+{
+    border-top: 1px solid #bbb;
+    background-color: transparent;
+    margin: 0px 6px 0px 0px;
+}
+.divLeftTop_y
+{
+    background: transparent url(../../images5/left_top_y.PNG) repeat-y left top;
+}
+.divLeftBottom_x
+{
+    background: transparent url(../../images5/left_bottom_x.JPG) repeat-x left bottom;
+}
+
+/*===========================================================
+Round Corner CSS
+============================================================*/
+.h
+{
+    padding-right: 0px;
+    padding-left: 3px;
+    padding-bottom: 3px;
+    padding-top: 0px;
+    white-space: nowrap;
+}
+.tl
+{
+    background-position: left top;
+    background-image: url(../../images5/corner_tl.gif);
+    background-repeat: no-repeat;
+}
+.tr
+{
+    background-position: right top;
+    background-image: url(../../images5/corner_tr.gif);
+    background-repeat: no-repeat;
+}
+.bl
+{
+    background-position: left bottom;
+    background-image: url(../../images5/corner_bl.gif);
+    background-repeat: no-repeat;
+}
+.br
+{
+    background-position: right bottom;
+    background-image: url(../../images5/corner_br.gif);
+    background-repeat: no-repeat;
+}
+.bubble
+{
+    background-color: #0808AB; /*#0000ca;*/
+    font-size: 13px;
+    font-weight: bold;
+    color: white;
+}
+.bubble1
+{
+    background-color: #DDDDDD; /*#0000ca;*/
+    font-size: 13px;
+    font-weight: bold;
+    color: #000000;
+}
+.padding
+{
+    padding-top: 3px;
+}
+.content
+{
+    background-color: #DBDAEC;
+    border: 1px solid #0808AB;
+    border-top-width: 0px;
+}
+.content1
+{
+    background-color: #F8F8F8;
+    border: 1px solid #0808AB;
+    border-top-width: 0px;
+}
+.content2
+{
+    background-color: #F7F7F7;
+    border: 1px solid #C9C9C9;
+    border-top-width: 0px;
+}
+
+
+/*===========================================================
+Other CSS
+============================================================*/
+.error
+{
+    background-color: #FFEBE8;
+    border: 1px solid #DD3C10;
+    padding-left: 2px;
+    padding-right: 2px;
+    padding-bottom: 2px;
+    padding-top: 2px;
+    font-family: Tahoma, Arial, Helvetica;
+    font-size: 11px;
+    color: #333333;
+    /*position: relative;*/
+}
+.enabledfalse
+{
+    color: silver;
+    text-decoration: none;
+}
+.TopBorder
+{
+    border-bottom: #0808AB 1px solid;
+    clear: both;
+}
+.reqField
+{
+    color: Red;
+    padding-left: 2px;
+}
+.star_rat
+{
+    width: 65px;
+    background: url(../../images5/star_x_grey.png) 0 0 repeat-x;
+}
+.star_rat div
+{
+    height: 12px;
+    background: url(../../images5/FilledStar.png) 0 0 repeat-x;
+}
+.Help_heading_left
+{
+    background-image: url(../../images5/Help_heading_left.PNG);
+    height: 84px;
+    width: 7px;
+    background-repeat: no-repeat;
+}
+.Help_heading_right
+{
+    background-image: url(../../images5/Help_heading_right.PNG);
+    height: 84px;
+    width: 7px;
+    background-repeat: no-repeat;
+}
+.alternate_row
+{
+    background-color: #EDEEF1;
+}
+.vertical_bar
+{
+  font-family:Arial;
+  font-size:15px;
+}
+
+
+/*===========================================================
+Not in Use CSS:
+--------------------------
+.content-div
+{
+   
+    margin-left: 5%;
+    white-space: nowrap;
+}
+
+.col-width-70
+{
+    float: left;
+    text-align: left;
+    padding-top: 2%;
+    padding-bottom: 2px;
+    border: 0px solid #cccccc;
+    vertical-align: top;
+    white-space: nowrap;
+    z-index: 1000;
+    min-width: 600px; 
+}
+.divright
+{
+    height: 100%;
+    float: right;
+    text-align: left;
+    margin-top: 2%;
+    margin-right: 1px;
+    padding-bottom: 2px;
+    border: 0px solid #cccccc;
+    vertical-align: top;
+    white-space: nowrap;
+    z-index: 5;
+    min-width: 175px;
+    clear: both;
+}
+.divclear
+{
+    margin: 2% 0px 2% 0px;
+}
+
+
+.maindiv
+{
+    
+    white-space: nowrap;
+}
+
+UL.section
+{
+    padding: 5px 0px 1px 0px;
+    list-style-type: none;
+    margin: 0px;
+    white-space: nowrap;
+}
+UL.section LI
+{
+    padding-right: 0px;
+    background-position: 0px 0.6em;
+    padding-left: 0.9em;
+    background-image: url(../images5/smallbullet.gif);
+    padding-bottom: 3px;
+    padding-top: 2px;
+    background-repeat: no-repeat;
+    font-size: 13px;
+    font-family: Arial;
+    white-space: nowrap;
+}
+
+FOR MAIN THREE DIV
+.div_left
+{
+    float: left;
+    clear: right;
+    white-space: normal;
+}
+.div_middle
+{
+    float: left;
+    clear: right;
+    white-space: normal;
+    width: 1%;
+}
+.div_right
+{
+    float: left;
+    white-space: normal;
+}
+============================================================*/
