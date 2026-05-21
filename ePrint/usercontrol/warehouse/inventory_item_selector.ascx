@@ -35,8 +35,19 @@
         pw.SendPaperIDandName(Invid, SpecialDecode(value), papertype, MaterialNo, PaperWeight);
     }
     function TimerToClose() {
-        window.close();
-
+        var oWindow = null;
+        if (window.radWindow) {
+            oWindow = window.radWindow;
+        }
+        else if (window.frameElement && window.frameElement.radWindow) {
+            oWindow = window.frameElement.radWindow;
+        }
+        if (oWindow) {
+            oWindow.close();
+        }
+        else {
+            window.close();
+        }
     }
 
     function setplatesid(id, value) {

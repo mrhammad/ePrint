@@ -406,35 +406,34 @@ namespace ePrint.settings
             this.pnlCallScroll.Visible = true;
             this.GridRole.Rebind();
             this.RadGrid2.Rebind();
-            try
+            string successParam = base.Request.Params["Su"];
+            if (!string.IsNullOrEmpty(successParam))
             {
-                if (base.Request.Params["Su"].ToLower() == "in")
+                string su = successParam.ToLower();
+                if (su == "in")
                 {
                     base.Message_Display(this.objLanguage.GetLanguageConversion("New_Role_Added_Successfully"), "msg-success", this.plhMessage);
                 }
-                else if (base.Request.Params["Su"].ToLower() == "up")
+                else if (su == "up")
                 {
                     base.Message_Display(this.objLanguage.GetLanguageConversion("Role_Updated_Successfully"), "msg-success", this.plhMessage);
                 }
-                if (base.Request.Params["Su"].ToLower() == "i")
+                if (su == "i")
                 {
                     base.Message_Display(this.objLanguage.GetLanguageConversion("New_User_Added_Successfully"), "msg-success", this.plhMessage);
                 }
-                else if (base.Request.Params["Su"].ToLower() == "u")
+                else if (su == "u")
                 {
                     base.Message_Display(this.objLanguage.GetLanguageConversion("User_Updated_Successfully"), "msg-success", this.plhMessage);
                 }
-                else if (base.Request.Params["Su"].ToLower() == "d")
+                else if (su == "d")
                 {
                     base.Message_Display(this.objLanguage.GetLanguageConversion("User_Deleted_Successfully"), "msg-success", this.plhMessage);
                 }
-                else if (base.Request.Params["Su"].ToLower() == "de")
+                else if (su == "de")
                 {
                     base.Message_Display(this.objLanguage.GetLanguageConversion("Role_Deleted_Successfully"), "msg-success", this.plhMessage);
                 }
-            }
-            catch
-            {
             }
         }
 

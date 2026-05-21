@@ -1,0 +1,10 @@
+INSERT INTO tb_installmentperiod (companyid,installmentPeriod,languagename) VALUES (@companyId,'Daily','Spanish');
+INSERT INTO tb_installmentperiod (companyid,installmentPeriod,languagename) VALUES (@companyId,'Monthly','Spanish');
+INSERT INTO tb_installmentperiod (companyid,installmentPeriod,languagename) VALUES (@companyId,'Quarterly','Spanish');
+INSERT INTO tb_installmentperiod (companyid,installmentPeriod,languagename) VALUES (@companyId,'Weekly','Spanish');
+INSERT INTO tb_installmentperiod (companyid,installmentPeriod,languagename) VALUES (@companyId,'Yearly','Spanish');
+INSERT INTO tb_installmentperiod (companyid,installmentPeriod,languagename) VALUES (@companyId,'Daily','English');
+INSERT INTO tb_installmentperiod (companyid,installmentPeriod,languagename) VALUES (@companyId,'Monthly','English');
+INSERT INTO tb_installmentperiod (companyid,installmentPeriod,languagename) VALUES (@companyId,'Quarterly','English');
+INSERT INTO tb_installmentperiod (companyid,installmentPeriod,languagename) VALUES (@companyId,'Weekly','English');
+INSERT INTO tb_installmentperiod (companyid,installmentPeriod,languagename) VALUES (@companyId,'Yearly','English');

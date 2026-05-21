@@ -7,6 +7,7 @@ using System.Configuration;
 using System.Data;
 using System.Data.Common;
 using System.Data.SqlClient;
+using System.Drawing;
 using System.Text;
 using System.Web;
 using System.Web.SessionState;
@@ -803,11 +804,215 @@ namespace nmsCommon
 
 		public string GetRegionalSettings(int CompanyID, string RegionalType)
 		{
-			return (new BaseClass()).SpecialDecode(SettingsBasePage.settings_regionalsettings_select_by_type(CompanyID, RegionalType));
+			string value = SettingsBasePage.settings_regionalsettings_select_by_type(CompanyID, RegionalType);
+			if (string.IsNullOrEmpty(value) && !string.IsNullOrEmpty(RegionalType)
+				&& RegionalType.IndexOf("date", StringComparison.OrdinalIgnoreCase) >= 0)
+			{
+				value = "DD/MM/YY";
+			}
+			return (new BaseClass()).SpecialDecode(value ?? string.Empty);
+		}
+
+		/// <summary>
+		/// Lightweight logo/header for login and sign-up. Skips footer, regional/date SPs, and caches HTML in session.
+		/// </summary>
+		public void ApplyAuthPageLogo(PlaceHolder plhHeader, int companyId)
+		{
+			if (plhHeader == null)
+			{
+				return;
+			}
+			string cacheKey = string.Concat("AuthLogoHtml_", companyId);
+			string logoHtml = this.Session[cacheKey] as string;
+			if (string.IsNullOrEmpty(logoHtml))
+			{
+				logoHtml = this.BuildAuthPageLogoHtml(companyId);
+				if (!string.IsNullOrEmpty(logoHtml))
+				{
+					this.Session[cacheKey] = logoHtml;
+				}
+			}
+			if (!string.IsNullOrEmpty(logoHtml))
+			{
+				plhHeader.Controls.Clear();
+				plhHeader.Controls.Add(new LiteralControl(logoHtml));
+			}
+		}
+
+		private string BuildAuthPageLogoHtml(int companyId)
+		{
+			try
+			{
+				BaseClass baseClass = new BaseClass();
+				DataTable dataTable = new DataTable();
+				commonClass _commonClass = new commonClass();
+				SqlCommand sqlCommand = new SqlCommand("crm_company_logo_select", _commonClass.openConnection())
+				{
+					CommandType = CommandType.StoredProcedure,
+					CommandTimeout = 30
+				};
+				sqlCommand.Parameters.AddWithValue("@companyid", companyId);
+				sqlCommand.Parameters.AddWithValue("@type", "both");
+				SqlDataReader sqlDataReader = sqlCommand.ExecuteReader();
+				dataTable.Load(sqlDataReader);
+				sqlDataReader.Close();
+				_commonClass.closeConnection();
+				int currentYear = DateTime.Now.Year;
+				int previousYear = currentYear - 1;
+				var html = new StringBuilder();
+				foreach (DataRow row in dataTable.Rows)
+				{
+					if (dataTable.Columns.Contains("type") && row["type"].ToString().ToLower() != "header")
+					{
+						continue;
+					}
+					html.Append("<table width='100%'>");
+					if (row["isdefault"].ToString().ToLower() != "true")
+					{
+						string logotype = row["logotype"].ToString().Trim().ToLower();
+						if (logotype == "text")
+						{
+							string text = this.ApplyAuthPageYearTokens(baseClass.SpecialDecode(row["logotext"].ToString()), currentYear, previousYear);
+							html.Append("<tr><td align='left' class='topText1'>").Append(text).Append("</td></tr>");
+						}
+						else if (logotype == "template")
+						{
+							string template = this.ApplyAuthPageYearTokens(baseClass.SpecialDecode(row["logoTemplate"].ToString()), currentYear, previousYear);
+							html.Append("<tr><td>").Append(template).Append("</td></tr>");
+						}
+						else if (logotype == "image")
+						{
+							string logoFile = row.Table.Columns.Contains("logoImage") ? row["logoImage"].ToString() : row["logoimage"].ToString();
+							html.Append("<tr><td><img alt='' style='max-width:180px;' src='").Append(global.sitePath()).Append("docmanager.ashx?doctype=logo&amp;filename=").Append(logoFile).Append("'/></td></tr>");
+						}
+					}
+					else
+					{
+						html.Append("<tr><td><img alt='' style='max-width:180px;' src='").Append(global.sitePath()).Append(EprintConfigurationManager.AppSettings["Header"].ToString()).Append("'/></td></tr>");
+					}
+					html.Append("</table>");
+				}
+				if (html.Length > 0)
+				{
+					return html.ToString();
+				}
+			}
+			catch
+			{
+			}
+			return this.BuildDefaultAuthPageLogoHtml();
+		}
+
+		private string BuildDefaultAuthPageLogoHtml()
+		{
+			string header = EprintConfigurationManager.AppSettings["Header"].ToString();
+			if (string.IsNullOrEmpty(header))
+			{
+				return string.Empty;
+			}
+			return string.Concat("<table width='100%'><tr><td><img alt='' style='max-width:180px;' src='", global.sitePath(), header, "'/></td></tr></table>");
+		}
+
+		private string ApplyAuthPageYearTokens(string content, int currentYear, int previousYear)
+		{
+			if (string.IsNullOrEmpty(content))
+			{
+				return string.Empty;
+			}
+			if (content.Contains("[$CurrentYear$]"))
+			{
+				content = content.Replace("[$CurrentYear$]", currentYear.ToString());
+			}
+			if (content.Contains("[$PreviousYear$]"))
+			{
+				content = content.Replace("[$PreviousYear$]", previousYear.ToString());
+			}
+			return content;
+		}
+
+		public static void LoadAuthPageLanguageFile(int companyId, HttpSessionState session, commonClass cmn)
+		{
+			if (session == null || session["LanguageConversion"] != null)
+			{
+				return;
+			}
+			SqlCommand sqlCommand = new SqlCommand("PC_Select_LanguageFile", cmn.openConnection())
+			{
+				CommandType = CommandType.StoredProcedure,
+				CommandTimeout = 30
+			};
+			sqlCommand.Parameters.AddWithValue("@companyID", companyId);
+			object result = sqlCommand.ExecuteScalar();
+			cmn.closeConnection();
+			if (result != null && result != DBNull.Value)
+			{
+				string languageFile = result.ToString().Trim();
+				if (!string.IsNullOrEmpty(languageFile))
+				{
+					if (languageFile.IndexOf("english", StringComparison.OrdinalIgnoreCase) >= 0
+						&& languageFile.IndexOf("russian", StringComparison.OrdinalIgnoreCase) < 0)
+					{
+						languageFile = "english_to_english";
+					}
+					session["LanguageConversion"] = languageFile;
+				}
+			}
+			if (session["LanguageConversion"] == null)
+			{
+				session["LanguageConversion"] = "english_to_english";
+			}
+		}
+
+		public static void ApplyAuthPageLoginButtonColor(int companyId, HttpSessionState session, System.Web.UI.WebControls.WebControl loginButton, commonClass cmn)
+		{
+			if (loginButton == null)
+			{
+				return;
+			}
+			string cacheKey = string.Concat("AuthHomeTabColor_", companyId);
+			string colorName = session[cacheKey] as string;
+			if (string.IsNullOrEmpty(colorName))
+			{
+				SqlCommand sqlCommand = new SqlCommand("crm_select_upperNavigationTab", cmn.openConnection())
+				{
+					CommandType = CommandType.StoredProcedure,
+					CommandTimeout = 30
+				};
+				sqlCommand.Parameters.AddWithValue("@companyID", companyId);
+				SqlDataReader reader = sqlCommand.ExecuteReader();
+				while (reader.Read())
+				{
+					if (reader["headername"].ToString().Equals("home", StringComparison.OrdinalIgnoreCase))
+					{
+						colorName = reader["colorCode"].ToString();
+						break;
+					}
+				}
+				reader.Close();
+				cmn.closeConnection();
+				if (!string.IsNullOrEmpty(colorName))
+				{
+					session[cacheKey] = colorName;
+				}
+			}
+			if (!string.IsNullOrEmpty(colorName))
+			{
+				try
+				{
+					loginButton.BackColor = Color.FromName(colorName);
+				}
+				catch
+				{
+				}
+			}
 		}
 
 		public void logoSetting(PlaceHolder plhHeader, PlaceHolder plhFooter, int companyId, string type)
 		{
+			if (plhHeader == null)
+			{
+				return;
+			}
 			BaseClass baseClass = new BaseClass();
 			DataTable dataTable = new DataTable();
 			commonClass _commonClass = new commonClass();
@@ -838,13 +1043,19 @@ namespace nmsCommon
 			string str = _commonClass.eprint_checkdateformat_returnonlymmddyyyy(regionalSettings, _commonClass.Eprint_return_Date_Before_View(now.ToString(), companyId, num, false));
 			foreach (DataRow row in dataTable.Rows)
 			{
-				if (row["type"].ToString().ToLower() != "header")
+				bool isHeaderRow = row["type"].ToString().ToLower() == "header";
+				PlaceHolder logoPlaceHolder = isHeaderRow ? plhHeader : plhFooter;
+				if (logoPlaceHolder == null)
 				{
-					plhFooter.Controls.Add(new LiteralControl("<table width='100%' style='padding-left: 7px;'>"));
+					continue;
+				}
+				if (!isHeaderRow)
+				{
+					logoPlaceHolder.Controls.Add(new LiteralControl("<table width='100%' style='padding-left: 7px;'>"));
 				}
 				else
 				{
-					plhHeader.Controls.Add(new LiteralControl("<table width='100%'>"));
+					logoPlaceHolder.Controls.Add(new LiteralControl("<table width='100%'>"));
 				}
 				if (row["isdefault"].ToString().ToLower() != "true")
 				{
@@ -961,7 +1172,10 @@ namespace nmsCommon
 				}
 				if (row["type"].ToString().ToLower() != "header")
 				{
-					plhFooter.Controls.Add(new LiteralControl("</table>"));
+					if (plhFooter != null)
+					{
+						plhFooter.Controls.Add(new LiteralControl("</table>"));
+					}
 				}
 				else
 				{

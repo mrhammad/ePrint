@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" MasterPageFile="~/Templates/innerMasterPage_withoutLeftTD.Master" CodeBehind="~/Estimates/estimate_view.aspx.cs" Inherits="ePrint.Printcenter.Views.Estimate.estimate_view" title="Untitled Page" enableviewstatemac="false" enableEventValidation="false" theme="Theme1" %>
+<%@ Page Language="C#" AutoEventWireup="true" MasterPageFile="~/Templates/innerMasterPage_withoutLeftTD.Master" CodeBehind="~/Estimates/estimate_view.aspx.cs" Inherits="ePrint.Printcenter.Views.Estimate.estimate_view" title="Untitled Page" enableviewstatemac="false" enableEventValidation="false" theme="Theme1" %>
 
 
 
@@ -258,6 +258,9 @@
                                                     </HeaderTemplate>
                                                     <ItemTemplate>
                                                         <div align="left" class="view_displayflex">
+                                                            <div>
+                                                                <asp:PlaceHolder ID="plh_EstimateRowIcon" runat="server"></asp:PlaceHolder>
+                                                            </div>
                                                             <div>
                                                                 <asp:PlaceHolder ID="plhConvertJob" runat="server"></asp:PlaceHolder>
                                                             </div>

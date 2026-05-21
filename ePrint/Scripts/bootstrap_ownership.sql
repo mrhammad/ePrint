@@ -1,0 +1,14 @@
+INSERT INTO tb_ownershiptype (companyid,ownershiptype,languagename) VALUES (@companyId,'Public','Spanish');
+INSERT INTO tb_ownershiptype (companyid,ownershiptype,languagename) VALUES (@companyId,'Private','Spanish');
+INSERT INTO tb_ownershiptype (companyid,ownershiptype,languagename) VALUES (@companyId,'Subsidiary','Spanish');
+INSERT INTO tb_ownershiptype (companyid,ownershiptype,languagename) VALUES (@companyId,'Others','Spanish');
+INSERT INTO tb_ownershiptype (companyid,ownershiptype,languagename) VALUES (@companyId,'Hotel Clubs','Spanish');
+INSERT INTO tb_ownershiptype (companyid,ownershiptype,languagename) VALUES (@companyId,'Non Profit Making Organisation','Spanish');
+INSERT INTO tb_ownershiptype (companyid,ownershiptype,languagename) VALUES (@companyId,'School Institution','Spanish');
+INSERT INTO tb_ownershiptype (companyid,ownershiptype,languagename) VALUES (@companyId,'Hotel Clubs','English');
+INSERT INTO tb_ownershiptype (companyid,ownershiptype,languagename) VALUES (@companyId,'Non Profit Making Organisation','English');
+INSERT INTO tb_ownershiptype (companyid,ownershiptype,languagename) VALUES (@companyId,'Others','English');
+INSERT INTO tb_ownershiptype (companyid,ownershiptype,languagename) VALUES (@companyId,'Private','English');
+INSERT INTO tb_ownershiptype (companyid,ownershiptype,languagename) VALUES (@companyId,'Public','English');
+INSERT INTO tb_ownershiptype (companyid,ownershiptype,languagename) VALUES (@companyId,'School Institution','English');
+INSERT INTO tb_ownershiptype (companyid,ownershiptype,languagename) VALUES (@companyId,'Subsidiary','English');

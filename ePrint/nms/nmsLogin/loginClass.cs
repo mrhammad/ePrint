@@ -64,8 +64,8 @@ namespace nmsLogin
 				this.Session["email"] = email;
 				this.Session["CustomAccessRight"] = sqlDataReader["IsCustomAccessRight"].ToString();
 				this.Session["SupplierQuote"] = sqlDataReader["IssupplierQuote"].ToString();
-				this.Session["TimeZoneOrderNumber"] = sqlDataReader["TimeZoneOrderNumber"].ToString();
-				this.Session["LanguageConversion"] = sqlDataReader["LanguageConversionFile"].ToString();
+				this.Session["TimeZoneOrderNumber"] = ResolveTimeZoneOrderNumber(sqlDataReader["TimeZoneOrderNumber"], num1);
+				this.Session["LanguageConversion"] = ResolveLanguageConversionFile(sqlDataReader["LanguageConversionFile"]);
 				this.Session["DateFormat"] = this.objpage.GetRegionalSettings(num, "Dateformat");
 				this.Session["ProductStockManagement"] = sqlDataReader["ProductStockManagement"].ToString();
 				this.Session["CurrencySymbol"] = sqlDataReader["CurrencySymbol"].ToString();
@@ -198,8 +198,8 @@ namespace nmsLogin
 				this.Session["email"] = email;
 				this.Session["CustomAccessRight"] = sqlDataReader["IsCustomAccessRight"].ToString();
 				this.Session["SupplierQuote"] = sqlDataReader["IssupplierQuote"].ToString();
-				this.Session["TimeZoneOrderNumber"] = sqlDataReader["TimeZoneOrderNumber"].ToString();
-				this.Session["LanguageConversion"] = sqlDataReader["LanguageConversionFile"].ToString();
+				this.Session["TimeZoneOrderNumber"] = ResolveTimeZoneOrderNumber(sqlDataReader["TimeZoneOrderNumber"], num1);
+				this.Session["LanguageConversion"] = ResolveLanguageConversionFile(sqlDataReader["LanguageConversionFile"]);
 				this.Session["DateFormat"] = this.objpage.GetRegionalSettings(num, "Dateformat");
 				this.Session["ProductStockManagement"] = sqlDataReader["ProductStockManagement"].ToString();
 				this.Session["UpgradeNotification"] = "view";
@@ -306,6 +306,57 @@ namespace nmsLogin
 				TimeSpan timeSpan1 = new TimeSpan(0, 0, HttpContext.Current.Session.Timeout, 0, 0);
 				HttpContext.Current.Cache.Insert(str1, str, null, DateTime.MaxValue, timeSpan1, CacheItemPriority.NotRemovable, null);
 			}
+		}
+
+		private static string ResolveLanguageConversionFile(object value)
+		{
+			string text = (value == null || value == DBNull.Value) ? string.Empty : value.ToString().Trim();
+			if (string.IsNullOrEmpty(text))
+			{
+				return "english_to_english";
+			}
+			if (text.IndexOf("english", StringComparison.OrdinalIgnoreCase) >= 0
+				&& text.IndexOf("russian", StringComparison.OrdinalIgnoreCase) < 0)
+			{
+				return "english_to_english";
+			}
+			return text;
+		}
+
+		private static string ResolveTimeZoneOrderNumber(object value, int userId)
+		{
+			string text = (value == null || value == DBNull.Value) ? string.Empty : value.ToString();
+			double orderNumber;
+			if (!string.IsNullOrWhiteSpace(text) && double.TryParse(text, System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out orderNumber))
+			{
+				return text.Trim();
+			}
+			if (userId > 0)
+			{
+				try
+				{
+					commonClass cmn = new commonClass();
+					SqlCommand sqlCommand = new SqlCommand(
+						"SELECT CAST(t.OrderNumber AS VARCHAR(20)) FROM tb_user u INNER JOIN tb_timezone t ON u.timezoneid = t.timezoneID WHERE u.userid = @userid",
+						cmn.openConnection());
+					sqlCommand.Parameters.AddWithValue("@userid", userId);
+					object result = sqlCommand.ExecuteScalar();
+					cmn.closeConnection();
+					if (result != null && result != DBNull.Value && double.TryParse(result.ToString(), System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out orderNumber))
+					{
+						return result.ToString().Trim();
+					}
+				}
+				catch
+				{
+				}
+			}
+			string serverTimeZone = global.ServerTimeZoneOrderNumber();
+			if (!string.IsNullOrWhiteSpace(serverTimeZone) && double.TryParse(serverTimeZone, System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out orderNumber))
+			{
+				return serverTimeZone.Trim();
+			}
+			return "0";
 		}
 	}
 }

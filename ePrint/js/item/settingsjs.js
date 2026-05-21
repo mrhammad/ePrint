@@ -448,7 +448,7 @@ function MoreStock(stocktype) {
     if (stocktype == 'paper') {
         //window.open(commonpath + "common/common_popup.aspx?type=invselector&pg=setting&item=Paper", '', 'width=950px,height=400,status=no,scrollbars=yes,resizable=yes,top=100,title=no,location=no,titlebar=no,left=270,top=100');            
         // PopupCenter(commonpath + "common/common_popup.aspx?type=invselector&pg=setting&item=Paper", '950', '430');
-        var wnd = window.radopen(commonpath + "common/common_popup.aspx?type=invselector&pg=setting&item=Paper", '950', '430');
+        var wnd = window.radopen(commonpath + "common/common_popup.aspx?type=invselector&pg=setting&item=Paper&papertype=sheet", '950', '430');
         wnd.setSize(1275, 500);
         wnd.center();
         var x = wnd.getWindowBounds().x;

@@ -110,7 +110,7 @@ namespace ePrint.settings
             {
                 if (_checkEmail.Email(base.SpecialEncode(this.txtemail.Text)))
                 {
-                    base.Response.Redirect("user_add.aspx?error=yes");
+                    base.Response.Redirect("user_add.aspx?type=add&error=yes");
                     return;
                 }
                 if (SettingsBasePage.settings_usermailduplicacy_check(Convert.ToInt32(this.CompanyID), "user", this.txtemail.Text.ToString(), Convert.ToInt64(this.userid)) == -1)
@@ -135,7 +135,7 @@ namespace ePrint.settings
             }
             if (_checkEmail.Email(base.SpecialEncode(this.txtemail.Text)))
             {
-                base.Response.Redirect(string.Concat("user_addnew.aspx?type=edit&userid=", this.userid, "&error=yes"));
+                base.Response.Redirect(string.Concat("user_add.aspx?type=edit&userid=", this.userid, "&error=yes"));
                 return;
             }
             if (SettingsBasePage.settings_usermailduplicacy_check(Convert.ToInt32(this.CompanyID), "user", base.SpecialEncode(this.txtemail.Text.ToString()), Convert.ToInt64(this.userid)) == -1)
@@ -179,60 +179,50 @@ namespace ePrint.settings
             this.txtname.Focus();
             this.gloobj.setpagename("setting");
 
-            if (base.Request.Params["type"] == null && this.NoOfUser < this.UserCount)
+            string typeParam = base.Request.Params["type"];
+            string errorParam = base.Request.Params["error"];
+            string useridParam = base.Request.Params["userid"];
+            bool typeFromQuery = !string.IsNullOrEmpty(typeParam);
+            this.type = typeFromQuery ? typeParam : "add";
+            if (!string.IsNullOrEmpty(useridParam))
+            {
+                int parsedUserId;
+                if (int.TryParse(useridParam, out parsedUserId))
+                {
+                    this.userid = parsedUserId;
+                }
+            }
+            this.lblerror.Visible = string.Equals(errorParam, "yes", StringComparison.OrdinalIgnoreCase);
+            if (string.Equals(this.type, "edit", StringComparison.OrdinalIgnoreCase))
+            {
+                this.lblheader.Text = "Settings:&nbsp;Edit User";
+            }
+
+            if (!typeFromQuery && this.NoOfUser < this.UserCount)
             {
                 System.Web.UI.ScriptManager.RegisterStartupScript(this, base.GetType(), "_showconfirm", "javascript:RestrictedPopUp();", true);
             }
-            if (base.Request.Params["type"] != null)
+            if (string.Equals(this.type, "edit", StringComparison.OrdinalIgnoreCase))
             {
-                if (base.Request.Params["type"].ToString().ToLower() != "edit")
-                {
-                    if (this.NoOfUser < this.UserCount)
-                    {
-                        System.Web.UI.ScriptManager.RegisterStartupScript(this, base.GetType(), "_showconfirm", "javascript:RestrictedPopUp();", true);
-                    }
-                    this.div_delete.Style.Add("display", "none");
-                    this.btndelete.Visible = false;
-                    string[] languageConversion = new string[] { "<a href=../welcome.aspx class='subnavigator'  style='text-decoration:underline;'>", this.objLanguage.GetLanguageConversion("Home_Page_Details"), "</a>&nbsp;>&nbsp;<a href=../settings/settings.aspx class='subnavigator'  style='text-decoration:underline;'>", this.objLanguage.GetLanguageConversion("Settings"), "</a>&nbsp;>&nbsp;<a href=../settings/user_manager.aspx class='subnavigator'  style='text-decoration:underline;'>", this.objLanguage.GetLanguageConversion("User_View"), "</a>" };
-                    base.Navigation_Path(string.Concat(languageConversion), string.Concat("&nbsp;>&nbsp;", this.objLanguage.GetLanguageConversion("User_Add")));
-                    base.Title = this.objLanguage.convert(global.pageTitle("Add User", int.Parse(this.Session["companyid"].ToString()), this.Session["companyName"].ToString()));
-                    this.header_mis.SettingName = this.objLanguage.GetLanguageConversion("User_Add");
-                }
-                else
-                {
-                    this.div_delete.Style.Add("display", "block");
-                    this.btndelete.Visible = true;
-                    string[] strArrays = new string[] { "<a href=../welcome.aspx class='subnavigator'  style='text-decoration:underline;'>", this.objLanguage.GetLanguageConversion("Home_Page_Details"), "</a>&nbsp;>&nbsp;<a href=../settings/settings.aspx class='subnavigator'  style='text-decoration:underline;'>", this.objLanguage.GetLanguageConversion("Settings"), "</a>&nbsp;>&nbsp;<a href=../settings/user_manager.aspx class='subnavigator'  style='text-decoration:underline;'>", this.objLanguage.GetLanguageConversion("User_View"), "</a>" };
-                    base.Navigation_Path(string.Concat(strArrays), string.Concat("&nbsp;>&nbsp;", this.objLanguage.GetLanguageConversion("User_Edit")));
-                    base.Title = this.objLanguage.convert(global.pageTitle("User Edit", int.Parse(this.Session["companyid"].ToString()), this.Session["companyName"].ToString()));
-                    this.header_mis.SettingName = this.objLanguage.GetLanguageConversion("User_Edit");
-                }
+                this.div_delete.Style.Add("display", "block");
+                this.btndelete.Visible = true;
+                string[] strArrays = new string[] { "<a href=../welcome.aspx class='subnavigator'  style='text-decoration:underline;'>", this.objLanguage.GetLanguageConversion("Home_Page_Details"), "</a>&nbsp;>&nbsp;<a href=../settings/settings.aspx class='subnavigator'  style='text-decoration:underline;'>", this.objLanguage.GetLanguageConversion("Settings"), "</a>&nbsp;>&nbsp;<a href=../settings/user_manager.aspx class='subnavigator'  style='text-decoration:underline;'>", this.objLanguage.GetLanguageConversion("User_View"), "</a>" };
+                base.Navigation_Path(string.Concat(strArrays), string.Concat("&nbsp;>&nbsp;", this.objLanguage.GetLanguageConversion("User_Edit")));
+                base.Title = this.objLanguage.convert(global.pageTitle("User Edit", int.Parse(this.Session["companyid"].ToString()), this.Session["companyName"].ToString()));
+                this.header_mis.SettingName = this.objLanguage.GetLanguageConversion("User_Edit");
             }
-            try
+            else
             {
-                this.type = base.Request.Params["type"].ToString();
-                this.userid = Convert.ToInt32(base.Request.Params["userid"]);
-                if (this.type == "edit")
+                if (this.NoOfUser < this.UserCount)
                 {
-                    this.lblheader.Text = "Settings:&nbsp;Edit User";
+                    System.Web.UI.ScriptManager.RegisterStartupScript(this, base.GetType(), "_showconfirm", "javascript:RestrictedPopUp();", true);
                 }
-            }
-            catch
-            {
-            }
-            try
-            {
-                if (base.Request.Params["error"].ToString() != "yes")
-                {
-                    this.lblerror.Visible = false;
-                }
-                else
-                {
-                    this.lblerror.Visible = true;
-                }
-            }
-            catch
-            {
+                this.div_delete.Style.Add("display", "none");
+                this.btndelete.Visible = false;
+                string[] languageConversion = new string[] { "<a href=../welcome.aspx class='subnavigator'  style='text-decoration:underline;'>", this.objLanguage.GetLanguageConversion("Home_Page_Details"), "</a>&nbsp;>&nbsp;<a href=../settings/settings.aspx class='subnavigator'  style='text-decoration:underline;'>", this.objLanguage.GetLanguageConversion("Settings"), "</a>&nbsp;>&nbsp;<a href=../settings/user_manager.aspx class='subnavigator'  style='text-decoration:underline;'>", this.objLanguage.GetLanguageConversion("User_View"), "</a>" };
+                base.Navigation_Path(string.Concat(languageConversion), string.Concat("&nbsp;>&nbsp;", this.objLanguage.GetLanguageConversion("User_Add")));
+                base.Title = this.objLanguage.convert(global.pageTitle("Add User", int.Parse(this.Session["companyid"].ToString()), this.Session["companyName"].ToString()));
+                this.header_mis.SettingName = this.objLanguage.GetLanguageConversion("User_Add");
             }
             if (!base.IsPostBack)
             {
@@ -387,7 +377,7 @@ namespace ePrint.settings
                 this.ChkActiveUserForSalesTarget.Enabled = true;
                 this.lblIsadvanceCrmMsg.Visible = false;
             }
-            this.hdntype.Value = base.Request.Params["type"].ToString();
+            this.hdntype.Value = this.type;
         }
 
         protected void btndelete_Click(object sender, EventArgs e)

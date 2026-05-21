@@ -1,12 +1,10 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Login.aspx.cs" Inherits="ePrint.Printcenter.Views.Login" Theme="Theme1" EnableViewStateMac="false" EnableEventValidation="false" %>
+<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Login.aspx.cs" Inherits="ePrint.Printcenter.Views.Login" Theme="Theme1" EnableViewStateMac="false" EnableEventValidation="false" %>
 
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head id="Head1" runat="server">
     <title><%#strCompany%></title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link href="https://fonts.googleapis.com/css2?family=Segoe+UI:wght@400;600&display=swap" rel="stylesheet" />
-    
     <style type="text/css">
         :root {
             --primary-color: #2563eb;
@@ -259,6 +257,14 @@
                         <asp:Image ID="imgLoader" runat="server" ImageUrl="~/Images/radimg1.gif" AlternateText="loading" style="height: 20px; width: auto; display: inline-block;" />
                     </div>
                 </div>
+            </div>
+
+            <div class="auth-footer" style="margin-top: 1.25rem; font-size: 0.875rem; color: #6b7280;">
+                Don't have an account? <a href="~/Login/SignUp.aspx" runat="server" id="lnkSignUp" style="color: #2563eb; font-weight: 500; text-decoration: none;">Sign up</a>
+            </div>
+
+            <div id="div_RegisteredMsg" runat="server" visible="false" style="margin-top: 1rem; background-color: #d1fae5; border: 1px solid #a7f3d0; padding: 10px; border-radius: 6px; color: #059669; font-size: 0.875rem; text-align: left;">
+                <asp:Label ID="lblRegistered" runat="server"></asp:Label>
             </div>
 
             <asp:PlaceHolder ID="plhFooter" Visible="false" runat="server"></asp:PlaceHolder>

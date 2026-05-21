@@ -55,7 +55,7 @@ namespace ePrint.usercontrol.warehouse
 
         public languageClass objlang = new languageClass();
 
-        public string paperType = " ";
+        public string paperType = "sheet";
 
         public string InkType = string.Empty;
 
@@ -93,6 +93,45 @@ namespace ePrint.usercontrol.warehouse
         {
         }
 
+        private void ResolveSelectorRequestParams()
+        {
+            if (base.Session["CompanyID"] != null)
+            {
+                this.CompanyID = Convert.ToInt32(base.Session["CompanyID"]);
+            }
+            if (base.Request.Params["item"] == null)
+            {
+                return;
+            }
+            string item = base.Request.Params["item"].ToString().ToLower();
+            if (item == "ink")
+            {
+                this.ItemType = "inks";
+                return;
+            }
+            if (item == "plates")
+            {
+                this.ItemType = "plates";
+                return;
+            }
+            if (item == "paper")
+            {
+                this.ItemType = "paper";
+            }
+            else
+            {
+                this.ItemType = item;
+            }
+            if (base.Request.Params["paperType"] != null)
+            {
+                this.paperType = base.Request.Params["paperType"].ToString();
+            }
+            if (this.paperType.Trim().Length == 0)
+            {
+                this.paperType = "sheet";
+            }
+        }
+
         protected void GridBindInk_OnNeedDataSource(object source, GridNeedDataSourceEventArgs e)
         {
             DataSet dataSet = InventoryBasePage.inventory_selectall(this.CompanyID, base.Request.Params["item"].ToString().ToLower(), " ", this.InkType);
@@ -101,8 +140,18 @@ namespace ePrint.usercontrol.warehouse
 
         protected void GridBindInv_OnNeedDataSource(object source, GridNeedDataSourceEventArgs e)
         {
+            if (string.IsNullOrEmpty(this.ItemType) && base.Request.Params["item"] != null)
+            {
+                this.ResolveSelectorRequestParams();
+            }
+            string paperTypeFilter = string.IsNullOrWhiteSpace(this.paperType) ? "sheet" : this.paperType.Trim();
             DataSet dataSet = new DataSet();
-            dataSet = (!base.Request.Url.Query.Contains("IsLargeMaterial") ? InventoryBasePage.inventory_selectall(this.CompanyID, this.ItemType, this.paperType, " ") : InventoryBasePage.inventory_SelectLargeFormat(this.CompanyID, this.ItemType));
+            dataSet = (!base.Request.Url.Query.Contains("IsLargeMaterial") ? InventoryBasePage.inventory_selectall(this.CompanyID, this.ItemType, paperTypeFilter, " ") : InventoryBasePage.inventory_SelectLargeFormat(this.CompanyID, this.ItemType));
+            if (dataSet == null || dataSet.Tables.Count == 0)
+            {
+                this.GridInventory.DataSource = new DataTable();
+                return;
+            }
             DataTable item = dataSet.Tables[0];
             for (int i = 0; i < item.Columns.Count; i++)
             {
@@ -338,6 +387,7 @@ namespace ePrint.usercontrol.warehouse
         protected override void OnInit(EventArgs e)
         {
             base.OnInit(e);
+            this.ResolveSelectorRequestParams();
             GridFilterMenu filterMenu = this.GridInventory.FilterMenu;
             for (int i = filterMenu.Items.Count - 1; i >= 0; i--)
             {
@@ -544,7 +594,14 @@ namespace ePrint.usercontrol.warehouse
                 this.IsLargeItem = "true";
             }
             DataTable dataTable = SettingsBasePage.settings_regionalsettings_select(this.CompanyID);
-            this.paperWeight = this.objBase.SpecialDecode(dataTable.Rows[0]["Weight"].ToString());
+            if (dataTable != null && dataTable.Rows.Count > 0 && dataTable.Rows[0]["Weight"] != DBNull.Value)
+            {
+                this.paperWeight = this.objBase.SpecialDecode(dataTable.Rows[0]["Weight"].ToString());
+            }
+            else
+            {
+                this.paperWeight = "gsm";
+            }
             if (base.Request.Params["item"] != null)
             {
                 this.div_MainInk.Visible = false;

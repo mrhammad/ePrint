@@ -83,15 +83,40 @@ public class BaseClass : System.Web.UI.Page
         this.Padding = stringWriter.ToString();
     }
 
+    private static bool TryParseTimeZoneOrderNumber(string value, out double orderNumber)
+    {
+        return double.TryParse(value, System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out orderNumber);
+    }
+
+    private double GetSessionTimeZoneOrderNumber(double serverTimeZoneOrderNumber)
+    {
+        if (this.Session == null || this.Session["TimeZoneOrderNumber"] == null)
+        {
+            return serverTimeZoneOrderNumber;
+        }
+        double orderNumber;
+        if (TryParseTimeZoneOrderNumber(this.Session["TimeZoneOrderNumber"].ToString(), out orderNumber))
+        {
+            return orderNumber;
+        }
+        return serverTimeZoneOrderNumber;
+    }
+
     public string ApplyTimeZone(string date)
     {
-        double num = Convert.ToDouble(global.ServerTimeZoneOrderNumber());
-        int num1 = Convert.ToInt32(global.AdjustableNumber());
+        double num;
+        TryParseTimeZoneOrderNumber(global.ServerTimeZoneOrderNumber(), out num);
+        int num1 = 0;
+        int.TryParse(global.AdjustableNumber(), out num1);
         double num2 = 0;
         double num3 = 0;
-        if (this.Session["TimeZoneOrderNumber"] != null && this.Session["TimeZoneOrderNumber"] != null)
+        if (this.Session != null && this.Session["TimeZoneOrderNumber"] != null)
         {
-            double num4 = Convert.ToDouble(this.Session["TimeZoneOrderNumber"]);
+            double num4;
+            if (!TryParseTimeZoneOrderNumber(this.Session["TimeZoneOrderNumber"].ToString(), out num4))
+            {
+                num4 = num;
+            }
             if (num > num4)
             {
                 double num5 = num4 - num;
@@ -1643,9 +1668,10 @@ public class BaseClass : System.Web.UI.Page
     }
     public string MakeToUserDate_11(string date)
     {
-        double num = Convert.ToDouble(global.ServerTimeZoneOrderNumber());
-        Convert.ToInt32(global.AdjustableNumber());
-        double num1 = Convert.ToDouble(this.Session["TimeZoneOrderNumber"]);
+        double num;
+        TryParseTimeZoneOrderNumber(global.ServerTimeZoneOrderNumber(), out num);
+        int.TryParse(global.AdjustableNumber(), out _);
+        double num1 = this.GetSessionTimeZoneOrderNumber(num);
         double num2 = 0;
         double num3 = 0;
         if (num > num1)
@@ -3064,6 +3090,10 @@ public class BaseClass : System.Web.UI.Page
 
     public string SpecialDecode(string OriginalString)
     {
+        if (string.IsNullOrEmpty(OriginalString))
+        {
+            return string.Empty;
+        }
         if (OriginalString.Contains("Tickets req%27d for AKL"))
         {
             var id = 0;
@@ -3076,6 +3106,10 @@ public class BaseClass : System.Web.UI.Page
 
     public string SpecialEncode(string OriginalString)
     {
+        if (string.IsNullOrEmpty(OriginalString))
+        {
+            return string.Empty;
+        }
         OriginalString = OriginalString.Replace("'", "%27");
         OriginalString = OriginalString.Replace("\"", "%22");
         return OriginalString;

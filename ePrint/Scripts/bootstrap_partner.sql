@@ -1,0 +1,9 @@
+INSERT INTO tb_partnerRole (RoleName,companyID,languagename) VALUES ('Advertiser',@companyId,'English');
+INSERT INTO tb_partnerRole (RoleName,companyID,languagename) VALUES ('Agency',@companyId,'English');
+INSERT INTO tb_partnerRole (RoleName,companyID,languagename) VALUES ('Broker',@companyId,'English');
+INSERT INTO tb_partnerRole (RoleName,companyID,languagename) VALUES ('Consultant',@companyId,'English');
+INSERT INTO tb_partnerRole (RoleName,companyID,languagename) VALUES ('Dealer',@companyId,'English');
+INSERT INTO tb_partnerRole (RoleName,companyID,languagename) VALUES ('Developer',@companyId,'English');
+INSERT INTO tb_partnerRole (RoleName,companyID,languagename) VALUES ('Distributer',@companyId,'English');
+INSERT INTO tb_partnerRole (RoleName,companyID,languagename) VALUES ('Institution',@companyId,'English');
+INSERT INTO tb_partnerRole (RoleName,companyID,languagename) VALUES ('Lender',@companyId,'English');

@@ -1,4 +1,4 @@
-﻿using nmsCommon;
+using nmsCommon;
 using nmsConnectionClass;
 using nmsEmail;
 using nmsLanguage;
@@ -880,8 +880,6 @@ namespace ePrint
                             string str1 = string.Concat("update tb_company set nooflogin=nooflogin+1 where companyid=", this.COMPANYID);
                             (new SqlCommand(str1, _commonClass.openConnection())).ExecuteNonQuery();
                             _commonClass.closeConnection();
-                            base.Response.Redirect(string.Concat(global.sitePath(), "firstlogin.aspx"));
-                            return;
                         }
                         try
                         {
@@ -1208,18 +1206,11 @@ namespace ePrint
             {
                 this.ServerName = ConnectionClass.ServerName;
             }
-            int num = Convert.ToInt32(EprintConfigurationManager.AppSettings["CompanyID"].ToString());
-            SqlCommand sqlCommand = new SqlCommand("PC_Select_LanguageFile", this.cmn.openConnection())
-            {
-                CommandType = CommandType.StoredProcedure
-            };
-            sqlCommand.Parameters.AddWithValue("@companyID", num);
-            string str = (string)sqlCommand.ExecuteScalar();
-            this.cmn.closeConnection();
-            if (str != "")
-            {
-                this.Session["LanguageConversion"] = str;
-            }
+            int num1 = Convert.ToInt32(EprintConfigurationManager.AppSettings["CompanyID"].ToString());
+            this.Session["LoginCompanyID"] = num1;
+            BasePage.LoadAuthPageLanguageFile(num1, this.Session, this.cmn);
+            BasePage.ApplyAuthPageLoginButtonColor(num1, this.Session, this.btnlogin, this.cmn);
+            this.objpage.ApplyAuthPageLogo(this.plhLoginImg, num1);
             this.btnlogin.Text = this.objLanguage.GetLanguageConversion("Login");
             this.lblEmail.Text = this.objLanguage.GetLanguageConversion("Email");
             this.lblPassword.Text = this.objLanguage.GetLanguageConversion("Password");
@@ -1228,26 +1219,6 @@ namespace ePrint
             this.RegularExpressionValidator1.ErrorMessage = this.objLanguage.GetLanguageConversion("Invalid_Email");
             this.RequiredFieldValidator1.ErrorMessage = "Please enter Email";
             this.RequiredFieldValidator2.ErrorMessage = this.objLanguage.GetLanguageConversion("Please_Enter_Password");
-            int num1 = Convert.ToInt32(EprintConfigurationManager.AppSettings["CompanyID"].ToString());
-            SqlCommand sqlCommand1 = new SqlCommand("crm_select_upperNavigationTab", this.cmn.openConnection())
-            {
-                CommandType = CommandType.StoredProcedure
-            };
-            sqlCommand1.Parameters.AddWithValue("@companyID", num1);
-            SqlDataReader sqlDataReader = sqlCommand1.ExecuteReader();
-            while (sqlDataReader.Read())
-            {
-                if (sqlDataReader["headername"].ToString().ToLower() != "home")
-                {
-                    continue;
-                }
-                this.btnlogin.BackColor = Color.FromName(sqlDataReader["colorCode"].ToString());
-                break;
-            }
-            this.tabcolor = this.objpage.colorCode(num1, global.pageName);
-            this.forecolor = this.objpage.Forecolor(num1, global.pageName);
-            (new BasePage()).logoSetting(this.plhLoginImg, this.plhFooter, num1, "both");
-            this.Session["LoginCompanyID"] = num1;
             //Ticket 214: Undoing the changes as they are not part of the roll out. 
             //As of now ticket 214 is working fine as per requirements
             //RenderLoginPageUpdates();

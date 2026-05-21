@@ -4562,7 +4562,12 @@ namespace Printcenter.DataAccessLayer.Settings
             Database database = CustomDatabaseFactory.CreateDatabase((new commonClass()).strConnection);
             DbCommand storedProcCommand = database.GetStoredProcCommand("PC_settings_estimatestatus_sortalpha_select");
             database.AddInParameter(storedProcCommand, "@CompanyID", DbType.Int32, CompanyID);
-            return database.ExecuteScalar(storedProcCommand).ToString();
+            object result = database.ExecuteScalar(storedProcCommand);
+            if (result == null || result == DBNull.Value)
+            {
+                return string.Empty;
+            }
+            return result.ToString();
         }
 
         public virtual void settings_estimatestatus_sortalpha_update(int CompanyID, int StatusID, string cond)
@@ -6674,7 +6679,12 @@ namespace Printcenter.DataAccessLayer.Settings
             storedProcCommand.CommandTimeout = Int32.MaxValue;//KR 01-11-2018
             database.AddInParameter(storedProcCommand, "@CompanyID", DbType.Int32, CompanyID);
             database.AddInParameter(storedProcCommand, "@RegionalType", DbType.String, RegionalType);
-            return (string)database.ExecuteScalar(storedProcCommand);
+            object result = database.ExecuteScalar(storedProcCommand);
+            if (result == null || result == DBNull.Value)
+            {
+                return string.Empty;
+            }
+            return result.ToString();
         }
 
         public virtual void settings_RegionalSettings_update(int CompanyID, int LanguageID, string DateFormate, string Colour, string Organization, string State, string Centre, string ZipCode, string Metre, string Weight, string GeneralWeight, string PaperMeasure, string PageTitle, string CompanyTitle, int TimeZoneID, DateTime fiscalfromtxt, DateTime fiscaltotxt, int IsDisplayCostCentre,string PaperMaterial)

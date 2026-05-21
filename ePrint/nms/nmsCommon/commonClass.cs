@@ -335,7 +335,10 @@ namespace nmsCommon
 
         public void closeConnection()
         {
-            this.conn.Close();
+            if (this.conn.State != ConnectionState.Closed)
+            {
+                this.conn.Close();
+            }
         }
 
         public void common_allsection_delete(int SectionID, int CompanyID, string Section)
@@ -2314,7 +2317,11 @@ namespace nmsCommon
 
         public SqlConnection openConnection()
         {
-            this.conn.Open();
+            if (this.conn.State != ConnectionState.Open)
+            {
+                this.conn.Open();
+            }
+
             return this.conn;
         }
 

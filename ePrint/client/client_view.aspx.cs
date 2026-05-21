@@ -1,4 +1,4 @@
-﻿using nmsCommon;
+using nmsCommon;
 using nmsConnectionClass;
 using nmsLanguage;
 using nmsView;
@@ -1012,11 +1012,14 @@ namespace ePrint.client
                             break;
                         }
                     }
-                    this.lblView.Text = this.ddl_View_cust.SelectedItem.Text;
+                    if (this.ddl_View_cust.Items.Count > 0 && this.ddl_View_cust.SelectedItem != null)
+                    {
+                        this.lblView.Text = this.ddl_View_cust.SelectedItem.Text;
+                    }
                 }
                 else if (this.defaultviewid == 0)
                 {
-                    this.dt = this.objCreateView.GetdefaultviewID(this.CompanyID, this.companytype);
+                    this.dt = this.objCreateView.GetdefaultviewID(this.CompanyID, this.pg);
                     if (this.dt.Rows.Count != 0)
                     {
                         foreach (DataRow dataRow in this.dt.Rows)
@@ -1024,7 +1027,11 @@ namespace ePrint.client
                             this.defaultviewid = Convert.ToInt32(dataRow["ViewID"].ToString());
                         }
                     }
-                    this.objCreateView.BindCustomView(this.companytype, this.CompanyID, this.ddl_View_cust);
+                    this.objCreateView.BindCustomView(this.pg, this.CompanyID, this.ddl_View_cust);
+                    if (this.defaultviewid == 0 && this.ddl_View_cust.Items.Count > 0)
+                    {
+                        this.defaultviewid = Convert.ToInt32(this.ddl_View_cust.Items[0].Value);
+                    }
                     int num1 = 0;
                     while (num1 < this.ddl_View_cust.Items.Count)
                     {
@@ -1038,7 +1045,10 @@ namespace ePrint.client
                             break;
                         }
                     }
-                    this.lblView.Text = this.ddl_View_cust.SelectedItem.Text;
+                    if (this.ddl_View_cust.Items.Count > 0 && this.ddl_View_cust.SelectedItem != null)
+                    {
+                        this.lblView.Text = this.ddl_View_cust.SelectedItem.Text;
+                    }
                 }
                 else
                 {
@@ -1050,12 +1060,15 @@ namespace ePrint.client
                             this.ddl_View_cust.SelectedIndex = i;
                         }
                     }
-                    this.lblView.Text = this.ddl_View_cust.SelectedItem.Text;
+                    if (this.ddl_View_cust.Items.Count > 0 && this.ddl_View_cust.SelectedItem != null)
+                    {
+                        this.lblView.Text = this.ddl_View_cust.SelectedItem.Text;
+                    }
                 }
             }
             int num2 = 0;
             num2 = (this.ViewID != 0 ? this.ViewID : this.defaultviewid);
-            this.dt = this.objCreateView.CustomizeView_Select(num2, this.CompanyID, this.companytype);
+            this.dt = this.objCreateView.CustomizeView_Select(num2, this.CompanyID, this.pg);
             if (this.dt.Rows.Count != 0)
             {
                 foreach (DataRow row1 in this.dt.Rows)

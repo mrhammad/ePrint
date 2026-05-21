@@ -84,7 +84,7 @@ namespace ePrint.settings
             }
             try
             {
-                if (base.Request.Params["islarge"].ToString() != null && base.Request.Params["islarge"].ToString() == "yes")
+                if (this.IsLarge == "yes")
                 {
                     if (base.Request.Params["type"] != "edit")
                     {

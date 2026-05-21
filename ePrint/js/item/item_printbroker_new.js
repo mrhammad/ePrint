@@ -1326,7 +1326,6 @@ function printbrokerprevious4() {
 
 function CalculatePrice(ext, type) {
 
-    debugger;
     var txtQty = document.getElementById("txtQty_" + ext).value;
     var txtCost = document.getElementById("txtCost_" + ext).value;
     var ddlDeliveryIncluded = document.getElementById("ddlDeliveryIncluded_" + ext).value;
@@ -1335,7 +1334,6 @@ function CalculatePrice(ext, type) {
     var txtMarkup = document.getElementById("txtMarkup_" + ext).value;
     var txtTotalPrice = document.getElementById("txtTotalPrice_" + ext);
     var txtPer1000TotalPrice = null;
-    debugger;
     if (isPer1000OutworkType()) {
         txtPer1000TotalPrice = document.getElementById("txtPer1000TotalPrice_" + ext);
     }
@@ -2584,7 +2582,6 @@ function SaveOutWork(para) {
                             PriceComp.MarkupType = document.getElementById("ddlMarkup_" + comnId).value;
                             PriceComp.MarkupValue = document.getElementById("txtMarkup_" + comnId).value;
                             PriceComp.TotalPrice = document.getElementById("txtTotalPrice_" + comnId).value;
-                            debugger;
                             if (isPer1000OutworkType()) {
                                 PriceComp.txtPer1000TotalPrice = document.getElementById("txtPer1000TotalPrice_" + comnId).value;
                             }
@@ -3859,7 +3856,6 @@ function ClearSpplierIfExsits(supObj) {
 GenrateSupplierList();
 
 function BindOutworkDesc() {
-    debugger;
     if (hdn_OutworkDesc.value != '') {
 
         var str = hdn_OutworkDesc.value.split('µ');

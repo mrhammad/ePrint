@@ -1827,7 +1827,8 @@
                                     <div style="float: left">
                                         <div id="div_btnsave">
                                             <asp:Button ID="btnSave" runat="server" Text="Next" TabIndex="28" CssClass="button"
-                                                OnClientClick="javascript:PbNextBtn('3','1');return false;" />
+                                                UseSubmitBehavior="false"
+                                                OnClientClick="javascript:try{PbNextBtn('3','1');}catch(ex){if(window.console&&console.error){console.error(ex);}}return false;" />
                                         </div>
                                         <div id="div_nextprocess" style="display: none">
                                             <img src="<%=strImagepath %>radimg1.gif" class="loadingimg" alt="loading" border="0" />

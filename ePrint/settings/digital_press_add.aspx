@@ -24,25 +24,6 @@
 
         var commonpath = "<%=nmsCommon.global.sitePath()%>";
 
-        function MoreStock1(stocktype) {
-            if (stocktype == 'paper') {
-                window.radopen(commonpath + "common/common_popup.aspx?type=invselector&pg=setting&item=Paper", '', 'width=950px,height=400,status=no,scrollbars=yes,resizable=yes,top=100,title=no,location=no,titlebar=no,left=270,top=100');
-                window.Show();
-            }
-            else if (stocktype == 'film') {
-                window.radopen(commonpath + "common/common_popup.aspx?type=morefilm&pg=setting", '', 'width=950px,height=400,status=no,scrollbars=yes,resizable=yes,top=100,title=no,location=no,titlebar=no,left=270,top=100');
-                window.Show();
-            }
-            else if (stocktype == 'plates') {
-                window.radopen(commonpath + "common/common_popup.aspx?type=moreplate&pg=setting", '', 'width=950px,height=400,status=no,scrollbars=yes,resizable=yes,top=100,title=no,location=no,titlebar=no,left=270,top=100');
-                window.Show();
-
-            }
-
-            return false;
-        }
-
-
     </script>
     <script type="text/javascript">
         var path = "<%=strSitepath %>";
@@ -433,7 +414,7 @@
                                             </div>
                                             <div style="float: right;">
                                                 <asp:ImageButton ID="imgbtnDefaultPaper" runat="server" ImageUrl="~/images/plus.gif"
-                                                    OnClientClick="javascript:return MoreStock1('paper');" TabIndex="13" />
+                                                    OnClientClick="javascript:return MoreStock('paper');" TabIndex="13" />
                                             </div>
                                         </div>
                                         <div class="box" style="padding-top: 4px;">
@@ -1154,6 +1135,7 @@
         </script>
     </asp:Panel>
     <asp:HiddenField ID="hid_MethodID" Value="0" runat="server" />
+    <script src="<%=strSitepath %>js/item/general.js?VN='<%=VersionNumber%>'" type="text/javascript"></script>
     <script src="<%=strSitepath %>js/item/settingsjs.js?VN='<%=VersionNumber%>'" type="text/javascript"></script>
     <script type="text/javascript">
         //This is a function for description size limit

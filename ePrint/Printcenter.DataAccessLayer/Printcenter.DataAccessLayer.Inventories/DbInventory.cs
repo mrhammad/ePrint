@@ -536,7 +536,12 @@ namespace Printcenter.DataAccessLayer.Inventories
 			DbCommand storedProcCommand = database.GetStoredProcCommand("PC_warehouse_code_select");
 			database.AddInParameter(storedProcCommand, "@CompanyID", DbType.Int32, companyid);
 			database.AddInParameter(storedProcCommand, "@Type", DbType.String, type);
-			return (long)database.ExecuteScalar(storedProcCommand);
+			object result = database.ExecuteScalar(storedProcCommand);
+			if (result == null || result == DBNull.Value)
+			{
+				return 10000000L;
+			}
+			return Convert.ToInt64(result);
 		}
 
 		public virtual void warehouse_code_update(int companyid, string type, long lastcount)

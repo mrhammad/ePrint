@@ -38,11 +38,26 @@ public class BaseUserControl : UserControl
 	{
 	}
 
+	private static bool TryParseTimeZoneOrderNumber(string value, out double orderNumber)
+	{
+		return double.TryParse(value, System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out orderNumber);
+	}
+
 	public string ApplyTimeZone(string date)
 	{
-		double num = Convert.ToDouble(global.ServerTimeZoneOrderNumber());
-		int num1 = Convert.ToInt32(global.AdjustableNumber());
-		double num2 = Convert.ToDouble(base.Session["TimeZoneOrderNumber"]);
+		double num;
+		TryParseTimeZoneOrderNumber(global.ServerTimeZoneOrderNumber(), out num);
+		int num1 = 0;
+		int.TryParse(global.AdjustableNumber(), out num1);
+		double num2 = num;
+		if (base.Session != null && base.Session["TimeZoneOrderNumber"] != null)
+		{
+			double parsed;
+			if (TryParseTimeZoneOrderNumber(base.Session["TimeZoneOrderNumber"].ToString(), out parsed))
+			{
+				num2 = parsed;
+			}
+		}
 		double num3 = 0;
 		double num4 = 0;
 		if (num > num2)

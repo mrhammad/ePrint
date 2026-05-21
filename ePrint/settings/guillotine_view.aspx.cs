@@ -281,7 +281,7 @@ namespace ePrint.settings
             this.header_mis.SettingName = this.objLanguage.GetLanguageConversion("Guillotine_View");
             try
             {
-                if (base.Request.Params["islarge"].ToString() != null && base.Request.Params["islarge"].ToString() == "yes")
+                if (this.IsLarge == "yes")
                 {
                     string[] strArrays = new string[] { "<a href=../welcome.aspx class='subnavigator'  style='text-decoration:underline;'>", this.objlang.GetLanguageConversion("Home_Page_Details"), "</a>&nbsp;>&nbsp;<a href=../settings/settings.aspx class='subnavigator'  style='text-decoration:underline;'>", this.objlang.GetLanguageConversion("Settings"), "</a>" };
                     base.Navigation_Path(string.Concat(strArrays), string.Concat("&nbsp;>&nbsp;", this.objlang.GetLanguageConversion("Plant_Presses_Cutting_Table_View")));

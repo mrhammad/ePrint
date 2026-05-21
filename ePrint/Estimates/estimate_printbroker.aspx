@@ -5,7 +5,6 @@
 <%@ Register TagPrefix="UC" TagName="printbroker" Src="~/usercontrol/Item/item_printbroker_new.ascx" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
    
-    <script src="~/js/item/item_firstprintbroker.js?VN='<%#VersionNumber%>'"></script>
 
     <asp:Label ID="lblheader" runat="server"></asp:Label>
     <div class="navigatorpanel" style="display:none;">

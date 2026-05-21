@@ -124,22 +124,37 @@ namespace nmsLanguage
 
 		public string GetLanguageConversion(string languageKey)
 		{
+			if (string.IsNullOrEmpty(languageKey))
+			{
+				return string.Empty;
+			}
 			try
 			{
-				if (this.Session["LanguageConversion"] == null || this.Session["LanguageConversion"] == null)
+				string resourceName = this.Session?["LanguageConversion"] as string;
+				if (string.IsNullOrWhiteSpace(resourceName))
 				{
-					languageKey = (string)base.GetGlobalResourceObject("English_To_English", languageKey);
+					resourceName = "english_to_english";
 				}
-				else
+				else if (resourceName.IndexOf("english", StringComparison.OrdinalIgnoreCase) >= 0
+					&& resourceName.IndexOf("russian", StringComparison.OrdinalIgnoreCase) < 0)
 				{
-					languageKey = (string)base.GetGlobalResourceObject(this.Session["LanguageConversion"].ToString(), languageKey);
+					resourceName = "english_to_english";
+				}
+				string converted = (string)base.GetGlobalResourceObject(resourceName, languageKey);
+				if (!string.IsNullOrEmpty(converted))
+				{
+					return converted;
+				}
+				converted = (string)base.GetGlobalResourceObject("english_to_english", languageKey);
+				if (!string.IsNullOrEmpty(converted))
+				{
+					return converted;
 				}
 			}
 			catch
 			{
-				languageKey = languageKey;
 			}
-			return languageKey;
+			return languageKey.Replace('_', ' ');
 		}
 
 		public string GetValueOnLang(string languageKey)

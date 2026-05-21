@@ -523,7 +523,7 @@
     <Content Include="DLL\Antlr3.Runtime.dll" />
     <Content Include="DLL\AspNet.ScriptManager.jQuery.dll" />
     <Content Include="DLL\AspNet.ScriptManager.jQuery.UI.Combined.dll" />
-    <Content Include="DLL\BouncyCastle.Provider.dll" />
+    <!-- Legacy x86 BouncyCastle.Provider removed; use NuGet BouncyCastle.Crypto (AnyCPU) instead -->
     <Content Include="DLL\ClosedXML.dll" />
     <Content Include="DLL\ContactsReader.dll" />
     <Content Include="DLL\CookComputing.XmlRpcV2.dll" />
@@ -941,6 +941,7 @@
     <Content Include="images\line.gif" />
     <Content Include="images\line.jpg" />
     <Content Include="images\liner_j_icon.png" />
+    <Content Include="images\estimate_list_lock.png" />
     <Content Include="images\link-partition.gif" />
     <Content Include="images\link_arrow.gif" />
     <Content Include="images\list.gif" />
@@ -2052,6 +2053,7 @@
     <EmbeddedResource Include="license.elic.xml" />
     <Content Include="localization\MyStrings.es-ES.txt" />
     <Content Include="localization\MyStrings.txt" />
+    <Content Include="SignUp.aspx" />
     <Content Include="logout.aspx" />
     <Content Include="MapWithDirections.aspx" />
     <Content Include="Menu\Eprint_Skin.gif" />
@@ -3083,6 +3085,7 @@
     <None Include="Properties\PublishProfiles\LocalSystem.pubxml" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
     <Content Include="Login\Login.aspx" />
+    <Content Include="Login\SignUp.aspx" />
     <Content Include="Scripts\jquery-1.8.2.js" />
     <Content Include="Scripts\jquery-1.8.2.min.js" />
     <Content Include="Scripts\jquery-ui-1.8.24.js" />
@@ -4189,6 +4192,13 @@
     <Compile Include="Jobs\UpdateJobStatusWithScanner.aspx.designer.cs">
       <DependentUpon>UpdateJobStatusWithScanner.aspx</DependentUpon>
     </Compile>
+    <Compile Include="SignUp.aspx.cs">
+      <DependentUpon>SignUp.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SignUp.aspx.designer.cs">
+      <DependentUpon>SignUp.aspx</DependentUpon>
+    </Compile>
     <Compile Include="logout.aspx.cs">
       <DependentUpon>logout.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -4251,6 +4261,11 @@
     <Compile Include="nms\nmsCommon\QueryString.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="nms\nmsCommon\NewCompanyDefaultSeeds.cs" />
+    <Compile Include="nms\nmsCommon\CountryOptionValues.cs" />
+    <Compile Include="nms\nmsCommon\RegistrationBootstrapSeeds.cs" />
+    <Compile Include="nms\nmsCommon\NewCompanySampleEstimates.cs" />
+    <Compile Include="nms\nmsCommon\NewCompanySampleEstimateItemBodies.cs" />
     <Compile Include="nms\nmsCommon\registrationClass.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -4785,6 +4800,13 @@
     </Compile>
     <Compile Include="Login\Login.aspx.designer.cs">
       <DependentUpon>Login.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Login\SignUp.aspx.cs">
+      <DependentUpon>SignUp.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Login\SignUp.aspx.designer.cs">
+      <DependentUpon>SignUp.aspx</DependentUpon>
     </Compile>
     <Compile Include="printlayout_delivery.aspx.cs">
       <DependentUpon>printlayout_delivery.aspx</DependentUpon>

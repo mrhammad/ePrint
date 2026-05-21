@@ -1,0 +1,10 @@
+INSERT INTO tb_clienttype (companyid,clienttypename,languagename) VALUES (@companyId,'Client','Spanish');
+INSERT INTO tb_clienttype (companyid,clienttypename,languagename) VALUES (@companyId,'Competitor','Spanish');
+INSERT INTO tb_clienttype (companyid,clienttypename,languagename) VALUES (@companyId,'Other','Spanish');
+INSERT INTO tb_clienttype (companyid,clienttypename,languagename) VALUES (@companyId,'Prospect','Spanish');
+INSERT INTO tb_clienttype (companyid,clienttypename,languagename) VALUES (@companyId,'Supplier','Spanish');
+INSERT INTO tb_clienttype (companyid,clienttypename,languagename) VALUES (@companyId,'Client','English');
+INSERT INTO tb_clienttype (companyid,clienttypename,languagename) VALUES (@companyId,'Competitor','English');
+INSERT INTO tb_clienttype (companyid,clienttypename,languagename) VALUES (@companyId,'ljkljkl','English');
+INSERT INTO tb_clienttype (companyid,clienttypename,languagename) VALUES (@companyId,'Other','English');
+INSERT INTO tb_clienttype (companyid,clienttypename,languagename) VALUES (@companyId,'Prospect','English');

@@ -1,4 +1,4 @@
-﻿
+
 
 // JScript File
 
@@ -465,17 +465,34 @@ function DaysArray(n) {
 }
 
 
+function normalizeDateFormatForParse(dateformat) {
+    if (!dateformat) {
+        return "dd/mm/yyyy";
+    }
+    var fmt = dateformat.toLowerCase().replace(/\s/g, "");
+    var ddPos = fmt.indexOf("dd");
+    var mmPos = fmt.indexOf("mm");
+    if (ddPos >= 0 && mmPos >= 0) {
+        return (ddPos < mmPos) ? "dd/mm/yyyy" : "mm/dd/yyyy";
+    }
+    if (fmt.indexOf("mm/dd") >= 0) {
+        return "mm/dd/yyyy";
+    }
+    return "dd/mm/yyyy";
+}
+
 function isDate(dtStr, spnid, dateformat) {
      //var daysInMonth = DaysArray(12)
     var daysInMonth = [];
+    dateformat = normalizeDateFormatForParse(dateformat);
 
     for (var i = 1; i <= 12; i++) {
         daysInMonth[i] = 31
         if (i == 4 || i == 6 || i == 9 || i == 11) { daysInMonth[i] = 30 }
         if (i == 2) { daysInMonth[i] = 29 }
     }
-    var pos1 = ''
-    var pos2 = ''
+    var pos1 = -1
+    var pos2 = -1
 
     var strMonth = ''
     var strDay = ''
@@ -504,10 +521,13 @@ function isDate(dtStr, spnid, dateformat) {
     for (var i = 1; i <= 3; i++) {
         if (strYr.charAt(0) == "0" && strYr.length > 1) strYr = strYr.substring(1)
     }
-    month = parseInt(strMonth)
+    month = parseInt(strMonth, 10)
 
-    day = parseInt(strDay)
-    year = parseInt(strYr)
+    day = parseInt(strDay, 10)
+    year = parseInt(strYr, 10)
+    if (strYear.length == 2 && !isNaN(year)) {
+        year += (year < 50) ? 2000 : 1900;
+    }
     if (spnid != "") {
         document.getElementById(spnid).style.display = "none"
     }
@@ -539,7 +559,7 @@ function isDate(dtStr, spnid, dateformat) {
         }
         return false
     }
-    if (strYear.length != 4 || year == 0 || year < minYear || year > maxYear) {
+    if (strYear.length < 2 || strYear.length > 4 || isNaN(year) || year == 0 || year < minYear || year > maxYear) {
         //alert("Please enter a valid 4 digit year between "+minYear+" and "+maxYear)
         if (spnid != "") {
             document.getElementById(spnid).style.display = "block"
@@ -1545,10 +1565,12 @@ function RemoveDollorAndComma(Values_data) {
 
 
 function GetCurrencyinRequiredFormate(Amount, isSignRequired) {
-    return jsCurrencySymbol + Amount;
+    var currencySymbol = (typeof jsCurrencySymbol !== "undefined" && jsCurrencySymbol !== null) ? jsCurrencySymbol : "";
+    return currencySymbol + Amount;
 }
 function GetCurrencyFromRequiredFormatetoBack(Amount) {
-    return Amount.replace(jsCurrencySymbol, '');
+    var currencySymbol = (typeof jsCurrencySymbol !== "undefined" && jsCurrencySymbol !== null) ? jsCurrencySymbol : "";
+    return Amount.replace(currencySymbol, '');
 }
 
 

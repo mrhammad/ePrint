@@ -1,4 +1,4 @@
-﻿using nmsCommon;
+using nmsCommon;
 using nmsConnectionClass;
 using nmsLanguage;
 using nmsnotesclass;
@@ -3356,10 +3356,20 @@ namespace ePrint.Printcenter.Views.Estimate
                 PlaceHolder placeHolder2 = (PlaceHolder)e.Item.FindControl("plhConvertJob");
                 PlaceHolder placeHolder3 = (PlaceHolder)e.Item.FindControl("plh_Error");
                 PlaceHolder placeHolder4 = (PlaceHolder)e.Item.FindControl("plhBackOrder");
+                PlaceHolder placeHolderRowIcon = (PlaceHolder)e.Item.FindControl("plh_EstimateRowIcon");
                 HtmlInputCheckBox htmlInputCheckBox = (HtmlInputCheckBox)e.Item.FindControl("Id");
                 PlaceHolder placeHolder5 = (PlaceHolder)e.Item.FindControl("plh_customerstatus");
                 PlaceHolder placeHolder6 = (PlaceHolder)e.Item.FindControl("plh_stockproduct");
                 htmlInputCheckBox.Value = ((DataRowView)e.Item.DataItem)[0].ToString();
+                string estimateSummaryUrl = string.Concat(this.strSitepath, "estimates/estimate_summary_reeng.aspx?estid=", empty);
+                string estimateListLockIcon = string.Concat(this.strImagepath, "estimate_list_lock.png");
+                if (placeHolderRowIcon != null)
+                {
+                    placeHolderRowIcon.Controls.Add(new LiteralControl(string.Concat(
+                        "<a href='", estimateSummaryUrl, "'><img src='", estimateListLockIcon,
+                        "' title='", this.objLanguage.GetLanguageConversion("Estimate"),
+                        "' class='viewicon_margin' /></a>")));
+                }
                 string empty2 = string.Empty;
                 string str2 = string.Empty;
                 string languageConversion = string.Empty;
@@ -5566,7 +5576,7 @@ namespace ePrint.Printcenter.Views.Estimate
                             break;
                         }
                     }
-                    this.lblView.Text = this.ddl_View.SelectedItem.Text;
+                    this.SyncViewLabelFromDropdown();
                 }
                 else if (this.defaultviewid == 0)
                 {
@@ -5579,6 +5589,10 @@ namespace ePrint.Printcenter.Views.Estimate
                         }
                     }
                     this.objCreateView.BindCustomView(this.pg, this.CompanyID, this.ddl_View);
+                    if (this.defaultviewid == 0 && this.ddl_View.Items.Count > 0)
+                    {
+                        this.defaultviewid = Convert.ToInt32(this.ddl_View.Items[0].Value);
+                    }
                     int num2 = 0;
                     while (num2 < this.ddl_View.Items.Count)
                     {
@@ -5592,7 +5606,7 @@ namespace ePrint.Printcenter.Views.Estimate
                             break;
                         }
                     }
-                    this.lblView.Text = this.ddl_View.SelectedItem.Text;
+                    this.SyncViewLabelFromDropdown();
                 }
                 else
                 {
@@ -5610,7 +5624,7 @@ namespace ePrint.Printcenter.Views.Estimate
                             break;
                         }
                     }
-                    this.lblView.Text = this.ddl_View.SelectedItem.Text;
+                    this.SyncViewLabelFromDropdown();
                 }
                 if (this.ddl_View.Text.Length == 0)
                 {
@@ -6207,6 +6221,23 @@ namespace ePrint.Printcenter.Views.Estimate
             database.ExecuteNonQuery(storedProcCommand);
             object parameterValue = database.GetParameterValue(storedProcCommand, "@ReturnID");
             return (parameterValue == null ? (long)0 : long.Parse(parameterValue.ToString()));
+        }
+
+        private void SyncViewLabelFromDropdown()
+        {
+            if (this.ddl_View.SelectedItem != null)
+            {
+                this.lblView.Text = this.ddl_View.SelectedItem.Text;
+                return;
+            }
+            if (this.ddl_View.Items.Count > 0)
+            {
+                this.ddl_View.SelectedIndex = 0;
+                this.lblView.Text = this.ddl_View.SelectedItem.Text;
+                return;
+            }
+            this.ddl_View.Visible = false;
+            this.lblView.Text = string.Empty;
         }
     }
 }
