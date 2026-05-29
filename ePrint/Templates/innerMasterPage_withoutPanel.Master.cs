@@ -105,6 +105,24 @@ namespace ePrint
         {
         }
 
+        private void PopulateHeadAssets()
+        {
+            if (this.ltrHeadAssets == null)
+            {
+                return;
+            }
+            string site = this.strSitepath ?? string.Empty;
+            string ro = this.roundoff ?? string.Empty;
+            string cd = this.currentdate ?? string.Empty;
+            System.Text.StringBuilder sb = new System.Text.StringBuilder(256);
+            sb.Append("<script type=\"text/javascript\">");
+            sb.Append("var strSitepath = '").Append(site).Append("';");
+            sb.Append("var roundoff = '").Append(ro).Append("';");
+            sb.Append("var currentdate = '").Append(cd).Append("';");
+            sb.Append("</script>");
+            this.ltrHeadAssets.Text = sb.ToString();
+        }
+
         protected void Page_Load(object sender, EventArgs e)
         {
             if (base.Request.Url.ToString().ToLower().IndexOf("dmcsportonline") != -1)
@@ -144,6 +162,7 @@ namespace ePrint
             }
             DateTime dateTime = Convert.ToDateTime(DateTime.Now.ToString());
             this.currentdate = dateTime.ToShortDateString();
+            this.PopulateHeadAssets();
             this.Page.Header.DataBind();
             this.DateFormat = this.objpage.GetRegionalSettings(this.companyid, "Dateformat");
             this.pgName = base.Session["pagename"].ToString();

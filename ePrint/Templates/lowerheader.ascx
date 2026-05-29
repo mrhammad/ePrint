@@ -12,7 +12,7 @@
 <%--<div class="tabheadertext bgcustomize" style="height: 5px;">
     &nbsp;
 </div>--%>
-<tr valign="middle" style="border-color: Red; border-width: 1px" width="50%">
+<tr valign="middle" style="display: none;" width="50%" class="eprint-hide-top-nav">
     <td class="tabheadertext bgcustomize" height="25px" width="50%">
         <table cellspacing="0" cellpadding="0" width="100%" border="0" id="Table11" style="padding-right: 5px;"
             class="normaltext">
@@ -25,7 +25,7 @@
                     <b>&nbsp;
                         <%--<asp:SiteMapPath ID="SiteMapPath1" runat="server">
                         </asp:SiteMapPath>--%>
-                        <asp:Label ID="lblsitepath" runat="server" Style="padding-left:3px;" Visible="true"></asp:Label>
+                        <asp:Label ID="lblsitepath" runat="server" Style="padding-left:3px;" Visible="false"></asp:Label>
                         <asp:LinkButton ID="lnkHome" CausesValidation="false" runat="server"></asp:LinkButton><asp:Label
                             ID="lblHome" runat="server"></asp:Label><asp:LinkButton ID="lnkSection" CausesValidation="false"
                                 runat="server"></asp:LinkButton><asp:Label ID="lblSection" runat="server"></asp:Label><asp:LinkButton

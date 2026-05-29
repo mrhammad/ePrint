@@ -24,6 +24,15 @@ namespace ePrint.Templates
         protected global::System.Web.UI.HtmlControls.HtmlHead Head1;
 
         /// <summary>
+        /// ltrHeadAssets control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal ltrHeadAssets;
+
+        /// <summary>
         /// plhStyle control.
         /// </summary>
         /// <remarks>
@@ -69,6 +78,11 @@ namespace ePrint.Templates
         protected global::System.Web.UI.WebControls.PlaceHolder plhHeader;
 
         /// <summary>
+        /// header1 control.
+        /// </summary>
+        protected global::ePrint.header header1;
+
+        /// <summary>
         /// header2 control.
         /// </summary>
         /// <remarks>
@@ -78,22 +92,9 @@ namespace ePrint.Templates
         protected global::ePrint.Templates.lowerheader header2;
 
         /// <summary>
-        /// tdLeftpanel control.
+        /// contextPanel control.
         /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlTableCell tdLeftpanel;
-
-        /// <summary>
-        /// DivLeftpanel control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl DivLeftpanel;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl contextPanel;
 
         /// <summary>
         /// panel_home control.
@@ -166,24 +167,6 @@ namespace ePrint.Templates
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl search;
-
-        /// <summary>
-        /// showsearch control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl showsearch;
-
-        /// <summary>
-        /// RightPanel control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlTableCell RightPanel;
 
         /// <summary>
         /// ContentPlaceHolder1 control.

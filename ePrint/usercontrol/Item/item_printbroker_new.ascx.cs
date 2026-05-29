@@ -2508,18 +2508,24 @@ namespace ePrint.usercontrol.Item
                 { "Custom Description 25", "div_SupplierDescrn25" },
             };
             Dictionary<string, int> divOrder = dataTable.AsEnumerable()
-                .Where(row => row["DatabaseFieldName"] != DBNull.Value && row["DisplayOrder"] != DBNull.Value)
-                .ToDictionary(row => row.Field<string>("DatabaseFieldName"), row => row.Field<int>("DisplayOrder"));
+                .Where(row => row["DatabaseFieldName"] != DBNull.Value)
+                .GroupBy(row => row.Field<string>("DatabaseFieldName"))
+                .ToDictionary(
+                    g => g.Key,
+                    g => g.First()["DisplayOrder"] != DBNull.Value ? Convert.ToInt32(g.First()["DisplayOrder"]) : int.MaxValue);
 
-            List<Control> divControls = divOrder.Keys
-                .Where(fieldToDivMap.ContainsKey) // Ensure the field has a mapped control ID
-                .Select(fieldName => divContainer.FindControl(fieldToDivMap[fieldName])) // Map field name to actual div ID
-                .Where(control => control != null) // Ignore null controls
+            var sortedDivs = divOrder.Keys
+                .Where(fieldToDivMap.ContainsKey)
+                .Select(fieldName => new { fieldName, control = divContainer.FindControl(fieldToDivMap[fieldName]) })
+                .Where(x => x.control != null)
+                .OrderBy(x => divOrder[x.fieldName])
+                .Select(x => x.control)
                 .ToList();
 
-            var sortedDivs = divControls
-                .OrderBy(control => divOrder.ContainsKey(control.ID) ? divOrder[control.ID] : int.MaxValue)
-                .ToList();
+            if (sortedDivs.Count == 0)
+            {
+                return;
+            }
 
             divContainer.Controls.Clear();
             foreach (var div in sortedDivs)

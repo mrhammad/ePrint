@@ -7,8 +7,7 @@ using System.Data.SqlClient;
 namespace nmsCommon
 {
 	/// <summary>
-	/// Creates one sample estimate per major item type so new tenants see variety on the Estimate list.
-	/// Does not copy data from template companies.
+	/// Seeds sample estimates for new tenants. Uses four working estimates copied from company 2144.
 	/// </summary>
 	internal static class NewCompanySampleEstimates
 	{
@@ -43,7 +42,7 @@ WHERE e.CompanyID = @companyId
 	AND (e.EstimateNumber LIKE @demoPrefix OR e.Comments LIKE @marker)", cmn.openConnection());
 			command.Parameters.AddWithValue("@companyId", companyId);
 			command.Parameters.AddWithValue("@demoPrefix", DemoNumberPrefix + "%");
-			command.Parameters.AddWithValue("@marker", "%" + SampleMarkerComment + "%");
+			command.Parameters.AddWithValue("@marker", "%Registration reference estimate%");
 
 			try
 			{
@@ -66,53 +65,7 @@ WHERE e.CompanyID = @companyId
 
 		public static void Seed(int companyId, int adminUserId)
 		{
-			if (companyId <= 0 || adminUserId <= 0)
-			{
-				return;
-			}
-
-			if (HasSampleEstimates(companyId))
-			{
-				return;
-			}
-
-			SampleCustomerContext customer = LoadSampleCustomer(companyId);
-			if (customer == null)
-			{
-				return;
-			}
-
-			int statusId = GetDefaultEstimateStatusId(companyId);
-			if (statusId <= 0)
-			{
-				return;
-			}
-
-			DateTime now = DateTime.Now;
-			int validFor = GetDefaultValidForDays(companyId);
-			int demoSequence = 0;
-
-			foreach (SampleEstimateType sampleType in SampleTypes)
-			{
-				demoSequence++;
-				try
-				{
-					CreateSampleEstimate(
-						companyId,
-						adminUserId,
-						customer,
-						statusId,
-						validFor,
-						now,
-						sampleType,
-						demoSequence);
-				}
-				catch (Exception ex)
-				{
-					System.Diagnostics.Trace.WriteLine(
-						"NewCompanySampleEstimates " + sampleType.ItemTypeCode + ": " + ex.Message);
-				}
-			}
+			NewCompanyReferenceEstimates.Seed(companyId, adminUserId);
 		}
 
 		private static void CreateSampleEstimate(

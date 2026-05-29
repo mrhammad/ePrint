@@ -5,6 +5,8 @@
 <%@ Register TagPrefix="UC" TagName="Loading" Src="~/usercontrol/settings/Loading.ascx" %>
 <%@ Register TagPrefix="UC" TagName="Header_MIS" Src="~/usercontrol/settings/settings_mis_headerpanel.ascx" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
+    <script type="text/javascript" src="<%=strSitepath %>js/item/general.js?VN=<%=VersionNumber %>"></script>
+    <script type="text/javascript" src="<%=strSitepath %>js/rgbcolor.js?VN=<%=VersionNumber %>"></script>
     <div id="ds00" style="display: none; z-index: 2;">
     </div>
     <div id="div_Load" style="position: absolute; display: none; z-index: 3; padding-left: 400px; padding-top: 200px;">
@@ -24,7 +26,6 @@
 
         var isBlank1 = false;
         function ValidateName(saveType) {
-            debugger;
             isBlank1 = false;
             var txtName = document.getElementById("<%=txtName.ClientID %>");
             var txtFooterSpace = document.getElementById("<%=txtFooterSpace.ClientID %>");

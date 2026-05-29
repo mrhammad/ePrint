@@ -418,9 +418,21 @@ namespace ePrint.usercontrol.orders
         protected void Page_Load(object sender, EventArgs e)
         {
             MasterPage master = this.Parent.Page.Master;
-            ((HtmlControl)master.FindControl("DivLeftpanel")).Visible = false;
-            HtmlControl htmlControl = (HtmlControl)master.FindControl("RightPanel");
-            htmlControl.Attributes.Add("Style", "width:100%;");
+            HtmlControl legacyLeftPanel = master.FindControl("DivLeftpanel") as HtmlControl;
+            if (legacyLeftPanel != null)
+            {
+                legacyLeftPanel.Visible = false;
+            }
+            HtmlGenericControl contextPanel = master.FindControl("contextPanel") as HtmlGenericControl;
+            if (contextPanel != null)
+            {
+                contextPanel.Visible = false;
+            }
+            HtmlControl htmlControl = master.FindControl("RightPanel") as HtmlControl;
+            if (htmlControl != null)
+            {
+                htmlControl.Attributes.Add("Style", "width:100%;");
+            }
             this.btnSave.Text = order_rerun.objLanguage.GetLanguageConversion("Save");
             this.btnCancel.Text = order_rerun.objLanguage.GetLanguageConversion("Cancel");
             this.txtOrderedDate.Enabled = false;

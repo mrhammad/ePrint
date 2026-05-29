@@ -7,7 +7,27 @@
 <%@ Register TagName="company_panel" TagPrefix="uc" Src="~/usercontrol/company_leftpanel.ascx" %>
 <%@ Register TagName="home_panel" TagPrefix="uc" Src="~/usercontrol/home_leftpanel.ascx" %>
 
-
+<script runat="server">
+    protected override void OnLoad(EventArgs e)
+    {
+        base.OnLoad(e);
+        if (this.ltrHeadAssets != null && string.IsNullOrEmpty(this.ltrHeadAssets.Text))
+        {
+            string site = this.strSitepath ?? string.Empty;
+            string ro = this.roundoff ?? string.Empty;
+            string cd = this.currentdate ?? string.Empty;
+            string sOpen = "<scr" + "ipt";
+            string sClose = "</scr" + "ipt>";
+            System.Text.StringBuilder sb = new System.Text.StringBuilder(256);
+            sb.Append(sOpen).Append(" type=\"text/javascript\">");
+            sb.Append("var strSitepath = '").Append(site).Append("';");
+            sb.Append("var roundoff = '").Append(ro).Append("';");
+            sb.Append("var currentdate = '").Append(cd).Append("';");
+            sb.Append(sClose);
+            this.ltrHeadAssets.Text = sb.ToString();
+        }
+    }
+</script>
 
 <script src="<%=strSitepath %>js/jquery-1.7.2.min.js?VN='<%=VersionNumber%>'" type="text/javascript"></script>
 <script src="<%=strSitepath %>js/approvalsystem.js?VN='<%=VersionNumber%>'" type="text/javascript"></script>
@@ -26,11 +46,7 @@
     <noscript>
         Your browser does not support JavaScript! ...
     </noscript>
-    <script type="text/javascript">
-        var strSitepath = '<%#strSitepath%>';
-        var roundoff = '<%#roundoff%>';
-        var currentdate = '<%#currentdate%>';    
-    </script>
+    <asp:Literal runat="server" ID="ltrHeadAssets" EnableViewState="false"></asp:Literal>
 </head>
 <body id="myBody">
     <asp:PlaceHolder ID="plhStyle" runat="server"></asp:PlaceHolder>

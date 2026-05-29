@@ -333,6 +333,11 @@
     <Content Include="App_Themes\Theme1\item.css" />
     <Content Include="App_Themes\Theme1\ListBox.Eprint_Skin.css" />
     <Content Include="App_Themes\Theme1\menu.css" />
+    <Content Include="App_Themes\Theme1\eprint-sidebar.css" />
+    <Content Include="App_Themes\Theme1\eprint-crm-customer.css" />
+    <Content Include="App_Themes\Theme1\eprint-crm-sections.css" />
+    <Content Include="js\eprint-crm-customer.js" />
+    <Content Include="js\eprint-crm-sections.js" />
     <Content Include="App_Themes\Theme1\Menu.Eprint_Skin.css" />
     <Content Include="App_Themes\Theme1\navbar.gif" />
     <Content Include="App_Themes\Theme1\_vti_cnf\cropper.css" />
@@ -1892,6 +1897,7 @@
     <Content Include="js\animatedcollapse.js" />
     <Content Include="js\animation.js" />
     <Content Include="js\approvalsystem.js" />
+    <Content Include="js\eprint-sidebar.js" />
     <Content Include="js\attachmentadd.js" />
     <Content Include="js\attachmentaddDelete.js" />
     <Content Include="js\attachmentedit.js" />
@@ -2702,6 +2708,7 @@
     <Content Include="usercontrol\crm\B2BSubSection.ascx" />
     <Content Include="usercontrol\crm\cost_selector.ascx" />
     <Content Include="usercontrol\crm\CRM_Search.ascx" />
+    <Content Include="usercontrol\crm\ClientContactsSubSection.ascx" />
     <Content Include="usercontrol\crm\EmailsSubSection.ascx" />
     <Content Include="usercontrol\crm\EstimateSubSection.ascx" />
     <Content Include="usercontrol\crm\eStoreSubSection.ascx" />
@@ -4265,6 +4272,16 @@
     <Compile Include="nms\nmsCommon\CountryOptionValues.cs" />
     <Compile Include="nms\nmsCommon\RegistrationBootstrapSeeds.cs" />
     <Compile Include="nms\nmsCommon\NewCompanySampleEstimates.cs" />
+    <Compile Include="nms\nmsCommon\NewCompanyReferenceEstimates.cs" />
+    <Compile Include="nms\nmsCommon\NewCompanySystemTemplates.cs" />
+    <Compile Include="nms\nmsCommon\NewCompanySystemTemplateSeeds.cs" />
+    <Compile Include="nms\nmsCommon\NewCompanyRegistrationEstimateSeeds.cs" />
+    <EmbeddedResource Include="nms\nmsCommon\SeedData\SystemTemplatesRegistration.sql">
+      <LogicalName>nmsCommon.SeedData.SystemTemplatesRegistration.sql</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="nms\nmsCommon\SeedData\SystemEstimatesRegistration.sql">
+      <LogicalName>nmsCommon.SeedData.SystemEstimatesRegistration.sql</LogicalName>
+    </EmbeddedResource>
     <Compile Include="nms\nmsCommon\NewCompanySampleEstimateItemBodies.cs" />
     <Compile Include="nms\nmsCommon\registrationClass.cs">
       <SubType>Code</SubType>
@@ -5683,6 +5700,21 @@
     </Compile>
     <Compile Include="usercontrol\crm\CRM_Search.ascx.designer.cs">
       <DependentUpon>CRM_Search.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="usercontrol\crm\ClientContactsSubSection.ascx.cs">
+      <DependentUpon>ClientContactsSubSection.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="usercontrol\crm\ClientContactsSubSection.ascx.designer.cs">
+      <DependentUpon>ClientContactsSubSection.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="usercontrol\crm\ClientSubSection.ContactsBridge.cs">
+      <DependentUpon>ClientSubSection.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="usercontrol\crm\ClientSubSection.CrmTabs.cs">
+      <DependentUpon>ClientSubSection.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="usercontrol\crm\EmailsSubSection.ascx.cs">
       <DependentUpon>EmailsSubSection.ascx</DependentUpon>

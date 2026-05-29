@@ -79,11 +79,26 @@ namespace ePrint.client
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            HtmlControl htmlControl = (HtmlControl)base.Master.FindControl("DivLeftpanel");
-            HtmlControl htmlControl1 = (HtmlControl)base.Master.FindControl("DivLeftpanel1");
-            HtmlControl htmlControl2 = (HtmlControl)base.Master.FindControl("RightPanel");
-            htmlControl.Style.Add("display", "none");
-            htmlControl2.Style.Add("width", "100%");
+            HtmlControl htmlControl = base.Master.FindControl("DivLeftpanel") as HtmlControl;
+            HtmlControl htmlControl1 = base.Master.FindControl("DivLeftpanel1") as HtmlControl;
+            HtmlControl htmlControl2 = base.Master.FindControl("RightPanel") as HtmlControl;
+            HtmlGenericControl contextPanel = base.Master.FindControl("contextPanel") as HtmlGenericControl;
+            if (htmlControl != null)
+            {
+                htmlControl.Style.Add("display", "none");
+            }
+            if (htmlControl1 != null)
+            {
+                htmlControl1.Style.Add("display", "none");
+            }
+            if (contextPanel != null)
+            {
+                contextPanel.Visible = false;
+            }
+            if (htmlControl2 != null)
+            {
+                htmlControl2.Style.Add("width", "100%");
+            }
             this.objBase.ReturnRoles_Privileges_Tabs("clients", "isadd", "");
             global.pageName = "client";
             global.pgName = "";

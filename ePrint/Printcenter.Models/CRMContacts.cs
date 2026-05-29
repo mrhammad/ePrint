@@ -1,5 +1,6 @@
 using nmsConnectionClass;
 using nmsLanguage;
+using System.Configuration;
 using Printcenter.UI.Department;
 using System;
 using System.Collections;
@@ -27,15 +28,32 @@ public class CRMContacts
 		{
 			empty1 = ConnectionClass.FileExtension.ToString();
 		}
-		if (ConnectionClass.B2BURL != null)
+		string reqHost = string.Empty;
+		if (HttpContext.Current != null && HttpContext.Current.Request != null && HttpContext.Current.Request.Url != null)
 		{
-			empty = ConnectionClass.B2BURL.ToString();
-			empty = string.Concat(empty, "login", empty1);
+			reqHost = HttpContext.Current.Request.Url.Host.Trim().ToLower();
 		}
-		if (ConnectionClass.B2CURL != null)
+		if (reqHost == "localhost" || reqHost == "127.0.0.1" || reqHost == "192.168.1.6")
 		{
-			str = ConnectionClass.B2CURL.ToString();
-			str = string.Concat(str, "login", empty1);
+			string localB2b = ConfigurationManager.AppSettings["LocalB2BURL"];
+			string localB2c = ConfigurationManager.AppSettings["LocalB2CURL"];
+			string b2bBase = !string.IsNullOrWhiteSpace(localB2b) ? localB2b.Trim() : "http://localhost:2222/";
+			string b2cBase = !string.IsNullOrWhiteSpace(localB2c) ? localB2c.Trim() : "http://localhost:2222/";
+			empty = string.Concat(b2bBase, "login", empty1);
+			str = string.Concat(b2cBase, "login", empty1);
+		}
+		else
+		{
+			if (ConnectionClass.B2BURL != null)
+			{
+				empty = ConnectionClass.B2BURL.ToString();
+				empty = string.Concat(empty, "login", empty1);
+			}
+			if (ConnectionClass.B2CURL != null)
+			{
+				str = ConnectionClass.B2CURL.ToString();
+				str = string.Concat(str, "login", empty1);
+			}
 		}
 		Convert.ToInt32(HttpContext.Current.Session["UserID"]);
 		StringBuilder stringBuilder = new StringBuilder();

@@ -165,6 +165,7 @@ namespace ePrint.Templates
             }
             DateTime dateTime = Convert.ToDateTime(DateTime.Now.ToString());
             this.currentdate = dateTime.ToShortDateString();
+            this.PopulateHeadAssets();
             this.Page.Header.DataBind();
             this.DateFormat = this.objpage.GetRegionalSettings(this.companyid, "Dateformat");
             this.pgName = base.Session["pagename"].ToString();
@@ -225,6 +226,7 @@ namespace ePrint.Templates
             //}
             BasePage basePage = new BasePage();
             basePage.logoSetting(this.plhHeader, this.plhFooter, int.Parse(base.Session["companyID"].ToString()), "both");
+            this.ConfigureContextPanels();
             bool isPostBack = base.IsPostBack;
             try
             {
@@ -329,6 +331,85 @@ namespace ePrint.Templates
             }
             catch
             {
+            }
+        }
+
+        private void PopulateHeadAssets()
+        {
+            if (this.ltrHeadAssets == null)
+            {
+                return;
+            }
+            string site = this.strSitepath ?? string.Empty;
+            string vn = this.VersionNumber ?? string.Empty;
+            string ro = this.roundoff ?? string.Empty;
+            string cd = this.currentdate ?? string.Empty;
+            System.Text.StringBuilder sb = new System.Text.StringBuilder(1024);
+            sb.Append("<script type=\"text/javascript\">var roundoff = '").Append(ro).Append("'; var currentdate = '").Append(cd).Append("';</script>");
+            sb.Append("<script src=\"").Append(site).Append("js/jquery-1.7.2.min.js?VN='").Append(vn).Append("'\" type=\"text/javascript\"></script>");
+            sb.Append("<script src=\"").Append(site).Append("js/approvalsystem.js?VN='").Append(vn).Append("'\" type=\"text/javascript\"></script>");
+            sb.Append("<script src=\"").Append(site).Append("js/Item/general.js?VN='").Append(vn).Append("'\" type=\"text/javascript\"></script>");
+            sb.Append("<script src=\"").Append(site).Append("js/track.js?VN='").Append(vn).Append("'\" type=\"text/javascript\"></script>");
+            sb.Append("<script src=\"").Append(site).Append("js/item/AutoFill.js?VN='").Append(vn).Append("'\" type=\"text/javascript\"></script>");
+            sb.Append("<script src=\"").Append(site).Append("js/CRM_json.js?VN='").Append(vn).Append("'\" type=\"text/javascript\"></script>");
+            sb.Append("<script src=\"").Append(site).Append("common/swazz_calendar.js?VN='").Append(vn).Append("'\" type=\"text/javascript\"></script>");
+            sb.Append("<script src=\"").Append(site).Append("js/freshwidget.js?VN='").Append(vn).Append("'\" type=\"text/javascript\"></script>");
+            this.ltrHeadAssets.Text = sb.ToString();
+        }
+
+        private void ConfigureContextPanels()
+        {
+            if (this.contextPanel == null)
+            {
+                return;
+            }
+
+            string url = base.Request.Url.ToString().ToLower();
+            string pageName = base.Session["pagename"] != null ? base.Session["pagename"].ToString().ToLower() : string.Empty;
+
+            this.panel_home.Visible = false;
+            this.panel_company.Visible = false;
+            this.printcenter_leftpanel.Visible = false;
+            this.pnlSearch.Visible = false;
+            this.contextPanel.Visible = false;
+
+            if (url.Contains("/welcome")
+                || url.Contains("/common/event")
+                || url.Contains("/common/task"))
+            {
+                this.panel_home.Visible = true;
+                this.contextPanel.Visible = true;
+                return;
+            }
+
+            if (url.Contains("estimate_summary")
+                || url.Contains("job_summary")
+                || url.Contains("invoice_summary")
+                || url.Contains("order_summary")
+                || url.Contains("proof_summary")
+                || url.Contains("/estimates/")
+                || url.Contains("/jobs/")
+                || url.Contains("/invoice/")
+                || url.Contains("/orders/order_")
+                || pageName == "estimate"
+                || pageName == "job"
+                || pageName == "invoice"
+                || pageName == "order")
+            {
+                this.printcenter_leftpanel.Visible = true;
+                this.contextPanel.Visible = true;
+                return;
+            }
+
+            if (url.Contains("/client")
+                || url.Contains("/contact")
+                || url.Contains("/accounts/")
+                || url.Contains("customviewcrm")
+                || pageName == "client"
+                || pageName == "contact")
+            {
+                this.panel_company.Visible = true;
+                this.contextPanel.Visible = true;
             }
         }
     }

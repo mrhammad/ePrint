@@ -4,6 +4,27 @@
 <%@ Register TagPrefix="crm" TagName="headerUC" Src="~/Templates/header.ascx" %>
 <%@ Register TagPrefix="crm" TagName="lowerheaderUC" Src="~/Templates/lowerheader.ascx" %>
 <%@ Register TagPrefix="crm" TagName="callclass" Src="~/usercontrol/CallClass.ascx" %>
+
+<script runat="server">
+    protected override void OnLoad(EventArgs e)
+    {
+        base.OnLoad(e);
+        if (this.ltrHeadAssets != null && string.IsNullOrEmpty(this.ltrHeadAssets.Text))
+        {
+            string vn = this.VersionNumber ?? string.Empty;
+            string sOpen = "<scr" + "ipt";
+            string sClose = "</scr" + "ipt>";
+            System.Text.StringBuilder sb = new System.Text.StringBuilder(512);
+            sb.Append(sOpen).Append(" type=\"text/javascript\" src=\"../js/jquery.min.js?VN='").Append(vn).Append("'\">").Append(sClose);
+            sb.Append(sOpen).Append(" type=\"text/javascript\" src=\"../js/jquery.popup.js?VN='").Append(vn).Append("'\">").Append(sClose);
+            sb.Append(sOpen).Append(" type=\"text/javascript\" language=\"javascript\" src=\"../js/animation.js?VN='").Append(vn).Append("'\">").Append(sClose);
+            sb.Append(sOpen).Append(" type=\"text/javascript\" language=\"javascript\" src=\"../js/commonloading.js?VN='").Append(vn).Append("'\">").Append(sClose);
+            sb.Append(sOpen).Append(" type=\"text/javascript\" language=\"javascript\" src=\"../js/jquery-1.3.2.js?VN='").Append(vn).Append("'\">").Append(sClose);
+            this.ltrHeadAssets.Text = sb.ToString();
+        }
+    }
+</script>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head id="Head1" runat="server">
@@ -13,13 +34,8 @@
     </noscript>
     <!--POPUP START-->
     <link href="../App_Themes/backend/user.css" rel="Stylesheet" type="text/css" />
-    <script type="text/javascript" src="../js/jquery.min.js?VN='<%#VersionNumber%>'"></script>
-    <script type="text/javascript" src="../js/jquery.popup.js?VN='<%#VersionNumber%>'"></script>
+    <asp:Literal runat="server" ID="ltrHeadAssets" EnableViewState="false"></asp:Literal>
     <!--POPUP END-->
-    <script type="text/javascript" language="javascript" src="../js/animation.js?VN='<%#VersionNumber%>'">
-    </script>  
-    <script type="text/javascript" language="javascript" src="../js/commonloading.js?VN='<%#VersionNumber%>'"></script>
-    <script type="text/javascript" language="javascript" src="../js/jquery-1.3.2.js?VN='<%#VersionNumber%>'"></script>
     <script type="text/javascript">
         //function getcookiesvalue() {
 

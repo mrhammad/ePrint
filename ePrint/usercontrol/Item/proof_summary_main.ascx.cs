@@ -259,9 +259,21 @@ namespace ePrint.usercontrol.Item
             object[] estimateID;
             string[] languageConversion;
             MasterPage master = this.Parent.Page.Master;
-            HtmlControl htmlControl = (HtmlControl)master.FindControl("DivLeftpanel");
-            ((HtmlTableCell)master.FindControl("tdLeftpanel")).Visible = false;
-            htmlControl.Visible = false;
+            HtmlControl htmlControl = master.FindControl("DivLeftpanel") as HtmlControl;
+            HtmlTableCell tdLeftPanel = master.FindControl("tdLeftpanel") as HtmlTableCell;
+            HtmlGenericControl contextPanel = master.FindControl("contextPanel") as HtmlGenericControl;
+            if (tdLeftPanel != null)
+            {
+                tdLeftPanel.Visible = false;
+            }
+            if (htmlControl != null)
+            {
+                htmlControl.Visible = false;
+            }
+            if (contextPanel != null)
+            {
+                contextPanel.Visible = false;
+            }
             BaseClass baseClass = new BaseClass();
             this.CompanyID = Convert.ToInt32(base.Session["CompanyID"].ToString());
             this.UserID = Convert.ToInt32(base.Session["UserID"].ToString());

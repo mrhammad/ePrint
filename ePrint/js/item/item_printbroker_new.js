@@ -3855,63 +3855,78 @@ function ClearSpplierIfExsits(supObj) {
 
 GenrateSupplierList();
 
+function setOutworkDescDisplay(el, display) {
+    if (el != null) {
+        el.style.display = display;
+    }
+}
+
+function setOutworkDescChecked(el, checked) {
+    if (el != null) {
+        el.checked = checked;
+    }
+}
+
 function BindOutworkDesc() {
-    if (hdn_OutworkDesc.value != '') {
+    if (hdn_OutworkDesc != null && hdn_OutworkDesc.value != '') {
+        if (div_OutItemTitle == null && div_OutDescription == null) {
+            return;
+        }
 
         var str = hdn_OutworkDesc.value.split('µ');
         var str2 = '';
-        div_OutItemTitle.style.display = "none";
-        div_OutDescription.style.display = "none";
-        div_OutArtwork.style.display = "none";
-        div_OutColour.style.display = "none";
-        div_OutSize.style.display = "none";
-        div_OutMaterial.style.display = "none";
-        div_OutDelivery.style.display = "none";
-        div_OutFinishing.style.display = "none";
-        div_OutProofs.style.display = "none";
-        div_OutPacking.style.display = "none";
-        div_OutNotes.style.display = "none";
-        div_OutInstructions.style.display = "none";
+        setOutworkDescDisplay(div_OutItemTitle, "none");
+        setOutworkDescDisplay(div_OutDescription, "none");
+        setOutworkDescDisplay(div_OutArtwork, "none");
+        setOutworkDescDisplay(div_OutColour, "none");
+        setOutworkDescDisplay(div_OutSize, "none");
+        setOutworkDescDisplay(div_OutMaterial, "none");
+        setOutworkDescDisplay(div_OutDelivery, "none");
+        setOutworkDescDisplay(div_OutFinishing, "none");
+        setOutworkDescDisplay(div_OutProofs, "none");
+        setOutworkDescDisplay(div_OutPacking, "none");
+        setOutworkDescDisplay(div_OutNotes, "none");
+        setOutworkDescDisplay(div_OutInstructions, "none");
 
-        div_SupplierDescrn1.style.display = "none";
-        div_SupplierDescrn2.style.display = "none";
-        div_SupplierDescrn3.style.display = "none";
-        div_SupplierDescrn4.style.display = "none";
-        div_SupplierDescrn5.style.display = "none";
-        div_SupplierDescrn6.style.display = "none";
-        div_SupplierDescrn7.style.display = "none";
-        div_SupplierDescrn8.style.display = "none";
-        div_SupplierDescrn9.style.display = "none";
-        div_SupplierDescrn10.style.display = "none";
-        div_SupplierDescrn11.style.display = "none";
-        div_SupplierDescrn12.style.display = "none";
-        div_SupplierDescrn13.style.display = "none";
-        div_SupplierDescrn14.style.display = "none";
-        div_SupplierDescrn15.style.display = "none";
-        div_SupplierDescrn16.style.display = "none";
-        div_SupplierDescrn17.style.display = "none";
-        div_SupplierDescrn18.style.display = "none";
-        div_SupplierDescrn19.style.display = "none";
-        div_SupplierDescrn20.style.display = "none";
-        div_SupplierDescrn21.style.display = "none";
-        div_SupplierDescrn22.style.display = "none";
-        div_SupplierDescrn23.style.display = "none";
-        div_SupplierDescrn24.style.display = "none";
-        div_SupplierDescrn25.style.display = "none";
+        setOutworkDescDisplay(div_SupplierDescrn1, "none");
+        setOutworkDescDisplay(div_SupplierDescrn2, "none");
+        setOutworkDescDisplay(div_SupplierDescrn3, "none");
+        setOutworkDescDisplay(div_SupplierDescrn4, "none");
+        setOutworkDescDisplay(div_SupplierDescrn5, "none");
+        setOutworkDescDisplay(div_SupplierDescrn6, "none");
+        setOutworkDescDisplay(div_SupplierDescrn7, "none");
+        setOutworkDescDisplay(div_SupplierDescrn8, "none");
+        setOutworkDescDisplay(div_SupplierDescrn9, "none");
+        setOutworkDescDisplay(div_SupplierDescrn10, "none");
+        setOutworkDescDisplay(div_SupplierDescrn11, "none");
+        setOutworkDescDisplay(div_SupplierDescrn12, "none");
+        setOutworkDescDisplay(div_SupplierDescrn13, "none");
+        setOutworkDescDisplay(div_SupplierDescrn14, "none");
+        setOutworkDescDisplay(div_SupplierDescrn15, "none");
+        setOutworkDescDisplay(div_SupplierDescrn16, "none");
+        setOutworkDescDisplay(div_SupplierDescrn17, "none");
+        setOutworkDescDisplay(div_SupplierDescrn18, "none");
+        setOutworkDescDisplay(div_SupplierDescrn19, "none");
+        setOutworkDescDisplay(div_SupplierDescrn20, "none");
+        setOutworkDescDisplay(div_SupplierDescrn21, "none");
+        setOutworkDescDisplay(div_SupplierDescrn22, "none");
+        setOutworkDescDisplay(div_SupplierDescrn23, "none");
+        setOutworkDescDisplay(div_SupplierDescrn24, "none");
+        setOutworkDescDisplay(div_SupplierDescrn25, "none");
 
 
-        chkOutItemTitle.checked = false;
-        chkOutDescription.checked = false;
-        chkOutArtwork.checked = false;
-        chkOutColour.checked = false;
-        chkOutSize.checked = false;
-        chkOutMaterial.checked = false;
-        chkOutFinishing.checked = false;
-        chkOutDelivery.checked = false;
-        chkOutProofs.checked = false;
-        chkOutPacking.checked = false;
-        chkOutNotes.checked = false;
-        chkOutInstructions.checked = false;
+        setOutworkDescChecked(chkOutItemTitle, false);
+        setOutworkDescChecked(chkOutDescription, false);
+        setOutworkDescChecked(chkOutArtwork, false);
+        setOutworkDescChecked(chkOutColour, false);
+        setOutworkDescChecked(chkOutSize, false);
+        setOutworkDescChecked(chkOutMaterial, false);
+        setOutworkDescChecked(chkOutFinishing, false);
+        setOutworkDescChecked(chkOutDelivery, false);
+        setOutworkDescChecked(chkOutProofs, false);
+        setOutworkDescChecked(chkOutPacking, false);
+        setOutworkDescChecked(chkOutNotes, false);
+        setOutworkDescChecked(chkOutInstructions, false);
 
         for (var i = 0; i < str.length; i++) {
             str2 = str[i].split('»');

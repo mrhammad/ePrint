@@ -247,5 +247,26 @@ namespace ePrint
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.HiddenField HiddenField1;
+
+        protected global::System.Web.UI.WebControls.PlaceHolder phNavDashboard;
+        protected global::System.Web.UI.WebControls.PlaceHolder phNavCrm;
+        protected global::System.Web.UI.WebControls.PlaceHolder phNavCrmReports;
+        protected global::System.Web.UI.WebControls.PlaceHolder phNavEstimates;
+        protected global::System.Web.UI.WebControls.PlaceHolder phNavEstimateReports;
+        protected global::System.Web.UI.WebControls.PlaceHolder phNavOrders;
+        protected global::System.Web.UI.WebControls.PlaceHolder phNavOrderReports;
+        protected global::System.Web.UI.WebControls.PlaceHolder phNavJobs;
+        protected global::System.Web.UI.WebControls.PlaceHolder phNavJobReports;
+        protected global::System.Web.UI.WebControls.PlaceHolder phNavWarehouse;
+        protected global::System.Web.UI.WebControls.PlaceHolder phNavInvoice;
+        protected global::System.Web.UI.WebControls.PlaceHolder phNavInvoiceReports;
+        protected global::System.Web.UI.WebControls.PlaceHolder phNavPurchases;
+        protected global::System.Web.UI.WebControls.PlaceHolder phNavPurchaseReports;
+        protected global::System.Web.UI.WebControls.PlaceHolder phNavDelivery;
+        protected global::System.Web.UI.WebControls.PlaceHolder phNavDeliveryReports;
+        protected global::System.Web.UI.WebControls.PlaceHolder phNavProducts;
+        protected global::System.Web.UI.WebControls.PlaceHolder phNavProductReports;
+        protected global::System.Web.UI.WebControls.PlaceHolder phNavSettings;
+        protected global::System.Web.UI.WebControls.PlaceHolder phNavStoreSettings;
     }
 }

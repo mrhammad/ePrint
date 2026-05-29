@@ -1890,6 +1890,29 @@ public class BaseClass : System.Web.UI.Page
         this.Session_Check();
     }
 
+    private void TryApplyTheme(string themeName)
+    {
+        if (string.IsNullOrWhiteSpace(themeName) || this.Page == null)
+        {
+            return;
+        }
+
+        try
+        {
+            this.Page.Theme = themeName.Trim();
+        }
+        catch (HttpException)
+        {
+            // Some pages use inline <% %> blocks; keep default declarative theme instead.
+        }
+    }
+
+    private bool ShouldApplyRuntimeTheme()
+    {
+        string setting = ConfigurationManager.AppSettings["EnableRuntimePageTheme"];
+        return string.Equals(setting, "true", StringComparison.OrdinalIgnoreCase);
+    }
+
     public void Page_Error(object sender, EventArgs e)
     {
         //string str = global.sitePath();
@@ -2955,10 +2978,21 @@ public class BaseClass : System.Web.UI.Page
         SqlDataReader sqlDataReader1 = sqlCommand1.ExecuteReader(CommandBehavior.CloseConnection);
         while (sqlDataReader1.Read())
         {
-            this.Page.Theme = sqlDataReader1["theme"].ToString();
+            if (this.ShouldApplyRuntimeTheme())
+            {
+                this.TryApplyTheme(sqlDataReader1["theme"].ToString());
+            }
             global.strimagepath = string.Concat(global.sitePath(), sqlDataReader1["ImageFolder"].ToString(), "/");
         }
         sqlDataReader1.Close();
+        if (string.IsNullOrEmpty(global.strimagepath))
+        {
+            if (this.ShouldApplyRuntimeTheme())
+            {
+                this.TryApplyTheme("Theme1");
+            }
+            global.strimagepath = string.Concat(global.sitePath(), "images/");
+        }
         _commonClass1.closeConnection();
         commonClass _commonClass2 = new commonClass();
         SqlCommand sqlCommand2 = new SqlCommand("crm_groupenable_select", _commonClass2.openConnection())

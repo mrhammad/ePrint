@@ -43,15 +43,39 @@ namespace nmsConnectionClass
 			}
 		}
 
+		private static string ResolveStoreUrl(string localAppSettingsKey, string misAppSettingsKey)
+		{
+			try
+			{
+				if (HttpContext.Current != null && HttpContext.Current.Request != null && HttpContext.Current.Request.Url != null)
+				{
+					string host = HttpContext.Current.Request.Url.Host.Trim().ToLower();
+					int port = HttpContext.Current.Request.Url.Port;
+					if (port == 1111 || host == "localhost" || host == "127.0.0.1" || host == "192.168.1.6")
+					{
+						string localUrl = ConfigurationManager.AppSettings[localAppSettingsKey];
+						if (!string.IsNullOrWhiteSpace(localUrl))
+						{
+							return localUrl.Trim();
+						}
+					}
+				}
+			}
+			catch
+			{
+			}
+			if (EprintConfigurationManager.AppSettings[misAppSettingsKey] == null)
+			{
+				return null;
+			}
+			return EprintConfigurationManager.AppSettings[misAppSettingsKey].ToString();
+		}
+
 		public static string B2BURL
 		{
 			get
 			{
-				if (EprintConfigurationManager.AppSettings["B2BURL"] == null)
-				{
-					return null;
-				}
-				return EprintConfigurationManager.AppSettings["B2BURL"].ToString();
+				return ConnectionClass.ResolveStoreUrl("LocalB2BURL", "B2BURL");
 			}
 		}
 
@@ -59,11 +83,7 @@ namespace nmsConnectionClass
 		{
 			get
 			{
-				if (EprintConfigurationManager.AppSettings["B2CURL"] == null)
-				{
-					return null;
-				}
-				return EprintConfigurationManager.AppSettings["B2CURL"].ToString();
+				return ConnectionClass.ResolveStoreUrl("LocalB2CURL", "B2CURL");
 			}
 		}
 

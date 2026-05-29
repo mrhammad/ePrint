@@ -56,6 +56,32 @@ namespace nmsView
         {
         }
 
+        private string[] ParseDefaultViewColumns(string rawColumns, string sectionName)
+        {
+            if (string.IsNullOrWhiteSpace(rawColumns))
+            {
+                if (string.Equals(sectionName, "estimate", StringComparison.OrdinalIgnoreCase))
+                {
+                    return new[] { "EstimateNumber", "EstimateTitle", "CustomerID", "EstimateDate", "EstimateStatus", "EstimateType" };
+                }
+
+                return new string[0];
+            }
+
+            string trimmed = rawColumns.Trim();
+            if (trimmed.EndsWith(","))
+            {
+                trimmed = trimmed.Substring(0, trimmed.Length - 1);
+            }
+
+            if (trimmed.Length == 0)
+            {
+                return new string[0];
+            }
+
+            return trimmed.Split(new char[] { ',' });
+        }
+
         public void AssignRecords(string sectionName, int sectionID, int Id, int userorgroup, int companyID)
         {
             commonClass _commonClass = new commonClass();
@@ -3309,9 +3335,7 @@ namespace nmsView
                 if (this.DisplayColumns == null)
                 {
                     string str13 = SettingsBasePage.view_Default_select(SectionName.Trim().ToLower(), Convert.ToInt32(CompanyID));
-                    string str14 = str13.ToString().Substring(0, str13.ToString().Length - 1);
-                    chrArray = new char[] { ',' };
-                    this.DisplayColumns = str14.Split(chrArray);
+                    this.DisplayColumns = this.ParseDefaultViewColumns(str13, SectionName);
                 }
                 if ((int)this.DisplayColumns.Length > 0)
                 {
@@ -3579,9 +3603,7 @@ namespace nmsView
                 if (this.DisplayColumns == null)
                 {
                     string str13 = SettingsBasePage.view_Default_select(SectionName.Trim().ToLower(), Convert.ToInt32(CompanyID));
-                    string str14 = str13.ToString().Substring(0, str13.ToString().Length - 1);
-                    chrArray = new char[] { ',' };
-                    this.DisplayColumns = str14.Split(chrArray);
+                    this.DisplayColumns = this.ParseDefaultViewColumns(str13, SectionName);
                 }
                 if ((int)this.DisplayColumns.Length > 0)
                 {
@@ -3777,9 +3799,7 @@ namespace nmsView
                 if (this.DisplayColumns == null)
                 {
                     string str16 = SettingsBasePage.view_Default_select(SectionName.Trim().ToLower(), Convert.ToInt32(CompanyID));
-                    string str17 = str16.ToString().Substring(0, str16.ToString().Length - 1);
-                    chrArray = new char[] { ',' };
-                    this.DisplayColumns = str17.Split(chrArray);
+                    this.DisplayColumns = this.ParseDefaultViewColumns(str16, SectionName);
                 }
                 if ((int)this.DisplayColumns.Length > 0)
                 {
@@ -4184,9 +4204,7 @@ namespace nmsView
                 if (this.DisplayColumns == null)
                 {
                     string str19 = SettingsBasePage.view_Default_select(SectionName.Trim().ToLower(), Convert.ToInt32(CompanyID));
-                    string str20 = str19.ToString().Substring(0, str19.ToString().Length - 1);
-                    chrArray = new char[] { ',' };
-                    this.DisplayColumns = str20.Split(chrArray);
+                    this.DisplayColumns = this.ParseDefaultViewColumns(str19, SectionName);
                 }
                 if ((int)this.DisplayColumns.Length > 0)
                 {
@@ -4460,9 +4478,7 @@ namespace nmsView
                 if (this.DisplayColumns == null)
                 {
                     string str22 = SettingsBasePage.view_Default_select(SectionName.Trim().ToLower(), Convert.ToInt32(CompanyID));
-                    string str23 = str22.ToString().Substring(0, str22.ToString().Length - 1);
-                    chrArray = new char[] { ',' };
-                    this.DisplayColumns = str23.Split(chrArray);
+                    this.DisplayColumns = this.ParseDefaultViewColumns(str22, SectionName);
                 }
                 if ((int)this.DisplayColumns.Length > 0)
                 {
@@ -4604,9 +4620,7 @@ namespace nmsView
                 if (this.DisplayColumns == null)
                 {
                     string str25 = SettingsBasePage.view_Default_select(SectionName.Trim().ToLower(), Convert.ToInt32(CompanyID));
-                    string str26 = str25.ToString().Substring(0, str25.ToString().Length - 1);
-                    chrArray = new char[] { ',' };
-                    this.DisplayColumns = str26.Split(chrArray);
+                    this.DisplayColumns = this.ParseDefaultViewColumns(str25, SectionName);
                 }
                 if ((int)this.DisplayColumns.Length > 0)
                 {
@@ -4710,9 +4724,7 @@ namespace nmsView
                 if (this.DisplayColumns == null)
                 {
                     string str28 = SettingsBasePage.view_Default_select(SectionName.Trim().ToLower(), Convert.ToInt32(CompanyID));
-                    string str29 = str28.ToString().Substring(0, str28.ToString().Length - 1);
-                    chrArray = new char[] { ',' };
-                    this.DisplayColumns = str29.Split(chrArray);
+                    this.DisplayColumns = this.ParseDefaultViewColumns(str28, SectionName);
                 }
                 if ((int)this.DisplayColumns.Length > 0)
                 {
@@ -4760,9 +4772,7 @@ namespace nmsView
                 if (this.DisplayColumns == null)
                 {
                     string str31 = SettingsBasePage.view_Default_select(SectionName.Trim().ToLower(), Convert.ToInt32(CompanyID));
-                    string str32 = str31.ToString().Substring(0, str31.ToString().Length - 1);
-                    chrArray = new char[] { ',' };
-                    this.DisplayColumns = str32.Split(chrArray);
+                    this.DisplayColumns = this.ParseDefaultViewColumns(str31, SectionName);
                 }
                 if ((int)this.DisplayColumns.Length > 0)
                 {
@@ -4809,9 +4819,7 @@ namespace nmsView
                 if (this.DisplayColumns == null)
                 {
                     string str34 = SettingsBasePage.view_Default_select(SectionName.Trim().ToLower(), Convert.ToInt32(CompanyID));
-                    string str35 = str34.ToString().Substring(0, str34.ToString().Length - 1);
-                    chrArray = new char[] { ',' };
-                    this.DisplayColumns = str35.Split(chrArray);
+                    this.DisplayColumns = this.ParseDefaultViewColumns(str34, SectionName);
                 }
                 if ((int)this.DisplayColumns.Length > 0)
                 {
@@ -4930,9 +4938,7 @@ namespace nmsView
                 {
                     string str37 = SettingsBasePage.view_Default_select(SectionName.Trim().ToLower(), Convert.ToInt32(CompanyID));
                     str37 = string.Concat(str37, "height,stocktype,width,length,widthtype,lengthtype,papertype,packedin,packedintype,basisweight,papername,ChargableSheets,InkType,");
-                    string str38 = str37.ToString().Substring(0, str37.ToString().Length - 1);
-                    chrArray = new char[] { ',' };
-                    this.DisplayColumns = str38.Split(chrArray);
+                    this.DisplayColumns = this.ParseDefaultViewColumns(str37, SectionName);
                 }
                 if ((int)this.DisplayColumns.Length > 0)
                 {
@@ -5003,9 +5009,7 @@ namespace nmsView
                 if (this.DisplayColumns == null)
                 {
                     string str40 = SettingsBasePage.view_Default_select(SectionName.Trim().ToLower(), Convert.ToInt32(CompanyID));
-                    string str41 = str40.ToString().Substring(0, str40.ToString().Length - 1);
-                    chrArray = new char[] { ',' };
-                    this.DisplayColumns = str41.Split(chrArray);
+                    this.DisplayColumns = this.ParseDefaultViewColumns(str40, SectionName);
                 }
                 if ((int)this.DisplayColumns.Length > 0)
                 {
@@ -5161,9 +5165,7 @@ namespace nmsView
                 if (this.DisplayColumns == null)
                 {
                     string str43 = SettingsBasePage.view_Default_select(SectionName.Trim().ToLower(), Convert.ToInt32(CompanyID));
-                    string str44 = str43.ToString().Substring(0, str43.ToString().Length - 1);
-                    chrArray = new char[] { ',' };
-                    this.DisplayColumns = str44.Split(chrArray);
+                    this.DisplayColumns = this.ParseDefaultViewColumns(str43, SectionName);
                 }
                 if ((int)this.DisplayColumns.Length > 0)
                 {
@@ -6317,9 +6319,7 @@ namespace nmsView
                 if (this.DisplayColumns == null)
                 {
                     string str13 = SettingsBasePage.view_Default_select(SectionName.Trim().ToLower(), Convert.ToInt32(CompanyID));
-                    string str14 = str13.ToString().Substring(0, str13.ToString().Length - 1);
-                    chrArray = new char[] { ',' };
-                    this.DisplayColumns = str14.Split(chrArray);
+                    this.DisplayColumns = this.ParseDefaultViewColumns(str13, SectionName);
                 }
                 if ((int)this.DisplayColumns.Length > 0)
                 {
@@ -6529,9 +6529,7 @@ namespace nmsView
                 if (this.DisplayColumns == null)
                 {
                     string str16 = SettingsBasePage.view_Default_select(SectionName.Trim().ToLower(), Convert.ToInt32(CompanyID));
-                    string str17 = str16.ToString().Substring(0, str16.ToString().Length - 1);
-                    chrArray = new char[] { ',' };
-                    this.DisplayColumns = str17.Split(chrArray);
+                    this.DisplayColumns = this.ParseDefaultViewColumns(str16, SectionName);
                 }
                 if ((int)this.DisplayColumns.Length > 0)
                 {
@@ -6811,9 +6809,7 @@ namespace nmsView
                 if (this.DisplayColumns == null)
                 {
                     string str19 = SettingsBasePage.view_Default_select(SectionName.Trim().ToLower(), Convert.ToInt32(CompanyID));
-                    string str20 = str19.ToString().Substring(0, str19.ToString().Length - 1);
-                    chrArray = new char[] { ',' };
-                    this.DisplayColumns = str20.Split(chrArray);
+                    this.DisplayColumns = this.ParseDefaultViewColumns(str19, SectionName);
                 }
                 if ((int)this.DisplayColumns.Length > 0)
                 {
@@ -7031,9 +7027,7 @@ namespace nmsView
                 if (this.DisplayColumns == null)
                 {
                     string str22 = SettingsBasePage.view_Default_select(SectionName.Trim().ToLower(), Convert.ToInt32(CompanyID));
-                    string str23 = str22.ToString().Substring(0, str22.ToString().Length - 1);
-                    chrArray = new char[] { ',' };
-                    this.DisplayColumns = str23.Split(chrArray);
+                    this.DisplayColumns = this.ParseDefaultViewColumns(str22, SectionName);
                 }
                 if ((int)this.DisplayColumns.Length > 0)
                 {
@@ -7119,9 +7113,7 @@ namespace nmsView
                 if (this.DisplayColumns == null)
                 {
                     string str25 = SettingsBasePage.view_Default_select(SectionName.Trim().ToLower(), Convert.ToInt32(CompanyID));
-                    string str26 = str25.ToString().Substring(0, str25.ToString().Length - 1);
-                    chrArray = new char[] { ',' };
-                    this.DisplayColumns = str26.Split(chrArray);
+                    this.DisplayColumns = this.ParseDefaultViewColumns(str25, SectionName);
                 }
                 if ((int)this.DisplayColumns.Length > 0)
                 {
@@ -7178,9 +7170,7 @@ namespace nmsView
                 if (this.DisplayColumns == null)
                 {
                     string str28 = SettingsBasePage.view_Default_select(SectionName.Trim().ToLower(), Convert.ToInt32(CompanyID));
-                    string str29 = str28.ToString().Substring(0, str28.ToString().Length - 1);
-                    chrArray = new char[] { ',' };
-                    this.DisplayColumns = str29.Split(chrArray);
+                    this.DisplayColumns = this.ParseDefaultViewColumns(str28, SectionName);
                 }
                 if ((int)this.DisplayColumns.Length > 0)
                 {
@@ -7226,9 +7216,7 @@ namespace nmsView
                 if (this.DisplayColumns == null)
                 {
                     string str31 = SettingsBasePage.view_Default_select(SectionName.Trim().ToLower(), Convert.ToInt32(CompanyID));
-                    string str32 = str31.ToString().Substring(0, str31.ToString().Length - 1);
-                    chrArray = new char[] { ',' };
-                    this.DisplayColumns = str32.Split(chrArray);
+                    this.DisplayColumns = this.ParseDefaultViewColumns(str31, SectionName);
                 }
                 if ((int)this.DisplayColumns.Length > 0)
                 {
@@ -7274,9 +7262,7 @@ namespace nmsView
                 if (this.DisplayColumns == null)
                 {
                     string str34 = SettingsBasePage.view_Default_select(SectionName.Trim().ToLower(), Convert.ToInt32(CompanyID));
-                    string str35 = str34.ToString().Substring(0, str34.ToString().Length - 1);
-                    chrArray = new char[] { ',' };
-                    this.DisplayColumns = str35.Split(chrArray);
+                    this.DisplayColumns = this.ParseDefaultViewColumns(str34, SectionName);
                 }
                 if ((int)this.DisplayColumns.Length > 0)
                 {
@@ -7394,9 +7380,7 @@ namespace nmsView
                 {
                     string str37 = SettingsBasePage.view_Default_select(SectionName.Trim().ToLower(), Convert.ToInt32(CompanyID));
                     str37 = string.Concat(str37, "height,stocktype,width,length,widthtype,lengthtype,papertype,packedin,packedintype,basisweight,papername,ChargableSheets,InkType,");
-                    string str38 = str37.ToString().Substring(0, str37.ToString().Length - 1);
-                    chrArray = new char[] { ',' };
-                    this.DisplayColumns = str38.Split(chrArray);
+                    this.DisplayColumns = this.ParseDefaultViewColumns(str37, SectionName);
                 }
                 if ((int)this.DisplayColumns.Length > 0)
                 {
@@ -7467,9 +7451,7 @@ namespace nmsView
                 if (this.DisplayColumns == null)
                 {
                     string str40 = SettingsBasePage.view_Default_select(SectionName.Trim().ToLower(), Convert.ToInt32(CompanyID));
-                    string str41 = str40.ToString().Substring(0, str40.ToString().Length - 1);
-                    chrArray = new char[] { ',' };
-                    this.DisplayColumns = str41.Split(chrArray);
+                    this.DisplayColumns = this.ParseDefaultViewColumns(str40, SectionName);
                 }
                 if ((int)this.DisplayColumns.Length > 0)
                 {
@@ -7572,9 +7554,7 @@ namespace nmsView
                 if (this.DisplayColumns == null)
                 {
                     string str25 = SettingsBasePage.view_Default_select(SectionName.Trim().ToLower(), Convert.ToInt32(CompanyID));
-                    string str26 = str25.ToString().Substring(0, str25.ToString().Length - 1);
-                    chrArray = new char[] { ',' };
-                    this.DisplayColumns = str26.Split(chrArray);
+                    this.DisplayColumns = this.ParseDefaultViewColumns(str25, SectionName);
                 }
                 if ((int)this.DisplayColumns.Length > 0)
                 {

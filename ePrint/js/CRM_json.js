@@ -4236,12 +4236,29 @@ function ServiceFailed(result) {
     alert('Service call failed: ' + result.status + ' ' + result.statusText);
 }
 
+function eprintGetPrintOptionsPanel() {
+    if (window.eprintCrmPanels && window.eprintCrmPanels.printOptions) {
+        var panelById = document.getElementById(window.eprintCrmPanels.printOptions);
+        if (panelById) {
+            return panelById;
+        }
+    }
+    return document.getElementById("ctl00_ContentPlaceHolder1_Client_DivPrintOptions")
+        || document.querySelector("[id$='_DivPrintOptions']");
+}
+
 function ShowPrintMoreActions(btnid) {
-    document.getElementById("ctl00_ContentPlaceHolder1_Client_DivPrintOptions").style.display = "block";
+    var panel = eprintGetPrintOptionsPanel();
+    if (panel) {
+        panel.style.display = "block";
+    }
 }
 
 function HidePrintMoreActions() {
-    document.getElementById("ctl00_ContentPlaceHolder1_Client_DivPrintOptions").style.display = "none";
+    var panel = eprintGetPrintOptionsPanel();
+    if (panel) {
+        panel.style.display = "none";
+    }
 }
 
 function addnote() {

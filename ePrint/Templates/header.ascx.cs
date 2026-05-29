@@ -59,6 +59,21 @@ namespace ePrint
 
         private string SelectedSection = string.Empty;
 
+        public string ActiveNavSection
+        {
+            get { return this.SelectedSection ?? string.Empty; }
+        }
+
+        public string SidebarCompanyDisplayName { get; private set; }
+
+        public string SidebarProductBrandTagline { get; private set; }
+
+        public string SidebarUserDisplayName { get; private set; }
+
+        public string SidebarUserRoleDisplay { get; private set; }
+
+        public string SidebarLogoText { get; private set; }
+
         public string AccountingExport = ConnectionClass.AccountingExport;
 
         public string AccountingCode = ConnectionClass.AccountingCode;
@@ -607,6 +622,9 @@ namespace ePrint
             {
                 base.Response.Redirect(string.Concat(global.sitePath(), "error.aspx"));
             }
+
+            this.ApplySidebarDisplayInfo();
+
             commonClass _commonClass1 = new commonClass();
             try
             {
@@ -870,25 +888,9 @@ namespace ePrint
 
 
             DataTable item1 = item.Tables[0];
-            DataRow[] dataRowArray = item1.Select("headerName = 'settings'");
-            DataRow[] dataRowArray1 = item1.Select("headerName = 'reports'");
-            if ((int)dataRowArray.Length <= 0)
-            {
-                this.IsSettingTabDisplay = "false";
-            }
-            else
-            {
-                this.IsSettingTabDisplay = "true";
-            }
-            if ((int)dataRowArray1.Length <= 0)
-            {
-                this.IsReportsDisplay = "false";
-            }
-            else
-            {
-                this.IsReportsDisplay = "true";
+            this.IsSettingTabDisplay = this.HeaderNameContains(item1, "settings") ? "true" : "false";
+            this.IsReportsDisplay = this.HeaderNameContains(item1, "reports") ? "true" : "false";
 
-            }
             string[] strArrays = new string[] { base.Session["firstName"].ToString(), " ", base.Session["lastName"].ToString(), " (", base.Session["companyname"].ToString().Trim(), ")" };
             string str4 = string.Concat(strArrays);
             this.HiddenField1.Value = base.Session["language"].ToString();
@@ -920,9 +922,9 @@ namespace ePrint
             {
 
             }
-            if (ConnectionClass.WebStore != null)
+            if (!string.IsNullOrEmpty(ConnectionClass.WebStore))
             {
-                if (ConnectionClass.WebStore != "no")
+                if (!string.Equals(ConnectionClass.WebStore.Trim(), "no", StringComparison.OrdinalIgnoreCase))
                 {
                     this.IsWebstore = "yes";
                 }
@@ -931,6 +933,11 @@ namespace ePrint
                     this.IsWebstore = "no";
                 }
             }
+            else if (!string.IsNullOrWhiteSpace(ConnectionClass.B2BURL))
+            {
+                this.IsWebstore = "yes";
+            }
+
             string str5 = this.objBase.ReturnRoles_Privileges_ForGrid("settings", "isdisplay", this.Page.Request.Url.ToString());
             string str6 = this.objBase.ReturnRoles_Privileges_ForGrid("estore", "isdisplay", this.Page.Request.Url.ToString());
             string str7 = this.objBase.ReturnRoles_Privileges_ForGrid("reports", "isdisplay", this.Page.Request.Url.ToString());
@@ -959,6 +966,12 @@ namespace ePrint
             {
                 this.GetRolesRight_SettingIcon = "false";
             }
+
+            if (item != null && item.Tables.Count > 0)
+            {
+                this.ApplySidebarNavVisibility(item.Tables[0]);
+            }
+
             this.Check_ReportTab();
             string str8 = SettingsBasePage.Settings_UserImage_Select((long)this.UserID);
             if (!string.IsNullOrEmpty(str8))
@@ -1242,6 +1255,246 @@ namespace ePrint
                 panel.Visible = false;
                 panel1.Visible = true;
             }
+        }
+
+        private void ApplySidebarDisplayInfo()
+        {
+            this.SidebarCompanyDisplayName = global.companyName();
+            this.SidebarProductBrandTagline = global.productBrandTagline();
+
+            string firstName = base.Session["firstName"] != null
+                ? this.objBase.SpecialDecode(base.Session["firstName"].ToString()).Trim()
+                : string.Empty;
+            string lastName = base.Session["lastName"] != null
+                ? this.objBase.SpecialDecode(base.Session["lastName"].ToString()).Trim()
+                : string.Empty;
+            this.SidebarUserDisplayName = (firstName + " " + lastName).Trim();
+            if (string.IsNullOrEmpty(this.SidebarUserDisplayName))
+            {
+                this.SidebarUserDisplayName = "User";
+            }
+
+            bool isAdmin = false;
+            if (base.Session["isadmin"] != null)
+            {
+                string adminValue = base.Session["isadmin"].ToString().Trim();
+                isAdmin = adminValue == "1" || string.Equals(adminValue, "true", StringComparison.OrdinalIgnoreCase);
+            }
+
+            string adminLabel = this.objLanguage.GetLanguageConversion("Administrator");
+            string userLabel = this.objLanguage.GetLanguageConversion("User");
+            this.SidebarUserRoleDisplay = isAdmin
+                ? (string.IsNullOrEmpty(adminLabel) ? "Administrator" : adminLabel)
+                : (string.IsNullOrEmpty(userLabel) ? "User" : userLabel);
+
+            if (string.Equals(this.SidebarCompanyDisplayName, global.ProductBrandName, StringComparison.OrdinalIgnoreCase))
+            {
+                this.SidebarLogoText = "P3";
+            }
+            else
+            {
+                this.SidebarLogoText = BuildLogoInitials(this.SidebarCompanyDisplayName);
+            }
+        }
+
+        private static string BuildLogoInitials(string name)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                return "P3";
+            }
+
+            string[] parts = name.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+            if (parts.Length >= 2)
+            {
+                return (parts[0].Substring(0, 1) + parts[1].Substring(0, 1)).ToUpperInvariant();
+            }
+
+            return name.Length >= 2 ? name.Substring(0, 2).ToUpperInvariant() : name.ToUpperInvariant();
+        }
+
+        private void ApplySidebarNavVisibility(DataTable headerTabs)
+        {
+            if (headerTabs == null)
+            {
+                return;
+            }
+
+            if (this.phNavDashboard != null)
+            {
+                this.phNavDashboard.Visible = this.HeaderNameContains(headerTabs, "dashboard", "home", "welcome")
+                    || headerTabs.Rows.Count > 0;
+            }
+
+            if (this.phNavCrm != null)
+            {
+                this.phNavCrm.Visible = this.HeaderNameContains(headerTabs, "crm", "client");
+            }
+
+            if (this.phNavEstimates != null)
+            {
+                this.phNavEstimates.Visible = this.HeaderNameContains(headerTabs, "estimate");
+            }
+
+            if (this.phNavOrders != null)
+            {
+                this.phNavOrders.Visible = this.HeaderNameContains(headerTabs, "webstoreorder", "order")
+                    && !string.Equals(this.IsWebstore, "no", StringComparison.OrdinalIgnoreCase);
+            }
+
+            if (this.phNavJobs != null)
+            {
+                this.phNavJobs.Visible = this.HeaderNameContains(headerTabs, "job");
+            }
+
+            if (this.phNavWarehouse != null)
+            {
+                this.phNavWarehouse.Visible = this.HeaderNameContains(headerTabs, "warehouse", "inventory");
+            }
+
+            if (this.phNavInvoice != null)
+            {
+                this.phNavInvoice.Visible = this.HeaderNameContains(headerTabs, "invoice");
+            }
+
+            if (this.phNavPurchases != null)
+            {
+                this.phNavPurchases.Visible = this.HeaderNameContains(headerTabs, "purchase");
+            }
+
+            if (this.phNavDelivery != null)
+            {
+                this.phNavDelivery.Visible = this.HeaderNameContains(headerTabs, "delivery");
+            }
+
+            if (this.phNavProducts != null)
+            {
+                this.phNavProducts.Visible = this.HeaderNameContains(headerTabs, "product", "productcatalogue");
+            }
+
+            if (this.phNavSettings != null)
+            {
+                this.phNavSettings.Visible = string.Equals(this.IsSettingTabDisplay, "true", StringComparison.OrdinalIgnoreCase);
+            }
+
+            if (this.phNavStoreSettings != null)
+            {
+                this.phNavStoreSettings.Visible = this.ShouldShowEstoreSettingsNav(headerTabs);
+            }
+
+            bool showReports = this.ShouldShowSidebarReports();
+
+            if (this.phNavCrmReports != null)
+            {
+                this.phNavCrmReports.Visible = showReports && this.phNavCrm != null && this.phNavCrm.Visible;
+            }
+
+            if (this.phNavEstimateReports != null)
+            {
+                this.phNavEstimateReports.Visible = showReports && this.phNavEstimates != null && this.phNavEstimates.Visible;
+            }
+
+            if (this.phNavOrderReports != null)
+            {
+                this.phNavOrderReports.Visible = showReports && this.phNavOrders != null && this.phNavOrders.Visible;
+            }
+
+            if (this.phNavJobReports != null)
+            {
+                this.phNavJobReports.Visible = showReports && this.phNavJobs != null && this.phNavJobs.Visible;
+            }
+
+            if (this.phNavInvoiceReports != null)
+            {
+                this.phNavInvoiceReports.Visible = showReports && this.phNavInvoice != null && this.phNavInvoice.Visible;
+            }
+
+            if (this.phNavPurchaseReports != null)
+            {
+                this.phNavPurchaseReports.Visible = showReports && this.phNavPurchases != null && this.phNavPurchases.Visible;
+            }
+
+            if (this.phNavDeliveryReports != null)
+            {
+                this.phNavDeliveryReports.Visible = showReports && this.phNavDelivery != null && this.phNavDelivery.Visible;
+            }
+
+            if (this.phNavProductReports != null)
+            {
+                this.phNavProductReports.Visible = showReports && this.phNavProducts != null && this.phNavProducts.Visible;
+            }
+        }
+
+        /// <summary>
+        /// Module report links use the same rules as legacy pages (GetTabDisplayRight + role grid),
+        /// not the top-level Reports header tab flag (IsReportsDisplay).
+        /// </summary>
+        private bool ShouldShowSidebarReports()
+        {
+            if (string.Equals(this.GetRolesRight_ReportIcon, "false", StringComparison.OrdinalIgnoreCase))
+            {
+                return false;
+            }
+
+            if (global.GetTabDisplayRight(this.companyID, this.UserID, "REPORTS"))
+            {
+                return true;
+            }
+
+            return string.Equals(this.IsReportsDisplay, "true", StringComparison.OrdinalIgnoreCase);
+        }
+
+        private bool ShouldShowEstoreSettingsNav(DataTable headerTabs)
+        {
+            if (string.Equals(this.eStoreSettingHeight, "false", StringComparison.OrdinalIgnoreCase))
+            {
+                return false;
+            }
+
+            string estoreDisplay = this.objBase.ReturnRoles_Privileges_ForGrid("estore", "isdisplay", this.Page.Request.Url.ToString());
+            if (string.Equals(estoreDisplay.Trim(), "false", StringComparison.OrdinalIgnoreCase))
+            {
+                return false;
+            }
+
+            if (string.Equals(this.IsWebstore, "yes", StringComparison.OrdinalIgnoreCase))
+            {
+                return true;
+            }
+
+            if (this.HeaderNameContains(headerTabs, "estore", "storesettings", "webstore"))
+            {
+                return true;
+            }
+
+            if (!string.IsNullOrWhiteSpace(ConnectionClass.B2BURL))
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        private bool HeaderNameContains(DataTable headerTabs, params string[] keys)
+        {
+            if (headerTabs == null || keys == null || keys.Length == 0)
+            {
+                return false;
+            }
+
+            foreach (DataRow row in headerTabs.Rows)
+            {
+                string headerName = row["headerName"].ToString().ToLower();
+                for (int i = 0; i < keys.Length; i++)
+                {
+                    if (headerName.Contains(keys[i].ToLower()))
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
         }
     }
 }

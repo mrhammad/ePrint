@@ -99,33 +99,41 @@ namespace Printcenter.DataAccessLayer.Invoices
 
         public virtual int Get_PaymentDetails_From_EstimateID(long EstimateID)
         {
-            int num;
-            object obj;
+            if (EstimateID <= 0)
+            {
+                return 0;
+            }
+
             Database database = CustomDatabaseFactory.CreateDatabase((new commonClass()).strConnection);
-            DataTable dataTable = new DataTable();
-            DbCommand sqlStringCommand = database.GetSqlStringCommand(string.Concat("SELECT CustomerID from tb_Estimate where Estimateid = ", EstimateID));
-            object obj1 = database.ExecuteScalar(sqlStringCommand);
-            if (obj1 == null)
+            DbCommand sqlStringCommand = database.GetSqlStringCommand(string.Concat("SELECT CustomerID FROM tb_Estimate WHERE EstimateID = ", EstimateID));
+            object customerIdResult = database.ExecuteScalar(sqlStringCommand);
+            if (customerIdResult == null || customerIdResult == DBNull.Value)
             {
-                obj = null;
+                return 0;
             }
-            else
+
+            long clientId;
+            if (!long.TryParse(customerIdResult.ToString(), out clientId) || clientId <= 0)
             {
-                obj = int.Parse(obj1.ToString());
+                return 0;
             }
-            //long num1 = (long)obj;
-            long num1 = Convert.ToInt64(obj);
+
             sqlStringCommand = database.GetStoredProcCommand("PC_PaymentTermDays_Select");
-            database.AddInParameter(sqlStringCommand, "@ClientID", DbType.Int64, num1);
+            database.AddInParameter(sqlStringCommand, "@ClientID", DbType.Int64, clientId);
             try
             {
-                num = (int)database.ExecuteScalar(sqlStringCommand);
+                object paymentDaysResult = database.ExecuteScalar(sqlStringCommand);
+                if (paymentDaysResult == null || paymentDaysResult == DBNull.Value)
+                {
+                    return 0;
+                }
+
+                return Convert.ToInt32(paymentDaysResult);
             }
             catch
             {
-                num = 0;
+                return 0;
             }
-            return num;
         }
 
         public virtual DataTable GetClientDefaultInvoiceDetails(int CompanyID, long EstimateID)

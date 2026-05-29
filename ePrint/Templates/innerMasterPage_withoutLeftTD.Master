@@ -3,57 +3,73 @@
 <%@ Register TagPrefix="crm" TagName="headerUC" Src="~/Templates/header.ascx" %>
 <%@ Register TagPrefix="crm" TagName="lowerheaderUC" Src="~/Templates/lowerheader.ascx" %>
 
+<script runat="server">
+    protected override void OnLoad(EventArgs e)
+    {
+        base.OnLoad(e);
+        if (this.ltrHeadAssets != null && string.IsNullOrEmpty(this.ltrHeadAssets.Text))
+        {
+            string vn = this.VersionNumber ?? string.Empty;
+            string ro = this.roundoff ?? string.Empty;
+            string sOpen = "<scr" + "ipt";
+            string sClose = "</scr" + "ipt>";
+            System.Text.StringBuilder sb = new System.Text.StringBuilder(1024);
+            sb.Append(sOpen).Append(" type=\"text/javascript\" src=\"../common/Report.js?VN='").Append(vn).Append("'\">").Append(sClose);
+            sb.Append(sOpen).Append(" type=\"text/javascript\" src=\"../common/calendar.js?VN='").Append(vn).Append("'\">").Append(sClose);
+            sb.Append(sOpen).Append(" type=\"text/javascript\" src=\"../common/swazz_calendar.js?VN='").Append(vn).Append("'\">").Append(sClose);
+            sb.Append(sOpen).Append(" type=\"text/javascript\" src=\"../js/jquery-1.3.2.js?VN='").Append(vn).Append("'\">").Append(sClose);
+            sb.Append(sOpen).Append(" type=\"text/javascript\">var roundoff = '").Append(ro).Append("';").Append(sClose);
+            sb.Append(sOpen).Append(" type=\"text/javascript\" src=\"../js/commonloading.js?VN='").Append(vn).Append("'\">").Append(sClose);
+            sb.Append(sOpen).Append(" type=\"text/javascript\" src=\"../js/jquery.min.js?VN='").Append(vn).Append("'\">").Append(sClose);
+            sb.Append(sOpen).Append(" type=\"text/javascript\" src=\"../js/jquery.popup.js?VN='").Append(vn).Append("'\">").Append(sClose);
+            this.ltrHeadAssets.Text = sb.ToString();
+        }
+    }
+</script>
+
 <!DOCTYPE html>
 <html>
 <head id="Head1" runat="server">
     <title>Untitled Page</title>
     <noscript>Your browser does not support JavaScript! ...</noscript>
 
-    <script type="text/javascript" src="../common/Report.js?VN='<%#VersionNumber%>'"></script>
-    <script type="text/javascript" src="../common/calendar.js?VN='<%#VersionNumber%>'"></script>
-    <script type="text/javascript" src="../common/swazz_calendar.js?VN='<%#VersionNumber%>'"></script>
-    <script type="text/javascript" src="../js/jquery-1.3.2.js?VN='<%#VersionNumber%>'"></script>
-    <script type="text/javascript">
-        var roundoff = '<%#roundoff%>';
-    </script>
-    <script type="text/javascript" src="../js/commonloading.js?VN='<%#VersionNumber%>'"></script>
-    <script type="text/javascript" src="../js/jquery.min.js?VN='<%#VersionNumber%>'"></script>
-    <script type="text/javascript" src="../js/jquery.popup.js?VN='<%#VersionNumber%>'"></script>
+    <asp:Literal runat="server" ID="ltrHeadAssets" EnableViewState="false"></asp:Literal>
 
     <asp:ContentPlaceHolder ID="HeadContent" runat="server"></asp:ContentPlaceHolder>
 
     <style type="text/css">
-        html, body {
-            margin: 0; 
-            padding: 0; 
-            height: 100%;
-            font-family: Arial, sans-serif;
+        body.eprint-app-shell {
+            font-family: "Segoe UI", Arial, sans-serif;
         }
-    #container {
-        display: flex;
-        min-height: 100vh;
-        width: 100%;
-    }
 
-    #leftNav {
-        flex-shrink: 0;
-        position: relative;
-        z-index: 1000;
-        width: 250px;
-    }
+        #leftNav {
+            position: relative;
+            z-index: 1000;
+        }
 
-    #mainContent {
-        flex: 1;
-        background-color: #fff;
-        min-width: 0;
-        position: relative;
-        z-index: 1;
-        padding:20px;
-    }
+        #mainContent {
+            background-color: #fff;
+            position: relative;
+            z-index: 1;
+            padding: 20px;
+        }
 
+        #mainContent .tabheadertext.bgcustomize {
+            background: transparent !important;
+            border-bottom: 1px solid #e2e8f0;
+            height: auto !important;
+            padding: 8px 0 12px !important;
+        }
+
+        #mainContent .NavigationArea_td,
+        #mainContent .NavigationArea_td b {
+            color: #475569 !important;
+            font-weight: 600;
+            font-size: 13px;
+        }
     </style>
 </head>
-<body>
+<body class="eprint-app-shell">
     <asp:PlaceHolder ID="plhStyle" runat="server"></asp:PlaceHolder>
     <form id="form1" runat="server">
         <asp:ScriptManager ID="sm1" runat="server" EnablePartialRendering="true" EnablePageMethods="true" AsyncPostBackTimeout="360000">
@@ -83,30 +99,37 @@
     </form>
 
     <script type="text/javascript">
-        // The previous JavaScript alignment logic is now removed as it is not needed
-
-        Telerik.Web.UI.RadListBox.prototype.saveClientState = function () {
-            return "{" +
-                "\"isEnabled\":" + this._enabled +
-                ",\"logEntries\":" + this._logEntriesJson +
-                ",\"selectedIndices\":" + this._selectedIndicesJson +
-                ",\"checkedIndices\":" + this._checkedIndicesJson +
-                ",\"scrollPosition\":" + Math.round(this._scrollPosition) +
-                "}";
-        }
-        // ... (remaining Telerik scripts) ...
-        Telerik.Web.UI.RadTreeView.prototype.saveClientState = function () {
-            return "{\"expandedNodes\":" + this._expandedNodesJson +
-                ",\"collapsedNodes\":" + this._collapsedNodesJson +
-                ",\"logEntries\":" + this._logEntriesJson +
-                ",\"selectedNodes\":" + this._selectedNodesJson +
-                ",\"checkedNodes\":" + this._checkedNodesJson +
-                ",\"scrollPosition\":" + Math.round(this._scrollPosition) + "}";
-        }
-
-        Telerik.Web.UI.RadScheduler.prototype.saveClientState = function () {
-            return '{"scrollTop":' + Math.round(this._scrollTop) + ',"scrollLeft":' + Math.round(this._scrollLeft) + ',"isDirty":' + this._isDirty + '}';
-        }
+        (function () {
+            if (typeof Telerik === "undefined" || !Telerik.Web || !Telerik.Web.UI) {
+                return;
+            }
+            if (Telerik.Web.UI.RadListBox && Telerik.Web.UI.RadListBox.prototype) {
+                Telerik.Web.UI.RadListBox.prototype.saveClientState = function () {
+                    return "{" +
+                        "\"isEnabled\":" + this._enabled +
+                        ",\"logEntries\":" + this._logEntriesJson +
+                        ",\"selectedIndices\":" + this._selectedIndicesJson +
+                        ",\"checkedIndices\":" + this._checkedIndicesJson +
+                        ",\"scrollPosition\":" + Math.round(this._scrollPosition) +
+                        "}";
+                };
+            }
+            if (Telerik.Web.UI.RadTreeView && Telerik.Web.UI.RadTreeView.prototype) {
+                Telerik.Web.UI.RadTreeView.prototype.saveClientState = function () {
+                    return "{\"expandedNodes\":" + this._expandedNodesJson +
+                        ",\"collapsedNodes\":" + this._collapsedNodesJson +
+                        ",\"logEntries\":" + this._logEntriesJson +
+                        ",\"selectedNodes\":" + this._selectedNodesJson +
+                        ",\"checkedNodes\":" + this._checkedNodesJson +
+                        ",\"scrollPosition\":" + Math.round(this._scrollPosition) + "}";
+                };
+            }
+            if (Telerik.Web.UI.RadScheduler && Telerik.Web.UI.RadScheduler.prototype) {
+                Telerik.Web.UI.RadScheduler.prototype.saveClientState = function () {
+                    return '{"scrollTop":' + Math.round(this._scrollTop) + ',"scrollLeft":' + Math.round(this._scrollLeft) + ',"isDirty":' + this._isDirty + '}';
+                };
+            }
+        })();
     </script>
 </body>
 </html>

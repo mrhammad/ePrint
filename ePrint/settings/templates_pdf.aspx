@@ -4,6 +4,7 @@
 <%@ Register TagPrefix="sds" Namespace="Telerik.Web.SessionDS" %>
 <%@ Register TagPrefix="UC" TagName="Header_MIS" Src="~/usercontrol/settings/settings_mis_headerpanel.ascx" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
+    <script src="<%=strSitepath %>js/item/general.js?VN=<%=VersionNumber %>" type="text/javascript"></script>
     <script src="<%=strSitepath %>js/Item/javascript.js?VN='<%=VersionNumber%>'" type="text/javascript"
         language="javascript"></script>
     <style>

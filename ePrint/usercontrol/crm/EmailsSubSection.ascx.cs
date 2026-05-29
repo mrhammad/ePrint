@@ -189,15 +189,51 @@ namespace ePrint.usercontrol.crm
 
         public void FilterStatus()
         {
-            this.GridEmail(this.CompanyID, this.ClientID, "yes");
-            GridTableView masterTableView = this.RadGrid_Email.MasterTableView;
-            GridItemType[] gridItemTypeArray = new GridItemType[] { GridItemType.CommandItem };
-            GridCommandItem items = (GridCommandItem)masterTableView.GetItems(gridItemTypeArray)[0];
+            if (this.CompanyID > 0 && this.ClientID > 0)
+            {
+                this.GridEmail(this.CompanyID, this.ClientID, "yes");
+            }
+        }
+
+        public void BindEmailTab()
+        {
+            if (this.CompanyID <= 0)
+            {
+                this.CompanyID = Convert.ToInt32(base.Session["CompanyID"].ToString());
+            }
+            if (this.UserID <= 0)
+            {
+                this.UserID = Convert.ToInt32(base.Session["UserID"].ToString());
+            }
+            if (this.ClientID <= 0)
+            {
+                try
+                {
+                    string str = Encryption.DecryptQueryString(QueryString.FromCurrent()).ToString();
+                    ArrayList arrayLists = Encryption.querystrvalue(str);
+                    this.ClientID = int.Parse(arrayLists[1].ToString());
+                }
+                catch
+                {
+                }
+            }
+            this.WhereCondition = string.Empty;
+            this.GridEmail(this.CompanyID, this.ClientID, "Yes");
         }
 
         public void GridEmail(int CompanyID, int ClientID, string SelectAll)
         {
+            if (CompanyID <= 0 || ClientID <= 0)
+            {
+                return;
+            }
             this.dt_Email = CompanyBasePage.crm_common_select_all_email_new_filter(CompanyID, ClientID, SelectAll, this.WhereCondition);
+            if (this.dt_Email == null)
+            {
+                this.RadGrid_Email.DataSource = new DataTable();
+                this.RadGrid_Email.DataBind();
+                return;
+            }
             for (int i = 0; i < this.dt_Email.Columns.Count; i++)
             {
                 this.dt_Email.Columns[i].ReadOnly = false;
@@ -328,39 +364,51 @@ namespace ePrint.usercontrol.crm
             try
             {
                 BaseClass baseClass = new BaseClass();
-                string empty = string.Empty;
-                if (baseClass.ReturnRoles_Privileges_ForGrid("clients", "isdelete", this.Page.Request.Url.ToString()).Trim().ToLower() != "false")
+                if (e.Item.ItemType == GridItemType.CommandItem)
                 {
-                    this.RadGrid_Email.MasterTableView.GetColumn("Delete_Emails").Visible = true;
-                    this.RadGrid_Email.MasterTableView.GetColumn("restoreDefault").Visible = true;
-                }
-                else
-                {
-                    this.RadGrid_Email.MasterTableView.GetColumn("Delete_Emails").Visible = false;
-                    this.RadGrid_Email.MasterTableView.GetColumn("restoreDefault").Visible = false;
+                    if (baseClass.ReturnRoles_Privileges_ForGrid("clients", "isdelete", this.Page.Request.Url.ToString()).Trim().ToLower() != "false")
+                    {
+                        this.RadGrid_Email.MasterTableView.GetColumn("Delete_Emails").Visible = true;
+                        this.RadGrid_Email.MasterTableView.GetColumn("restoreDefault").Visible = true;
+                    }
+                    else
+                    {
+                        this.RadGrid_Email.MasterTableView.GetColumn("Delete_Emails").Visible = false;
+                        this.RadGrid_Email.MasterTableView.GetColumn("restoreDefault").Visible = false;
+                    }
+                    LinkButton clearBtn = e.Item.FindControl("lnk_ClearFilter_Email") as LinkButton
+                        ?? e.Item.FindControl("btnclrFilters_Email") as LinkButton;
+                    if (clearBtn != null)
+                    {
+                        clearBtn.Visible = true;
+                    }
+                    return;
                 }
                 if (e.Item.ItemType == GridItemType.Item || e.Item.ItemType == GridItemType.AlternatingItem)
                 {
-                    Label str = (Label)e.Item.FindControl("lbl_NoEmailSent");
-                    HiddenField hiddenField = (HiddenField)e.Item.FindControl("hdn_Recipients");
-                    Label label = (Label)e.Item.FindControl("lbl_dateSent");
-                    HiddenField hiddenField1 = (HiddenField)e.Item.FindControl("hdn_dateSent");
-                    label.Text = this.objcom.Eprint_return_Date_Before_View(label.Text, this.CompanyID, this.UserID, false);
-                    HiddenField hiddenField2 = (HiddenField)e.Item.FindControl("hdn_sl");
-                    string[] strArrays = hiddenField.Value.Split(new char[] { ',' });
-                    for (int i = 0; i < (int)strArrays.Length; i++)
+                    Label str = e.Item.FindControl("lbl_NoEmailSent") as Label;
+                    HiddenField hiddenField = e.Item.FindControl("hdn_Recipients") as HiddenField;
+                    Label label = e.Item.FindControl("lbl_dateSent") as Label;
+                    if (label != null && !string.IsNullOrEmpty(label.Text))
                     {
-                        if (strArrays[i] != "")
+                        label.Text = this.objcom.Eprint_return_Date_Before_View(label.Text, this.CompanyID, this.UserID, false);
+                    }
+                    if (hiddenField != null && !string.IsNullOrEmpty(hiddenField.Value))
+                    {
+                        string[] strArrays = hiddenField.Value.Split(new char[] { ',' });
+                        for (int i = 0; i < (int)strArrays.Length; i++)
                         {
-                            this.Noof_Recipients = this.Noof_Recipients + 1;
+                            if (strArrays[i] != "")
+                            {
+                                this.Noof_Recipients = this.Noof_Recipients + 1;
+                            }
                         }
                     }
-                    str.Text = this.Noof_Recipients.ToString();
+                    if (str != null)
+                    {
+                        str.Text = this.Noof_Recipients.ToString();
+                    }
                     this.Noof_Recipients = 0;
-                    GridTableView masterTableView = this.RadGrid_Email.MasterTableView;
-                    GridItemType[] gridItemTypeArray = new GridItemType[] { GridItemType.CommandItem };
-                    GridCommandItem items = (GridCommandItem)masterTableView.GetItems(gridItemTypeArray)[0];
-                    ((LinkButton)items.FindControl("btnclrFilters_Email")).Visible = true;
                 }
                 if (e.Item.ItemType == GridItemType.FilteringItem)
                 {

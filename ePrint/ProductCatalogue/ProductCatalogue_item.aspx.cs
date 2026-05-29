@@ -800,9 +800,11 @@ namespace ePrint.ProductCatalogue
             string str2 = "";
             this.txtCatalogueName.Text = this.txtCatalogueName.Text.Replace("\r\n", str2).Replace("\n", str2).Replace("\r", str2);
             num4 = SettingsBasePage.settings_price_catalogue_chkexsisting(this.CompanyID, num1, base.SpecialEncode(this.txtitemcode.Text));
-            if (this.ddlDefaultPreFlightProfile.SelectedIndex != 0)
+            if (this.ddlDefaultPreFlightProfile != null
+                && this.ddlDefaultPreFlightProfile.SelectedItem != null
+                && this.ddlDefaultPreFlightProfile.SelectedIndex > 0)
             {
-                num3 = Convert.ToInt32(this.ddlDefaultPreFlightProfile.SelectedItem.Value);
+                int.TryParse(this.ddlDefaultPreFlightProfile.SelectedValue, out num3);
             }
             string empty = string.Empty;
             int num5 = 0;

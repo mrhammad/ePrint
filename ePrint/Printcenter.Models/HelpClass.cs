@@ -1,5 +1,7 @@
 using nmsCommon;
 using System;
+using System.Configuration;
+using System.Web;
 using System.Web.UI;
 
 public class HelpClass : System.Web.UI.Page
@@ -16,6 +18,18 @@ public class HelpClass : System.Web.UI.Page
 
 	protected override void OnPreInit(EventArgs e)
 	{
-		this.Page.Theme = "Theme5";
+		string enableRuntimeTheme = ConfigurationManager.AppSettings["EnableRuntimePageTheme"];
+		if (string.Equals(enableRuntimeTheme, "true", StringComparison.OrdinalIgnoreCase))
+		{
+			try
+			{
+				this.Page.Theme = "Theme5";
+			}
+			catch (HttpException)
+			{
+				// Some pages include inline <% %> code blocks; skip runtime theme assignment.
+			}
+		}
+		base.OnPreInit(e);
 	}
 }

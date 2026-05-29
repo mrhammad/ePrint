@@ -26,11 +26,23 @@ namespace nmsCommon
 
 		public static string DeHex(string hexstring)
 		{
-			string empty = string.Empty;
+			if (string.IsNullOrEmpty(hexstring))
+			{
+				return string.Empty;
+			}
+			if (hexstring.Length % 2 != 0)
+			{
+				return hexstring;
+			}
 			StringBuilder stringBuilder = new StringBuilder(hexstring.Length / 2);
 			for (int i = 0; i <= hexstring.Length - 1; i = i + 2)
 			{
-				stringBuilder.Append((char)int.Parse(hexstring.Substring(i, 2), NumberStyles.HexNumber));
+				int value;
+				if (!int.TryParse(hexstring.Substring(i, 2), NumberStyles.HexNumber, CultureInfo.InvariantCulture, out value))
+				{
+					return hexstring;
+				}
+				stringBuilder.Append((char)value);
 			}
 			return stringBuilder.ToString();
 		}

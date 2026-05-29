@@ -629,6 +629,15 @@ public class EstimateCommonMethods
 		return empty;
 	}
 
+	private static string GetPrintbrokerSplitValue(string[] parts, int index)
+	{
+		if (parts == null || index < 0 || index >= parts.Length || parts[index] == null)
+		{
+			return string.Empty;
+		}
+		return parts[index];
+	}
+
 	private static void getPrintbrokerdetailsfromprev(string Estimationtype, int CompanyID, long EstimateItemID, EstimateCommonMethodsItems objItems)
 	{
 		string empty = string.Empty;
@@ -637,12 +646,16 @@ public class EstimateCommonMethods
 			try
 			{
 				empty = EstimatesBasePage.estimate_printbroker_itemdescription_select(CompanyID, EstimateItemID, "O", "Values");
+				if (string.IsNullOrEmpty(empty))
+				{
+					return;
+				}
 				string[] strArrays = empty.Split(new char[] { '~' });
-				objItems.ItemTitle = strArrays[0];
-				objItems.Description = strArrays[1];
-				objItems.Artwork = strArrays[2];
-				objItems.Colour = strArrays[3];
-				objItems.Size = strArrays[4];
+				objItems.ItemTitle = GetPrintbrokerSplitValue(strArrays, 0);
+				objItems.Description = GetPrintbrokerSplitValue(strArrays, 1);
+				objItems.Artwork = GetPrintbrokerSplitValue(strArrays, 2);
+				objItems.Colour = GetPrintbrokerSplitValue(strArrays, 3);
+				objItems.Size = GetPrintbrokerSplitValue(strArrays, 4);
 				try
 				{
 					if (objItems.Size.ToString().IndexOf(".0") != -1)
@@ -657,40 +670,40 @@ public class EstimateCommonMethods
 				}
 				catch
 				{
-					objItems.Size = strArrays[4];
+					objItems.Size = GetPrintbrokerSplitValue(strArrays, 4);
 				}
-				objItems.Material = strArrays[5];
-				objItems.Delivery = strArrays[6];
-				objItems.Finishing = strArrays[7];
-				objItems.Proofs = strArrays[8];
-				objItems.Packing = strArrays[9];
-				objItems.Notes = strArrays[10];
-				objItems.Instructions = strArrays[11];
-				objItems.CustomDescription1 = strArrays[12];
-				objItems.CustomDescription2 = strArrays[13];
-				objItems.CustomDescription3 = strArrays[14];
-				objItems.CustomDescription4 = strArrays[15];
-				objItems.CustomDescription5 = strArrays[16];
-				objItems.CustomDescription6 = strArrays[17];
-				objItems.CustomDescription7 = strArrays[18];
-				objItems.CustomDescription8 = strArrays[19];
-				objItems.CustomDescription9 = strArrays[20];
-				objItems.CustomDescription10 = strArrays[21];
-				objItems.CustomDescription11 = strArrays[22];
-				objItems.CustomDescription12 = strArrays[23];
-				objItems.CustomDescription13 = strArrays[24];
-				objItems.CustomDescription14 = strArrays[25];
-				objItems.CustomDescription15 = strArrays[26];
-				objItems.CustomDescription16 = strArrays[27];
-				objItems.CustomDescription17 = strArrays[28];
-				objItems.CustomDescription18 = strArrays[29];
-				objItems.CustomDescription19 = strArrays[30];
-				objItems.CustomDescription20 = strArrays[31];
-				objItems.CustomDescription21 = strArrays[32];
-				objItems.CustomDescription22 = strArrays[33];
-				objItems.CustomDescription23 = strArrays[34];
-				objItems.CustomDescription24 = strArrays[35];
-				objItems.CustomDescription25 = strArrays[36];
+				objItems.Material = GetPrintbrokerSplitValue(strArrays, 5);
+				objItems.Delivery = GetPrintbrokerSplitValue(strArrays, 6);
+				objItems.Finishing = GetPrintbrokerSplitValue(strArrays, 7);
+				objItems.Proofs = GetPrintbrokerSplitValue(strArrays, 8);
+				objItems.Packing = GetPrintbrokerSplitValue(strArrays, 9);
+				objItems.Notes = GetPrintbrokerSplitValue(strArrays, 10);
+				objItems.Instructions = GetPrintbrokerSplitValue(strArrays, 11);
+				objItems.CustomDescription1 = GetPrintbrokerSplitValue(strArrays, 12);
+				objItems.CustomDescription2 = GetPrintbrokerSplitValue(strArrays, 13);
+				objItems.CustomDescription3 = GetPrintbrokerSplitValue(strArrays, 14);
+				objItems.CustomDescription4 = GetPrintbrokerSplitValue(strArrays, 15);
+				objItems.CustomDescription5 = GetPrintbrokerSplitValue(strArrays, 16);
+				objItems.CustomDescription6 = GetPrintbrokerSplitValue(strArrays, 17);
+				objItems.CustomDescription7 = GetPrintbrokerSplitValue(strArrays, 18);
+				objItems.CustomDescription8 = GetPrintbrokerSplitValue(strArrays, 19);
+				objItems.CustomDescription9 = GetPrintbrokerSplitValue(strArrays, 20);
+				objItems.CustomDescription10 = GetPrintbrokerSplitValue(strArrays, 21);
+				objItems.CustomDescription11 = GetPrintbrokerSplitValue(strArrays, 22);
+				objItems.CustomDescription12 = GetPrintbrokerSplitValue(strArrays, 23);
+				objItems.CustomDescription13 = GetPrintbrokerSplitValue(strArrays, 24);
+				objItems.CustomDescription14 = GetPrintbrokerSplitValue(strArrays, 25);
+				objItems.CustomDescription15 = GetPrintbrokerSplitValue(strArrays, 26);
+				objItems.CustomDescription16 = GetPrintbrokerSplitValue(strArrays, 27);
+				objItems.CustomDescription17 = GetPrintbrokerSplitValue(strArrays, 28);
+				objItems.CustomDescription18 = GetPrintbrokerSplitValue(strArrays, 29);
+				objItems.CustomDescription19 = GetPrintbrokerSplitValue(strArrays, 30);
+				objItems.CustomDescription20 = GetPrintbrokerSplitValue(strArrays, 31);
+				objItems.CustomDescription21 = GetPrintbrokerSplitValue(strArrays, 32);
+				objItems.CustomDescription22 = GetPrintbrokerSplitValue(strArrays, 33);
+				objItems.CustomDescription23 = GetPrintbrokerSplitValue(strArrays, 34);
+				objItems.CustomDescription24 = GetPrintbrokerSplitValue(strArrays, 35);
+				objItems.CustomDescription25 = GetPrintbrokerSplitValue(strArrays, 36);
 			}
 			catch
 			{

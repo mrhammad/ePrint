@@ -2039,7 +2039,7 @@ namespace ePrint
                         }
                         foreach (DataRow dataRow in SettingsBasePage.Price_For_Whole_Pack_Select(this.CompanyID).Rows)
                         {
-                            this.ChkPriceForWholePack.Checked = Convert.ToBoolean(dataRow["DefaultPriceForWholePack"]);
+                            this.ChkPriceForWholePack.Checked = ReadBoolValue(dataRow["DefaultPriceForWholePack"]);
                         }
                         foreach (DataRow row1 in EstimatesBasePage.CopyesttitletoitemTitle(this.CompanyID, this.EstimateID).Rows)
                         {
@@ -2120,6 +2120,38 @@ namespace ePrint
             }
         }
 
+        private static bool ReadBoolValue(object value)
+        {
+            if (value == null || value == DBNull.Value)
+            {
+                return false;
+            }
+
+            if (value is bool)
+            {
+                return (bool)value;
+            }
+
+            string text = value.ToString().Trim();
+            if (string.IsNullOrEmpty(text))
+            {
+                return false;
+            }
+
+            if (string.Compare(text, "Y", true) == 0 || string.Compare(text, "yes", true) == 0)
+            {
+                return true;
+            }
+
+            if (string.Compare(text, "N", true) == 0 || string.Compare(text, "no", true) == 0)
+            {
+                return false;
+            }
+
+            bool parsed;
+            return bool.TryParse(text, out parsed) && parsed;
+        }
+
         private void Select_Pads_Item(long ParentItemID, string ParentItemType)
         {
             string str = "more";
@@ -2128,14 +2160,14 @@ namespace ePrint
                 DataTable dataTable = EstimatesBasePage.estimate_qty_select(this.CompanyID, this.EstimateItemID, (long)0);
                 foreach (DataRow row in dataTable.Rows)
                 {
-                    int num = Convert.ToInt32(row["Qty1"]);
-                    int num1 = Convert.ToInt32(row["Qty2"]);
-                    int num2 = Convert.ToInt32(row["Qty3"]);
-                    int num3 = Convert.ToInt32(row["Qty4"]);
-                    this.subtotal1 = Convert.ToDouble(row["subtotal1"]);
-                    this.subtotal2 = Convert.ToDouble(row["subtotal2"]);
-                    this.subtotal3 = Convert.ToDouble(row["subtotal3"]);
-                    this.subtotal4 = Convert.ToDouble(row["subtotal4"]);
+                    int num = row["Qty1"] == DBNull.Value ? 0 : Convert.ToInt32(row["Qty1"]);
+                    int num1 = row["Qty2"] == DBNull.Value ? 0 : Convert.ToInt32(row["Qty2"]);
+                    int num2 = row["Qty3"] == DBNull.Value ? 0 : Convert.ToInt32(row["Qty3"]);
+                    int num3 = row["Qty4"] == DBNull.Value ? 0 : Convert.ToInt32(row["Qty4"]);
+                    this.subtotal1 = row["subtotal1"] == DBNull.Value ? 0D : Convert.ToDouble(row["subtotal1"]);
+                    this.subtotal2 = row["subtotal2"] == DBNull.Value ? 0D : Convert.ToDouble(row["subtotal2"]);
+                    this.subtotal3 = row["subtotal3"] == DBNull.Value ? 0D : Convert.ToDouble(row["subtotal3"]);
+                    this.subtotal4 = row["subtotal4"] == DBNull.Value ? 0D : Convert.ToDouble(row["subtotal4"]);
                     if (num != 0)
                     {
                         this.txtQuantity.Text = this.commclass.Eprint_ReturnFinal_Formated_Amount(this.CompanyID, this.UserID, Convert.ToDecimal(num.ToString()), 0, "", true, false, false);
@@ -2178,7 +2210,7 @@ namespace ePrint
             foreach (DataRow row1 in dataTable1.Rows)
             {
                 this.EstimateSingleItemID = Convert.ToInt64(row1["EstimateSingleItemID"]);
-                this.EstimateCalculationID = Convert.ToInt64(row1["EstimateCalculationID"]);
+                this.EstimateCalculationID = row1["EstimateCalculationID"] == DBNull.Value ? 0L : Convert.ToInt64(row1["EstimateCalculationID"]);
                 this.TypeID = this.EstimateSingleItemID;
                 this.hid_height.Value = row1["Height"].ToString();
                 this.hid_width.Value = row1["Width"].ToString();
@@ -2218,7 +2250,7 @@ namespace ePrint
                     this.hdnOldGuillotineID.Value = row1["GuillotineID"].ToString();
                 }
                 this.hdn_InvpaperID.Value = row1["PaperID"].ToString();
-                this.IsPaperUnitPriceLocked = Convert.ToBoolean(row1["IsPaperUnitPriceLocked"].ToString());
+                this.IsPaperUnitPriceLocked = ReadBoolValue(row1["IsPaperUnitPriceLocked"]);
             }
             this.hid_singleData.Value = stringBuilder.ToString();
             this.pnlPadEdit.Visible = true;

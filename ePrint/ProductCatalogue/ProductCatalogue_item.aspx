@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Templates/productcatalogue.master" AutoEventWireup="true" CodeBehind="ProductCatalogue_item.aspx.cs" Inherits="ePrint.ProductCatalogue.ProductCatalogue_item" EnableViewStateMac="false" EnableEventValidation="false" Theme="Theme1" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Templates/innerMasterPage_withoutLeftTD.Master" AutoEventWireup="true" CodeBehind="ProductCatalogue_item.aspx.cs" Inherits="ePrint.ProductCatalogue.ProductCatalogue_item" EnableViewStateMac="false" EnableEventValidation="false" Theme="Theme1" %>
 
 <%@ Register TagPrefix="uc" TagName="EditableProduct" Src="~/usercontrol/settings/editableproduct_create.ascx" %>
 <%@ Register TagPrefix="telerik" Namespace="Telerik.Web.UI" Assembly="Telerik.Web.UI" %>

@@ -7,6 +7,7 @@ using Printcenter.UI.Company;
 using Printcenter.UI.Department;
 using Printcenter.UI.Setting;
 using System;
+using System.Configuration;
 using System.Collections;
 using System.Data;
 using System.Data.Common;
@@ -190,9 +191,7 @@ namespace ePrint.usercontrol.crm
 
         //public string WhereConditionDepartment = string.Empty;
 
-        public static string WhereConditionContact;
-
-        public static string WhereConditionDepartment;
+                public static string WhereConditionDepartment;
 
         public string WhereConditionCostcenter = string.Empty;
 
@@ -244,7 +243,7 @@ namespace ePrint.usercontrol.crm
             ClientSubSection.Contactflag = 0;
             ClientSubSection.Filtering = 0;
 
-            ClientSubSection.WhereConditionContact = string.Empty;
+            ClientContactsSubSection.WhereConditionContact = string.Empty;
             ClientSubSection.WhereConditionDepartment = string.Empty;
         }
 
@@ -574,15 +573,7 @@ namespace ePrint.usercontrol.crm
 
         protected void clrFilters_Click(object sender, EventArgs e)
         {
-            foreach (GridColumn column in this.RadGrid_Contact.MasterTableView.Columns)
-            {
-                column.CurrentFilterFunction = GridKnownFunction.NoFilter;
-                column.CurrentFilterValue = string.Empty;
-            }
-            base.Session[string.Concat("searchContact", this.ClientID)] = null;
-            ClientSubSection.WhereConditionContact = "";
-            this.RadGrid_Contact.MasterTableView.FilterExpression = string.Empty;
-            this.GridContact(this.CompanyID, this.ClientID, this.RadGrid_Contact.CurrentPageIndex + 1, this.RadGrid_Contact.PageSize);
+            this.ContactsSection.ClearFilters();
         }
 
         protected void clrFiltersAddress_Click(object sender, EventArgs e)
@@ -628,17 +619,7 @@ namespace ePrint.usercontrol.crm
             this.RadGrid_Department.Rebind();
         }
 
-        protected void DeleteImgContact_OnClick(object sender, CommandEventArgs e)
-        {
-            this.upProgress.Visible = false;
-            this.objcomm.contact_delete(this.CompanyID, e.CommandArgument.ToString(), this.UserID);
-            this.basecls.Message_Display(this.objLangClass.GetLanguageConversion("Contact_Deleted_Successfully"), "msg-success", this.plhContact);
-            this.GridContact(this.CompanyID, this.ClientID, this.RadGrid_Contact.CurrentPageIndex + 1, this.RadGrid_Contact.PageSize);
-            this.RadGrid_Contact.Rebind();
-            this.upProgress.Visible = false;
-        }
-
-        protected void DeleteImgDept_OnClick(object sender, CommandEventArgs e)
+                protected void DeleteImgDept_OnClick(object sender, CommandEventArgs e)
         {
             if (this.hdn_deptIDs.Value.Length > 0)
             {
@@ -785,260 +766,184 @@ namespace ePrint.usercontrol.crm
 
         public void get_ActivitiesTab()
         {
+            string subTab = "activities";
+            HttpCookie tabCookie = base.Request.Cookies[string.Concat("CRMTabName", this.ClientID)];
+            if (tabCookie != null && !string.IsNullOrEmpty(tabCookie.Value))
+            {
+                subTab = tabCookie.Value.ToLower();
+            }
+            this.SetCrmTabCookie(subTab);
             this.plh_ActivitiesDetails.Controls.Clear();
             UserControl userControl = (UserControl)base.LoadControl("~/usercontrol/crm/ActivitiesSubSection.ascx");
             userControl.ID = "ActivitiesSubSection";
             this.plh_ActivitiesDetails.Controls.Add(userControl);
-            this.div_ClientMain.Style.Add("display", "none");
-            this.div_ContactMain.Style.Add("display", "none");
-            this.div_DepartmentMain.Style.Add("display", "none");
-            this.div_AddressMain.Style.Add("display", "none");
-            this.div_b2bMain.Style.Add("display", "none");
-            this.div_ProductsMain.Style.Add("display", "none");
-            this.div_NotesMain.Style.Add("display", "none");
-            this.div_EmailMain.Style.Add("display", "none");
-            this.div_CostcentreMain.Style.Add("display", "none");
-            this.DivAnotherDesign.Style.Add("display", "block");
-            this.div_ActivitiesMain.Style.Add("display", "block");
-            this.divbtnedit.Style.Add("display", "none");
-            this.divbtndelete.Style.Add("display", "none");
-            this.div_DeptControls.Style.Add("display", "none");
-            this.div_AddressControls.Style.Add("display", "none");
-            this.div_CostcenterControls.Style.Add("display", "none");
-            this.div_ProductsControls.Style.Add("display", "none");
-            this.div_ContactControls.Style.Add("display", "none");
-            this.div_EmailControls.Style.Add("display", "none");
-            this.div_EstimateControls.Style.Add("display", "none");
-            this.div_JobControls.Style.Add("display", "none");
-            this.div_InvoiceControls.Style.Add("display", "none");
-            this.div_eStoreControls.Style.Add("display", "none");
-            if (base.Request.Cookies[string.Concat("CRMTabName", this.ClientID)].Value == "activities")
-            {
-                this.div_EstimateControls.Style.Add("display", "block");
-                this.div_JobControls.Style.Add("display", "none");
-                this.div_InvoiceControls.Style.Add("display", "none");
-                this.div_eStoreControls.Style.Add("display", "none");
-            }
-            if (base.Request.Cookies[string.Concat("CRMTabName", this.ClientID)].Value == "jobs")
-            {
-                this.div_JobControls.Style.Add("display", "block");
-                this.div_EstimateControls.Style.Add("display", "none");
-                this.div_InvoiceControls.Style.Add("display", "none");
-                this.div_eStoreControls.Style.Add("display", "none");
-            }
-            if (base.Request.Cookies[string.Concat("CRMTabName", this.ClientID)].Value == "invoices")
-            {
-                this.div_InvoiceControls.Style.Add("display", "block");
-                this.div_EstimateControls.Style.Add("display", "none");
-                this.div_JobControls.Style.Add("display", "none");
-                this.div_eStoreControls.Style.Add("display", "none");
-            }
-            if (base.Request.Cookies[string.Concat("CRMTabName", this.ClientID)].Value == "estore")
-            {
-                this.div_eStoreControls.Style.Add("display", "block");
-                this.div_EstimateControls.Style.Add("display", "none");
-                this.div_JobControls.Style.Add("display", "none");
-                this.div_InvoiceControls.Style.Add("display", "none");
-            }
+            this.ApplyCrmTabLayout(subTab);
+            SetDisplay(this.divLoadingImageCus, false);
+            this.RefreshCrmSectionUi("records");
         }
 
         public void get_AddressTab()
         {
-            try
+            this.MarkCrmTabClickHandled();
+            this.SetCrmTabCookie("address");
+            this.ApplyCrmTabLayout("address");
+            this.EnsureCrmClientContext();
+            this.BindAddressTab();
+            this.HideCrmLoadingOverlay();
+            this.RefreshCrmSectionUi("address");
+        }
+
+        public void BindAddressTab()
+        {
+            this.EnsureCrmClientContext();
+            if (this.CompanyID <= 0 || this.ClientID <= 0)
             {
-                base.Request.Cookies[string.Concat("CRMTabName", this.ClientID)].Value = "address";
-                this.BindDefaultGrids(this.CompanyID, this.ClientID);
-                this.div_ClientMain.Style.Add("display", "none");
-                this.div_ContactMain.Style.Add("display", "none");
-                this.div_DepartmentMain.Style.Add("display", "none");
-                this.DivAnotherDesign.Style.Add("display", "block");
-                this.div_AddressMain.Style.Add("display", "block");
-                this.div_b2bMain.Style.Add("display", "none");
-                this.div_ProductsMain.Style.Add("display", "none");
-                this.div_NotesMain.Style.Add("display", "none");
-                this.div_EmailMain.Style.Add("display", "none");
-                this.div_ActivitiesMain.Style.Add("display", "none");
-                this.div_ContactControls.Style.Add("display", "none");
-                this.div_AddressControls.Style.Add("display", "block");
-                this.div_CostcenterControls.Style.Add("display", "none");
-                this.div_DeptControls.Style.Add("display", "none");
-                this.div_ProductsControls.Style.Add("display", "none");
-                this.div_EmailControls.Style.Add("display", "none");
-                this.div_EstimateControls.Style.Add("display", "none");
-                this.div_JobControls.Style.Add("display", "none");
-                this.div_InvoiceControls.Style.Add("display", "none");
-                this.div_eStoreControls.Style.Add("display", "none");
+                return;
             }
-            catch
+            this.RadGrid_Address.MasterTableView.FilterExpression = string.Empty;
+            this.GridAddress(this.CompanyID, this.ClientID);
+            this.RadGrid_Address.Rebind();
+        }
+
+        private void EnsureCrmClientContext()
+        {
+            if (this.CompanyID <= 0 && base.Session["CompanyID"] != null)
             {
+                this.CompanyID = Convert.ToInt32(base.Session["CompanyID"].ToString());
+            }
+            if (this.ClientID <= 0 && !string.IsNullOrEmpty(this.hid_ClientID.Value))
+            {
+                int parsedClientId;
+                if (int.TryParse(this.hid_ClientID.Value, out parsedClientId))
+                {
+                    this.ClientID = parsedClientId;
+                }
+            }
+            if (this.ClientID <= 0)
+            {
+                try
+                {
+                    string str = Encryption.DecryptQueryString(QueryString.FromCurrent()).ToString();
+                    ArrayList arrayLists = Encryption.querystrvalue(str);
+                    this.ClientID = int.Parse(arrayLists[1].ToString());
+                    this.hid_ClientID.Value = this.ClientID.ToString();
+                }
+                catch
+                {
+                }
             }
         }
 
         public void get_b2bTab()
         {
-            try
+            this.MarkCrmTabClickHandled();
+            this.SetCrmTabCookie("b2b");
+            this.ApplyCrmTabLayout("b2b");
+            this.HideCrmLoadingOverlay();
+            this.RefreshCrmSectionUi("estore");
+        }
+
+        private void SetCrmTabCookie(string tabName)
+        {
+            if (this.ClientID <= 0)
             {
-                base.Request.Cookies[string.Concat("CRMTabName", this.ClientID)].Value = "b2b";
-                this.div_ClientMain.Style.Add("display", "none");
-                this.div_ContactMain.Style.Add("display", "none");
-                this.div_DepartmentMain.Style.Add("display", "none");
-                this.DivAnotherDesign.Style.Add("display", "block");
-                this.div_AddressMain.Style.Add("display", "none");
-                this.div_b2bMain.Style.Add("display", "block");
-                this.div_ProductsMain.Style.Add("display", "none");
-                this.div_NotesMain.Style.Add("display", "none");
-                this.div_EmailMain.Style.Add("display", "none");
-                this.div_ActivitiesMain.Style.Add("display", "none");
-                this.div_CostcentreMain.Style.Add("display", "none");
-                this.divLoadingImageCus.Style.Add("display", "none");
-                this.divbtnedit.Style.Add("display", "none");
-                this.divbtndelete.Style.Add("display", "none");
-                this.div_ProductsControls.Style.Add("display", "none");
-                this.div_DeptControls.Style.Add("display", "none");
-                this.div_ContactControls.Style.Add("display", "none");
-                this.div_EmailControls.Style.Add("display", "none");
-                this.div_EstimateControls.Style.Add("display", "none");
-                this.div_JobControls.Style.Add("display", "none");
-                this.div_InvoiceControls.Style.Add("display", "none");
-                this.div_eStoreControls.Style.Add("display", "none");
-                this.div_CostcenterControls.Style.Add("display", "none");
-                this.div_AddressControls.Style.Add("display", "none");
+                return;
             }
-            catch
+
+            string cookieName = string.Concat("CRMTabName", this.ClientID);
+            HttpCookie cookie = base.Request.Cookies[cookieName];
+            if (cookie == null)
             {
+                cookie = new HttpCookie(cookieName, tabName);
             }
+            else
+            {
+                cookie.Value = tabName;
+            }
+            base.Response.Cookies.Set(cookie);
+            base.Request.Cookies.Set(new HttpCookie(cookieName, tabName));
+        }
+
+        private void RefreshCrmSectionUi(string sectionKey)
+        {
+            string safeKey = (sectionKey ?? string.Empty).Replace("'", string.Empty);
+            ScriptManager.RegisterStartupScript(
+                this,
+                this.GetType(),
+                "crmSec_" + safeKey,
+                string.Format("if(window.eprintCrmSections){{window.eprintCrmSections.refresh('{0}');}}", safeKey),
+                true);
         }
 
         public void get_ClientTab()
         {
-            base.Request.Cookies[string.Concat("CRMTabName", this.ClientID)].Value = "client";
+            this.MarkCrmTabClickHandled();
+            this.SetCrmTabCookie("client");
+            this.ApplyCrmTabLayout("client");
             this.getAccountID(this.CompanyID, this.ClientID, this.CompanyType);
             this.getClientDetails(this.UserID, this.CompanyID, this.CompanyType, this.ClientID, this.AccountID);
-            this.div_ClientMain.Style.Add("display", "block");
-            this.div_ContactMain.Style.Add("display", "none");
-            this.div_DepartmentMain.Style.Add("display", "none");
-            this.div_AddressMain.Style.Add("display", "none");
-            this.div_b2bMain.Style.Add("display", "none");
-            this.div_ProductsMain.Style.Add("display", "none");
-            this.div_NotesMain.Style.Add("display", "none");
-            this.div_EmailMain.Style.Add("display", "none");
-            this.div_ActivitiesMain.Style.Add("display", "none");
+            this.HideCrmLoadingOverlay();
+            this.RefreshCrmSectionUi("client");
         }
 
         public void get_ContactTab()
         {
-            base.Request.Cookies[string.Concat("CRMTabName", this.ClientID)].Value = "contacts";
-            //this.BindDefaultGrids(this.CompanyID, this.ClientID);
-            this.GridContact(CompanyID, ClientID, this.RadGrid_Contact.CurrentPageIndex + 1, this.RadGrid_Contact.PageSize);
-            this.div_ClientMain.Style.Add("display", "none");
-            this.div_ContactMain.Style.Add("display", "block");
-            this.div_DepartmentMain.Style.Add("display", "none");
-            this.DivAnotherDesign.Style.Add("display", "block");
-            this.div_AddressMain.Style.Add("display", "none");
-            this.div_b2bMain.Style.Add("display", "none");
-            this.div_ProductsMain.Style.Add("display", "none");
-            this.div_NotesMain.Style.Add("display", "none");
-            this.div_EmailMain.Style.Add("display", "none");
-            this.div_ActivitiesMain.Style.Add("display", "none");
-            this.div_ContactControls.Style.Add("display", "block");
-            this.div_ProductsControls.Style.Add("display", "none");
-            this.div_CostcenterControls.Style.Add("display", "none");
-            this.div_EmailControls.Style.Add("display", "none");
-            this.div_EstimateControls.Style.Add("display", "none");
-            this.div_JobControls.Style.Add("display", "none");
-            this.div_InvoiceControls.Style.Add("display", "none");
-            this.div_eStoreControls.Style.Add("display", "none");
+            this.MarkCrmTabClickHandled();
+            this.SetCrmTabCookie("contacts");
+            this.ApplyCrmTabLayout("contacts");
+            this.EnsureCrmClientContext();
+            this.EnsureContactsSection();
+            this.ContactsSection.BindContactTab();
+            this.HideCrmLoadingOverlay();
+            this.RefreshCrmSectionUi("contacts");
         }
 
         public void get_CostcentreTabs()
         {
-            this.div_ClientMain.Style.Add("display", "none");
-            this.div_ContactMain.Style.Add("display", "none");
-            this.div_DepartmentMain.Style.Add("display", "none");
-            this.DivAnotherDesign.Style.Add("display", "block");
-            this.div_AddressMain.Style.Add("display", "none");
-            this.div_b2bMain.Style.Add("display", "none");
-            this.div_ProductsMain.Style.Add("display", "none");
-            this.div_NotesMain.Style.Add("display", "none");
-            this.div_EmailMain.Style.Add("display", "none");
-            this.div_ActivitiesMain.Style.Add("display", "none");
-            this.div_CostcentreMain.Style.Add("display", "block");
-            this.divbtnedit.Style.Add("display", "none");
-            this.divbtndelete.Style.Add("display", "none");
-            this.div_ContactControls.Style.Add("display", "none");
-            this.div_CostcenterControls.Style.Add("display", "block");
-            this.div_DeptControls.Style.Add("display", "none");
-            this.div_AddressControls.Style.Add("display", "none");
-            this.div_ProductsControls.Style.Add("display", "none");
-            this.div_EmailControls.Style.Add("display", "none");
-            this.div_EstimateControls.Style.Add("display", "none");
-            this.div_JobControls.Style.Add("display", "none");
-            this.div_InvoiceControls.Style.Add("display", "none");
-            this.div_eStoreControls.Style.Add("display", "none");
+            this.SetCrmTabCookie("costcentre");
+            this.ApplyCrmTabLayout("costcentre");
+            this.loadgrdcostcenter();
+            this.RefreshCrmSectionUi("costcentre");
         }
 
         public void get_DeptTab()
         {
-            base.Request.Cookies[string.Concat("CRMTabName", this.ClientID)].Value = "dept";
-            this.BindDefaultGrids(this.CompanyID, this.ClientID);
-            this.div_ClientMain.Style.Add("display", "none");
-            this.div_ContactMain.Style.Add("display", "none");
-            this.div_DepartmentMain.Style.Add("display", "block");
-            this.DivAnotherDesign.Style.Add("display", "block");
-            this.div_AddressMain.Style.Add("display", "none");
+            this.MarkCrmTabClickHandled();
+            this.SetCrmTabCookie("dept");
+            this.ApplyCrmTabLayout("dept");
+            this.EnsureCrmClientContext();
             if (this.CompanyType != "supplier" && this.CompanyType != "prospect")
             {
-                this.div_b2bMain.Style.Add("display", "none");
+                SetDisplay(this.div_b2bMain, false);
             }
-            this.div_ProductsMain.Style.Add("display", "none");
-            this.div_NotesMain.Style.Add("display", "none");
-            this.div_EmailMain.Style.Add("display", "none");
-            this.div_ActivitiesMain.Style.Add("display", "none");
-            this.div_DeptControls.Style.Add("display", "block");
-            this.div_AddressControls.Style.Add("display", "none");
-            this.div_CostcenterControls.Style.Add("display", "none");
-            this.div_ProductsControls.Style.Add("display", "none");
-            this.div_ContactControls.Style.Add("display", "none");
-            this.div_EmailControls.Style.Add("display", "none");
-            this.div_EstimateControls.Style.Add("display", "none");
-            this.div_JobControls.Style.Add("display", "none");
-            this.div_InvoiceControls.Style.Add("display", "none");
-            this.div_eStoreControls.Style.Add("display", "none");
+            this.BindDefaultGrids(this.CompanyID, this.ClientID);
+            this.HideCrmLoadingOverlay();
+            this.RefreshCrmSectionUi("dept");
         }
 
         public void get_EmailsTab()
         {
             try
             {
-                base.Request.Cookies[string.Concat("CRMTabName", this.ClientID)].Value = "emails";
+                this.SetCrmTabCookie("emails");
                 this.plh_EmailsDetails.Controls.Clear();
-                UserControl userControl = (UserControl)base.LoadControl("~/usercontrol/crm/EmailsSubSection.ascx");
-                userControl.ID = "EmailsSubSection";
-                this.plh_EmailsDetails.Controls.Add(userControl);
-                this.div_ClientMain.Style.Add("display", "none");
-                this.div_ContactMain.Style.Add("display", "none");
-                this.div_DepartmentMain.Style.Add("display", "none");
-                this.DivAnotherDesign.Style.Add("display", "block");
-                this.div_AddressMain.Style.Add("display", "none");
-                this.div_b2bMain.Style.Add("display", "none");
-                this.div_ProductsMain.Style.Add("display", "none");
-                this.div_NotesMain.Style.Add("display", "none");
-                this.div_EmailMain.Style.Add("display", "block");
-                this.div_ActivitiesMain.Style.Add("display", "none");
-                this.div_CostcentreMain.Style.Add("display", "none");
-                this.divbtnedit.Style.Add("display", "none");
-                this.divbtndelete.Style.Add("display", "none");
-                this.div_DeptControls.Style.Add("display", "none");
-                this.div_ProductsControls.Style.Add("display", "none");
-                this.div_ContactControls.Style.Add("display", "none");
-                this.div_EmailControls.Style.Add("display", "block");
-                this.div_EstimateControls.Style.Add("display", "none");
-                this.div_JobControls.Style.Add("display", "none");
-                this.div_InvoiceControls.Style.Add("display", "none");
-                this.div_eStoreControls.Style.Add("display", "none");
-                this.div_CostcenterControls.Style.Add("display", "none");
-                this.div_AddressControls.Style.Add("display", "none");
-                string empty = string.Empty;
+                EmailsSubSection emailsSection = (EmailsSubSection)base.LoadControl("~/usercontrol/crm/EmailsSubSection.ascx");
+                emailsSection.ID = "EmailsSubSection";
+                emailsSection.CompanyID = this.CompanyID;
+                emailsSection.ClientID = this.ClientID;
+                emailsSection.UserID = this.UserID;
+                emailsSection.CompanyType = this.CompanyType;
+                emailsSection.CompanyName = this.CompanyCusName;
+                this.plh_EmailsDetails.Controls.Add(emailsSection);
+                this.ApplyCrmTabLayout("emails");
+                emailsSection.BindEmailTab();
+                SetDisplay(this.divLoadingImageCus, false);
+                ScriptManager.RegisterStartupScript(
+                    this,
+                    this.GetType(),
+                    "crmHideLoad_emails",
+                    "if(typeof hideCrmLoadingOverlay==='function'){hideCrmLoadingOverlay();}",
+                    true);
                 if (this.basecls.ReturnRoles_Privileges_ForGrid("clients", "isadd", this.Page.Request.Url.ToString()).Trim().ToLower() != "false")
                 {
                     this.btn_AddNewEmail.Visible = true;
@@ -1047,9 +952,11 @@ namespace ePrint.usercontrol.crm
                 {
                     this.btn_AddNewEmail.Visible = false;
                 }
+                this.RefreshCrmSectionUi("emails");
             }
             catch
             {
+                SetDisplay(this.divLoadingImageCus, false);
             }
         }
 
@@ -1057,32 +964,12 @@ namespace ePrint.usercontrol.crm
         {
             try
             {
-                base.Request.Cookies[string.Concat("CRMTabName", this.ClientID)].Value = "products";
+                this.SetCrmTabCookie("products");
                 this.plh_ProductDetails.Controls.Clear();
                 UserControl userControl = (UserControl)base.LoadControl("~/usercontrol/crm/ProductSubSection.ascx");
                 userControl.ID = "ProductSubSection";
                 this.plh_ProductDetails.Controls.Add(userControl);
-                this.div_ClientMain.Style.Add("display", "none");
-                this.div_ContactMain.Style.Add("display", "none");
-                this.div_DepartmentMain.Style.Add("display", "none");
-                this.DivAnotherDesign.Style.Add("display", "block");
-                this.div_AddressMain.Style.Add("display", "none");
-                this.div_b2bMain.Style.Add("display", "none");
-                this.div_ProductsMain.Style.Add("display", "block");
-                this.div_NotesMain.Style.Add("display", "none");
-                this.div_EmailMain.Style.Add("display", "none");
-                this.div_ActivitiesMain.Style.Add("display", "none");
-                this.div_CostcentreMain.Style.Add("display", "none");
-                this.divbtnedit.Style.Add("display", "none");
-                this.divbtndelete.Style.Add("display", "none");
-                this.div_EmailControls.Style.Add("display", "none");
-                this.div_ContactControls.Style.Add("display", "none");
-                this.div_ProductsControls.Style.Add("display", "block");
-                this.div_EstimateControls.Style.Add("display", "none");
-                this.div_JobControls.Style.Add("display", "none");
-                this.div_InvoiceControls.Style.Add("display", "none");
-                this.div_eStoreControls.Style.Add("display", "none");
-                string empty = string.Empty;
+                this.ApplyCrmTabLayout("products");
                 if (this.basecls.ReturnRoles_Privileges_ForGrid("clients", "isadd", this.Page.Request.Url.ToString()).Trim().ToLower() != "false")
                 {
                     this.div_ProductsControls.Visible = true;
@@ -1091,9 +978,7 @@ namespace ePrint.usercontrol.crm
                 {
                     this.div_ProductsControls.Visible = false;
                 }
-                this.div_DeptControls.Style.Add("display", "none");
-                this.div_AddressControls.Style.Add("display", "none");
-                this.div_CostcenterControls.Style.Add("display", "none");
+                this.RefreshCrmSectionUi("products");
             }
             catch
             {
@@ -1403,33 +1288,15 @@ namespace ePrint.usercontrol.crm
 
         public void GridAddress(int CompanyID, int ClientID)
         {
-            this.dt_Address = DepartmentBaseClass.address_select_for_filter(ClientID, CompanyID, "Yes", this.WhereConditionAddress);
-            this.RadGrid_Address.DataSource = this.dt_Address;
-            this.RadGrid_Address.DataBind();
+            if (CompanyID <= 0 || ClientID <= 0)
+            {
+                return;
+            }
+            this.dt_Address = DepartmentBaseClass.address_select_for_filter(ClientID, CompanyID, "Yes", this.WhereConditionAddress ?? string.Empty);
+            this.RadGrid_Address.DataSource = this.dt_Address ?? new DataTable();
         }
 
-        protected void RadGrid_Contact_PreRender(object sender, EventArgs e)
-        {
-            if (this.ds_Contact != null)
-            {
-                this.RadGrid_Contact.DataSource = this.ds_Contact.Tables[0];
-                this.RadGrid_Contact.VirtualItemCount = Convert.ToInt32(this.ds_Contact.Tables[1].Rows[0][0].ToString());
-                if (this.ds_Contact.Tables[0].Rows.Count == 0)
-                {
-                    this.RadGrid_Contact.VirtualItemCount = 0;
-                    this.RadGrid_Contact.AllowCustomPaging = false;
-                }
-                this.RadGrid_Contact.Rebind();
-            }
-            else
-            {
-                this.RadGrid_Contact.VirtualItemCount = Convert.ToInt32(this.RadGrid_Contact.MasterTableView.Items.Count.ToString());
-                this.RadGrid_Contact.MasterTableView.AllowPaging = true;
-                this.RadGrid_Contact.Rebind();
-            }
-        }
-
-        protected void RadGrid_Department_PreRender(object sender, EventArgs e)
+                protected void RadGrid_Department_PreRender(object sender, EventArgs e)
         {
             if (this.ds_Department != null)
             {
@@ -1450,21 +1317,7 @@ namespace ePrint.usercontrol.crm
             }
         }
 
-        public void GridContact(int CompanyID, int ClientID, int pageno, int pagesize)
-        {
-            this.RadGrid_Contact.AllowCustomPaging = true;
-            this.ds_Contact = CompanyBasePage.client_contacts_select_for_filter(CompanyID, ClientID, pageno, pagesize, ClientSubSection.WhereConditionContact);
-            this.RadGrid_Contact.DataSource = this.ds_Contact.Tables[0];
-            this.RadGrid_Contact.VirtualItemCount = Convert.ToInt32(this.ds_Contact.Tables[1].Rows[0][0].ToString());
-            if (this.ds_Contact.Tables[0].Rows.Count == 0)
-            {
-                this.RadGrid_Contact.VirtualItemCount = 0;
-                this.RadGrid_Contact.AllowCustomPaging = false;
-            }
-            this.RadGrid_Contact.Rebind();
-        }
-
-        public void GridDepartment(int CompanyID, int ClientID, int pageno, int pagesize)
+                public void GridDepartment(int CompanyID, int ClientID, int pageno, int pagesize)
         {
             this.RadGrid_Department.AllowCustomPaging = true;
             //this.ds_Department = DepartmentBaseClass.department_getAllDetails_for_filter(CompanyID, this.UserID, ClientID, (long)0, this.RadGrid_Department.CurrentPageIndex + 1, this.RadGrid_Department.PageSize, this.WhereConditionDepartment);
@@ -1546,6 +1399,11 @@ namespace ePrint.usercontrol.crm
 
         protected void lnk_ActivitiesTab_Click(object sender, EventArgs e)
         {
+            if (this.IsCrmCustomerType())
+            {
+                this.get_ClientTab();
+                return;
+            }
             ScriptManager.RegisterStartupScript(this, base.GetType(), "_showconfirm", "javascript:OpeneRecordsDiv();", true);
             this.get_ActivitiesTab();
         }
@@ -1557,13 +1415,23 @@ namespace ePrint.usercontrol.crm
 
         protected void lnk_b2bTab_Click(object sender, EventArgs e)
         {
-            ScriptManager.RegisterStartupScript(this, base.GetType(), "_showconfirm", "javascript:OpeneStoreDiv();", true);
+            this.MarkCrmTabClickHandled();
             this.get_b2bTab();
         }
 
         protected void lnk_ClientTab_Click(object sender, EventArgs e)
         {
             this.get_ClientTab();
+        }
+
+        protected void LnkSummary_Click(object sender, EventArgs e)
+        {
+            this.get_ClientTab();
+        }
+
+        protected void lnkAddressBook_Click(object sender, EventArgs e)
+        {
+            this.get_AddressTab();
         }
 
         protected void lnk_ContactTab_Click(object sender, EventArgs e)
@@ -1588,6 +1456,11 @@ namespace ePrint.usercontrol.crm
 
         protected void lnk_CostCenterTab_Click(object sender, EventArgs e)
         {
+            if (this.IsCrmCustomerType())
+            {
+                this.get_ClientTab();
+                return;
+            }
             this.get_CostcentreTabs();
             this.loadgrdcostcenter();
         }
@@ -1599,6 +1472,11 @@ namespace ePrint.usercontrol.crm
 
         protected void lnk_EmailsTab_Click(object sender, EventArgs e)
         {
+            if (this.IsCrmCustomerType())
+            {
+                this.get_ClientTab();
+                return;
+            }
             ScriptManager.RegisterStartupScript(this, base.GetType(), "_showconfirm", "javascript:OpeneEmailDiv();", true);
             this.get_EmailsTab();
         }
@@ -1609,6 +1487,11 @@ namespace ePrint.usercontrol.crm
 
         protected void lnk_ProductsTab_Click(object sender, EventArgs e)
         {
+            if (this.IsCrmCustomerType())
+            {
+                this.get_ClientTab();
+                return;
+            }
             ScriptManager.RegisterStartupScript(this, base.GetType(), "_showconfirm", "javascript:OpeneProductsDiv();", true);
             this.get_ProductTab();
         }
@@ -1672,78 +1555,7 @@ namespace ePrint.usercontrol.crm
         protected override void OnInit(EventArgs e)
         {
             base.OnInit(e);
-            GridFilterMenu filterMenu = this.RadGrid_Contact.FilterMenu;
-            for (int i = filterMenu.Items.Count - 1; i >= 0; i--)
-            {
-                string lower = filterMenu.Items[i].Text.ToLower();
-                string str = lower;
-                if (lower != null)
-                {
-                    switch (str)
-                    {
-                        case "custom":
-                            {
-                                filterMenu.Items[i].Text = "Custom-Text (ThisWeek)";
-                                break;
-                            }
-                        case "isempty":
-                            {
-                                filterMenu.Items[i].Visible = false;
-                                break;
-                            }
-                        case "notisempty":
-                            {
-                                filterMenu.Items[i].Visible = false;
-                                break;
-                            }
-                        case "isnull":
-                            {
-                                filterMenu.Items[i].Visible = false;
-                                break;
-                            }
-                        case "notisnull":
-                            {
-                                filterMenu.Items[i].Visible = false;
-                                break;
-                            }
-                        case "between":
-                            {
-                                filterMenu.Items[i].Visible = false;
-                                break;
-                            }
-                        case "notbetween":
-                            {
-                                filterMenu.Items[i].Visible = false;
-                                break;
-                            }
-                        case "notequalto":
-                            {
-                                filterMenu.Items[i].Visible = false;
-                                break;
-                            }
-                        case "greaterthan":
-                            {
-                                filterMenu.Items[i].Visible = false;
-                                break;
-                            }
-                        case "lessthan":
-                            {
-                                filterMenu.Items[i].Visible = false;
-                                break;
-                            }
-                        case "greaterthanorequalto":
-                            {
-                                filterMenu.Items[i].Visible = false;
-                                break;
-                            }
-                        case "lessthanorequalto":
-                            {
-                                filterMenu.Items[i].Visible = false;
-                                break;
-                            }
-                    }
-                }
-            }
+            this.EnsureContactsSection();
             GridFilterMenu gridFilterMenu = this.RadGrid_Department.FilterMenu;
             for (int j = gridFilterMenu.Items.Count - 1; j >= 0; j--)
             {
@@ -1967,6 +1779,7 @@ namespace ePrint.usercontrol.crm
             string[] strArrays;
             object[] languageConversion;
             this.SectionName = "client";
+            this.EnsureContactsSection();
             this.UserIDN = Convert.ToInt32(base.Session["UserID"]);
             if (ConnectionClass.ServerName.ToString().ToLower() == "coralcoast")
             {
@@ -1989,11 +1802,7 @@ namespace ePrint.usercontrol.crm
             this.RadListBox_Department.Items[0].Text = this.objLangClass.GetLanguageConversion("Activate_Spend_Limit");
             this.RadListBox_Department.Items[1].Text = this.objLangClass.GetLanguageConversion("Deactivate_Spend_Limit");
             this.RadListBox_Department.Items[2].Text = this.objLangClass.GetLanguageConversion("Delete");
-            this.RadListBox_Contact.Items[0].Text = this.objLangClass.GetLanguageConversion("Activate_Spend_Limit");
-            this.RadListBox_Contact.Items[1].Text = this.objLangClass.GetLanguageConversion("Deactivate_Spend_Limit");
-            this.RadListBox_Contact.Items[2].Text = this.objLangClass.GetLanguageConversion("Delete");
-            this.RadListBox_Contact.Items[3].Text = this.objLangClass.GetLanguageConversion("Activate_eStore");
-            this.RadListBox_Contact.Items[4].Text = this.objLangClass.GetLanguageConversion("Deactivate_eStore");
+                        this.ContactsSection.ApplyListBoxLabels();
             this.RadListBox_Address.Items[0].Text = this.objLangClass.GetLanguageConversion("Delete");
             this.ImageButton9.ToolTip = this.objLangClass.GetLanguageConversion("Add_new_subject");
             this.LinkButton26.ToolTip = this.objLangClass.GetLanguageConversion("Close");
@@ -2063,7 +1872,7 @@ namespace ePrint.usercontrol.crm
             this.UserID = Convert.ToInt32(base.Session["UserID"].ToString());
             this.btn_b2bCreate.Text = this.objLangClass.GetLanguageConversion("Create_B2B_Estore");
             DataTable dataTable = SettingsBasePage.settings_regionalsettings_select(this.CompanyID);
-            if (dataTable.Rows.Count > 0 && Convert.ToBoolean(dataTable.Rows[0]["IsDisplayCostCentre"]))
+            if (dataTable.Rows.Count > 0 && Convert.ToBoolean(dataTable.Rows[0]["IsDisplayCostCentre"]) && !this.IsCrmCustomerType())
             {
                 this.DivlnlCostCentre.Style.Add("display", "block");
             }
@@ -2128,6 +1937,7 @@ namespace ePrint.usercontrol.crm
             catch
             {
             }
+            this.RefreshContactsContext();
             if (this.UniqueID == "" && this.Types == "")
             {
                 ScriptManager.RegisterStartupScript(this, base.GetType(), "_showconfirm", "javascript:SetContentWidth();", true);
@@ -2156,8 +1966,16 @@ namespace ePrint.usercontrol.crm
             }
             else if (this.CompanyType != "supplier")
             {
-                this.div_ActivitiesMain.Attributes.Add("style", "display:block");
+                this.div_ActivitiesMain.Attributes.Add("style", "display:none");
                 this.tablemainpanel.Style.Add("width", "101%");
+                if (this.IsCrmCustomerType())
+                {
+                    this.HideProductsEmailsRecordsNav();
+                    if (string.Equals(this.strSuc, "products", StringComparison.OrdinalIgnoreCase))
+                    {
+                        this.strSuc = string.Empty;
+                    }
+                }
             }
             else
             {
@@ -2187,15 +2005,15 @@ namespace ePrint.usercontrol.crm
                     this.CompanyCusName = row["clientName"].ToString();
                 }
             }
-            this.RadListboxActiverStoreUser.Style.Add("display", "none");
-            this.RadListboxDeActiverStoreUser.Style.Add("display", "none");
+            this.ContactsSection.RadListboxActiverStoreUser.Style.Add("display", "none");
+            this.ContactsSection.RadListboxDeActiverStoreUser.Style.Add("display", "none");
             DataTable dataTableStoreCredit = SettingsBasePage.Setting_StoreCredit_Select(AccountID, CompanyID);
             foreach (DataRow row in dataTableStoreCredit.Rows)
             {
                 if (Convert.ToBoolean(row["IsStoreCreditsEnabled"]))
                 {
-                    this.RadListboxActiverStoreUser.Style.Add("display", "block");
-                    this.RadListboxDeActiverStoreUser.Style.Add("display", "block");
+                    this.ContactsSection.RadListboxActiverStoreUser.Style.Add("display", "block");
+                    this.ContactsSection.RadListboxDeActiverStoreUser.Style.Add("display", "block");
                 }
 
 
@@ -2324,8 +2142,8 @@ namespace ePrint.usercontrol.crm
                     this.RadGrid_Contact.Columns[12].HeaderText = this.objLangClass.GetLanguageConversion("Action").ToString();
                     this.RadGrid_Contact.Columns[6].HeaderText = this.objLangClass.GetLanguageConversion("Contact_Phone").ToString();
                     this.RadGrid_Department.MasterTableView.GetColumn("SpendLimit").Display = false;
-                    this.UserSpendlimit.Style.Add("display", "block");
-                    this.UserSpendlimitDeactivate.Style.Add("display", "block");
+                    this.ContactsSection.UserSpendlimit.Style.Add("display", "block");
+                    this.ContactsSection.UserSpendlimitDeactivate.Style.Add("display", "block");
                     this.RadGrid_Contact.Columns[0].HeaderStyle.Width = 50;
                     this.RadGrid_Contact.Columns[1].HeaderStyle.Width = 120;
                     this.RadGrid_Contact.Columns[2].HeaderStyle.Width = 120;
@@ -2394,7 +2212,7 @@ namespace ePrint.usercontrol.crm
                             GridColumn columnSafe = this.RadGrid_Contact.MasterTableView.GetColumnSafe(dataRow1["ColumnName"].ToString());
                             columnSafe.CurrentFilterValue = dataRow1["FilterText"].ToString();
                         }
-                        ClientSubSection.WhereConditionContact = this.FilterFunction(item);
+                        ClientContactsSubSection.WhereConditionContact = this.FilterFunction(item);
                     }
                     catch
                     {
@@ -2409,7 +2227,7 @@ namespace ePrint.usercontrol.crm
                         column.CurrentFilterValue = string.Empty;
                     }
                     base.Session[string.Concat("searchContact", this.ClientID)] = null;
-                    ClientSubSection.WhereConditionContact = "";
+                    ClientContactsSubSection.WhereConditionContact = "";
                     this.RadGrid_Contact.MasterTableView.FilterExpression = string.Empty;
 
                 }
@@ -2488,10 +2306,14 @@ namespace ePrint.usercontrol.crm
                 //this.GridAddress(this.CompanyID, this.ClientID);
             }
             this.getAccountID(this.CompanyID, this.ClientID, this.CompanyType);
-            this.PanelName.Text = this.objLangClass.GetLanguageConversion("Summary_Information");
-            if (base.Request.Cookies[string.Concat("CRMTabName", this.ClientID)] != null)
+            this.NormalizeCustomerTabCookie();
+            if (!base.IsPostBack && base.Request.Cookies[string.Concat("CRMTabName", this.ClientID)] != null)
             {
-                if (base.Request.Cookies[string.Concat("CRMTabName", this.ClientID)].Value == "activities" || base.Request.Cookies[string.Concat("CRMTabName", this.ClientID)].Value == "jobs" || base.Request.Cookies[string.Concat("CRMTabName", this.ClientID)].Value == "invoices" || base.Request.Cookies[string.Concat("CRMTabName", this.ClientID)].Value == "estore")
+                if (this.IsRestrictedCustomerTab(base.Request.Cookies[string.Concat("CRMTabName", this.ClientID)].Value))
+                {
+                    this.get_ClientTab();
+                }
+                else if (base.Request.Cookies[string.Concat("CRMTabName", this.ClientID)].Value == "activities" || base.Request.Cookies[string.Concat("CRMTabName", this.ClientID)].Value == "jobs" || base.Request.Cookies[string.Concat("CRMTabName", this.ClientID)].Value == "invoices" || base.Request.Cookies[string.Concat("CRMTabName", this.ClientID)].Value == "estore")
                 {
                     string str2 = "<a href=../welcome.aspx class='subnavigator' style=text-decoration:underline>Home</a>&nbsp;>&nbsp;<a href=client_view.aspx class='subnavigator' style=text-decoration:underline>Customer View</a>";
                     string str3 = "&nbsp;>&nbsp;Customer Details > Records";
@@ -2516,8 +2338,7 @@ namespace ePrint.usercontrol.crm
                     label1.Text = string.Concat(strArrays);
                     label1.Text = label1.Text.Replace("subnavigator", "subnavigatorblack").Replace("navigatorpanel", "navigatorpanelblack");
                     this.DivsearchButton.Style.Add("display", "block");
-                    this.getClientDetails(this.UserID, this.CompanyID, this.CompanyType, this.ClientID, this.AccountID);
-                    this.PanelName.Text = this.objLangClass.GetLanguageConversion("Summary_Information");
+                    this.get_ClientTab();
                 }
                 else if (base.Request.Cookies[string.Concat("CRMTabName", this.ClientID)].Value == "contacts")
                 {
@@ -2726,6 +2547,17 @@ namespace ePrint.usercontrol.crm
                     }
                 }
             }
+            else if (!base.IsPostBack)
+            {
+                this.get_ClientTab();
+            }
+
+            if (base.IsPostBack)
+            {
+                this.HandleCrmTabPostBack();
+            }
+
+            this.RegisterCrmTabPostBackControls();
             this.bindEstoreDetails();
             this.getClientDetails(this.UserID, this.CompanyID, this.CompanyType, this.ClientID, this.AccountID);
             this.isView = this.basecls.ReturnRoles_Privileges_ForGrid("clients", "isview", this.Page.Request.Url.ToString());
@@ -2811,12 +2643,12 @@ namespace ePrint.usercontrol.crm
             string str11 = string.Empty;
             if (this.basecls.ReturnRoles_Privileges_ForGrid("clients", "isdelete", this.Page.Request.Url.ToString()).Trim().ToLower() != "false")
             {
-                this.Delete_Hide.Style.Add("display", "block");
+                this.ContactsSection.Delete_Hide.Style.Add("display", "block");
                 this.btnDelete.Visible = true;
             }
             else
             {
-                this.Delete_Hide.Style.Add("display", "none");
+                this.ContactsSection.Delete_Hide.Style.Add("display", "none");
                 this.btnDelete.Visible = false;
             }
             if (!base.IsPostBack)
@@ -2911,12 +2743,12 @@ namespace ePrint.usercontrol.crm
             }
             if (base.Session["IsAddedContact"] != null && base.Session["IsAddedContact"] != null && base.Session["IsAddedContact"].ToString() == "yes1")
             {
-                this.basecls.Message_Display(this.objLangClass.GetLanguageConversion("Contact_added_successfully"), "msg-success", this.plhContact);
+                this.basecls.Message_Display(this.objLangClass.GetLanguageConversion("Contact_added_successfully"), "msg-success", this.ContactsSection.plhContact);
                 base.Session["IsAddedContact"] = null;
             }
             if (base.Session["IsEditContact"] != null && base.Session["IsEditContact"] != null && base.Session["IsEditContact"].ToString() == "yes2")
             {
-                this.basecls.Message_Display(this.objLangClass.GetLanguageConversion("Contact_updated_successfully"), "msg-success", this.plhContact);
+                this.basecls.Message_Display(this.objLangClass.GetLanguageConversion("Contact_updated_successfully"), "msg-success", this.ContactsSection.plhContact);
                 base.Session["IsEditContact"] = null;
             }
             if (base.Session["AddAddress"] != null && base.Session["AddAddress"] != null && base.Session["AddAddress"].ToString() == "AddAddress")
@@ -3069,76 +2901,35 @@ namespace ePrint.usercontrol.crm
 
         protected void RadGrid_Address_OnNeedDataSource(object source, GridNeedDataSourceEventArgs e)
         {
-            this.dt_Address = DepartmentBaseClass.address_select_for_filter(this.ClientID, this.CompanyID, "Yes", this.WhereConditionAddress);
-            this.RadGrid_Address.DataSource = this.dt_Address;
+            if (this.CompanyID <= 0 || this.ClientID <= 0)
+            {
+                this.RadGrid_Address.DataSource = new DataTable();
+                return;
+            }
+            this.dt_Address = DepartmentBaseClass.address_select_for_filter(this.ClientID, this.CompanyID, "Yes", this.WhereConditionAddress ?? string.Empty);
+            this.RadGrid_Address.DataSource = this.dt_Address ?? new DataTable();
         }
 
-        protected void RadGrid_Contact_ItemCommand(object sender, GridCommandEventArgs e)
+        protected void RadGrid_Address_PreRender(object sender, EventArgs e)
         {
-            DataTable dataTable = new DataTable();
-            if (e.CommandName == "Filter")
+            if (this.div_AddressMain == null || this.div_AddressMain.Style["display"] == "none")
             {
-                Pair commandArgument = (Pair)e.CommandArgument;
-                string str = commandArgument.Second.ToString();
-                TextBox item = (e.Item as GridFilteringItem)[str].Controls[0] as TextBox;
-                ClientSubSection.WhereConditionContact = "";
-                if (base.Session[string.Concat("searchContact", this.ClientID)] == null)
-                {
-                    dataTable.Columns.Add("ColumnName");
-                    dataTable.Columns.Add("Filter");
-                    dataTable.Columns.Add("FilterText");
-                }
-                if (base.Session[string.Concat("searchContact", this.ClientID)] != null)
-                {
-                    dataTable = (DataTable)base.Session[string.Concat("searchContact", this.ClientID)];
-                }
-                DataRow[] dataRowArray = dataTable.Select(string.Concat("ColumnName='", commandArgument.Second.ToString(), "'"));
-                if ((int)dataRowArray.Length <= 0)
-                {
-                    object[] second = new object[] { commandArgument.Second, commandArgument.First, item.Text };
-                    dataTable.Rows.Add(second);
-                }
-                else
-                {
-                    dataTable.Rows.Remove(dataRowArray[0]);
-                    if (commandArgument.First.ToString().ToLower() != "nofilter")
-                    {
-                        object[] objArray = new object[] { commandArgument.Second, commandArgument.First, item.Text };
-                        dataTable.Rows.Add(objArray);
-                    }
-                }
-                base.Session[string.Concat("searchContact", this.ClientID)] = dataTable;
-                ClientSubSection.WhereConditionContact = this.FilterFunction(dataTable);
-                this.GridContact(this.CompanyID, this.ClientID, 1, this.RadGrid_Contact.PageSize);
-                this.RadGrid_Contact.Rebind();
+                return;
+            }
+            this.EnsureCrmClientContext();
+            if (this.CompanyID <= 0 || this.ClientID <= 0)
+            {
+                return;
+            }
+            if (this.dt_Address == null)
+            {
+                this.GridAddress(this.CompanyID, this.ClientID);
+                this.RadGrid_Address.Rebind();
             }
         }
 
-        protected void RadGrid_Contact_OnNeedDataSource(object source, GridNeedDataSourceEventArgs e)
-        {
-            this.ds_Contact = CompanyBasePage.client_contacts_select_for_filter(this.CompanyID, this.ClientID, this.RadGrid_Contact.CurrentPageIndex + 1, this.RadGrid_Contact.PageSize, ClientSubSection.WhereConditionContact);
-            this.RadGrid_Contact.DataSource = this.ds_Contact.Tables[0];
-        }
-
-        // Ticket #10210 by applying pagination upon contacts and departments will solve the problem
-        protected void RadGrid_Contact_PageIndexChanged(object sender, GridPageChangedEventArgs e)
-        {
-            this.RadGrid_Contact.AllowCustomPaging = true;
-            RadGrid_Contact.CurrentPageIndex = e.NewPageIndex;
-            //this.dt_Contact = CompanyBasePage.client_contacts_select_for_filter(this.CompanyID, this.ClientID, this.RadGrid_Contact.CurrentPageIndex + 1, this.RadGrid_Contact.PageSize, this.WhereConditionContact);
-            this.ds_Contact = CompanyBasePage.client_contacts_select_for_filter(this.CompanyID, this.ClientID, this.RadGrid_Contact.CurrentPageIndex + 1, this.RadGrid_Contact.PageSize, ClientSubSection.WhereConditionContact);
-            this.RadGrid_Contact.DataSource = this.ds_Contact.Tables[0];
-            this.RadGrid_Contact.VirtualItemCount = Convert.ToInt32(this.ds_Contact.Tables[1].Rows[0][0].ToString());
-            if (this.ds_Contact.Tables[0].Rows.Count == 0)
-            {
-                this.RadGrid_Contact.VirtualItemCount = 0;
-                this.RadGrid_Contact.AllowCustomPaging = false;
-            }
-
-            this.RadGrid_Contact.DataBind();
-        }
-
-        protected void RadGrid_Department_ItemCommand(object sender, GridCommandEventArgs e)
+                        // Ticket #10210 by applying pagination upon contacts and departments will solve the problem
+                protected void RadGrid_Department_ItemCommand(object sender, GridCommandEventArgs e)
         {
             DataTable dataTable = new DataTable();
             if (e.CommandName == "Filter")
@@ -3228,165 +3019,53 @@ namespace ePrint.usercontrol.crm
                 }
                 if (e.Item.ItemType == GridItemType.AlternatingItem || e.Item.ItemType == GridItemType.Item)
                 {
+                    GridDataItem addressRow = (GridDataItem)e.Item;
+                    for (int cellIndex = 0; cellIndex < addressRow.Cells.Count && cellIndex < this.RadGrid_Address.Columns.Count; cellIndex++)
+                    {
+                        string headerText = this.RadGrid_Address.Columns[cellIndex].HeaderText;
+                        if (!string.IsNullOrEmpty(headerText))
+                        {
+                            addressRow.Cells[cellIndex].Attributes["data-label"] = headerText;
+                        }
+                    }
                     string str = string.Empty;
                     str = this.basecls.ReturnRoles_Privileges_ForGrid("clients", "isdelete", this.Page.Request.Url.ToString());
                     Panel panel = (Panel)e.Item.FindControl("PanelDeleteAddress");
-                    if (str.Trim().ToLower() != "false")
+                    if (panel != null)
                     {
-                        panel.Attributes.Add("style", "display:block");
+                        if (str.Trim().ToLower() != "false")
+                        {
+                            panel.Attributes.Add("style", "display:block");
+                        }
+                        else
+                        {
+                            panel.Attributes.Add("style", "display:none;");
+                        }
                     }
-                    else
-                    {
-                        panel.Attributes.Add("style", "display:none;");
-                    }
-                    Label label = (Label)e.Item.FindControl("lbl_Address");
-                    HiddenField hiddenField = (HiddenField)e.Item.FindControl("hdn_Address");
-                    HiddenField hiddenField1 = (HiddenField)e.Item.FindControl("hdn_City");
-                    HiddenField hiddenField2 = (HiddenField)e.Item.FindControl("hdn_Suburb");
-                    HiddenField hiddenField3 = (HiddenField)e.Item.FindControl("hdn_PostCode");
-                    HiddenField hiddenField4 = (HiddenField)e.Item.FindControl("hdn_Country");
-                    HiddenField hiddenField5 = (HiddenField)e.Item.FindControl("hdn_AddressLabel");
-                    HiddenField hiddenField6 = (HiddenField)e.Item.FindControl("hdn_AddressLine2");
-                    HiddenField hiddenField7 = (HiddenField)e.Item.FindControl("hdn_DefaultDelivery");
                     HiddenField hiddenField8 = (HiddenField)e.Item.FindControl("hdn_DefaultBilling");
                     HiddenField hiddenField9 = (HiddenField)e.Item.FindControl("hdn_DefaultPostBox");
-                    Image image = (Image)e.Item.FindControl("img_DefaultDelivery");
                     Image image1 = (Image)e.Item.FindControl("img_DefaultBilling");
                     Image image2 = (Image)e.Item.FindControl("img_DefaultPostBox");
-                    HtmlInputCheckBox htmlInputCheckBox = (HtmlInputCheckBox)e.Item.FindControl("checkBox_Address");
-                    Image image3 = (Image)e.Item.FindControl("ImgButtonDeleteAddress");
-                    if (hiddenField8.Value != "True")
+                    if (image1 != null && hiddenField8 != null)
                     {
-                        image1.ImageUrl = string.Concat(this.ImgPath, "1t.gif");
-                    }
-                    else
-                    {
-                        image1.ImageUrl = string.Concat(this.ImgPath, "check.gif");
-                    }
-                    if (hiddenField9.Value != "True")
-                    {
-                        image2.ImageUrl = string.Concat(this.ImgPath, "ICON_checkbox_u.gif");
-                    }
-                    else
-                    {
-                        image2.ImageUrl = string.Concat(this.ImgPath, "ICON_checkboxNew.gif");
-                    }
-                }
-            }
-            catch
-            {
-            }
-        }
-
-        protected void RadGridContact_OnRowDataBound(object sender, GridItemEventArgs e)
-        {
-            try
-            {
-                if (e.Item.ItemType == GridItemType.CommandItem)
-                {
-                    string empty = string.Empty;
-                    empty = this.basecls.ReturnRoles_Privileges_ForGrid("clients", "isadd", this.Page.Request.Url.ToString());
-                    HtmlControl htmlControl = (HtmlControl)e.Item.FindControl("DivAddNewContact");
-                    if (empty.Trim().ToLower() != "false")
-                    {
-                        if(htmlControl !=null)
+                        if (hiddenField8.Value != "True")
                         {
-                            htmlControl.Visible = true;
-                        }
-                    }
-                    else
-                    {
-                        if (htmlControl != null)
-                        {
-                            htmlControl.Visible = false;
-                        }
-                    }
-                    GridTableView masterTableView = this.RadGrid_Contact.MasterTableView;
-                    GridItemType[] gridItemTypeArray = new GridItemType[] { GridItemType.CommandItem };
-                    GridCommandItem items = (GridCommandItem)masterTableView.GetItems(gridItemTypeArray)[0];
-                    //((LinkButton)items.FindControl("btnclrFilters_Contacts")).Visible = true;
-                }
-                if (e.Item.ItemType == GridItemType.AlternatingItem || e.Item.ItemType == GridItemType.Item)
-                {
-                    string str = string.Empty;
-                    str = this.basecls.ReturnRoles_Privileges_ForGrid("clients", "isdelete", this.Page.Request.Url.ToString());
-                    HtmlControl htmlControl1 = (HtmlControl)e.Item.FindControl("DivContact");
-                    HtmlControl htmlControl2 = (HtmlControl)e.Item.FindControl("DivLoginKey");
-                    if (str.Trim().ToLower() != "false")
-                    {
-                        this.RadGrid_Address.MasterTableView.GetColumn("checkBox_Address").Visible = true;
-                        htmlControl1.Visible = true;
-                    }
-                    else
-                    {
-                        this.RadGrid_Address.MasterTableView.GetColumn("checkBox_Address").Visible = false;
-                        htmlControl1.Visible = false;
-                        htmlControl2.Style.Add("float", "right");
-                        htmlControl2.Style.Add("padding-right", "22px");
-                    }
-                    Label text = (Label)e.Item.FindControl("lbl_ContactName");
-                    HiddenField hiddenField = (HiddenField)e.Item.FindControl("hdn_ContactFirstName");
-                    HiddenField hiddenField1 = (HiddenField)e.Item.FindControl("hdn_ContactLastName");
-                    HiddenField hiddenField2 = (HiddenField)e.Item.FindControl("hdn_DefaultContact");
-                    HiddenField hiddenField3 = (HiddenField)e.Item.FindControl("hdn_DefaultContactID");
-                    Image image = (Image)e.Item.FindControl("img_DefaultContact");
-                    Image image1 = (Image)e.Item.FindControl("ImgButtonDeleteContacts");
-                    HiddenField hiddenField4 = (HiddenField)e.Item.FindControl("hdn_LoginEmail");
-                    HiddenField hiddenField5 = (HiddenField)e.Item.FindControl("hdn_LoginPwd");
-                    ImageButton imageButton = (ImageButton)e.Item.FindControl("ImgButtonLoginContacts");
-                    HtmlAnchor htmlAnchor = (HtmlAnchor)e.Item.FindControl("anchor");
-                    if (this.CompanyType.ToString().ToLower() == "supplier" || this.CompanyType.ToString().ToLower() == "prospect")
-                    {
-                        imageButton.Visible = false;
-                    }
-                    AttributeCollection attributes = htmlAnchor.Attributes;
-                    object[] objArray = new object[] { "javascript:postwith('", this.basecls.SpecialEncode(((DataRowView)e.Item.DataItem)[31].ToString()), "',{b2bemail:'", this.basecls.SpecialEncode(((DataRowView)e.Item.DataItem)[11].ToString()), "',b2bpwd:'", ((DataRowView)e.Item.DataItem)[29], "',id:'", ((DataRowView)e.Item.DataItem)[32], "',from:'MIS'},'", this.WebStorePathB2B, "','", this.WebStorePathB2C, "');return false;" };
-                    attributes.Add("onclick", string.Concat(objArray));
-                    HtmlInputCheckBox htmlInputCheckBox = (HtmlInputCheckBox)e.Item.FindControl("checkBox_Contact");
-                    Label label = (Label)e.Item.FindControl("lbl_Activate");
-                    HiddenField hiddenField6 = (HiddenField)e.Item.FindControl("hdn_Activate");
-                    text.Text = string.Concat(hiddenField.Value, " ", hiddenField1.Value);
-                    text.ToolTip = text.Text;
-                    if (hiddenField2.Value != "True")
-                    {
-                        image.ImageUrl = string.Concat(this.ImgPath, "ICON_checkbox_u.gif");
-                    }
-                    else
-                    {
-                        this.DefContactid = Convert.ToInt32(hiddenField3.Value);
-                        image.ImageUrl = string.Concat(this.ImgPath, "ICON_checkboxNew.gif");
-                        if (!this.IsSpendLimitEnable)
-                        {
-                            htmlInputCheckBox.Disabled = true;
-                        }
-                        else if (!this.IsPeruser)
-                        {
-                            htmlInputCheckBox.Disabled = true;
+                            image1.ImageUrl = string.Concat(this.ImgPath, "1t.gif");
                         }
                         else
                         {
-                            htmlInputCheckBox.Disabled = false;
+                            image1.ImageUrl = string.Concat(this.ImgPath, "check.gif");
                         }
-                        image1.Visible = false;
-                        image1.Style.Add("margin-left", "30px");
                     }
-                    if (!(hiddenField4.Value != "") || !(hiddenField5.Value != ""))
+                    if (image2 != null && hiddenField9 != null)
                     {
-                        imageButton.ImageUrl = string.Concat(this.ImgPath, "1t.gif");
-                        label.Text = "";
-                    }
-                    else
-                    {
-                        imageButton.ImageUrl = string.Concat(this.ImgPath, "key.gif");
-                        imageButton.CommandArgument = string.Concat(hiddenField4.Value, ",", hiddenField5.Value);
-                        if (hiddenField6.Value != "True")
+                        if (hiddenField9.Value != "True")
                         {
-                            imageButton.ImageUrl = string.Concat(this.ImgPath, "1t.gif");
-                            label.Text = "Deactivate";
+                            image2.ImageUrl = string.Concat(this.ImgPath, "ICON_checkbox_u.gif");
                         }
                         else
                         {
-                            label.Text = "Active";
+                            image2.ImageUrl = string.Concat(this.ImgPath, "ICON_checkboxNew.gif");
                         }
                     }
                 }
@@ -3396,7 +3075,7 @@ namespace ePrint.usercontrol.crm
             }
         }
 
-        protected void RadGridDepartment_OnRowDataBound(object sender, GridItemEventArgs e)
+                                        protected void RadGridDepartment_OnRowDataBound(object sender, GridItemEventArgs e)
         {
             try
             {
@@ -3422,6 +3101,15 @@ namespace ePrint.usercontrol.crm
                 }
                 if (e.Item.ItemType == GridItemType.AlternatingItem || e.Item.ItemType == GridItemType.Item)
                 {
+                    GridDataItem deptRow = (GridDataItem)e.Item;
+                    for (int cellIndex = 0; cellIndex < deptRow.Cells.Count && cellIndex < this.RadGrid_Department.Columns.Count; cellIndex++)
+                    {
+                        string headerText = this.RadGrid_Department.Columns[cellIndex].HeaderText;
+                        if (!string.IsNullOrEmpty(headerText))
+                        {
+                            deptRow.Cells[cellIndex].Attributes["data-label"] = headerText;
+                        }
+                    }
                     string str = string.Empty;
                     str = this.basecls.ReturnRoles_Privileges_ForGrid("clients", "isdelete", this.Page.Request.Url.ToString());
                     HtmlControl htmlControl1 = (HtmlControl)e.Item.FindControl("DivDelete");
@@ -3546,148 +3234,7 @@ namespace ePrint.usercontrol.crm
             base.Request.Cookies["RadListBoxAddressValue"].Value = null;
         }
 
-        protected void RadListBox_Contact_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            int num = 0;
-            int num1 = 0;
-            this.dt_Contact = CompanyBasePage.client_contacts_select(this.CompanyID, this.ClientID);
-            int num2 = 0;
-            while (num2 < this.RadGrid_Contact.Items.Count)
-            {
-                string empty = string.Empty;
-                HtmlInputCheckBox htmlInputCheckBox = new HtmlInputCheckBox();
-                htmlInputCheckBox = (HtmlInputCheckBox)this.RadGrid_Contact.Items[num2].Cells[0].FindControl("checkBox_Contact");
-                if (base.Request.Cookies["RadListBoxContactsValue"] != null)
-                {
-                    empty = base.Request.Cookies["RadListBoxContactsValue"].Value;
-                }
-                if (empty.ToLower() == "delete" && this.hdn_ContactIDs.Value.Length > 0)
-                {
-                    string[] strArrays = this.hdn_ContactIDs.Value.Split(new char[] { ',' });
-                    for (int i = 0; i < (int)strArrays.Length - 1; i++)
-                    {
-                        if (Convert.ToInt32(strArrays[i]) == this.DefContactid)
-                        {
-                            this.basecls.Message_Display(this.objLangClass.GetLanguageConversion("Default_contact_can_not_be_delete"), "msg-fail", this.plhContact);
-                        }
-                        else
-                        {
-                            num = Convert.ToInt32(strArrays[i]);
-                            this.objcomm.contact_delete(this.CompanyID, num.ToString(), this.UserID);
-                            htmlInputCheckBox.Checked = false;
-                            ClientSubSection usercontrolCrmClientSubSection = this;
-                            usercontrolCrmClientSubSection.cntDelete = usercontrolCrmClientSubSection.cntDelete + 1;
-                        }
-                    }
-                }
-                if (empty.ToLower() == "set default" && htmlInputCheckBox.Checked)
-                {
-                    this.SetDefaultContactID = Convert.ToInt32(htmlInputCheckBox.Value);
-                    ClientSubSection usercontrolCrmClientSubSection1 = this;
-                    usercontrolCrmClientSubSection1.cntDefault = usercontrolCrmClientSubSection1.cntDefault + 1;
-                    htmlInputCheckBox.Checked = false;
-                }
-                if (empty.ToLower() == "activate" && this.hdn_ContactIDs.Value.Length > 0)
-                {
-                    string[] strArrays1 = this.hdn_ContactIDs.Value.Split(new char[] { ',' });
-                    for (int j = 0; j < (int)strArrays1.Length - 1; j++)
-                    {
-                        num = Convert.ToInt32(strArrays1[j]);
-                        foreach (DataRow row in this.dt_Contact.Rows)
-                        {
-                            if (num != Convert.ToInt32(row["ContactID"].ToString()))
-                            {
-                                continue;
-                            }
-                            num1 = (row["Password"].ToString() != "" ? 0 : num1 + 1);
-                        }
-                        if (num1 == 0)
-                        {
-                            this.objcomm.StoreUser_AccountIsActivate(this.CompanyID, num, 1);
-                            ClientSubSection usercontrolCrmClientSubSection2 = this;
-                            usercontrolCrmClientSubSection2.cntActivate = usercontrolCrmClientSubSection2.cntActivate + 1;
-                            htmlInputCheckBox.Checked = false;
-                        }
-                    }
-                }
-
-                if (empty.ToLower() == "deactivate" && this.hdn_ContactIDs.Value.Length > 0)
-                {
-                    string[] strArrays2 = this.hdn_ContactIDs.Value.Split(new char[] { ',' });
-                    for (int k = 0; k < (int)strArrays2.Length - 1; k++)
-                    {
-                        num = Convert.ToInt32(strArrays2[k]);
-                        foreach (DataRow dataRow in this.dt_Contact.Rows)
-                        {
-                            if (num != Convert.ToInt32(dataRow["ContactID"].ToString()))
-                            {
-                                continue;
-                            }
-                            num1 = (dataRow["Password"].ToString() != "" ? 0 : num1 + 1);
-                        }
-                        if (num1 == 0)
-                        {
-                            this.objcomm.StoreUser_AccountIsActivate(this.CompanyID, num, 0);
-                            ClientSubSection usercontrolCrmClientSubSection3 = this;
-                            usercontrolCrmClientSubSection3.cntDeactivate = usercontrolCrmClientSubSection3.cntDeactivate + 1;
-                            htmlInputCheckBox.Checked = false;
-                        }
-                    }
-                }
-                if (!(empty.ToLower() == "spendlimitdeactivate") || this.hdn_ContactIDs.Value.Length <= 0)
-                {
-                    num2++;
-                }
-                else
-                {
-                    string str = string.Empty;
-                    this.objcomm.Deactivate_SpendLimitUser(this.CompanyID, this.hdn_ContactIDs.Value, "contact");
-                    break;
-                }
-                if (!(empty.ToLower() == "deactivatestorecredit") || this.hdn_ContactIDs.Value.Length <= 0)
-                {
-                    num2++;
-                }
-                else
-                {
-                    string str = string.Empty;
-                    this.objcomm.Deactivate_StoreCredit(this.CompanyID, this.hdn_ContactIDs.Value);
-                    break;
-                }
-            }
-            if (this.cntDelete != 0)
-            {
-                this.basecls.Message_Display(this.objLangClass.GetLanguageConversion("Contact_Deleted_Successfully"), "msg-success", this.plhContact);
-            }
-            else if (this.cntDefault != 1)
-            {
-                this.pnl_MoreThan1Selected.Visible = true;
-            }
-            else
-            {
-                (new CompanyBasePage()).client_defaultcontact(this.CompanyID, this.ClientID, this.SetDefaultContactID);
-                this.basecls.Message_Display("Default contact set successfully", "msg-success", this.plhContact);
-                this.cntDefault = 0;
-            }
-            if (this.cntActivate != 0)
-            {
-                this.basecls.Message_Display(this.objLangClass.GetLanguageConversion("Contact_Activated_Successfully"), "msg-success", this.plhContact);
-            }
-            else if (this.cntDeactivate != 0)
-            {
-                this.basecls.Message_Display(this.objLangClass.GetLanguageConversion("Contact_de_activated_successfully"), "msg-success", this.plhContact);
-            }
-            else if (num1 != 0)
-            {
-                this.basecls.Message_Display(this.objLangClass.GetLanguageConversion("Selected_Contact_cannot_be_activate_deactivate"), "msg-fail", this.plhContact);
-            }
-            this.BindDefaultGrids(this.CompanyID, this.ClientID);
-            this.RadGrid_Contact.Rebind();
-            this.RadListBox_Contact.SelectedIndex = this.Index - 1;
-            base.Request.Cookies["RadListBoxContactsValue"].Value = null;
-        }
-
-        protected void RadListBox_Department_SelectedIndexChanged(object sender, EventArgs e)
+                protected void RadListBox_Department_SelectedIndexChanged(object sender, EventArgs e)
         {
             int num = 0;
             while (num < this.RadGrid_Department.Items.Count)
@@ -3766,16 +3313,7 @@ namespace ePrint.usercontrol.crm
             this.RadGrid_Address.Rebind();
         }
 
-        protected void setDefaultContact_OnClick(object sender, CommandEventArgs e)
-        {
-            CompanyBasePage companyBasePage = new CompanyBasePage();
-            companyBasePage.client_defaultcontact(this.CompanyID, this.ClientID, Convert.ToInt32(e.CommandArgument));
-            this.basecls.Message_Display("Default contact set successfully", "msg-success", this.plhContact);
-            this.GridContact(this.CompanyID, this.ClientID, this.RadGrid_Contact.CurrentPageIndex + 1, this.RadGrid_Contact.PageSize);
-            this.RadGrid_Contact.Rebind();
-        }
-
-        protected void setDefaultDept_OnClick(object sender, CommandEventArgs e)
+                protected void setDefaultDept_OnClick(object sender, CommandEventArgs e)
         {
             CompanyBasePage companyBasePage = new CompanyBasePage();
             this.objDept.departmentSetDefault(this.CompanyID, Convert.ToInt32(e.CommandArgument), this.ClientID);

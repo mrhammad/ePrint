@@ -1,0 +1,247 @@
+/* Option 3 — Contacts tab pilot */
+
+.eprint-crm-contacts-pilot-root {
+  width: 100%;
+}
+
+.eprint-crm-contacts-pilot {
+  padding: 0 4px 16px;
+}
+
+.eprint-crm-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+/* Hero */
+.eprint-crm-contacts-hero {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 12px 20px;
+  padding: 16px 18px;
+  margin-bottom: 12px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #1a2332 0%, #2d3a4f 55%, #3d4f66 100%);
+  color: #f8fafc;
+  box-shadow: 0 4px 14px rgba(26, 35, 50, 0.25);
+}
+
+.eprint-crm-contacts-title {
+  margin: 0;
+  font-size: 1.35rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.eprint-crm-contacts-subtitle {
+  margin: 6px 0 0;
+  font-size: 0.875rem;
+  color: #cbd5e1;
+}
+
+.eprint-crm-contacts-company {
+  font-weight: 600;
+  color: #fff;
+}
+
+.eprint-crm-contacts-hero-stats {
+  text-align: right;
+  padding: 8px 14px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.eprint-crm-contacts-count {
+  display: block;
+  font-size: 1.75rem;
+  font-weight: 800;
+  line-height: 1.1;
+  color: #fbbf24;
+}
+
+.eprint-crm-contacts-count-label {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #94a3b8;
+}
+
+/* Toolbar */
+.eprint-crm-contacts-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 12px;
+  margin-bottom: 12px;
+  padding: 12px 14px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+}
+
+.eprint-crm-contacts-search-wrap {
+  flex: 1 1 220px;
+  min-width: 180px;
+}
+
+.eprint-crm-contacts-search {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 9px 12px 9px 36px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  font-size: 14px;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%2364748b' viewBox='0 0 16 16'%3E%3Cpath d='M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85zm-5.242 1.1a5 5 0 1 1 0-10 5 5 0 0 1 0 10z'/%3E%3C/svg%3E") 12px center no-repeat;
+}
+
+.eprint-crm-contacts-search:focus {
+  outline: none;
+  border-color: #e67e22;
+  box-shadow: 0 0 0 3px rgba(230, 126, 34, 0.2);
+}
+
+.eprint-crm-contacts-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.eprint-crm-contacts-btn-add {
+  background: linear-gradient(180deg, #e67e22 0%, #c0392b 100%) !important;
+  border-color: #c0392b !important;
+  color: #fff !important;
+}
+
+.eprint-crm-contacts-btn-add:hover {
+  filter: brightness(1.06);
+  color: #fff !important;
+}
+
+/* Grid card */
+.eprint-crm-contacts-grid-card {
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.06);
+}
+
+.eprint-crm-contacts-grid-host {
+  padding: 0 !important;
+}
+
+.eprint-crm-contacts-pilot .eprint-crm-contacts-grid.RadGrid {
+  border: none !important;
+  border-radius: 0 !important;
+}
+
+.eprint-crm-contacts-pilot .eprint-crm-contacts-grid .rgHeader a {
+  color: #334155 !important;
+  text-decoration: none;
+}
+
+.eprint-crm-contacts-pilot .eprint-crm-contacts-grid .rgRow td,
+.eprint-crm-contacts-pilot .eprint-crm-contacts-grid .rgAltRow td {
+  vertical-align: middle !important;
+}
+
+.eprint-crm-contacts-pilot .eprint-crm-contacts-grid .rgRow td a {
+  color: #1d4ed8;
+}
+
+.eprint-crm-contacts-pilot .eprint-crm-contacts-grid .rgRow td a:hover {
+  text-decoration: underline;
+}
+
+/* Hide group panel if shown */
+.eprint-crm-contacts-pilot .rgGroupPanel {
+  display: none !important;
+}
+
+/* Quick-search hidden rows */
+.eprint-crm-contacts-pilot .eprint-crm-contacts-row-hidden {
+  display: none !important;
+}
+
+/* No records */
+.eprint-crm-contacts-pilot .rgNoRecords td {
+  padding: 24px !important;
+  text-align: center;
+  color: #64748b;
+  font-size: 14px;
+}
+
+/* —— Mobile: card layout per row —— */
+@media (max-width: 900px) {
+  .eprint-crm-contacts-pilot .eprint-crm-contacts-grid .rgMasterTable,
+  .eprint-crm-contacts-pilot .eprint-crm-contacts-grid .rgMasterTable thead,
+  .eprint-crm-contacts-pilot .eprint-crm-contacts-grid .rgMasterTable tbody,
+  .eprint-crm-contacts-pilot .eprint-crm-contacts-grid .rgMasterTable tr {
+    display: block;
+    width: 100%;
+  }
+
+  .eprint-crm-contacts-pilot .eprint-crm-contacts-grid .rgHeader {
+    display: none !important;
+  }
+
+  .eprint-crm-contacts-pilot .eprint-crm-contacts-grid .rgFilterRow {
+    display: none !important;
+  }
+
+  .eprint-crm-contacts-pilot .eprint-crm-contacts-grid .rgRow,
+  .eprint-crm-contacts-pilot .eprint-crm-contacts-grid .rgAltRow {
+    display: block;
+    margin: 10px 12px;
+    padding: 12px 14px;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 10px;
+    background: #fff !important;
+    box-shadow: 0 1px 2px rgba(15, 23, 42, 0.05);
+  }
+
+  .eprint-crm-contacts-pilot .eprint-crm-contacts-grid .rgRow td,
+  .eprint-crm-contacts-pilot .eprint-crm-contacts-grid .rgAltRow td {
+    display: block;
+    width: 100% !important;
+    border: none !important;
+    padding: 6px 0 !important;
+    text-align: left !important;
+    height: auto !important;
+  }
+
+  .eprint-crm-contacts-pilot .eprint-crm-contacts-grid .rgRow td::before,
+  .eprint-crm-contacts-pilot .eprint-crm-contacts-grid .rgAltRow td::before {
+    content: attr(data-label);
+    display: block;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: #64748b;
+    margin-bottom: 2px;
+  }
+
+  .eprint-crm-contacts-pilot .eprint-crm-contacts-grid .rgRow td:first-child::before,
+  .eprint-crm-contacts-pilot .eprint-crm-contacts-grid .rgAltRow td:first-child::before {
+    content: "";
+    display: none;
+  }
+
+  .eprint-crm-contacts-pilot .eprint-crm-contacts-grid .rgRow td > div,
+  .eprint-crm-contacts-pilot .eprint-crm-contacts-grid .rgAltRow td > div {
+    height: auto !important;
+    overflow: visible !important;
+  }
+}

@@ -15,15 +15,58 @@ public class IPAddress : System.Web.UI.Page
 	{
 	}
 
+	private static bool ShouldResolveLoginGeoLocation(string ipaddress)
+	{
+		string enableSetting = ConfigurationManager.AppSettings["EnableLoginGeoLookup"];
+		if (!string.Equals(enableSetting, "true", StringComparison.OrdinalIgnoreCase))
+		{
+			return false;
+		}
+
+		if (string.IsNullOrWhiteSpace(ipaddress))
+		{
+			return false;
+		}
+
+		ipaddress = ipaddress.Trim();
+		if (ipaddress == "::1" || ipaddress.StartsWith("127.", StringComparison.Ordinal))
+		{
+			return false;
+		}
+
+		if (ipaddress.StartsWith("10.", StringComparison.Ordinal)
+			|| ipaddress.StartsWith("192.168.", StringComparison.Ordinal))
+		{
+			return false;
+		}
+
+		if (ipaddress.StartsWith("172.", StringComparison.Ordinal))
+		{
+			string[] parts = ipaddress.Split('.');
+			int secondOctet;
+			if (parts.Length > 1 && int.TryParse(parts[1], out secondOctet) && secondOctet >= 16 && secondOctet <= 31)
+			{
+				return false;
+			}
+		}
+
+		return true;
+	}
+
 	private DataTable GetLocation(string ipaddress)
 	{
 		DataTable item;
+		if (!ShouldResolveLoginGeoLocation(ipaddress))
+		{
+			return null;
+		}
+
 		try
 		{
 			WebRequest webRequest = WebRequest.Create(string.Concat("http://freegeoip.appspot.com/xml/", ipaddress));
 			WebProxy webProxy = new WebProxy(string.Concat("http://freegeoip.appspot.com/xml/", ipaddress), true);
 			webRequest.Proxy = webProxy;
-			webRequest.Timeout = 2000;
+			webRequest.Timeout = 500;
 			try
 			{
 				XmlTextReader xmlTextReader = new XmlTextReader(webRequest.GetResponse().GetResponseStream());
@@ -53,7 +96,7 @@ public class IPAddress : System.Web.UI.Page
 			{
 				item = base.Request.ServerVariables["REMOTE_ADDR"];
 			}
-			DataTable location = this.GetLocation(item);
+			DataTable location = ShouldResolveLoginGeoLocation(item) ? this.GetLocation(item) : null;
 			if (location == null)
 			{
 				SqlConnection sqlConnection = new SqlConnection(EprintConfigurationManager.ConnectionStrings["IpTracker"].ToString());
@@ -94,7 +137,7 @@ public class IPAddress : System.Web.UI.Page
 		{
 			item = base.Request.ServerVariables["REMOTE_ADDR"];
 		}
-		DataTable location = this.GetLocation(item);
+		DataTable location = ShouldResolveLoginGeoLocation(item) ? this.GetLocation(item) : null;
 		if (location == null)
 		{
 			SqlConnection sqlConnection = new SqlConnection(EprintConfigurationManager.ConnectionStrings["IpTracker"].ToString());

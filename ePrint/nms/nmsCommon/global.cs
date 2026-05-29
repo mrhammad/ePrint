@@ -45,9 +45,34 @@ namespace nmsCommon
 			return EprintConfigurationManager.AppSettings["AdjustableNumber"];
 		}
 
+		public const string ProductBrandName = "PixelPrint360";
+
+		public const string ProductBrandTagline = "by Globo Technologies";
+
 		public static string companyName()
 		{
-			return EprintConfigurationManager.AppSettings["CompanyName"];
+			return NormalizeProductBrandName(EprintConfigurationManager.AppSettings["CompanyName"]);
+		}
+
+		public static string productBrandTagline()
+		{
+			return ProductBrandTagline;
+		}
+
+		private static string NormalizeProductBrandName(string configuredName)
+		{
+			if (string.IsNullOrWhiteSpace(configuredName))
+			{
+				return ProductBrandName;
+			}
+
+			string name = configuredName.Trim();
+			if (name.IndexOf("hexicom", StringComparison.OrdinalIgnoreCase) >= 0)
+			{
+				return ProductBrandName;
+			}
+
+			return name;
 		}
 
 		public static string databaseUserName()

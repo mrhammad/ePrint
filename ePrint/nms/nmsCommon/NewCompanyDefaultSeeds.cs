@@ -36,8 +36,27 @@ namespace nmsCommon
 			ApplyLookupAndEstimateSettings(companyId, connection);
 			ApplyWarehouseCodeCounters(companyId, connection);
 			ApplyRegionalAndLanguageSettings(companyId, connection, timezoneId, dateFormat);
+			ApplyThemeSettings(companyId, connection);
 			ApplyPlantSettings(companyId, connection);
 			ApplyCustomizeViews(companyId, connection);
+		}
+
+		/// <summary>
+		/// UI theme and image folder (crm_selecttheme). Without this, strImagepath is empty and grid icons 404.
+		/// </summary>
+		public static void ApplyThemeSettings(int companyId, SqlConnection connection)
+		{
+			if (companyId <= 0 || connection == null)
+			{
+				return;
+			}
+
+			const string sql = @"
+IF NOT EXISTS (SELECT 1 FROM tb_ThemeSetting WHERE CompanyID = @companyId)
+	INSERT INTO tb_ThemeSetting (ImageFolder, theme, CompanyID, CreatedDate)
+	VALUES (N'images', N'Theme1', @companyId, GETDATE());";
+
+			Execute(companyId, connection, sql);
 		}
 
 		/// <summary>
@@ -160,11 +179,17 @@ N'none', N'none', N'none', N'none', N'none',
 N'None', N'None', N'None', N'None', N'None', N'', N'', N'', N'', N'',
 0, 0, 0, ";
 
-		private const string CustomizeViewsSql = @"
-IF NOT EXISTS (SELECT 1 FROM tb_CustomizeView WHERE CompanyID = @companyId AND PageName = N'customer' AND ViewName = N'markdksadjkas' AND ISNULL(isDeleted, 0) = 0)
-INSERT INTO tb_CustomizeView (" + CustomizeViewInsertColumns + @") VALUES (
-@companyId, N'markdksadjkas', N'Name,AccountNumber,AccountStatus,SalesPerson,DefaultContactName,DefaultContactEmail,DefaultContactPhone,DefaultContactMobile,Address3,Address4,BusinessEmail,BusinessTelephone,', " + CustomizeViewDefaults + @"1, N'Name', N'asc', N'customer', 0, 1, N'And', N'And', N'And', N'And', N'', 0, N'');
+		// Full column lists from reference tenant (2144); do not truncate (256-char cuts produced invalid names like Deliv).
+		private const string JobDefaultViewColumns =
+			@"EstimateType,DownloadTemplate,JobNumber,EstimateTitle,CustomerID,AttentionID,SalesPerson,JobDate,EstimateValue_ExcGst,EstimateValue,ProductionDate,Comments,PONumber,ItemValueExcTax,ItemValueInTax,ItemTaxValue,ItemProfitMarginValue,ItemGrossProfitValue,JobStatus,DeliveryDate,CompletionDate,CustomDate1,CustomDate2,CustomDate3,CustomDate4,CustomDate5,Priority,sinceStatusUpdate,sinceEmailed,Archive,IsFromWebStore,OrderID,ProformaInvoice,Paid,EstItemCoun,";
 
+		private const string InvoiceDefaultViewColumns =
+			@"ChooseTemplate,InvoiceNumber,EstimateTitle,CustomerID,AttentionID,CustomerOrderNumber,CreatedDate,EstimateValue_ExcGst,Comments,InvoiceStatus,[Job Number],Priority,sinceStatusUpdate,sinceEmailed,CustomDate1,Archive,CustomDate2,IsFromWebStore,OrderID,EstItemCoun,";
+
+		private const string WebstoreOrderDefaultViewColumns =
+			@"OrderNumber,CustomerID,SalesPerson,OrderTitle,StatusID,OrderedDate,FTP,CreatedDate,OrderValue,DeliveryAddress,Comments,OrderedFor,OrderedBy,Approved,PaymentType,ItemArtwork,DefaultTemplate,ChooseTemplate,DownloadTemplate,sinceStatusUpdate,sinceEmailed,Archive,CustomDate1,CustomDate2,CustomDate3,EstItemCoun,IsCompletlyConvertedToJob,IsArchived,IsDeletedJob,estimateid,";
+
+		private const string CustomizeViewsSql = @"
 IF NOT EXISTS (SELECT 1 FROM tb_CustomizeView WHERE CompanyID = @companyId AND PageName = N'customer' AND ViewName = N'ALL' AND ISNULL(isDeleted, 0) = 0)
 INSERT INTO tb_CustomizeView (" + CustomizeViewInsertColumns + @") VALUES (
 @companyId, N'ALL', N'Name,AccountNumber,Type,AccountStatus,SalesPerson,DefaultContactName,DefaultContactEmail,DefaultContactPhone,DefaultContactMobile,', " + CustomizeViewDefaults + @"0, N'Name', N'asc', N'customer', 0, 1, N'And', N'And', N'And', N'And', N'', 0, N'');
@@ -173,13 +198,9 @@ IF NOT EXISTS (SELECT 1 FROM tb_CustomizeView WHERE CompanyID = @companyId AND P
 INSERT INTO tb_CustomizeView (" + CustomizeViewInsertColumns + @") VALUES (
 @companyId, N'Estore', N'Name,AccountNumber,Type,AccountStatus,SalesPerson,DefaultContactName,DefaultContactEmail,DefaultContactPhone,DefaultContactMobile,', " + CustomizeViewDefaults + @"0, N'Name', N'asc', N'customer', 0, 1, N'And', N'And', N'And', N'And', N'', 0, N'');
 
-IF NOT EXISTS (SELECT 1 FROM tb_CustomizeView WHERE CompanyID = @companyId AND PageName = N'Estimate' AND ViewName = N'mark' AND ISNULL(isDeleted, 0) = 0)
-INSERT INTO tb_CustomizeView (" + CustomizeViewInsertColumns + @") VALUES (
-@companyId, N'mark', N'ChooseTemplate,EstimateNumber,EstimateTitle,CustomerID,EstimateDate,EstimateValue,EstimateStatus,EstimateType,EstItemCoun,IsArchive,IsConvertedToJob,ISDeletedJob,', " + CustomizeViewDefaults + @"1, N'CreatedDate', N'desc', N'Estimate', 0, 1, N'And', N'And', N'And', N'And', N'', 0, N'Archive');
-
 IF NOT EXISTS (SELECT 1 FROM tb_CustomizeView WHERE CompanyID = @companyId AND PageName = N'Estimate' AND ViewName = N'Default View' AND ISNULL(isDeleted, 0) = 0)
 INSERT INTO tb_CustomizeView (" + CustomizeViewInsertColumns + @") VALUES (
-@companyId, N'Default View', N'ChooseTemplate,EstimateNumber,EstimateTitle,CustomerID,AttentionID,EstimateDate,EstimateValue,EstimateStatus,EstimateType,EstItemCoun,IsArchive,IsConvertedToJob,ISDeletedJob,', " + CustomizeViewDefaults + @"0, N'EstimateNumber', N'desc', N'Estimate', 0, 1, N'And', N'And', N'And', N'And', N'', 0, N'Live');
+@companyId, N'Default View', N'ChooseTemplate,EstimateNumber,EstimateTitle,CustomerID,AttentionID,EstimateDate,EstimateValue,EstimateStatus,EstimateType,EstItemCoun,IsArchive,IsConvertedToJob,ISDeletedJob,', " + CustomizeViewDefaults + @"1, N'EstimateNumber', N'desc', N'Estimate', 0, 1, N'And', N'And', N'And', N'And', N'', 0, N'Live');
 
 IF NOT EXISTS (SELECT 1 FROM tb_CustomizeView WHERE CompanyID = @companyId AND PageName = N'Estimate' AND ViewName = N'Archived Records View' AND ISNULL(isDeleted, 0) = 0)
 INSERT INTO tb_CustomizeView (" + CustomizeViewInsertColumns + @") VALUES (
@@ -191,7 +212,7 @@ INSERT INTO tb_CustomizeView (" + CustomizeViewInsertColumns + @") VALUES (
 
 IF NOT EXISTS (SELECT 1 FROM tb_CustomizeView WHERE CompanyID = @companyId AND PageName = N'job' AND ViewName = N'Default View' AND ISNULL(isDeleted, 0) = 0)
 INSERT INTO tb_CustomizeView (" + CustomizeViewInsertColumns + @") VALUES (
-@companyId, N'Default View', N'EstimateType,DownloadTemplate,JobNumber,EstimateTitle,CustomerID,AttentionID,JobDate,EstimateValue_ExcGst,EstimateValue,ProductionDate,Comments,PONumber,ItemValueExcTax,ItemValueInTax,ItemTaxValue,ItemProfitMarginValue,ItemGrossProfitValue,JobStatus,Delive', " + CustomizeViewDefaults + @"1, N'JobDate', N'desc', N'job', 0, 1, N'And', N'And', N'And', N'And', N'', 1, N'Live');
+@companyId, N'Default View', N'" + JobDefaultViewColumns + @"', " + CustomizeViewDefaults + @"1, N'JobDate', N'desc', N'job', 0, 1, N'And', N'And', N'And', N'And', N'', 1, N'Live');
 
 IF NOT EXISTS (SELECT 1 FROM tb_CustomizeView WHERE CompanyID = @companyId AND PageName = N'job' AND ViewName = N'Archived Records View' AND ISNULL(isDeleted, 0) = 0)
 INSERT INTO tb_CustomizeView (" + CustomizeViewInsertColumns + @") VALUES (
@@ -203,7 +224,7 @@ INSERT INTO tb_CustomizeView (" + CustomizeViewInsertColumns + @") VALUES (
 
 IF NOT EXISTS (SELECT 1 FROM tb_CustomizeView WHERE CompanyID = @companyId AND PageName = N'invoice' AND ViewName = N'Default View' AND ISNULL(isDeleted, 0) = 0)
 INSERT INTO tb_CustomizeView (" + CustomizeViewInsertColumns + @") VALUES (
-@companyId, N'Default View', N'ChooseTemplate,InvoiceNumber,EstimateTitle,CustomerID,AttentionID,CustomerOrderNumber,CreatedDate,EstimateValue_ExcGst,Comments,InvoiceStatus,[Job Number],Priority,sinceStatusUpdate,sinceEmailed,CustomDate1,Archive,CustomDate2,IsFromWebStore,OrderID,EstIte', " + CustomizeViewDefaults + @"1, N'InvoiceNumber', N'desc', N'invoice', 0, 1, N'And', N'And', N'And', N'And', N'', 0, N'Live');
+@companyId, N'Default View', N'" + InvoiceDefaultViewColumns + @"', " + CustomizeViewDefaults + @"1, N'InvoiceNumber', N'desc', N'invoice', 0, 1, N'And', N'And', N'And', N'And', N'', 0, N'Live');
 
 IF NOT EXISTS (SELECT 1 FROM tb_CustomizeView WHERE CompanyID = @companyId AND PageName = N'invoice' AND ViewName = N'Archive View' AND ISNULL(isDeleted, 0) = 0)
 INSERT INTO tb_CustomizeView (" + CustomizeViewInsertColumns + @") VALUES (
@@ -243,7 +264,7 @@ INSERT INTO tb_CustomizeView (" + CustomizeViewInsertColumns + @") VALUES (
 
 IF NOT EXISTS (SELECT 1 FROM tb_CustomizeView WHERE CompanyID = @companyId AND PageName = N'webstoreorder' AND ViewName = N'Default View' AND ISNULL(isDeleted, 0) = 0)
 INSERT INTO tb_CustomizeView (" + CustomizeViewInsertColumns + @") VALUES (
-@companyId, N'Default View', N'OrderNumber,CustomerID,SalesPerson,OrderTitle,StatusID,OrderedDate,FTP,CreatedDate,OrderValue,DeliveryAddress,Comments,OrderedFor,OrderedBy,Approved,PaymentType,ItemArtwork,DefaultTemplate,ChooseTemplate,DownloadTemplate,sinceStatusUpdate,sinceEmailed,Arch', " + CustomizeViewDefaults + @"1, N'', N'asc', N'webstoreorder', 0, 1, N'And', N'And', N'And', N'And', N'', 1, N'Live');";
+@companyId, N'Default View', N'" + WebstoreOrderDefaultViewColumns + @"', " + CustomizeViewDefaults + @"1, N'', N'asc', N'webstoreorder', 0, 1, N'And', N'And', N'And', N'And', N'', 1, N'Live');";
 
 		public static void ApplyStatuses(int companyId, SqlConnection connection)
 		{
@@ -256,7 +277,7 @@ BEGIN
 	VALUES
 		(@companyId, N'In Progress', N'In Progress', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
 		(@companyId, N'Completed', N'Completed', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-		(@companyId, N'Ready for Invoice', N'Ready for Invoice', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+		(@companyId, N'Ready for Invoice', N'Ready for Invoice', 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0),
 		(@companyId, N'On Hold', N'On Hold', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
 		(@companyId, N'Approved', N'Approved', 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0),
 		(@companyId, N'Not Approved', N'Not Approved', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
@@ -265,9 +286,21 @@ BEGIN
 		(@companyId, N'In Production', N'In Production', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
 		(@companyId, N'RFQ', N'RFQ', 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
 		(@companyId, N'Cancelled', N'Cancelled', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-		(@companyId, N'New Del. Note', N'New Del. Note', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-		(@companyId, N'Awaiting Authorization', N'Awaiting Authorization', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+		(@companyId, N'New Del. Note', N'New Del. Note', 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0),
+		(@companyId, N'Awaiting Authorization', N'Awaiting Authorization', 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0),
 		(@companyId, N'Locked', N'Locked', 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+END
+ELSE
+BEGIN
+	IF NOT EXISTS (SELECT 1 FROM tb_EstimateStatus WHERE companyid = @companyId AND Purchase = 1)
+		UPDATE tb_EstimateStatus SET Purchase = 1, PurchaseDefault = 1
+		WHERE companyid = @companyId AND StatusTitle = N'Awaiting Authorization';
+	IF NOT EXISTS (SELECT 1 FROM tb_EstimateStatus WHERE companyid = @companyId AND Delivery = 1)
+		UPDATE tb_EstimateStatus SET Delivery = 1, DeliveryDefault = 1
+		WHERE companyid = @companyId AND StatusTitle = N'New Del. Note';
+	IF NOT EXISTS (SELECT 1 FROM tb_EstimateStatus WHERE companyid = @companyId AND Invoice = 1)
+		UPDATE tb_EstimateStatus SET Invoice = 1, InvoiceDefault = 1
+		WHERE companyid = @companyId AND StatusTitle = N'Ready for Invoice';
 END
 IF NOT EXISTS (SELECT 1 FROM tb_AccountStatus WHERE CompanyID = @companyId)
 	INSERT INTO tb_AccountStatus (CompanyID, StatusTitle) VALUES (@companyId, N'Accounts Clear')
@@ -352,26 +385,64 @@ IF NOT EXISTS (SELECT 1 FROM tb_OtherCost WHERE CompanyID = @companyId AND Other
 		N'f', 0, 0, 0, 0, 0, GETDATE(), 0, N'', 0
 IF NOT EXISTS (SELECT 1 FROM tb_ItemDescription WHERE CompanyID = @companyId)
 BEGIN
-	INSERT INTO tb_ItemDescription (CompanyID, EstimateType, DatabaseFieldName, ScreenName, IsChecked) VALUES
-		(@companyId, N'L', N'ItemTitle', N'Item Title', 1),
-		(@companyId, N'L', N'Description', N'Item Description', 1),
-		(@companyId, N'L', N'Artwork', N'Artwork', 1),
-		(@companyId, N'L', N'Colour', N'Colour', 1),
-		(@companyId, N'L', N'Size', N'Size', 1),
-		(@companyId, N'S', N'ItemTitle', N'Item Title', 1),
-		(@companyId, N'S', N'Description', N'Item Description', 1),
-		(@companyId, N'O', N'ItemTitle', N'Item Title', 1),
-		(@companyId, N'O', N'Description', N'Item Description', 1)
+	INSERT INTO tb_ItemDescription (CompanyID, EstimateType, DatabaseFieldName, ScreenName, IsChecked, DisplayOrder) VALUES
+		(@companyId, N'L', N'ItemTitle', N'Item Title', 1, 1),
+		(@companyId, N'L', N'Description', N'Item Description', 1, 2),
+		(@companyId, N'L', N'Artwork', N'Artwork', 1, 3),
+		(@companyId, N'L', N'Colour', N'Colour', 1, 4),
+		(@companyId, N'L', N'Size', N'Size', 1, 5),
+		(@companyId, N'S', N'ItemTitle', N'Item Title', 1, 1),
+		(@companyId, N'S', N'Description', N'Item Description', 1, 2),
+		(@companyId, N'O', N'ItemTitle', N'Item Title', 1, 1),
+		(@companyId, N'O', N'Description', N'Item Description', 1, 2),
+		(@companyId, N'O', N'Artwork', N'Artwork', 1, 3),
+		(@companyId, N'O', N'Colour', N'Colour', 1, 4),
+		(@companyId, N'O', N'Size', N'Size', 1, 5),
+		(@companyId, N'O', N'Material', N'Material', 1, 6),
+		(@companyId, N'O', N'Delivery', N'Delivery', 1, 7),
+		(@companyId, N'O', N'Finishing', N'Finishing', 1, 8),
+		(@companyId, N'O', N'Proofs', N'Proofs', 1, 9),
+		(@companyId, N'O', N'Packing', N'Packing', 1, 10),
+		(@companyId, N'O', N'Notes', N'Notes', 1, 11),
+		(@companyId, N'O', N'Instructions', N'Instructions', 1, 12)
+END
+ELSE IF NOT EXISTS (SELECT 1 FROM tb_ItemDescription WHERE CompanyID = @companyId AND EstimateType = N'O' AND DatabaseFieldName = N'Artwork')
+BEGIN
+	INSERT INTO tb_ItemDescription (CompanyID, EstimateType, DatabaseFieldName, ScreenName, IsChecked, DisplayOrder) VALUES
+		(@companyId, N'O', N'Artwork', N'Artwork', 1, 3),
+		(@companyId, N'O', N'Colour', N'Colour', 1, 4),
+		(@companyId, N'O', N'Size', N'Size', 1, 5),
+		(@companyId, N'O', N'Material', N'Material', 1, 6),
+		(@companyId, N'O', N'Delivery', N'Delivery', 1, 7),
+		(@companyId, N'O', N'Finishing', N'Finishing', 1, 8),
+		(@companyId, N'O', N'Proofs', N'Proofs', 1, 9),
+		(@companyId, N'O', N'Packing', N'Packing', 1, 10),
+		(@companyId, N'O', N'Notes', N'Notes', 1, 11),
+		(@companyId, N'O', N'Instructions', N'Instructions', 1, 12);
+	UPDATE tb_ItemDescription SET DisplayOrder = 1 WHERE CompanyID = @companyId AND EstimateType = N'O' AND DatabaseFieldName = N'ItemTitle' AND DisplayOrder IS NULL;
+	UPDATE tb_ItemDescription SET DisplayOrder = 2 WHERE CompanyID = @companyId AND EstimateType = N'O' AND DatabaseFieldName = N'Description' AND DisplayOrder IS NULL;
 END
 IF NOT EXISTS (SELECT 1 FROM tb_CustomerCode WHERE CompanyID = @companyId)
 	INSERT INTO tb_CustomerCode (CompanyID, LastCounter) VALUES (@companyId, 0)
 IF NOT EXISTS (SELECT 1 FROM tb_lastCounter WHERE CompanyID = @companyId)
 BEGIN
 	INSERT INTO tb_lastCounter (CompanyID, ModuleType, LastCounter) VALUES
+		(@companyId, N'e', 0),
+		(@companyId, N'j', 0),
+		(@companyId, N'i', 0),
+		(@companyId, N'p', 0),
+		(@companyId, N'd', 0),
+		(@companyId, N'o', 0),
 		(@companyId, N'Estimate', 0),
 		(@companyId, N'Job', 0),
 		(@companyId, N'Invoice', 0)
 END
+IF NOT EXISTS (SELECT 1 FROM tb_LastCounter WHERE CompanyID = @companyId AND ModuleType = N'p')
+	INSERT INTO tb_LastCounter (CompanyID, ModuleType, LastCounter) VALUES (@companyId, N'p', 0);
+IF NOT EXISTS (SELECT 1 FROM tb_LastCounter WHERE CompanyID = @companyId AND ModuleType = N'd')
+	INSERT INTO tb_LastCounter (CompanyID, ModuleType, LastCounter) VALUES (@companyId, N'd', 0);
+IF NOT EXISTS (SELECT 1 FROM tb_LastCounter WHERE CompanyID = @companyId AND ModuleType = N'o')
+	INSERT INTO tb_LastCounter (CompanyID, ModuleType, LastCounter) VALUES (@companyId, N'o', 0);
 IF NOT EXISTS (SELECT 1 FROM tb_accountingCode WHERE CompanyID = @companyId)
 	INSERT INTO tb_accountingCode (CompanyID, Code, Description, IsDefault, InUse) VALUES (@companyId, N'4000', N'Sales', 1, 1)
 IF NOT EXISTS (SELECT 1 FROM tb_frmemailsettings WHERE CompanyID = @companyId)

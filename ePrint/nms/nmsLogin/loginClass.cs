@@ -113,7 +113,7 @@ namespace nmsLogin
 					this.Session["assignmentright"] = 1;
 				}
 			}
-			_commonClass.closeConnection();
+			sqlDataReader.Close();
 			if (flag)
 			{
 				this.Session["HOME"] = "False";
@@ -140,7 +140,7 @@ namespace nmsLogin
 				this.Session["S_CONTRACTS"] = "CONTRACTS";
 				this.Session["S_PRODUCTS"] = "PRODUCTS";
 				this.Session["S_ASSETS"] = "ASSETS";
-				SqlCommand sqlCommand1 = new SqlCommand("crm_common_select_UserTab", _commonClass.openConnection());
+				SqlCommand sqlCommand1 = new SqlCommand("crm_common_select_UserTab", sqlCommand.Connection);
 				sqlCommand1.Parameters.AddWithValue("@companyID", num);
 				sqlCommand1.Parameters.AddWithValue("@userID", num1);
 				sqlCommand1.CommandType = CommandType.StoredProcedure;
@@ -286,26 +286,25 @@ namespace nmsLogin
 					this.Session[item["s_HeaderName"].ToString()] = item["screenname"];
 				}
 				item.Close();
-				_commonClass.closeConnection();
-				SqlCommand sqlCommand2 = new SqlCommand("crm_selectSessionmanagement", _commonClass.openConnection())
+				SqlCommand sqlCommand2 = new SqlCommand("crm_selectSessionmanagement", sqlCommand.Connection)
 				{
 					CommandType = CommandType.StoredProcedure
 				};
 				sqlCommand2.Parameters.Add("@companyID", num);
 				sqlCommand2.Parameters.Add("@userID", num1);
-				SqlDataReader sqlDataReader1 = sqlCommand2.ExecuteReader(CommandBehavior.CloseConnection);
+				SqlDataReader sqlDataReader1 = sqlCommand2.ExecuteReader();
 				while (sqlDataReader1.Read())
 				{
 					this.Session["session_expireon"] = sqlDataReader1["sessionexpireafter"].ToString();
 					this.Session["redirectpage"] = sqlDataReader1["redirectPage"].ToString();
 				}
 				sqlDataReader1.Close();
-				_commonClass.closeConnection();
 				string str = this.Session.SessionID.ToString();
 				string str1 = email;
 				TimeSpan timeSpan1 = new TimeSpan(0, 0, HttpContext.Current.Session.Timeout, 0, 0);
 				HttpContext.Current.Cache.Insert(str1, str, null, DateTime.MaxValue, timeSpan1, CacheItemPriority.NotRemovable, null);
 			}
+			_commonClass.closeConnection();
 		}
 
 		private static string ResolveLanguageConversionFile(object value)

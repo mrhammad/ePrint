@@ -120,7 +120,16 @@ namespace ePrint.usercontrol.Item
                 
                 string[] languageConversion;
                 MasterPage master = this.Parent.Page.Master;
-                HtmlControl htmlControl = (HtmlControl)master.FindControl("DivLeftpanel");
+                HtmlControl htmlControl = master.FindControl("DivLeftpanel") as HtmlControl;
+                HtmlGenericControl contextPanel = master.FindControl("contextPanel") as HtmlGenericControl;
+                if (htmlControl != null)
+                {
+                    htmlControl.Visible = false;
+                }
+                if (contextPanel != null)
+                {
+                    contextPanel.Visible = false;
+                }
 
                 this.plhItems.Controls.Add(new LiteralControl("<div class='sortingdivs' id='" + row4["EstimateItemID"] + "' style='width:100%;margin-top:5px' data-number='" + Convert.ToInt32(row4["Estimate_Item_Number"]) + "' id='' data-value='sortable'>"));
                 ControlCollection controls1 = this.plhItems.Controls;

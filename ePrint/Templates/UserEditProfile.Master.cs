@@ -86,9 +86,26 @@ namespace ePrint.Templates
             {
                 base.Response.Redirect(string.Concat(this.strSitepath, "error.aspx"));
             }
+            this.PopulateHeadAssets();
             this.Page.Header.DataBind();
             BasePage basePage = new BasePage();
             basePage.logoSetting(this.plhHeader, this.plhFooter, int.Parse(base.Session["companyID"].ToString()), "both");
+        }
+
+        private void PopulateHeadAssets()
+        {
+            if (this.ltrHeadAssets == null)
+            {
+                return;
+            }
+            string vn = this.VersionNumber ?? string.Empty;
+            System.Text.StringBuilder sb = new System.Text.StringBuilder(512);
+            sb.Append("<script type=\"text/javascript\" src=\"../js/jquery.min.js?VN='").Append(vn).Append("'\"></script>");
+            sb.Append("<script type=\"text/javascript\" src=\"../js/jquery.popup.js?VN='").Append(vn).Append("'\"></script>");
+            sb.Append("<script type=\"text/javascript\" language=\"javascript\" src=\"../js/animation.js?VN='").Append(vn).Append("'\"></script>");
+            sb.Append("<script type=\"text/javascript\" language=\"javascript\" src=\"../js/commonloading.js?VN='").Append(vn).Append("'\"></script>");
+            sb.Append("<script type=\"text/javascript\" language=\"javascript\" src=\"../js/jquery-1.3.2.js?VN='").Append(vn).Append("'\"></script>");
+            this.ltrHeadAssets.Text = sb.ToString();
         }
     }
 }

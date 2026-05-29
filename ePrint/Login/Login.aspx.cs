@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -117,6 +118,7 @@ namespace ePrint.Printcenter.Views
         public string defaultlanding = string.Empty;
 
         public string forecolor = "";
+        private static readonly object LoginPerfLogLock = new object();
 
         public BasePage objpage = new BasePage();
 
@@ -695,6 +697,8 @@ namespace ePrint.Printcenter.Views
         {
             TimeSpan timeOfDay;
             int milliseconds;
+            Stopwatch loginTimer = Stopwatch.StartNew();
+            Stopwatch stageTimer = Stopwatch.StartNew();
             long num = (long)1366;
             if (this.hdnScreenWidth.Value != "")
             {
@@ -724,6 +728,7 @@ namespace ePrint.Printcenter.Views
                 sqlCommand.Parameters.AddWithValue("password", commonClass.Encrypt(this.hdnpassword.Value.ToString().Trim()));
                 str = commonClass.Encrypt(this.hdnpassword.Value.ToString().Trim());
             }
+            this.LogLoginPerfStage("InsertLoginInfo", stageTimer, loginTimer);
             this.nooflogin = 0;
             this.COMPANYID = 0;
             SqlDataReader sqlDataReader = sqlCommand.ExecuteReader();
@@ -759,6 +764,8 @@ namespace ePrint.Printcenter.Views
                 httpCookie["ckeLoginEmailValue"] = this.email.Value.Trim();
                 base.Response.Cookies.Add(httpCookie);
             }
+            sqlDataReader.Close();
+            this.LogLoginPerfStage("crm_common_login_new", stageTimer, loginTimer);
             _commonClass.closeConnection();
             if (flag)
             {
@@ -789,6 +796,7 @@ namespace ePrint.Printcenter.Views
                     num4 = Convert.ToInt32(sqlDataReader1["finalNoofInvalidAttempt"]);
                 }
                 sqlDataReader1.Close();
+                this.LogLoginPerfStage("InvalidLoginHandling", stageTimer, loginTimer);
                 _commonClass1.closeConnection();
                 if (num3 == -1)
                 {
@@ -850,6 +858,7 @@ namespace ePrint.Printcenter.Views
                 sqlCommand2.Parameters.AddWithValue("@email", this.email.Value.Trim());
                 sqlCommand2.Parameters.AddWithValue("@password", str);
                 sqlCommand2.ExecuteNonQuery();
+                this.LogLoginPerfStage("crm_update_InvalidAttempts", stageTimer, loginTimer);
                 _commonClass.closeConnection();
                 SqlCommand sqlCommand3 = new SqlCommand("crm_update_loginDay", _commonClass.openConnection())
                 {
@@ -857,6 +866,7 @@ namespace ePrint.Printcenter.Views
                 };
                 sqlCommand3.Parameters.AddWithValue("@companyId", this.COMPANYID);
                 sqlCommand3.ExecuteNonQuery();
+                this.LogLoginPerfStage("crm_update_loginDay", stageTimer, loginTimer);
                 _commonClass.closeConnection();
                 if (Convert.ToDateTime(this.ChangePasswordOn.ToShortDateString()) == Convert.ToDateTime(DateTime.Now.ToShortDateString()))
                 {
@@ -866,6 +876,7 @@ namespace ePrint.Printcenter.Views
                 {
                     loginClass _loginClass = new loginClass();
                     _loginClass.LogInFromDefault(this.objclass.SpecialEncode(this.email.Value.ToString()), str);
+                    this.LogLoginPerfStage("LogInFromDefault", stageTimer, loginTimer);
                     if (this.Session["userTypeID"] != null)
                     {
                         SqlCommand sqlCommand4 = new SqlCommand("PC_RolesAndPrivileges_select", (new commonClass()).openConnection())
@@ -880,6 +891,7 @@ namespace ePrint.Printcenter.Views
                         this.Session["Roles_Privileges_Others"] = dataSet.Tables[0];
                         this.Session["Roles_Privileges_Tabs"] = dataSet.Tables[1];
                         this.Session["Roles_Privileges_Reports"] = dataSet.Tables[2];
+                        this.LogLoginPerfStage("PC_RolesAndPrivileges_select", stageTimer, loginTimer);
                     }
                     DataTable dataTable1 = SettingsBasePage.select_SystemIp_Address(Convert.ToInt64(this.Session["UserTypeID"]));
                     foreach (DataRow row in dataTable1.Rows)
@@ -911,6 +923,7 @@ namespace ePrint.Printcenter.Views
                         }
                         _commonClass.ht_UserSettings.Clear();
                         _commonClass.UserSetting_Insert(this.COMPANYID, this.userid);
+                        this.LogLoginPerfStage("UserSetting_Insert", stageTimer, loginTimer);
                         if (this.Session["DirectLogin"] != null)
                         {
                             string str2 = this.Session["DirectLogin"].ToString();
@@ -1185,6 +1198,7 @@ namespace ePrint.Printcenter.Views
                     this.hdn_pass.Value = str;
                     loginClass _loginClass1 = new loginClass();
                     _loginClass1.LogInFromDefault(this.objclass.SpecialEncode(this.email.Value.ToString()), str);
+                    this.LogLoginPerfStage("LogInFromDefault_CacheBranch", stageTimer, loginTimer);
                     DataTable dataTable2 = SettingsBasePage.select_SystemIp_Address(Convert.ToInt64(this.Session["UserTypeID"]));
                     foreach (DataRow row1 in dataTable2.Rows)
                     {
@@ -1196,6 +1210,181 @@ namespace ePrint.Printcenter.Views
                     }
                 }
             }
+            this.LogLoginPerfFinal("login() method end", loginTimer);
+        }
+
+        private void LogLoginPerfStage(string stageName, Stopwatch stageTimer, Stopwatch loginTimer)
+        {
+            if (stageTimer == null || !this.IsLoginPerfLogEnabled())
+            {
+                return;
+            }
+
+            string line = string.Concat(
+                "[LOGIN-PERF] ",
+                stageName,
+                " stageMs=",
+                stageTimer.ElapsedMilliseconds.ToString(),
+                " totalMs=",
+                (loginTimer == null ? 0L : loginTimer.ElapsedMilliseconds).ToString(),
+                " user=",
+                this.email == null ? string.Empty : this.email.Value);
+            this.WriteLoginPerfLine(line);
+
+            stageTimer.Restart();
+        }
+
+        private void LogLoginPerfFinal(string reason, Stopwatch loginTimer)
+        {
+            if (!this.IsLoginPerfLogEnabled())
+            {
+                return;
+            }
+
+            string line = string.Concat(
+                "[LOGIN-PERF] END ",
+                reason,
+                " totalMs=",
+                (loginTimer == null ? 0L : loginTimer.ElapsedMilliseconds).ToString(),
+                " user=",
+                this.email == null ? string.Empty : this.email.Value);
+            this.WriteLoginPerfLine(line);
+        }
+
+        private bool IsLoginPerfLogEnabled()
+        {
+            string setting = ConfigurationManager.AppSettings["EnableLoginPerfLog"];
+            return string.Equals(setting, "true", StringComparison.OrdinalIgnoreCase);
+        }
+
+        private void WriteLoginPerfLine(string line)
+        {
+            if (string.IsNullOrWhiteSpace(line))
+            {
+                return;
+            }
+
+            string datedLine = string.Concat(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"), " ", line);
+            System.Diagnostics.Debug.WriteLine(datedLine);
+
+            try
+            {
+                string filePath = this.GetLoginPerfLogFilePath();
+                if (string.IsNullOrWhiteSpace(filePath))
+                {
+                    return;
+                }
+
+                string directory = Path.GetDirectoryName(filePath);
+                if (!string.IsNullOrWhiteSpace(directory) && !Directory.Exists(directory))
+                {
+                    Directory.CreateDirectory(directory);
+                }
+
+                lock (LoginPerfLogLock)
+                {
+                    File.AppendAllText(filePath, datedLine + Environment.NewLine);
+                }
+            }
+            catch
+            {
+                // Ignore logging failures; login flow must never fail because of diagnostics logging.
+            }
+        }
+
+        private string GetLoginPerfLogFilePath()
+        {
+            try
+            {
+                if (HttpContext.Current != null && HttpContext.Current.Server != null)
+                {
+                    return HttpContext.Current.Server.MapPath("~/App_Data/login-perf.log");
+                }
+            }
+            catch
+            {
+            }
+
+            try
+            {
+                return Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", "login-perf.log");
+            }
+            catch
+            {
+                return string.Empty;
+            }
+        }
+
+        private Stopwatch _pagePerfTotal;
+        private Stopwatch _pagePerfStage;
+
+        protected override void OnPreInit(EventArgs e)
+        {
+            this._pagePerfTotal = Stopwatch.StartNew();
+            this._pagePerfStage = Stopwatch.StartNew();
+            this.LogPagePerfStage("OnPreInit", this._pagePerfStage);
+            base.OnPreInit(e);
+        }
+
+        protected override void OnInit(EventArgs e)
+        {
+            base.OnInit(e);
+            this.LogPagePerfStage("OnInit (after base)", this._pagePerfStage);
+        }
+
+        protected override void OnPreLoad(EventArgs e)
+        {
+            base.OnPreLoad(e);
+            this.LogPagePerfStage("OnPreLoad (after base)", this._pagePerfStage);
+        }
+
+        protected override void OnLoadComplete(EventArgs e)
+        {
+            base.OnLoadComplete(e);
+            this.LogPagePerfStage("OnLoadComplete (after base)", this._pagePerfStage);
+        }
+
+        protected override void OnPreRenderComplete(EventArgs e)
+        {
+            base.OnPreRenderComplete(e);
+            this.LogPagePerfStage("OnPreRenderComplete (after base)", this._pagePerfStage);
+        }
+
+        protected override void Render(System.Web.UI.HtmlTextWriter writer)
+        {
+            base.Render(writer);
+            this.LogPagePerfStage("Render (after base)", this._pagePerfStage);
+            if (this._pagePerfTotal != null && this.IsLoginPerfLogEnabled())
+            {
+                this.WriteLoginPerfLine(string.Concat(
+                    "[LOGIN-PAGE-PERF] END isPostBack=",
+                    this.IsPostBack.ToString(),
+                    " totalMs=",
+                    this._pagePerfTotal.ElapsedMilliseconds.ToString(),
+                    " url=",
+                    base.Request != null && base.Request.RawUrl != null ? base.Request.RawUrl : string.Empty));
+            }
+        }
+
+        private void LogPagePerfStage(string stageName, Stopwatch stageTimer)
+        {
+            if (stageTimer == null || !this.IsLoginPerfLogEnabled())
+            {
+                return;
+            }
+
+            long total = this._pagePerfTotal == null ? 0L : this._pagePerfTotal.ElapsedMilliseconds;
+            string line = string.Concat(
+                "[LOGIN-PAGE-PERF] ",
+                stageName,
+                " stageMs=",
+                stageTimer.ElapsedMilliseconds.ToString(),
+                " totalMs=",
+                total.ToString(),
+                " isPostBack=",
+                this.IsPostBack.ToString());
+            this.WriteLoginPerfLine(line);
+            stageTimer.Restart();
         }
 
         protected void Page_Load(object sender, EventArgs e)
@@ -1225,9 +1414,13 @@ namespace ePrint.Printcenter.Views
             }
             int num1 = Convert.ToInt32(EprintConfigurationManager.AppSettings["CompanyID"].ToString());
             this.Session["LoginCompanyID"] = num1;
+            Stopwatch pageLoadStage = Stopwatch.StartNew();
             BasePage.LoadAuthPageLanguageFile(num1, this.Session, this.cmn);
+            this.LogPagePerfStage("Page_Load.LoadAuthPageLanguageFile", pageLoadStage);
             BasePage.ApplyAuthPageLoginButtonColor(num1, this.Session, this.btnlogin, this.cmn);
+            this.LogPagePerfStage("Page_Load.ApplyAuthPageLoginButtonColor", pageLoadStage);
             this.objpage.ApplyAuthPageLogo(this.plhLoginImg, num1);
+            this.LogPagePerfStage("Page_Load.ApplyAuthPageLogo", pageLoadStage);
             this.btnlogin.Text = this.objLanguage.GetLanguageConversion("Login");
             this.lblEmail.Text = this.objLanguage.GetLanguageConversion("Email");
             this.lblPassword.Text = this.objLanguage.GetLanguageConversion("Password");

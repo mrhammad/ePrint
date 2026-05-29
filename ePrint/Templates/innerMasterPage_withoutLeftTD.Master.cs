@@ -131,7 +131,28 @@ namespace ePrint.Templates
             }
             commonClass _commonClass = new commonClass();
             _commonClass.logoSetting(this.plhHeader, this.plhFooter, int.Parse(base.Session["companyid"].ToString()), "both");
+            this.PopulateHeadAssets();
             this.Page.Header.DataBind();
+        }
+
+        private void PopulateHeadAssets()
+        {
+            if (this.ltrHeadAssets == null)
+            {
+                return;
+            }
+            string vn = this.VersionNumber ?? string.Empty;
+            string ro = this.roundoff ?? string.Empty;
+            System.Text.StringBuilder sb = new System.Text.StringBuilder(1024);
+            sb.Append("<script type=\"text/javascript\" src=\"../common/Report.js?VN='").Append(vn).Append("'\"></script>");
+            sb.Append("<script type=\"text/javascript\" src=\"../common/calendar.js?VN='").Append(vn).Append("'\"></script>");
+            sb.Append("<script type=\"text/javascript\" src=\"../common/swazz_calendar.js?VN='").Append(vn).Append("'\"></script>");
+            sb.Append("<script type=\"text/javascript\" src=\"../js/jquery-1.3.2.js?VN='").Append(vn).Append("'\"></script>");
+            sb.Append("<script type=\"text/javascript\">var roundoff = '").Append(ro).Append("';</script>");
+            sb.Append("<script type=\"text/javascript\" src=\"../js/commonloading.js?VN='").Append(vn).Append("'\"></script>");
+            sb.Append("<script type=\"text/javascript\" src=\"../js/jquery.min.js?VN='").Append(vn).Append("'\"></script>");
+            sb.Append("<script type=\"text/javascript\" src=\"../js/jquery.popup.js?VN='").Append(vn).Append("'\"></script>");
+            this.ltrHeadAssets.Text = sb.ToString();
         }
     }
 }

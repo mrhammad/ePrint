@@ -8468,7 +8468,13 @@ namespace Printcenter.DataAccessLayer.Settings
             DbCommand storedProcCommand = database.GetStoredProcCommand("PC_view_Default_select");
             database.AddInParameter(storedProcCommand, "@PageName", DbType.String, PageName);
             database.AddInParameter(storedProcCommand, "@CompanyID", DbType.Int32, CompanyID);
-            return database.ExecuteScalar(storedProcCommand).ToString();
+            object result = database.ExecuteScalar(storedProcCommand);
+            if (result == null || result == DBNull.Value)
+            {
+                return string.Empty;
+            }
+
+            return result.ToString();
         }
 
         public virtual void ScanningStockHistory_InsertOrUpdate(long Id, long CompanyID, string JobOrPoCode, Int32 Qty, string ItemCode,Int32 PriceCatalogueStockId, Int32 EstimateItemId, Int32 PurchaseItemId, Boolean Status, String ErrorMessage, Int32 UserId,string FileName,DateTime Date)

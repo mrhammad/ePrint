@@ -249,7 +249,7 @@
                                                             name="Id" />&nbsp;
                                                     </ItemTemplate>
                                                 </telerik:GridTemplateColumn>
-                                                <telerik:GridTemplateColumn AllowFiltering="false">
+                                                <telerik:GridTemplateColumn AllowFiltering="false" Visible="false">
                                                     <HeaderStyle HorizontalAlign="Left" Wrap="true" Width="1%" />
                                                     <ItemStyle HorizontalAlign="Left" Wrap="true" Width="1%" />
                                                     <HeaderTemplate>

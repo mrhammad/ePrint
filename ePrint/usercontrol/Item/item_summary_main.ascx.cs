@@ -419,10 +419,25 @@ namespace ePrint.usercontrol.Item
         {
             object[] estimateID;
             string[] languageConversion;
-            MasterPage master = this.Parent.Page.Master;
-            HtmlControl htmlControl = (HtmlControl)master.FindControl("DivLeftpanel");
-            ((HtmlTableCell)master.FindControl("tdLeftpanel")).Visible = false;
-            htmlControl.Visible = false;
+            MasterPage master = this.Parent != null && this.Parent.Page != null ? this.Parent.Page.Master : null;
+            if (master != null)
+            {
+                HtmlTableCell tdLeftPanel = master.FindControl("tdLeftpanel") as HtmlTableCell;
+                if (tdLeftPanel != null)
+                {
+                    tdLeftPanel.Visible = false;
+                }
+                HtmlControl htmlControl = master.FindControl("DivLeftpanel") as HtmlControl;
+                if (htmlControl != null)
+                {
+                    htmlControl.Visible = false;
+                }
+                HtmlGenericControl contextPanel = master.FindControl("contextPanel") as HtmlGenericControl;
+                if (contextPanel != null)
+                {
+                    contextPanel.Visible = false;
+                }
+            }
             BaseClass baseClass = new BaseClass();
             this.CompanyID = Convert.ToInt32(base.Session["CompanyID"].ToString());
             this.UserID = Convert.ToInt32(base.Session["UserID"].ToString());
@@ -2548,7 +2563,8 @@ namespace ePrint.usercontrol.Item
                 DataTable dataTable8 = new DataTable();
                 if (this.Module == "estimate")
                 {
-                    int maxQuantityCount = Convert.ToInt32(dataTable2.Compute("max([QtyCount])", string.Empty));
+                    object maxQtyObj = dataTable2.Compute("max([QtyCount])", string.Empty);
+                    int maxQuantityCount = (maxQtyObj == null || maxQtyObj == DBNull.Value) ? 1 : Convert.ToInt32(maxQtyObj);
                     string str2 = "display:none";
                     string str3 = "display:none";
                     string str4 = "display:none";

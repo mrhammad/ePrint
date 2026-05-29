@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" Masterpagefile="/innerMasterPage_withoutLeftTD.master" AutoEventWireup="true" CodeBehind="client_detail.aspx.cs" Inherits="ePrint.client.client_detail" enableviewstatemac="false" enableEventValidation="false" theme="Theme1" %>
+﻿<%@ Page Language="C#" MasterPageFile="~/Templates/innerMasterPage_withoutLeftTD.master" AutoEventWireup="true" CodeBehind="client_detail.aspx.cs" Inherits="ePrint.client.client_detail" enableviewstatemac="false" enableEventValidation="false" theme="Theme1" %>
 
 <%@ Register TagPrefix="telerik" Namespace="Telerik.Web.UI" Assembly="Telerik.Web.UI" %>
 <%@ Register Src="~/usercontrol/crm/ClientSubSection.ascx" TagName="Client" TagPrefix="UC" %>
@@ -18,7 +18,7 @@
         <div style="clear: both;">
         </div>
     </div>
-    <div id="ds00" style="display: block;">
+    <div id="ds00" style="display: none;">
     </div>
     <div id="divBackGroundNew" style="display: none;">
     </div>
@@ -95,7 +95,6 @@
 
 
         function opencontacts(val, type) {
-            debugger
             if (val == 'contact') {
                 if (type == 'add') {
                     window.radopen("<%=nmsCommon.global.sitePath()%>contact/contact_view.aspx", '900', '400');

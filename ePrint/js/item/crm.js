@@ -793,21 +793,23 @@ function getnotesvalue(result) {
 }
 
 var flag = 0;
-function postwith(to, p, B2B, B2C) {
 
-    debugger;
-    //    alert(to);
-    //    alert(p);
-    //    alert(B2B);
-    //    alert(B2C);
-    for (var k in p) {
-        if (p[k] != "") {
-            flag = 1;
-        }
-        else {
-            flag = 0;
-        }
+// Local CRM (port 1111) must open local eStore (port 2222), not demo.eprintsoftware.com.
+function normalizeLocalEstoreLoginUrl(url) {
+    var host = (window.location.hostname || "").toLowerCase();
+    var port = (window.location.port || "");
+    var isLocalCrm = port === "1111" || host === "localhost" || host === "127.0.0.1";
+    if (!isLocalCrm) {
+        return url;
     }
+    return "http://localhost:2222/login.aspx";
+}
+
+function postwith(to, p, B2B, B2C) {
+    B2B = normalizeLocalEstoreLoginUrl(B2B);
+    B2C = normalizeLocalEstoreLoginUrl(B2C);
+
+    flag = (p.b2bemail && p.b2bpwd) ? 1 : 0;
 
     if (flag == 1) {
         var myForm = document.createElement("form");
@@ -1104,8 +1106,10 @@ function RadWinClose() {
 }
 
 function LoadImgStarts() {
-    document.getElementById("ds00").style.display = "block";
-    document.getElementById("div_Load").style.display = "block";
+    var ds = document.getElementById("ds00");
+    if (ds) { ds.style.display = "block"; }
+    var divLoad = document.getElementById("div_Load");
+    if (divLoad) { divLoad.style.display = "block"; }
 }
 
 
@@ -1201,10 +1205,12 @@ var prm = Sys.WebForms.PageRequestManager.getInstance();
 prm.add_endRequest(EndRequest);
 
 function EndRequest(sender, args) {
-
-    //    document.getElementById("ds00").style.display = "none";
-    //    document.getElementById("div_Load").style.display = "none";
-    //    document.getElementById("divBackGroundNew").style.display = "none";
+    var ds = document.getElementById("ds00");
+    if (ds) { ds.style.display = "none"; }
+    var divLoad = document.getElementById("div_Load");
+    if (divLoad) { divLoad.style.display = "none"; }
+    var divBack = document.getElementById("divBackGroundNew");
+    if (divBack) { divBack.style.display = "none"; }
 }
 
 //---------------------------costcentre----------

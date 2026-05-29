@@ -18,8 +18,14 @@ Sign-up flow: `Login/SignUp.aspx` → `registrationClass` → SQL Server (`eprin
      d. NewCompanyDefaultSeeds.ApplyAll
         - RegistrationBootstrapSeeds (navigators, lookups, field layouts)
         - statuses, estimate settings, plant, CustomizeViews (all in code)
-     e. PC_CustomizeViewIfNotExist (proof view)
-     f. SeedSampleCrmData (sample customer — optional row)
+     e. `NewCompanySystemTemplates.Apply` — runs built-in `SeedData/SystemTemplatesRegistration.sql` (idempotent; not read from another company at runtime)
+        - Settings menu → module mapping: Estimates (`Estimate`), Supplier RFQs (`PrintBroker`), Jobs (`Job`), Invoice, Purchase Order (`Purchase`), Delivery Notes (`Note`), Job Card template (`JobCard`)
+        - Job Card Settings → `tb_jobcardsettings` (390 rows, separate screen)
+        - Background PDF → `tb_TemplatesPDF` + files under `{SecureDocPath}/{ServerName}/{companyId}/TemplatePDF/`
+        - Layout fields → `tb_TemplateFieldProperties` per template
+     f. PC_CustomizeViewIfNotExist (proof view)
+     g. SeedSampleCrmData (sample customer — optional row)
+     h. *(disabled)* Sample estimates — not seeded on sign-up. To apply later: `registrationClass.RepairReferenceEstimates(companyId)` (built-in `SeedData/SystemEstimatesRegistration.sql`)
 ```
 
 **Source files**
@@ -29,8 +35,10 @@ Sign-up flow: `Login/SignUp.aspx` → `registrationClass` → SQL Server (`eprin
 | Sign-up parameters | `Login/SignUp.aspx.cs` |
 | Company + user | `nms/nmsCommon/registrationClass.cs` |
 | Built-in SQL seeds | `nms/nmsCommon/NewCompanyDefaultSeeds.cs` |
+| System Templates (built-in SQL) | `nms/nmsCommon/NewCompanySystemTemplateSeeds.cs`, `nms/nmsCommon/SeedData/SystemTemplatesRegistration.sql` |
 | CRM bootstrap | `nms/nmsCommon/RegistrationBootstrapSeeds.cs` |
 | Sample CRM | `registrationClass.SeedSampleCrmData()` |
+| Sample estimates (optional; not on sign-up) | `nms/nmsCommon/NewCompanyRegistrationEstimateSeeds.cs`, `SeedData/SystemEstimatesRegistration.sql` — `RepairReferenceEstimates` only |
 
 ---
 
@@ -290,12 +298,30 @@ new registrationClass().RepairNewCompanySetup(companyId, 115, "DD/MM/YY");
 
 // Views only
 new registrationClass().RepairCustomizeViews(companyId);
+
+// System Templates (built-in seed SQL)
+new registrationClass().RepairSystemTemplates(companyId);
 ```
 
 Or run SQL in `Scripts/RegisteredUser_Deletion_Schema.sql` (delete) then sign up again.
+
+### System Templates included in built-in seed (exported once from reference tenant)
+
+| Settings menu | Module | Templates (names) |
+|---------------|--------|-------------------|
+| Estimates | Estimate | Quote Template 1, Quote Template 2, Sub Items |
+| Supplier RFQs | PrintBroker | Supplier Quote Request 1 |
+| Jobs | Job | Job Ticket 1, Job Ticket 1 - Press problem |
+| Invoice | Invoice | Example Invoice, Example Invoice 50%, Invoice Statement Report |
+| Purchase Order | Purchase | Purchase Order- descriptions from the job screen, Purchase Order- descriptions from the Purchase Order screen |
+| Delivery Notes | Note | New Layoput, Delivery Note Label, Example Delivery Note (+ 3 variants) |
+| Job Card Settings | (tb_jobcardsettings) | All pre-press / press / finishing sections per estimate type |
 
 ---
 
 ## Database template companies (no longer used at registration)
 
-Registration no longer reads seed rows from company **0** or **2144**. Defaults live in `NewCompanyDefaultSeeds.cs` and `RegistrationBootstrapSeeds.cs`. `RegisterNew` inserts only the `tb_company` row in C#; `CompleteNewCompanySetup` applies all built-in seeds for the new `companyid`.
+Registration no longer reads seed rows from company **0** or another live tenant at runtime. Defaults, System Templates, and sample estimates live in code/SQL (`NewCompanyDefaultSeeds.cs`, `RegistrationBootstrapSeeds.cs`, `SystemTemplatesRegistration.sql`, `SystemEstimatesRegistration.sql`). To refresh after editing reference data on company 2144, re-run the export scripts and commit the updated SQL files:
+
+- Templates: `Scripts/Export_SystemTemplatesRegistrationSeed.ps1`
+- Sample estimates: `Scripts/Export_SystemEstimatesRegistrationSeed.ps1`

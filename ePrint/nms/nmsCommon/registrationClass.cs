@@ -206,6 +206,31 @@ SELECT CAST(SCOPE_IDENTITY() AS INT);";
 			this.CompleteNewCompanySetup(companyId, timezoneId, dateFormat);
 		}
 
+		/// <summary>Re-runs built-in registration sample estimate seeding for an existing tenant.</summary>
+		public void RepairReferenceEstimates(int companyId)
+		{
+			if (companyId <= 0)
+			{
+				return;
+			}
+
+			commonClass cmn = new commonClass();
+			SqlCommand adminUserCommand = new SqlCommand(
+				"SELECT TOP 1 userid FROM tb_user WHERE companyid = @companyId AND isadmin = 1 ORDER BY userid",
+				cmn.openConnection());
+			adminUserCommand.Parameters.AddWithValue("@companyId", companyId);
+			object userIdResult = adminUserCommand.ExecuteScalar();
+			cmn.closeConnection();
+			if (userIdResult == null || userIdResult == DBNull.Value)
+			{
+				return;
+			}
+
+			int adminUserId = Convert.ToInt32(userIdResult);
+			this.SeedSampleCrmData(companyId, adminUserId);
+			NewCompanyReferenceEstimates.Seed(companyId, adminUserId);
+		}
+
 		/// <summary>Re-runs sample CRM/estimate seeding and backfills missing item detail rows for an existing tenant.</summary>
 		public void RepairSampleEstimates(int companyId)
 		{
@@ -227,9 +252,27 @@ SELECT CAST(SCOPE_IDENTITY() AS INT);";
 			}
 
 			int adminUserId = Convert.ToInt32(userIdResult);
-			this.SeedSampleCrmData(companyId, adminUserId);
-			NewCompanySampleEstimates.Seed(companyId, adminUserId);
-			NewCompanySampleEstimates.BackfillItemBodies(companyId, adminUserId);
+			this.RepairReferenceEstimates(companyId);
+		}
+
+		/// <summary>Applies built-in System Templates registration seed.</summary>
+		public void RepairSystemTemplates(int companyId)
+		{
+			if (companyId <= 0)
+			{
+				return;
+			}
+
+			commonClass cmn = new commonClass();
+			SqlConnection connection = cmn.openConnection();
+			try
+			{
+				NewCompanySystemTemplates.Apply(companyId, connection);
+			}
+			finally
+			{
+				cmn.closeConnection();
+			}
 		}
 
 		/// <summary>Repairs list views only (Customer, Estimate, Job, etc.) for an existing tenant.</summary>
@@ -284,6 +327,15 @@ SELECT CAST(SCOPE_IDENTITY() AS INT);";
 
 				NewCompanyDefaultSeeds.ApplyAll(companyId, connection, timezoneId, dateFormat ?? "dd/mm/yyyy");
 
+				try
+				{
+					NewCompanySystemTemplates.Apply(companyId, connection);
+				}
+				catch (Exception templateSeedEx)
+				{
+					System.Diagnostics.Trace.WriteLine("NewCompanySystemTemplates: " + templateSeedEx);
+				}
+
 				int adminUserId = 0;
 				SqlCommand adminUserCommand = new SqlCommand(
 					"SELECT TOP 1 userid FROM tb_user WHERE companyid = @companyId AND isadmin = 1 ORDER BY userid",
@@ -314,15 +366,7 @@ SELECT CAST(SCOPE_IDENTITY() AS INT);";
 						System.Diagnostics.Trace.WriteLine("SeedSampleCrmData: " + sampleEx);
 					}
 
-					try
-					{
-						NewCompanySampleEstimates.Seed(companyId, adminUserId);
-						NewCompanySampleEstimates.BackfillItemBodies(companyId, adminUserId);
-					}
-					catch (Exception estimateSampleEx)
-					{
-						System.Diagnostics.Trace.WriteLine("NewCompanySampleEstimates: " + estimateSampleEx);
-					}
+					// Sample estimate seeding disabled for new registrations (re-enable via RepairReferenceEstimates when needed).
 				}
 			}
 			finally

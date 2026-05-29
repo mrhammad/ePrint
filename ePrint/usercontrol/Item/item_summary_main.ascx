@@ -29,13 +29,18 @@
 <%@ Register TagName="SupplierQuote" TagPrefix="UC" Src="~/usercontrol/Item/item_summary_supplierquotedetails.ascx" %>
 <%@ Register TagName="quicklinksItem" TagPrefix="UC" Src="~/usercontrol/Item/item_summary_quicklinks.ascx" %>
 <%@ Register TagName="MoreOptions" TagPrefix="UC" Src="~/usercontrol/Item/itemsummary_moreoptions.ascx" %>
-<div id="ds00" style="display: block;">
+<%-- #ds00 is a click-blocking overlay used by various scripts via getElementById("ds00").style.display = "block".
+     It is now a fixed-position overlay that starts hidden so it never pushes summary content below the fold
+     (previously it was a screen-sized in-flow block which broke the layout if the inline hide script at the
+     bottom of this control failed to run). All existing show/hide calls continue to work unchanged. --%>
+<div id="ds00" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 9999; background: rgba(0,0,0,0.05); pointer-events: auto;">
 </div>
 <div id="div_Load" class="loading_new">
     <UC:Loading ID="ucLoading" runat="server" />
 </div>
 <link type="text/css" href="<%=strSitepath %>css/smoothness/jquery-ui-1.8.21.custom.css"
     rel="stylesheet" />
+<script type="text/javascript" src="<%=strSitepath %>js/jquery-ui-1.8.21.custom.min.js?VN='<%=VersionNumber%>'"></script>
 <script type="text/javascript" src="<%=strSitepath %>js/item/item_summary_reeng.js?VN='<%=VersionNumber%>'"></script>
 <script language="javascript" type="text/javascript" src="<%=strSitepath %>js/Item/AutoFill.js?VN='<%=VersionNumber%>'"></script>
 <script type="text/javascript">
@@ -46,12 +51,11 @@
         var eventArgs = Array.prototype.slice.call(arguments);
         return this.original_open.apply(this, eventArgs);
     }
-    document.getElementById("ds00").style.width = window.screen.availWidth + "px";
-    document.getElementById("ds00").style.height = window.screen.availHeight + "px";
-    document.getElementById("ds00").style.display = "block";
 
     var div_Load = document.getElementById("div_Load");
-    setLoadingPositionOfDivMove(div_Load);
+    if (typeof setLoadingPositionOfDivMove === "function") {
+        setLoadingPositionOfDivMove(div_Load);
+    }
     var ManageStockPermission = '<%=ManageStockPermission %>';
     var StockCancellationType = '<%=StockCancellationType %>';
     var RowsCount = '<%=RowsCount %>';
@@ -142,6 +146,16 @@
 #accordion .ui-accordion-header {
     transition: background 0.3s ease;
 }
+
+/* Let expanded item panels grow naturally; parent .eprint-page-body scrolls */
+#accordion .ui-accordion-content,
+#accordion .ui-accordion-content-active,
+#accordion2 .ui-accordion-content,
+#accordion2 .ui-accordion-content-active {
+    overflow: visible !important;
+    height: auto !important;
+    max-height: none !important;
+}
 </style>
 
 <style type="text/css">
@@ -213,30 +227,30 @@
 </style>
 <script type="text/javascript">
     
-    $(document).ready(function () {
-        $(function () {
-            $("#accordion2").accordion({
+    function initAccordion2(activeIndex) {
+        var $accordion2 = $("#accordion2");
+        if (!$accordion2.length || typeof $.fn.accordion !== "function") {
+            return;
+        }
+
+        if (!$accordion2.data("accordion")) {
+            $accordion2.accordion({
                 header: "h4", collapsible: true, autoHeight: false
             });
-            $("#accordion2 span").click(function (event) {
+            $accordion2.find("span").off("click.eprintAccordion2").on("click.eprintAccordion2", function (event) {
                 event.stopImmediatePropagation();
                 event.preventDefault();
             });
-            var accordionindex = 1000;
+        }
 
-            $("#accordion2").accordion();
+        if (typeof activeIndex === "number" && activeIndex >= 0) {
+            $accordion2.accordion('activate', activeIndex);
+        }
+    }
 
-            if (accordionindex == 0) {
-                $("#accordion2").accordion();
-            }
-            else {
-                $("#accordion2").accordion();
-                $("#accordion2").accordion('activate', accordionindex);
-
-            }
-            document.getElementById("tabs").style.visibility = 'visible';
-
-        });
+    $(document).ready(function () {
+        initAccordion2();
+        document.getElementById("tabs").style.visibility = 'visible';
     });
     $(document).ready(function () {
 
@@ -250,7 +264,7 @@
             if ('<%=tab %>' != '') {
                 if ('<%=tab %>' == 'Q') {
                     $('#tabs').tabs('select', '#tabs-3');
-                    $("#accordion2").accordion('activate', 0);
+                    initAccordion2(0);
                 }
             }
 
@@ -358,19 +372,8 @@
 
     });
     function CloseTab(tab) {
-
-        $(document).ready(function () {
-            $(function () {
-                $("#accordion2").accordion({
-                    header: "h4", collapsible: true, autoHeight: false
-                });
-
-                var accordionindex = tab;
-                $("#accordion2").accordion('activate', accordionindex);
-                document.getElementById("tabs").style.visibility = 'visible';
-
-            });
-        });
+        initAccordion2(tab);
+        document.getElementById("tabs").style.visibility = 'visible';
     }
 
 
@@ -633,8 +636,12 @@
 
 </script>
 <script type="text/javascript">
-    document.getElementById("ds00").style.display = "none";
-    document.getElementById("div_Load").style.display = "none";
+    (function () {
+        var d = document.getElementById("ds00");
+        if (d) { d.style.display = "none"; }
+        var l = document.getElementById("div_Load");
+        if (l) { l.style.display = "none"; }
+    })();
 
 
     // *** SubItem Call *** //

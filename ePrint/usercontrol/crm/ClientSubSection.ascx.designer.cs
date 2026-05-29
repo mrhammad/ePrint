@@ -2805,6 +2805,15 @@ namespace ePrint.usercontrol.crm
         protected global::System.Web.UI.WebControls.LinkButton lnkEmail;
 
         /// <summary>
+        /// DivlnkEmail control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl DivlnkEmail;
+
+        /// <summary>
         /// DivlnkRecords control.
         /// </summary>
         /// <remarks>
@@ -4362,121 +4371,13 @@ namespace ePrint.usercontrol.crm
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl div_ContactMain;
 
         /// <summary>
-        /// up_ContactDetails control.
+        /// plh_ContactDetails control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.UpdatePanel up_ContactDetails;
-
-        /// <summary>
-        /// div1 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl div1;
-
-        /// <summary>
-        /// UPMessageNew control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.UpdatePanel UPMessageNew;
-
-        /// <summary>
-        /// plhContact control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.PlaceHolder plhContact;
-
-        /// <summary>
-        /// RadListBox_Contact control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::Telerik.Web.UI.RadListBox RadListBox_Contact;
-
-        /// <summary>
-        /// UserSpendlimit control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::Telerik.Web.UI.RadListBoxItem UserSpendlimit;
-
-        /// <summary>
-        /// UserSpendlimitDeactivate control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::Telerik.Web.UI.RadListBoxItem UserSpendlimitDeactivate;
-
-        /// <summary>
-        /// Delete_Hide control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::Telerik.Web.UI.RadListBoxItem Delete_Hide;
-
-        /// <summary>
-        /// RadListboxActiverStoreUser control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::Telerik.Web.UI.RadListBoxItem RadListboxActiverStoreUser;
-
-        /// <summary>
-        /// RadListboxDeActiverStoreUser control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::Telerik.Web.UI.RadListBoxItem RadListboxDeActiverStoreUser;
-
-        /// <summary>
-        /// hdn_ContactIDs control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField hdn_ContactIDs;
-
-        /// <summary>
-        /// lnk_ContactsRadList control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton lnk_ContactsRadList;
-
-        /// <summary>
-        /// RadGrid_Contact control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::Telerik.Web.UI.RadGrid RadGrid_Contact;
+        protected global::System.Web.UI.WebControls.PlaceHolder plh_ContactDetails;
 
         /// <summary>
         /// div_DepartmentMain control.
@@ -5278,6 +5179,11 @@ namespace ePrint.usercontrol.crm
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.HiddenField hdnSectionName;
+
+        /// <summary>
+        /// hdnActiveCrmTab control.
+        /// </summary>
+        protected global::System.Web.UI.WebControls.HiddenField hdnActiveCrmTab;
 
         /// <summary>
         /// hdnbuttonid control.

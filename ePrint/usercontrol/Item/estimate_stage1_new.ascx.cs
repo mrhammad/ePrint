@@ -836,16 +836,26 @@ namespace ePrint.usercontrol.Item
                 }
                 else if (strArrays1[0].Trim() == "StatusID")
                 {
-                    num3 = Convert.ToInt32(strArrays1[1].Trim());
+                    if (!(strArrays1.Length > 1 && int.TryParse(strArrays1[1].Trim(), out num3)))
+                    {
+                        num3 = 0;
+                    }
                 }
                 else if (strArrays1[0].Trim() == "EstimateDate")
                 {
                     string str5 = this.comm.eprint_checkdateformat_returnonlymmddyyyy(this.DateFormat, strArrays1[1].Trim());
-                    now = Convert.ToDateTime(str5);
+                    DateTime parsedEstimateDate;
+                    if (DateTime.TryParse(str5, out parsedEstimateDate))
+                    {
+                        now = parsedEstimateDate;
+                    }
                 }
                 else if (strArrays1[0].Trim() == "ValidFor")
                 {
-                    num4 = Convert.ToInt32(strArrays1[1].Trim());
+                    if (!(strArrays1.Length > 1 && int.TryParse(strArrays1[1].Trim(), out num4)))
+                    {
+                        num4 = 0;
+                    }
                 }
                 else if (strArrays1[0].Trim() == "DeliveryAddress")
                 {
@@ -872,7 +882,10 @@ namespace ePrint.usercontrol.Item
                 //estimator
                 else if (strArrays1[0].Trim() == "Estimator")
                 {
-                    estimatorid = Convert.ToInt32(strArrays1[1].Trim());
+                    if (!(strArrays1.Length > 1 && int.TryParse(strArrays1[1].Trim(), out estimatorid)))
+                    {
+                        estimatorid = 0;
+                    }
                 }
                 else if (strArrays1[0].Trim() == "AddressType")
                 {
@@ -906,9 +919,12 @@ namespace ePrint.usercontrol.Item
             if (base.Request.Url.ToString().ToLower().Contains("invoice/invoices_add.aspx?"))
             {
                 //Ticket # 69944  
-                if (estimatorid != Convert.ToInt32(ddlEstimator.SelectedValue))
                 {
-                    estimatorid = Convert.ToInt32(ddlEstimator.SelectedValue);
+                    int ddlEstimatorParsed;
+                    if (int.TryParse(ddlEstimator != null ? ddlEstimator.SelectedValue : null, out ddlEstimatorParsed) && estimatorid != ddlEstimatorParsed)
+                    {
+                        estimatorid = ddlEstimatorParsed;
+                    }
                 }
                 this.EstimateID = EstimateBasePage.Estimate_Insert(this.CompanyID, Convert.ToInt32(base.Session["UserID"]), num, num1, empty, str, num2, empty1, str1, num6, empty2, str2, empty3, num3, now, num4, num5, false, this.CreatedDate, 0, this.EstimateID, true, str3, empty4, this.EstNo, this.Estimateartworkdate, this.Estimatedeliverydate, this.EstimateCreatedDate, false, this.JobCompletionDate, this.ProofDate, this.ApprovalDate, this.ProdcnDate, num8, num7, num9, estimatorid, txtcomments.Text,num10, this.ddlpriority.SelectedItem.Value, this.CustomDate1, this.CustomDate2, this.CustomDate3, this.CustomDate4, this.CustomDate5);
                 SettingsBasePage.get_jobStatus_ID(this.CompanyID, "Approved");
@@ -925,9 +941,12 @@ namespace ePrint.usercontrol.Item
             else if (!base.Request.Url.ToString().ToLower().Contains("jobs/job_add.aspx?"))
             {
                 //Ticket # 69944  
-                if (estimatorid != Convert.ToInt32(ddlEstimator.SelectedValue))
                 {
-                    estimatorid = Convert.ToInt32(ddlEstimator.SelectedValue);
+                    int ddlEstimatorParsed;
+                    if (int.TryParse(ddlEstimator != null ? ddlEstimator.SelectedValue : null, out ddlEstimatorParsed) && estimatorid != ddlEstimatorParsed)
+                    {
+                        estimatorid = ddlEstimatorParsed;
+                    }
                 }
                 this.EstimateID = EstimateBasePage.Estimate_Insert(this.CompanyID, Convert.ToInt32(base.Session["UserID"]), num, num1, empty, str, num2, empty1, str1, num6, empty2, str2, empty3, num3, now, num4, num5, false, this.CreatedDate, 0, this.EstimateID, false, str3, empty4, this.EstNo, this.Estimateartworkdate, this.Estimatedeliverydate, this.EstimateCreatedDate, false, this.JobCompletionDate, this.ProofDate, this.ApprovalDate, this.ProdcnDate, num8, num7, num9, estimatorid, txtcomments.Text,num10, this.ddlpriority.SelectedItem.Value, this.CustomDate1, this.CustomDate2, this.CustomDate3, this.CustomDate4, this.CustomDate5);
                 if(base.Request.Url.ToString().ToLower().Contains("estimates/estimates_add"))
@@ -948,9 +967,12 @@ namespace ePrint.usercontrol.Item
             else
             {
                 //Ticket # 69944  
-                if (estimatorid != Convert.ToInt32(ddlEstimator.SelectedValue))
                 {
-                    estimatorid = Convert.ToInt32(ddlEstimator.SelectedValue);
+                    int ddlEstimatorParsed;
+                    if (int.TryParse(ddlEstimator != null ? ddlEstimator.SelectedValue : null, out ddlEstimatorParsed) && estimatorid != ddlEstimatorParsed)
+                    {
+                        estimatorid = ddlEstimatorParsed;
+                    }
                 }
                 this.EstimateID = EstimateBasePage.Estimate_Insert(this.CompanyID, Convert.ToInt32(base.Session["UserID"]), num, num1, empty, str, num2, empty1, str1, num6, empty2, str2, empty3, num3, now, num4, num5, false, this.CreatedDate, 0, this.EstimateID, false, str3, empty4, this.EstNo, this.Estimateartworkdate, this.Estimatedeliverydate, this.EstimateCreatedDate, true, this.JobCompletionDate, this.ProofDate, this.ApprovalDate, this.ProdcnDate, num8, num7, num9, estimatorid,txtcomments.Text, num10, this.ddlpriority.SelectedItem.Value, this.CustomDate1, this.CustomDate2, this.CustomDate3, this.CustomDate4, this.CustomDate5);
                 this.JobDate = now;
@@ -1047,27 +1069,46 @@ namespace ePrint.usercontrol.Item
                 }
                 else if (strArrays1[0].Trim() == "StatusID")
                 {
-                    num3 = Convert.ToInt32(strArrays1[1].Trim());
+                    if (!(strArrays1.Length > 1 && int.TryParse(strArrays1[1].Trim(), out num3)))
+                    {
+                        num3 = 0;
+                    }
                 }
                 else if (strArrays1[0].Trim() == "EstimateDate")
                 {
                     string str5 = this.comm.eprint_checkdateformat_returnonlymmddyyyy(this.DateFormat, strArrays1[1].Trim());
-                    now = Convert.ToDateTime(str5);
+                    DateTime parsedEstimateDate;
+                    if (DateTime.TryParse(str5, out parsedEstimateDate))
+                    {
+                        now = parsedEstimateDate;
+                    }
                 }
                 else if (strArrays1[0].Trim() == "CompletionDate")
                 {
                     string str6 = this.comm.eprint_checkdateformat_returnonlymmddyyyy(this.DateFormat, strArrays1[1].Trim());
-                    this.JobCompletionDate = Convert.ToDateTime(str6);
+                    DateTime parsedCompletionDate;
+                    if (DateTime.TryParse(str6, out parsedCompletionDate))
+                    {
+                        this.JobCompletionDate = parsedCompletionDate;
+                    }
                 }
                 else if (strArrays1[0].Trim() == "ArtworkDate")
                 {
                     string str7 = this.comm.eprint_checkdateformat_returnonlymmddyyyy(this.DateFormat, strArrays1[1].Trim());
-                    this.Estimateartworkdate = Convert.ToDateTime(str7);
+                    DateTime parsedArtworkDate;
+                    if (DateTime.TryParse(str7, out parsedArtworkDate))
+                    {
+                        this.Estimateartworkdate = parsedArtworkDate;
+                    }
                 }
                 else if (strArrays1[0].Trim() == "DeliveryDate")
                 {
                     string str8 = this.comm.eprint_checkdateformat_returnonlymmddyyyy(this.DateFormat, strArrays1[1].Trim());
-                    this.Estimatedeliverydate = Convert.ToDateTime(str8);
+                    DateTime parsedDeliveryDate;
+                    if (DateTime.TryParse(str8, out parsedDeliveryDate))
+                    {
+                        this.Estimatedeliverydate = parsedDeliveryDate;
+                    }
                 }
 
                 else if (strArrays1[0].Trim() == "CustomDate1")
@@ -1134,20 +1175,32 @@ namespace ePrint.usercontrol.Item
 
                 else if (strArrays1[0].Trim() == "ValidFor")
                 {
-                    num4 = Convert.ToInt32(strArrays1[1].Trim());
+                    if (!(strArrays1.Length > 1 && int.TryParse(strArrays1[1].Trim(), out num4)))
+                    {
+                        num4 = 0;
+                    }
                 }
                 else if (strArrays1[0].Trim() == "DeliveryAddress")
                 {
-                    num5 = Convert.ToInt64(strArrays1[1].Trim());
+                    if (!(strArrays1.Length > 1 && long.TryParse(strArrays1[1].Trim(), out num5)))
+                    {
+                        num5 = 0L;
+                    }
                 }
                 else if (strArrays1[0].Trim() == "SalesPerson")
                 {
-                    num6 = Convert.ToInt32(strArrays1[1].Trim());
+                    if (!(strArrays1.Length > 1 && int.TryParse(strArrays1[1].Trim(), out num6)))
+                    {
+                        num6 = 0;
+                    }
                 }
                     //estimator
                 else if (strArrays1[0].Trim() == "Estimator")
                 {
-                    estimatorid = Convert.ToInt32(strArrays1[1].Trim());
+                    if (!(strArrays1.Length > 1 && int.TryParse(strArrays1[1].Trim(), out estimatorid)))
+                    {
+                        estimatorid = 0;
+                    }
                 }
                 else if (strArrays1[0].Trim() == "AddressType")
                 {
@@ -1159,15 +1212,24 @@ namespace ePrint.usercontrol.Item
                 }
                 else if (strArrays1[0].Trim() == "InvoiceAddressID")
                 {
-                    num8 = Convert.ToInt64(strArrays1[1].Trim());
+                    if (!(strArrays1.Length > 1 && long.TryParse(strArrays1[1].Trim(), out num8)))
+                    {
+                        num8 = 0L;
+                    }
                 }
                 else if (strArrays1[0].Trim() == "DepartmentID")
                 {
-                    num7 = Convert.ToInt64(strArrays1[1].Trim());
+                    if (!(strArrays1.Length > 1 && long.TryParse(strArrays1[1].Trim(), out num7)))
+                    {
+                        num7 = 0L;
+                    }
                 }
                 else if (strArrays1[0].Trim() == "CostCentreID")
                 {
-                    num9 = Convert.ToInt64(strArrays1[1].Trim());
+                    if (!(strArrays1.Length > 1 && long.TryParse(strArrays1[1].Trim(), out num9)))
+                    {
+                        num9 = 0L;
+                    }
                 }
                 else if (strArrays1[0].Trim() == "InvoiceContactId")
                 {
@@ -1184,9 +1246,12 @@ namespace ePrint.usercontrol.Item
                 this.ApprovalDate = Convert.ToDateTime(this.comm.eprint_checkdateformat_returnonlymmddyyyy(this.DateFormat, this.txtapprovaldate.Text));
                 this.ProdcnDate = Convert.ToDateTime(this.comm.eprint_checkdateformat_returnonlymmddyyyy(this.DateFormat, this.txtproductiondate.Text));
                 //Ticket # 69944  
-                if (estimatorid != Convert.ToInt32(ddlEstimator.SelectedValue))
                 {
-                    estimatorid = Convert.ToInt32(ddlEstimator.SelectedValue);
+                    int ddlEstimatorParsed;
+                    if (int.TryParse(ddlEstimator != null ? ddlEstimator.SelectedValue : null, out ddlEstimatorParsed) && estimatorid != ddlEstimatorParsed)
+                    {
+                        estimatorid = ddlEstimatorParsed;
+                    }
                 }
 
                 EstimatesBasePage.Estimate_Insert(this.CompanyID, Convert.ToInt32(base.Session["UserID"]), num, num1, this.objBase.SpecialEncode(empty), this.objBase.SpecialEncode(str), num2, this.objBase.SpecialEncode(empty1), this.objBase.SpecialEncode(str1), num6, this.objBase.SpecialEncode(empty2), this.objBase.SpecialEncode(str2), this.objBase.SpecialEncode(empty3), num3, now, num4, num5, false, this.CreatedDate, Convert.ToInt32(base.Session["UserID"]), this.EstimateID, false, this.objBase.SpecialEncode(str3), this.objBase.SpecialEncode(empty4), this.EstNo, this.Estimateartworkdate, this.Estimatedeliverydate, "estimate", this.JobCompletionDate, this.ProofDate, this.ApprovalDate, this.ProdcnDate, num8, num7, num9, estimatorid, this.objBase.SpecialEncode(this.txtcomments.Text), num10, this.ddlpriority.SelectedItem.Value, this.CustomDate1, this.CustomDate2, this.CustomDate3, this.CustomDate4, this.CustomDate5);
@@ -1254,9 +1319,12 @@ namespace ePrint.usercontrol.Item
             this.ApprovalDate = Convert.ToDateTime(this.comm.eprint_checkdateformat_returnonlymmddyyyy(this.DateFormat, this.txtapprovaldate.Text));
             this.ProdcnDate = Convert.ToDateTime(this.comm.eprint_checkdateformat_returnonlymmddyyyy(this.DateFormat, this.txtproductiondate.Text));
             //Ticket # 69944  
-            if (estimatorid != Convert.ToInt32(ddlEstimator.SelectedValue))
             {
-                estimatorid = Convert.ToInt32(ddlEstimator.SelectedValue);
+                int ddlEstimatorParsed;
+                if (int.TryParse(ddlEstimator != null ? ddlEstimator.SelectedValue : null, out ddlEstimatorParsed) && estimatorid != ddlEstimatorParsed)
+                {
+                    estimatorid = ddlEstimatorParsed;
+                }
             }
             EstimatesBasePage.Estimate_Insert(this.CompanyID, Convert.ToInt32(base.Session["UserID"]), num, num1, this.objBase.SpecialEncode(empty), this.objBase.SpecialEncode(str), num2, this.objBase.SpecialEncode(empty1), this.objBase.SpecialEncode(str1), num6, this.objBase.SpecialEncode(empty2), this.objBase.SpecialEncode(str2), this.objBase.SpecialEncode(empty3), num3, now, num4, num5, false, this.CreatedDate, Convert.ToInt32(base.Session["UserID"]), this.EstimateID, false, this.objBase.SpecialEncode(str3), this.objBase.SpecialEncode(empty4), this.EstNo, this.Estimateartworkdate, this.Estimatedeliverydate, "job", this.JobCompletionDate, this.ProofDate, this.ApprovalDate, this.ProdcnDate, num8, num7, num9, estimatorid, this.objBase.SpecialEncode(this.txtcomments.Text),num10, this.ddlpriority.SelectedItem.Value, this.CustomDate1, this.CustomDate2, this.CustomDate3, this.CustomDate4, this.CustomDate5);
             //EstimatesBasePage.Estimate_Insert(this.CompanyID, Convert.ToInt32(estimatorid), num, num1, this.objBase.SpecialEncode(empty), this.objBase.SpecialEncode(str), num2, this.objBase.SpecialEncode(empty1), this.objBase.SpecialEncode(str1), num6, this.objBase.SpecialEncode(empty2), this.objBase.SpecialEncode(str2), this.objBase.SpecialEncode(empty3), num3, now, num4, num5, false, this.CreatedDate, Convert.ToInt32(base.Session["UserID"]), this.EstimateID, false, this.objBase.SpecialEncode(str3), this.objBase.SpecialEncode(empty4), this.EstNo, this.Estimateartworkdate, this.Estimatedeliverydate, "job", this.JobCompletionDate, this.ProofDate, this.ApprovalDate, this.ProdcnDate, num8, num7, num9);
@@ -1798,6 +1866,12 @@ namespace ePrint.usercontrol.Item
                         if (dataTable1.Rows.Count > 0)
                         {
                             this.txtEstimateTitle.Text = this.objBase.SpecialDecode(dataTable1.Rows[0]["PhraseText"].ToString());
+                        }
+                        if (this.EstNo <= 0
+                            && base.Request.Url.ToString().ToLower().Contains("estimates/estimate")
+                            && !base.Request.Url.ToString().ToLower().Contains("jobs/job_add"))
+                        {
+                            this.EstNo = this.objComp.settings_lastcounter_select(this.CompanyID, "e") + (long)1;
                         }
                         long estNo = (long)10000000 + this.EstNo;
                         if (!this.IsHandy)

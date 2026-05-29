@@ -3,6 +3,39 @@
 <%@ Register TagPrefix="UC" TagName="Loading" Src="~/usercontrol/settings/Loading.ascx" %>
 <script src="<%=strSitepath %>js/item/crm.js?VN='<%=VersionNumber%>'" type="text/javascript"></script>
 <link type="text/css" href="<%=strSitepath %>css/smoothness/jquery-ui-1.8.21.custom.css" rel="stImgButtonLoginContactsylesheet" />
+<link rel="stylesheet" type="text/css" href="<%=strSitepath%>App_Themes/Theme1/eprint-crm-customer.css?VN=<%=VersionNumber%>" />
+<link rel="stylesheet" type="text/css" href="<%=strSitepath%>App_Themes/Theme1/eprint-crm-sections.css?VN=<%=VersionNumber%>" />
+<script type="text/javascript" src="<%=strSitepath%>js/eprint-crm-customer.js?VN=<%=VersionNumber%>"></script>
+<script type="text/javascript" src="<%=strSitepath%>js/eprint-crm-sections.js?VN=<%=VersionNumber%>"></script>
+<script type="text/javascript">
+    window.eprintCrmPanels = {
+        clientMain: "<%=div_ClientMain.ClientID %>",
+        contactMain: "<%=div_ContactMain.ClientID %>",
+        departmentMain: "<%=div_DepartmentMain.ClientID %>",
+        addressMain: "<%=div_AddressMain.ClientID %>",
+        b2bMain: "<%=div_b2bMain.ClientID %>",
+        productsMain: "<%=div_ProductsMain.ClientID %>",
+        notesMain: "<%=div_NotesMain.ClientID %>",
+        emailMain: "<%=div_EmailMain.ClientID %>",
+        activitiesMain: "<%=div_ActivitiesMain.ClientID %>",
+        costcentreMain: "<%=div_CostcentreMain.ClientID %>",
+        another: "<%=DivAnotherDesign.ClientID %>",
+        deptControls: "<%=div_DeptControls.ClientID %>",
+        contactControls: "<%=div_ContactControls.ClientID %>",
+        addressControls: "<%=div_AddressControls.ClientID %>",
+        costcenterControls: "<%=div_CostcenterControls.ClientID %>",
+        productsControls: "<%=div_ProductsControls.ClientID %>",
+        emailControls: "<%=div_EmailControls.ClientID %>",
+        estimateControls: "<%=div_EstimateControls.ClientID %>",
+        jobControls: "<%=div_JobControls.ClientID %>",
+        invoiceControls: "<%=div_InvoiceControls.ClientID %>",
+        eStoreControls: "<%=div_eStoreControls.ClientID %>",
+        searchButton: "<%=DivsearchButton.ClientID %>",
+        btnEdit: "<%=divbtnedit.ClientID %>",
+        btnDelete: "<%=divbtndelete.ClientID %>",
+        printOptions: "<%=DivPrintOptions.ClientID %>"
+    };
+</script>
 <script type="text/javascript" src="<%=strSitepath %>js/jquery-ui-1.8.21.custom.min.js?VN='<%=VersionNumber%>'"></script>
 <script type="text/javascript" src="<%=strSitepath %>js/jquery.timer.js?VN='<%=VersionNumber%>'"></script>
 <script type="text/javascript" src="<%=strSitepath %>js/changeStyle.js?VN='<%=VersionNumber%>'"></script>
@@ -10,20 +43,136 @@
 <script type="text/javascript" src="../js/helptext.js?VN='<%=VersionNumber%>'" language="javascript"></script>
 <script type="text/javascript" language="javascript">
     var asyncState = true;
-    XMLHttpRequest.prototype.original_open = XMLHttpRequest.prototype.open;
-    XMLHttpRequest.prototype.open = function (method, url, async, user, password) {
-        async = asyncState;
-        var eventArgs = Array.prototype.slice.call(arguments);
-        return this.original_open.apply(this, eventArgs);
+    (function () {
+        var xhr = window.XMLHttpRequest;
+        if (!xhr || !xhr.prototype || typeof xhr.prototype.open !== "function") {
+            return;
+        }
+        if (!xhr.prototype.original_open) {
+            xhr.prototype.original_open = xhr.prototype.open;
+            xhr.prototype.open = function (method, url, async, user, password) {
+                async = asyncState;
+                var eventArgs = Array.prototype.slice.call(arguments);
+                eventArgs[2] = async;
+                return this.original_open.apply(this, eventArgs);
+            };
+        }
+    })();
+    function bindCrmPageRequestManager() {
+        if (typeof Sys === "undefined" || !Sys.WebForms || !Sys.WebForms.PageRequestManager) {
+            return;
+        }
+        var prm = Sys.WebForms.PageRequestManager.getInstance();
+        if (prm._eprintCrmEndRequestBound) {
+            return;
+        }
+        prm._eprintCrmEndRequestBound = true;
+        prm.add_endRequest(EndRequestHandler);
     }
-    Sys.WebForms.PageRequestManager.getInstance().add_endRequest(EndRequestHandler);
+    if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", bindCrmPageRequestManager);
+    } else {
+        bindCrmPageRequestManager();
+    }
+    function hideCrmLoadingOverlay() {
+        var ds = document.getElementById("ds00");
+        if (ds) { ds.style.display = "none"; }
+        var divLoad = document.getElementById("div_Load");
+        if (divLoad) { divLoad.style.display = "none"; }
+        var cusLoad = document.getElementById("<%=divLoadingImageCus.ClientID %>");
+        if (cusLoad) { cusLoad.style.display = "none"; }
+    }
     function EndRequestHandler(sender, args) {
         if (args.get_error() != undefined) {
             args.set_errorHandled(true);
         }
+        hideCrmLoadingOverlay();
+        if (window.eprintCrmTabs) {
+            window.eprintCrmTabs.applyPreview(getActiveCrmTab());
+        }
+        if (window.eprintCrmUi) {
+            window.eprintCrmUi.updateActiveNav();
+        }
+        if (window.eprintCrmSections) {
+            window.eprintCrmSections.refreshVisible();
+        }
+    }
+    var eprintCrmTabClientId = "<%=ClientID%>";
+    function getTabFromCookie() {
+        var key = "CRMTabName" + eprintCrmTabClientId;
+        var parts = document.cookie.split("; ");
+        for (var i = 0; i < parts.length; i++) {
+            if (parts[i].indexOf(key + "=") === 0) {
+                return parts[i].substring(key.length + 1);
+            }
+        }
+        return "client";
+    }
+    function getActiveCrmTab() {
+        var hdnTab = document.getElementById("<%=hdnActiveCrmTab.ClientID %>");
+        if (hdnTab && hdnTab.value) {
+            return hdnTab.value.toLowerCase();
+        }
+        var root = document.querySelector(".eprint-crm-customer.eprint-crm-layout-v2");
+        if (root && root.getAttribute("data-crm-active-tab")) {
+            return root.getAttribute("data-crm-active-tab").toLowerCase();
+        }
+        return getTabFromCookie();
+    }
+    window.crmPrepareTab = function (tabKey, panelLabel, allowPostBack) {
+        var normalizedTab = (tabKey || "client").toLowerCase();
+        document.cookie = "CRMTabName" + eprintCrmTabClientId + "=" + normalizedTab;
+        var hdnTab = document.getElementById("<%=hdnActiveCrmTab.ClientID %>");
+        if (hdnTab) {
+            hdnTab.value = normalizedTab;
+        }
+        var root = document.querySelector(".eprint-crm-customer.eprint-crm-layout-v2");
+        if (root) {
+            root.setAttribute("data-crm-active-tab", normalizedTab);
+        }
+        if (window.eprintCrmTabs) {
+            window.eprintCrmTabs.applyPreview(normalizedTab);
+        }
+        if (window.eprintCrmUi) {
+            window.eprintCrmUi.updateActiveNav();
+        }
+        if (panelLabel) {
+            var panelNameEl = document.getElementById("<%=PanelName.ClientID %>");
+            if (!panelNameEl) {
+                panelNameEl = document.querySelector("[id$='_PanelName']");
+            }
+            if (panelNameEl) {
+                panelNameEl.innerHTML = panelLabel;
+            }
+        }
+        if (typeof LoadImgStarts === "function") {
+            setTimeout(LoadImgStarts, 0);
+        }
+        return allowPostBack === true;
+    };
+    window.crmUpdateAddressBreadcrumb = function () {
+        var companyType = (typeof CompanyType !== "undefined") ? CompanyType : "<%=CompanyType %>";
+        var oldSitePath = "";
+        if (companyType === "Customer" || companyType === "customer") {
+            oldSitePath = "<span class='navigatorpanelblack'><b><a href='../welcome.aspx' class='subnavigatorblack' style='text-decoration:underline'>Home</a>&nbsp;&gt;&nbsp;<a href='client_view.aspx' class='subnavigatorblack' style='text-decoration:underline'>Customer View</a></b></span><span class='navigatorpanelblack'><b>&nbsp;&gt;&nbsp;Customer Details > Address Book</b></span>";
+        } else if (companyType === "Supplier" || companyType === "supplier") {
+            oldSitePath = "<span class='navigatorpanelblack'><b><a href='../welcome.aspx' class='subnavigatorblack' style='text-decoration:underline'>Home</a>&nbsp;&gt;&nbsp;<a href='client_view.aspx?type=Supplier' class='subnavigatorblack' style='text-decoration:underline'>Supplier View</a></b></span><span class='navigatorpanelblack'><b>&nbsp;&gt;&nbsp;Supplier Details > Address Book</b></span>";
+        } else if (companyType === "Prospect" || companyType === "prospect") {
+            oldSitePath = "<span class='navigatorpanelblack'><b><a href='../welcome.aspx' class='subnavigatorblack' style='text-decoration:underline'>Home</a>&nbsp;&gt;&nbsp;<a href='client_view.aspx?type=Prospect' class='subnavigatorblack' style='text-decoration:underline'>Prospect View</a></b></span><span class='navigatorpanelblack'><b>&nbsp;&gt;&nbsp;Prospect Details > Address Book</b></span>";
+        }
+        var sitePath = document.getElementById("ctl00_header2_lblsitepath");
+        if (sitePath) {
+            sitePath.innerHTML = oldSitePath;
+        }
+    };
+    function crmPrepareTab(tabKey, panelLabel, allowPostBack) {
+        return window.crmPrepareTab(tabKey, panelLabel, allowPostBack);
+    }
+    function crmUpdateAddressBreadcrumb() {
+        return window.crmUpdateAddressBreadcrumb();
     }
 </script>
-<div id="ds00" style="display: block;">
+<div id="ds00" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 9999; background: rgba(0,0,0,0.05); pointer-events: auto;">
 </div>
 <div id="divBackGroundNew" style="display: none;">
 </div>
@@ -3015,90 +3164,68 @@
 <div style="clear: both;">
 </div>
 <table id="tablemainpanel" runat="server" border="0" cellpadding="0" cellspacing="0"
-    style="border: 0px solid red;">
-    <tr valign="top">
-        <td id="DivLeftPanel" width="2%;" runat="server"><%--Now this Div is left panel Ticket id:11086--%>
-            <div id="DivQuickAction" style="border: 0px solid red; float: left; vertical-align: top; margin-top: -20px; width: 100%; margin-left: 0px;">
-
-                <table border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #ECECEC; width: 190px; margin-top: 7px;">
-                    <tr>
-                        <td class="moreactionpanel" style="width: 180px;">
-                            <div style="margin-left: 6px; margin-top: 5px; margin-bottom: 6px; cursor: pointer; font-weight: bold;" onclick="javascript:OpenClientDetailsDiv(); return false;">
-                                <asp:LinkButton ID="LnkSummary" runat="server" Text="Summary Information" Style="color: #000000;" CssClass="moreaction"></asp:LinkButton>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="moreactionpanel" style="width: 180px;">
-                            <div style="margin-left: 6px; margin-top: 5px; margin-bottom: 6px; cursor: pointer; font-weight: bold;" onclick="javascript:OpenDepartmentDiv(); return false;">
-                                <asp:LinkButton ID="lnkDepartment" runat="server" Text="Departments" Style="color: #000000;" CssClass="moreaction"></asp:LinkButton>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="moreactionpanel" style="width: 180px;">
-                            <div id="DivlnlCostCentre" runat="server" style="margin-left: 6px; margin-top: 5px; margin-bottom: 6px; display: none; cursor: pointer; font-weight: bold;"
-                                onclick="javascript:OpenCostCentreDiv(); return false;">
-                                <asp:LinkButton ID="lnlCostCentre" runat="server" Text="Cost Centres" Style="color: #000000;" CssClass="moreaction"></asp:LinkButton>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="moreactionpanel" style="width: 180px;">
-                            <div style="margin-left: 6px; margin-top: 5px; margin-bottom: 6px; cursor: pointer; font-weight: bold;" onclick="javascript:OpenContactDiv(); return false;">
-                                <asp:LinkButton ID="lnkContact" runat="server" Text="Contact" Style="color: #000000;" CssClass="moreaction"></asp:LinkButton>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="moreactionpanel" style="width: 180px;">
-                            <div style="margin-left: 6px; margin-top: 5px; margin-bottom: 6px; cursor: pointer; font-weight: bold;" onclick="javascript:OpenAddressBookDiv(); return false;">
-                                <asp:LinkButton ID="lnkAddressBook" runat="server" Text="Address Book" Style="color: #000000;" CssClass="moreaction"></asp:LinkButton>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="moreactionpanel" style="width: 180px;">
-                            <div id="divlnkEstore" runat="server" style="margin-left: 6px; margin-top: 5px; margin-bottom: 6px; cursor: pointer; font-weight: bold;"
-                                onclick="javascript:OpeneStoreDiv();return false;">
-                                <asp:LinkButton ID="lnkEstore" runat="server" Text="eStore" Style="color: #000000;" CssClass="moreaction"></asp:LinkButton>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="moreactionpanel" style="width: 180px;">
-                            <div id="DivlnlProducts" runat="server" style="margin-left: 6px; margin-top: 5px; margin-bottom: 6px; cursor: pointer; font-weight: bold;"
-                                onclick="javascript:OpeneProductsDiv();">
-                                <asp:LinkButton ID="lnlProducts" runat="server" Text="Products" Style="color: #000000;" CssClass="moreaction" OnClick="lnk_ProductsTab_Click"></asp:LinkButton><%--OnClick="lnk_ProductsTab_Click"--%>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="moreactionpanel" style="width: 180px;">
-                            <div style="margin-left: 6px; margin-top: 5px; margin-bottom: 6px; cursor: pointer; font-weight: bold;" onclick="javascript:OpeneEmailDiv();">
-                                <asp:LinkButton ID="lnkEmail" runat="server" Text="Emails" Style="color: #000000;" CssClass="moreaction" OnClick="lnk_EmailsTab_Click"></asp:LinkButton><%--OnClick="lnk_EmailsTab_Click"--%>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="moreactionpanel" style="width: 180px;">
-                            <div id="DivlnkRecords" runat="server" style="margin-left: 6px; margin-top: 5px; cursor: pointer; margin-bottom: 6px; font-weight: bold;"
-                                onclick="javascript:OpeneRecordsDiv();">
-                                <asp:LinkButton ID="lnkRecords" runat="server" Text="Records" Style="color: #000000;" CssClass="moreaction" OnClick="lnk_ActivitiesTab_Click"></asp:LinkButton><%--OnClick="lnk_ActivitiesTab_Click"--%>
-                            </div>
-                        </td>
-                    </tr>
-                </table>
-                <asp:HiddenField ID="ddnAttachID" runat="server" />
-            </div>
+    class="eprint-crm-customer eprint-crm-layout-v2" style="border: 0;">
+    <tr valign="top" class="eprint-crm-layout-row">
+        <td id="DivLeftPanel" width="0" runat="server" class="eprint-crm-context-nav-legacy" style="display: none;">
+            <asp:HiddenField ID="ddnAttachID" runat="server" />
             <div style="position: fixed; top: 400px; display: none;">
                 <asp:Button ID="btnScroll" runat="server" Text="Scroll" />
             </div>
         </td>
-        <td id="DivRightPanel" style="padding-left: 10px;" runat="server"><%--Now This is Right Panel Ticket Id:11086--%>
-            <div style="border: 1px solid #E6E6E6; width: 100%; box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.2); margin-top: -12px; min-height: 470px;">
-                <div id="DivButtonsHeader" runat="server" style="height: 34.5px; border-bottom: 1px solid rgb(218, 218, 218);"
-                    class="DivButtonsHeader">
+        <td id="DivRightPanel" runat="server" class="eprint-crm-main-panel"><%--Now This is Right Panel Ticket Id:11086--%>
+            <div class="eprint-crm-content-card" style="width: 100%; min-height: 470px;">
+                <div id="DivButtonsHeader" runat="server"
+                    class="DivButtonsHeader eprint-crm-sticky-header">
+                    <div class="eprint-crm-header-top">
+                        <div id="Div14" runat="server" class="eprint-crm-header-title">
+                            <asp:Label ID="lbltitlecompanyname" runat="server"></asp:Label>
+                            <span class="eprint-crm-title-sep" aria-hidden="true">·</span>
+                            <asp:Label ID="PanelName" CssClass="eprint-crm-section-label" runat="server"></asp:Label>
+                        </div>
+                        <div class="eprint-crm-header-badges">
+                            <span class="eprint-crm-type-badge"><%=CompanyType %></span>
+                            <div class="eprint-crm-record-nav">
+                                <div id="DivlnkPreviousPage" runat="server" style="display: none;">
+                                    <asp:ImageButton ID="lnkPreviousPage" runat="server" ImageUrl="~/images/btn_left.png"
+                                        ToolTip="Previous Record" OnClick="lnkPreviousClientRecord_Click" />
+                                </div>
+                                <div id="DivlnkNextClientRecord" runat="server" style="display: none;">
+                                    <asp:ImageButton ID="lnkNextClientRecord" runat="server" ImageUrl="~/images/btn_rgt.png"
+                                        ToolTip="Next Record" OnClick="lnkNextClientRecord_Click" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <nav class="eprint-crm-nav eprint-crm-nav-top" aria-label="Customer sections">
+                        <div class="eprint-crm-nav-item" data-crm-nav="client">
+                            <asp:LinkButton ID="LnkSummary" runat="server" Text="Summary Information" CssClass="moreaction eprint-crm-nav-link" OnClick="LnkSummary_Click" OnClientClick="crmUpdateSummaryBreadcrumb(); if(document.getElementById('DivEditCallPopup')){document.getElementById('DivEditCallPopup').style.display='none';} if(document.getElementById('DivAddNotePopup')){document.getElementById('DivAddNotePopup').style.display='none';} if(typeof crmtooltip==='function'){crmtooltip();} return crmPrepareTab('client', 'Summary Information', true);"></asp:LinkButton>
+                        </div>
+                        <div class="eprint-crm-nav-item" data-crm-nav="dept">
+                            <asp:LinkButton ID="lnkDepartment" runat="server" Text="Departments" CssClass="moreaction eprint-crm-nav-link" OnClick="lnk_DeptTab_Click" OnClientClick="return crmPrepareTab('dept', 'Departments', true);"></asp:LinkButton>
+                        </div>
+                        <div id="DivlnlCostCentre" runat="server" class="eprint-crm-nav-item" data-crm-nav="costcentre" style="display: none;">
+                            <asp:LinkButton ID="lnlCostCentre" runat="server" Text="Cost Centres" CssClass="moreaction eprint-crm-nav-link" OnClick="lnk_CostCenterTab_Click" OnClientClick="return crmPrepareTab('costcentre', 'Cost Centres', true);"></asp:LinkButton>
+                        </div>
+                        <div class="eprint-crm-nav-item" data-crm-nav="contacts">
+                            <asp:LinkButton ID="lnkContact" runat="server" Text="Contacts" CssClass="moreaction eprint-crm-nav-link" OnClick="lnk_ContactTab_Click" OnClientClick="return crmPrepareTab('contacts', 'Contacts', true);"></asp:LinkButton>
+                        </div>
+                        <div class="eprint-crm-nav-item" data-crm-nav="address">
+                            <asp:LinkButton ID="lnkAddressBook" runat="server" Text="Address Book" CssClass="moreaction eprint-crm-nav-link" OnClick="lnkAddressBook_Click" OnClientClick="crmUpdateAddressBreadcrumb(); if(document.getElementById('DivEditCallPopup')){document.getElementById('DivEditCallPopup').style.display='none';} if(document.getElementById('DivAddNotePopup')){document.getElementById('DivAddNotePopup').style.display='none';} return crmPrepareTab('address', 'Address Book', true);"></asp:LinkButton>
+                        </div>
+                        <div id="divlnkEstore" runat="server" class="eprint-crm-nav-item" data-crm-nav="estore">
+                            <asp:LinkButton ID="lnkEstore" runat="server" Text="eStore" CssClass="moreaction eprint-crm-nav-link" OnClick="lnk_b2bTab_Click" OnClientClick="return crmPrepareTab('b2b', 'eStore', true);"></asp:LinkButton>
+                        </div>
+                        <div id="DivlnlProducts" runat="server" class="eprint-crm-nav-item" data-crm-nav="products">
+                            <asp:LinkButton ID="lnlProducts" runat="server" Text="Products" CssClass="moreaction eprint-crm-nav-link" OnClick="lnk_ProductsTab_Click" OnClientClick="return crmPrepareTab('products', 'Products', true);"></asp:LinkButton>
+                        </div>
+                        <div id="DivlnkEmail" runat="server" class="eprint-crm-nav-item" data-crm-nav="emails">
+                            <asp:LinkButton ID="lnkEmail" runat="server" Text="Emails" CssClass="moreaction eprint-crm-nav-link" OnClick="lnk_EmailsTab_Click" OnClientClick="return crmPrepareTab('emails', 'Emails', true);"></asp:LinkButton>
+                        </div>
+                        <div id="DivlnkRecords" runat="server" class="eprint-crm-nav-item" data-crm-nav="records">
+                            <asp:LinkButton ID="lnkRecords" runat="server" Text="Records" CssClass="moreaction eprint-crm-nav-link" OnClick="lnk_ActivitiesTab_Click" OnClientClick="return crmPrepareTab('activities', 'Records', true);"></asp:LinkButton>
+                        </div>
+                    </nav>
+                    <div class="eprint-crm-header-toolbar">
                     <div style="margin-left: 10px; float: left; margin-top: 5px; display: none;">
                         <asp:Button ID="btnCancel" runat="server" Text="Back" OnClick="btnCancel_OnClick"
                             CssClass="headerbutton white"></asp:Button>
@@ -3110,26 +3237,52 @@
                                 CssClass="headerbutton white"></asp:Button>
                         </div>
                     </div>
-                    <div id="Div14" runat="server" style="float: left; margin-left: 7px; margin-top: 5px;">
-                        <div align="center" style="margin-left: 7px; font-weight: bold; margin-top: 5px">
-                            <asp:Label ID="lbltitlecompanyname" Style="font-size: 15px;" runat="server"></asp:Label>
-                            <span style="margin-left: -1px;">-</span>
-                            <asp:Label ID="PanelName" Style="font-size: 14px;" runat="server"></asp:Label>
-                        </div>
-                    </div>
-                    <div id="DivlnkNextClientRecord" runat="server" style="float: right; margin-right: 10px; margin-top: 6px; display: none;">
-                        <asp:ImageButton ID="lnkNextClientRecord" runat="server" ImageUrl="~/images/btn_rgt.png"
-                            ToolTip="Next Record" OnClick="lnkNextClientRecord_Click" />
-                    </div>
-                    <div id="DivlnkPreviousPage" runat="server" style="float: right; margin-right: 7px; margin-top: 6px; display: none;">
-                        <asp:ImageButton ID="lnkPreviousPage" runat="server" ImageUrl="~/images/btn_left.png"
-                            ToolTip="Previous Record" OnClick="lnkPreviousClientRecord_Click" />
-                    </div>
-                    <div id="Div9" runat="server" style="float: right; margin-right: 10px; margin-top: 5px;">
+                    <div id="Div9" runat="server" class="eprint-crm-print-options-wrap" style="float: right; margin-right: 10px; margin-top: 5px; position: relative;">
                         <asp:Button ID="Button1" runat="server" Text="Print Options" CssClass="moreoptions white"
                             Width="120px" onmouseover="javascript:ShowPrintMoreActions(); return false;"
                             onmouseout="javascript:HidePrintMoreActions(); return false;" OnClientClick="javascript:return false;"
                             Style="background: url(../images/down_arrow.png) 95% no-repeat;"></asp:Button>
+                        <div id="DivPrintOptions" runat="server" class="ddM3 eprint-crm-print-options-menu" style="display: none; position: absolute; top: 100%; right: 0; z-index: 120; height: auto; width: 230px; margin-top: 4px;"
+                            onmouseover="javascript:ShowPrintMoreActions(); return false;" onmouseout="javascript:HidePrintMoreActions(); return false;">
+                            <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                <tr>
+                                    <td class="moreactionpanel" style="width: 250px;">
+                                        <div style="margin-left: 6px; margin-top: 5px; margin-bottom: 6px;">
+                                            <asp:LinkButton ID="lnlCustomerInfoWithAddress" runat="server" Text="Customer Info and Address"
+                                                OnClientClick="javascript:PrintCustomerInfoandAddress(); return false;" Style="color: #000000;"
+                                                CssClass="moreaction"></asp:LinkButton>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="moreactionpanel" style="width: 250px;">
+                                        <div style="margin-left: 6px; margin-top: 5px; margin-bottom: 6px;">
+                                            <asp:LinkButton ID="lnlCustomerInfowithDepartment" runat="server" Text="Customer Info with Department"
+                                                OnClientClick="javascript:PrintCustomerInfowithDepartment(); return false;" Style="color: #000000;"
+                                                CssClass="moreaction"></asp:LinkButton>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="moreactionpanel" style="width: 250px;">
+                                        <div style="margin-left: 6px; margin-top: 5px; margin-bottom: 6px;">
+                                            <asp:LinkButton ID="lnkMap" runat="server" Text="Customer Name with Location Map"
+                                                OnClientClick="javascript:PrintCustomerNamwithLocationMap(); return false;" Style="color: #000000;"
+                                                CssClass="moreaction"></asp:LinkButton>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="moreactionpanel" style="width: 250px;">
+                                        <div style="margin-left: 6px; margin-top: 5px; margin-bottom: 6px;">
+                                            <asp:LinkButton ID="lnlAllNotes" runat="server" Text="Customer Info with all Notes"
+                                                OnClientClick="javascript:CustomerInfowithallNotes(); return false;" Style="color: #000000;"
+                                                CssClass="moreaction"></asp:LinkButton>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
                     </div>
                     <div id="div_DeptControls" runat="server" style="float: right; margin-right: 10px; margin-top: 5px; display: none;">
                         <asp:UpdatePanel ID="UpdatePanel2" RenderMode="Inline" runat="server">
@@ -3207,8 +3360,29 @@
                             <img src="<%=strimgpath %>radimg1.gif" alt="loading" border="0" />
                         </div>
                     </div>
+                    </div>
                 </div>
-                <div id="div_ClientMain" runat="server" style="width: 100%; display: block; height: 100%; min-height: 445px;">
+                <div id="div_ClientMain" runat="server" class="eprint-crm-section-pilot-root" data-crm-section="client" style="width: 100%; display: block; height: 100%; min-height: 445px;">
+                    <div class="eprint-crm-section-pilot">
+                        <div class="eprint-crm-section-hero">
+                            <div class="eprint-crm-section-hero-main">
+                                <h2 class="eprint-crm-section-title"><%=objLangClass.GetLanguageConversion("Summary_Information")%></h2>
+                                <p class="eprint-crm-section-subtitle"><%=CompanyType %> · <span class="eprint-crm-section-company"></span></p>
+                            </div>
+                            <div class="eprint-crm-section-hero-stats eprint-crm-section-hero-stats--text">
+                                <span class="eprint-crm-section-count"><%=objLangClass.GetLanguageConversion("Account")%></span>
+                                <span class="eprint-crm-section-count-label"><%=objLangClass.GetLanguageConversion("Details")%></span>
+                            </div>
+                        </div>
+                        <div class="eprint-crm-section-toolbar">
+                            <div class="eprint-crm-section-search-wrap">
+                                <label class="eprint-crm-sr-only" for="eprintCrmSectionSearch_client">Search summary</label>
+                                <input type="search" id="eprintCrmSectionSearch_client" class="eprint-crm-section-search" data-crm-section="client"
+                                    placeholder="Search summary fields…" autocomplete="off" />
+                            </div>
+                        </div>
+                        <div class="eprint-crm-section-body-card eprint-crm-section-body-card--form">
+                            <div class="eprint-crm-section-form-inner">
                     <asp:UpdatePanel ID="up_CleintInfo" runat="server">
                         <ContentTemplate>
                             <div align="left" style="width: 100%; padding-bottom: 0px; border: 0px solid red">
@@ -3872,293 +4046,67 @@
                             </div>
                         </ContentTemplate>
                     </asp:UpdatePanel>
-                </div>
-                <div id="DivAnotherDesign" runat="server" style="width: 100%; display: none;">
-                    <div id="div_ContactMain" runat="server" style="width: 100%; display: none;">
-                        <div>
-                            <asp:UpdatePanel ID="up_ContactDetails" runat="server">
-                                <ContentTemplate>
-                                    <div id="div1" runat="server" style="display: block;">
-                                        <div align="left" style="width: 100%; padding-bottom: 0px; border: 0px solid red">
-                                            <div style="width: 100%; margin: 5px 0px 0px 5px">
-                                                <asp:UpdatePanel ID="UPMessageNew" RenderMode="Inline" runat="server">
-                                                    <ContentTemplate>
-                                                        <asp:PlaceHolder ID="plhContact" runat="server"></asp:PlaceHolder>
-                                                    </ContentTemplate>
-                                                </asp:UpdatePanel>
-                                            </div>
-                                        </div>
-                                        <div>
-                                            <div id="div_popupAction" style="display: none; z-index: 999999; position: absolute; margin: 35px 0px 0px 16px"
-                                                onmouseover="show();" onmouseout="hide();">
-                                                <telerik:RadListBox runat="server" ID="RadListBox_Contact" SelectionMode="Single"
-                                                    AutoPostBack="false">
-                                                    <Items>
-                                                        <%--Ticket Id : 13951--%>
-                                                        <telerik:RadListBoxItem id="UserSpendlimit" runat="server" Text="Spend limit" Style="border-bottom: 1px solid #CBCBCB; display: none; cursor: pointer"
-                                                            onclick="javascript:return CheckOne_new('spendlimituser');" Checked="false" />
-                                                        <telerik:RadListBoxItem id="UserSpendlimitDeactivate" runat="server" Style="border-bottom: 1px solid #CBCBCB; display: none; cursor: pointer"
-                                                            onclick="javascript:return CheckOne_new('spendlimitdeactivate');" Checked="false" />
-                                                        <telerik:RadListBoxItem id="Delete_Hide" runat="server" Text="Delete" onclick="javascript:return CheckOne_new('delete');"
-                                                            Checked="false" />
-                                                        <telerik:RadListBoxItem Text="Activate" onclick="javascript:return CheckOne_new('activate');"
-                                                            Checked="false" />
-                                                        <telerik:RadListBoxItem Text="Deactivate" onclick="javascript:return CheckOne_new('deactivate');"
-                                                            Checked="false" />
-
-
-                                                         <telerik:RadListBoxItem id="RadListboxActiverStoreUser" runat="server" Text="Activate Store Credit" Style="border-bottom: 1px solid #CBCBCB;  cursor: pointer"
-                                                            onclick="javascript:return CheckOne_new('activatestorecredit');" Checked="false" />
-                                                        <telerik:RadListBoxItem id="RadListboxDeActiverStoreUser" runat="server" Style="border-bottom: 1px solid #CBCBCB;  cursor: pointer"
-                                                            onclick="javascript:return CheckOne_new('deactivatestorecredit');" Checked="false" Text="Deactivate Store Credit" />
-                                                    
-
-                                                    </Items>
-                                                </telerik:RadListBox>
-                                            </div>
-                                        </div>
-                                        <asp:HiddenField ID="hdn_ContactIDs" runat="server" />
-                                        <asp:LinkButton ID="lnk_ContactsRadList" runat="server" OnClick="RadListBox_Contact_SelectedIndexChanged"></asp:LinkButton>
-                                        <div id="div_Contact" style="padding: 1px 15px 10px 4px; display: block; width: 100%;">
-                                            <div id="div8" style="padding: 0px 15px 20px 5px; display: block;">
-                                                <telerik:RadGrid ID="RadGrid_Contact" runat="server" AllowPaging="true" AllowSorting="true"
-                                                    AutoGenerateColumns="false" PagerStyle-AlwaysVisible="true" GroupingEnabled="false" OnItemCommand="RadGrid_Contact_ItemCommand"
-                                                    PageSize="50" Width="100%" ShowGroupPanel="true" ShowStatusBar="true" HeaderStyle-Font-Bold="true"
-                                                    OnItemDataBound="RadGridContact_OnRowDataBound" AllowFilteringByColumn="true" loadingpanelid="RadAjaxLoadingPanel1"
-                                                    OnNeedDataSource="RadGrid_Contact_OnNeedDataSource"  GridLines="none" CssClass="AddBorders"
-                                                    EnableEmbeddedSkins="true" HeaderStyle-ForeColor="#333333" HeaderStyle-BorderStyle="None"
-                                                    BorderColor="White" FilterItemStyle-HorizontalAlign="Justify" Skin="Default" GroupingSettings-CaseSensitive="false" 
-						                            OnPageIndexChanged="RadGrid_Contact_PageIndexChanged" AllowCustomPaging="true">
-                                                    <AlternatingItemStyle BackColor="White" />
-                                                    <PagerStyle AlwaysVisible="true" Mode="NextPrevAndNumeric" Position="Bottom" />
-                                                    <FilterMenu CssClass="RadMenu_Eprint_Skin" />
-                                                    <MasterTableView DataKeyNames="ContactID" OverrideDataSourceControlSorting="true"
-                                                     AllowFilteringByColumn="true" CommandItemDisplay="Top" Width="100%">
-
-                                                        <CommandItemTemplate>
-                                                            <div style="border-bottom: 1px solid #C9C9C9; margin-top: 5px;">
-                                                            </div>
-                                                        </CommandItemTemplate>
-                                                        <Columns>
-                                                            <telerik:GridTemplateColumn AllowFiltering="false" HeaderStyle-HorizontalAlign="Left"
-                                                                HeaderStyle-Width="4%" HeaderStyle-Wrap="false" ItemStyle-HorizontalAlign="left"
-                                                                ItemStyle-Width="4%">
-                                                                <HeaderTemplate>
-                                                                    <div id="div_checkBox" style="float: left;">
-                                                                        <div style="float: left; display: none;">
-                                                                        </div>
-                                                                        <div id="div_chk" style="float: left; border: outset 1px; -moz-border-radius: 5px; -webkit-border-radius: 5px; -ms-border-radius: 5px; height: inherit; width: inherit">
-                                                                            <table width="100%" border="0" cellpadding="0" cellspacing="0" style="white-space: nowrap;">
-                                                                                <tr>
-                                                                                    <td>
-                                                                                        <div style="float: left;">
-                                                                                            <input id="checkAll" runat="server" name="checkAll" onclick="checkAll_new(this);"
-                                                                                                type="checkbox" />
-                                                                                            <input id="hdnUPDOWN" runat="server" type="hidden" /></ItemTemplate>
-                                                                                        </div>
-                                                                                    </td>
-                                                                                    <td>
-                                                                                        <div style="float: left; padding: 0px 0px 0px 1px">
-                                                                                            <img src="<%=ImgPath %>ArrowDown.gif" id="img_actionsShow" style="display: block; border: solid 0px Transparent; cursor: pointer;"
-                                                                                                onclick="show();" alt='' />
-                                                                                            <img src="<%=ImgPath %>ArrowUP.GIF" id="img_actionsHide" style="display: none; border: solid 0px Transparent; cursor: pointer;"
-                                                                                                onclick="hide();" alt='' />
-                                                                                        </div>
-                                                                                    </td>
-                                                                                </tr>
-                                                                            </table>
-                                                                        </div>
-                                                                    </div>
-                                                                </HeaderTemplate>
-                                                                <ItemTemplate>
-                                                                    <input id="checkBox_Contact" runat="server" name="Id" type="checkbox" style="margin-left: 8px;" onclick="CheckChanged_Contact();"
-                                                                        value='<%# DataBinder.Eval(Container, "DataItem.ContactID", "{0}") %>' />
-                                                                    <input id="hdnUPDOWN" runat="server" type="hidden" />
-                                                                </ItemTemplate>
-                                                            </telerik:GridTemplateColumn>
-                                                            <telerik:GridTemplateColumn DataField="ContactName" HeaderStyle-HorizontalAlign="Left"
-                                                                CurrentFilterFunction="Contains" AutoPostBackOnFilter="true" FilterControlWidth="80"
-                                                                HeaderStyle-Width="10%" HeaderText="" ItemStyle-Width="10%" SortExpression="ContactName"
-                                                                UniqueName="ContactName" Visible="true">
-                                                                <ItemTemplate>
-                                                                    <a href="javascript:void(0);" onclick="javascript:newPopup(<%# DataBinder.Eval(Container, "DataItem.ContactID", "{0}") %>,'<%=isView%>');return false;">
-                                                                        <div style="float: left; width: 100%; overflow: hidden; height: 15px;">
-                                                                            <asp:Label ID="lbl_ContactName" runat="server"></asp:Label>
-                                                                            <asp:HiddenField ID="hdn_ContactFirstName" runat="server" Value='<%#basecls.SpecialDecode(DataBinder.Eval(Container, "DataItem.FirstName", "{0}")) %>'></asp:HiddenField>
-                                                                            <asp:HiddenField ID="hdn_ContactLastName" runat="server" Value='<%#basecls.SpecialDecode(DataBinder.Eval(Container, "DataItem.LastName", "{0}")) %>'></asp:HiddenField>
-                                                                        </div>
-                                                                    </a>
-                                                                </ItemTemplate>
-                                                            </telerik:GridTemplateColumn>
-                                                            <telerik:GridTemplateColumn DataField="Department" HeaderStyle-HorizontalAlign="Left"
-                                                                CurrentFilterFunction="Contains" AutoPostBackOnFilter="true" FilterControlWidth="80"
-                                                                HeaderStyle-Width="10%" HeaderText="" ItemStyle-Width="10%" SortExpression="Department"
-                                                                UniqueName="Department" Visible="true">
-                                                                <ItemTemplate>
-                                                                    <a href="javascript:void(0);" onclick="javascript:newPopup(<%# DataBinder.Eval(Container, "DataItem.ContactID", "{0}") %>,'<%=isView%>');return false;">
-                                                                        <div style="float: left; width: 100%; overflow: hidden; height: 15px;">
-                                                                            <asp:Label ID="lbl_Department" runat="server" Text='<%#basecls.SpecialDecode(DataBinder.Eval(Container, "DataItem.Department", "{0}")) %>' ToolTip='<%#basecls.SpecialDecode(DataBinder.Eval(Container, "DataItem.Department", "{0}")) %>'></asp:Label>
-                                                                        </div>
-                                                                    </a>
-                                                                </ItemTemplate>
-                                                            </telerik:GridTemplateColumn>
-                                                            <telerik:GridTemplateColumn DataField="JobTitle1" HeaderStyle-HorizontalAlign="Left"
-                                                                CurrentFilterFunction="Contains" AutoPostBackOnFilter="true" FilterControlWidth="70"
-                                                                HeaderStyle-Width="10%" HeaderText="" ItemStyle-Width="7%" SortExpression="JobTitle1"
-                                                                UniqueName="JobTitle1" Visible="true">
-                                                                <ItemTemplate>
-                                                                    <a href="javascript:void(0);" onclick="javascript:newPopup(<%# DataBinder.Eval(Container, "DataItem.ContactID", "{0}") %>,'<%=isView%>');return false;">
-                                                                        <div style="float: left; width: 100%; overflow: hidden; height: 15px;">
-                                                                            <asp:Label ID="lbl_JobTitle1" runat="server" Text='<%#basecls.SpecialDecode(DataBinder.Eval(Container, "DataItem.JobTitle1", "{0}")) %>' ToolTip='<%#basecls.SpecialDecode(DataBinder.Eval(Container, "DataItem.JobTitle1", "{0}")) %>'></asp:Label>
-                                                                        </div>
-                                                                    </a>
-                                                                </ItemTemplate>
-                                                            </telerik:GridTemplateColumn>
-                                                            <telerik:GridTemplateColumn DataField="Email" HeaderStyle-HorizontalAlign="Left"
-                                                                CurrentFilterFunction="Contains" AutoPostBackOnFilter="true" FilterControlWidth="100"
-                                                                HeaderStyle-Width="16%" HeaderText="" ItemStyle-Width="16%" SortExpression="Email"
-                                                                Visible="true" ItemStyle-HorizontalAlign="Left" UniqueName="Email">
-                                                                <ItemTemplate>
-                                                                    <a href="javascript:void(0);" onclick="javascript:newPopup(<%# DataBinder.Eval(Container, "DataItem.ContactID", "{0}") %>,'<%=isView%>');return false;">
-                                                                        <div style="float: left; width: 100%; overflow: hidden; height: 15px;">
-                                                                            <asp:Label ID="lbl_Email" runat="server" Text='<%#basecls.SpecialDecode(DataBinder.Eval(Container, "DataItem.Email", "{0}")) %>' ToolTip='<%#basecls.SpecialDecode(DataBinder.Eval(Container, "DataItem.Email", "{0}")) %>'></asp:Label>
-                                                                        </div>
-                                                                    </a>
-                                                                </ItemTemplate>
-                                                            </telerik:GridTemplateColumn>
-                                                            <telerik:GridTemplateColumn DataField="HomeTelephone" HeaderStyle-HorizontalAlign="Left"
-                                                                FilterControlWidth="60" CurrentFilterFunction="Contains" AutoPostBackOnFilter="true"
-                                                                HeaderStyle-Width="12%" HeaderText="" ItemStyle-Width="12%" SortExpression="HomeTelephone"
-                                                                Visible="true" ItemStyle-HorizontalAlign="Left" UniqueName="HomeTelephone">
-                                                                <ItemTemplate>
-                                                                    <a href="javascript:void(0);" onclick="javascript:newPopup(<%# DataBinder.Eval(Container, "DataItem.ContactID", "{0}") %>,'<%=isView%>');return false;">
-                                                                        <div style="float: left; width: 100%; overflow: hidden; height: 15px;">
-                                                                            <asp:Label ID="lbl_Phone" runat="server" Text='<%#basecls.SpecialDecode(DataBinder.Eval(Container, "DataItem.HomeTelephone", "{0}")) %>' ToolTip='<%#basecls.SpecialDecode(DataBinder.Eval(Container, "DataItem.HomeTelephone", "{0}")) %>'></asp:Label>
-                                                                        </div>
-                                                                    </a>
-                                                                </ItemTemplate>
-                                                            </telerik:GridTemplateColumn>
-                                                            <telerik:GridTemplateColumn DataField="PersonalPhone" HeaderStyle-HorizontalAlign="Left"
-                                                                FilterControlWidth="70" CurrentFilterFunction="Contains" AutoPostBackOnFilter="true"
-                                                                HeaderStyle-Width="11%" HeaderText="" ItemStyle-Width="11%" SortExpression="PersonalPhone"
-                                                                Visible="true" ItemStyle-HorizontalAlign="Left" UniqueName="PersonalPhone">
-                                                                <ItemTemplate>
-                                                                    <a href="javascript:void(0);" onclick="javascript:newPopup(<%# DataBinder.Eval(Container, "DataItem.ContactID", "{0}") %>,'<%=isView%>');return false;">
-                                                                        <div style="float: left; width: 100%; overflow: hidden; height: 15px;">
-                                                                            <asp:Label ID="lbl_PersonalPhone" runat="server" Text='<%#basecls.SpecialDecode(DataBinder.Eval(Container, "DataItem.PersonalPhone", "{0}")) %>' ToolTip='<%#basecls.SpecialDecode(DataBinder.Eval(Container, "DataItem.PersonalPhone", "{0}")) %>'></asp:Label>
-                                                                        </div>
-                                                                    </a>
-                                                                </ItemTemplate>
-                                                            </telerik:GridTemplateColumn>
-                                                            <telerik:GridTemplateColumn DataField="Mobile" HeaderStyle-HorizontalAlign="Left"
-                                                                FilterControlWidth="60" CurrentFilterFunction="Contains" AutoPostBackOnFilter="true"
-                                                                HeaderStyle-Width="9%" HeaderText="" ItemStyle-Width="9%" SortExpression="Mobile"
-                                                                Visible="true" ItemStyle-HorizontalAlign="Left" UniqueName="Mobile">
-                                                                <ItemTemplate>
-                                                                    <a href="javascript:void(0);" onclick="javascript:newPopup(<%# DataBinder.Eval(Container, "DataItem.ContactID", "{0}") %>,'<%=isView%>');return false;">
-                                                                        <div style="float: left; width: 100%; overflow: hidden; height: 15px;">
-                                                                            <asp:Label ID="lbl_Mobile" runat="server" Text='<%#basecls.SpecialDecode(DataBinder.Eval(Container, "DataItem.Mobile", "{0}")) %>' ToolTip='<%#basecls.SpecialDecode(DataBinder.Eval(Container, "DataItem.Mobile", "{0}")) %>'></asp:Label>
-                                                                        </div>
-                                                                    </a>
-                                                                </ItemTemplate>
-                                                            </telerik:GridTemplateColumn>
-                                                            <%--Ticket Id : 13951--%>
-                                                            <telerik:GridTemplateColumn DataField="SpendLimit" HeaderStyle-HorizontalAlign="Left"
-                                                                FilterControlWidth="60" CurrentFilterFunction="Contains" AutoPostBackOnFilter="true"
-                                                                HeaderStyle-Width="12%" HeaderText="" ItemStyle-Width="12%" SortExpression="SpendLimit"
-                                                                Visible="true" ItemStyle-HorizontalAlign="Left" UniqueName="SpendLimit">
-                                                                <ItemTemplate>
-                                                                    <a href="javascript:void(0);" onclick="javascript:newPopup(<%# DataBinder.Eval(Container, "DataItem.ContactID", "{0}") %>,'<%=isView%>');return false;">
-                                                                        <div style="float: left; width: 100%; overflow: hidden; height: 15px;">
-                                                                            <asp:Label ID="lbl_SpendLimit" runat="server" Text='<%#basecls.SpecialDecode(DataBinder.Eval(Container, "DataItem.SpendLimit", "{0}")) %>' ToolTip='<%#basecls.SpecialDecode(DataBinder.Eval(Container, "DataItem.SpendLimit", "{0}")) %>'></asp:Label>
-                                                                        </div>
-                                                                    </a>
-                                                                </ItemTemplate>
-                                                            </telerik:GridTemplateColumn>
-                                                            <telerik:GridTemplateColumn AllowFiltering="false" Visible="true" HeaderStyle-HorizontalAlign="Left"
-                                                                HeaderStyle-Width="5%" HeaderText="" ItemStyle-HorizontalAlign="Left" ItemStyle-Width="5%"
-                                                                UniqueName="restoreDefault">
-                                                                <ItemTemplate>
-                                                                    <div style="text-align: left;">
-                                                                        <asp:Label ID="lbl_Activate" runat="server" Text="Active"></asp:Label>
-                                                                        <asp:HiddenField ID="hdn_Activate" runat="server" Value='<%#Eval("IsActive")%>' />
-                                                                    </div>
-                                                                </ItemTemplate>
-                                                            </telerik:GridTemplateColumn>
-                                                            <telerik:GridTemplateColumn AllowFiltering="false" Visible="true" HeaderStyle-HorizontalAlign="Center"
-                                                                HeaderStyle-Width="13%" HeaderText="" ItemStyle-HorizontalAlign="Center" ItemStyle-Width="7%"
-                                                                UniqueName="approverType">
-                                                                <ItemTemplate>
-                                                                    <asp:Label ID="lbl_ApproverType" runat="server" Text='<%#basecls.SpecialDecode(DataBinder.Eval(Container, "DataItem.ApproverType", "{0}")) %>' ToolTip='<%#basecls.SpecialDecode(DataBinder.Eval(Container, "DataItem.ApproverType", "{0}")) %>'></asp:Label>
-                                                                </ItemTemplate>
-                                                            </telerik:GridTemplateColumn>
-                                                            <telerik:GridTemplateColumn DataField="DefaultContact" HeaderStyle-HorizontalAlign="Center"
-                                                                AllowFiltering="false" HeaderStyle-Width="5%" HeaderText="" ItemStyle-Width="5%"
-                                                                SortExpression="Enabled" UniqueName="system" Visible="true" ItemStyle-HorizontalAlign="Center">
-                                                                <ItemTemplate>
-                                                                    <a href="javascript:void(0);" onclick="javascript:return setAsDefault(<%# DataBinder.Eval(Container, "DataItem.ContactID", "{0}") %>,'contact');">
-                                                                        <div style="float: left; width: 100%; overflow: hidden; height: 18px;">
-                                                                            <asp:HiddenField ID="hdn_DefaultContact" runat="server" Value='<%#Eval("DefaultContact")%>' />
-                                                                            <asp:HiddenField ID="hdn_DefaultContactID" runat="server" Value='<%#Eval("ContactID")%>' />
-                                                                            <asp:ImageButton ID="img_DefaultContact" runat="server" CommandName="Set as default"
-                                                                                CssClass="rollover" Text="Set as default" CommandArgument='<%#Eval("ContactID")%>'
-                                                                                OnCommand="setDefaultContact_OnClick"></asp:ImageButton>
-                                                                        </div>
-                                                                    </a>
-                                                                </ItemTemplate>
-                                                            </telerik:GridTemplateColumn>
-                                                            <telerik:GridTemplateColumn AllowFiltering="false" CurrentFilterFunction="Contains"
-                                                                HeaderStyle-HorizontalAlign="Right" HeaderStyle-Width="8%" HeaderText="" ItemStyle-HorizontalAlign="Right"
-                                                                ItemStyle-Width="8%" UniqueName="restoreDefaultButton">
-                                                                <ItemTemplate>
-                                                                    <div id="DivLoginKey" runat="server" style="text-align: center;">
-                                                                        <a runat="server" id="anchor">
-                                                                            <div style="text-align: center;">
-                                                                                <asp:ImageButton ID="ImgButtonLoginContacts" runat="server" />
-                                                                                <asp:HiddenField ID="hdn_LoginEmail" runat="server" Value='<%#Eval("Email")%>' />
-                                                                                <asp:HiddenField ID="hdn_LoginPwd" runat="server" Value='<%#Eval("Password")%>' />
-                                                                            </div>
-                                                                        </a>
-                                                                    </div>
-                                                                    <div id="DivContact" runat="server" style="float: right; border: 0px solid red; margin-top: -13px">
-                                                                        <div style="text-align: center; float: left; width: 25px; display: none;">
-                                                                            <a href="javascript:void(0);" onclick="AddContactNotes('<%#Eval("ContactID")%>','<%#Eval("ClientID")%>');"
-                                                                                title="Add New Contact">
-                                                                                <asp:ImageButton ID="btnNotes" ImageUrl="~/Images/clipboard_task.png" Text="Notes"
-                                                                                    ToolTip="Notes" UniqueName="NotesColumn" runat="server"></asp:ImageButton>
-                                                                            </a>
-                                                                        </div>
-                                                                        <div style="text-align: center; float: left; width: 20px">
-                                                                            <asp:ImageButton ID="ImgButtonDeleteContacts" ImageUrl="~/Images/erase.png" CommandName="Delete"
-                                                                                CommandArgument='<%#Eval("ContactID")%>' Text="Delete" OnCommand="DeleteImgContact_OnClick"
-                                                                                UniqueName="DeleteColumn" runat="server" OnClientClick="javascript:return imgbtnDelete_ClientClick('contacts','0');"></asp:ImageButton>
-                                                                        </div>
-                                                                    </div>
-                                                                </ItemTemplate>
-                                                            </telerik:GridTemplateColumn>
-                                                        </Columns>
-                                                        <NoRecordsTemplate>
-                                                            <div style="padding: 5px 0px 0px 10px">
-                                                                <%=objLangClass.GetLanguageConversion("No_Records_Found") %>
-                                                            </div>
-                                                        </NoRecordsTemplate>
-                                                    </MasterTableView>
-                                                    <ClientSettings ReorderColumnsOnClient="false" EnableRowHoverStyle="true" AllowRowsDragDrop="false"
-                                                        AllowDragToGroup="false" Scrolling-AllowScroll="true">
-                                                        <Selecting AllowRowSelect="True" />
-                                                        <Selecting AllowRowSelect="True" EnableDragToSelectRows="false" />
-                                                        <Scrolling UseStaticHeaders="true" ScrollHeight="340" SaveScrollPosition="true" />
-                                                        <ClientEvents OnRowMouseOver="RowMouseOver" OnRowMouseOut="RowMouseOut" />
-                                                    </ClientSettings>
-                                                </telerik:RadGrid>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </ContentTemplate>
-                            </asp:UpdatePanel>
+                            </div>
                         </div>
                     </div>
-                    <div id="div_DepartmentMain" runat="server" style="width: 100%; display: none;">
+                </div>
+                <div id="DivAnotherDesign" runat="server" style="width: 100%; display: none;">
+                    <div id="div_ContactMain" runat="server" class="eprint-crm-section-pilot-root eprint-crm-contacts-pilot-root" data-crm-section="contacts" style="width: 100%; display: none;">
+                        <div class="eprint-crm-section-pilot eprint-crm-contacts-pilot">
+                            <div class="eprint-crm-section-hero eprint-crm-contacts-hero">
+                                <div class="eprint-crm-section-hero-main">
+                                    <h2 class="eprint-crm-section-title"><%=objLangClass.GetLanguageConversion("Contacts")%></h2>
+                                    <p class="eprint-crm-section-subtitle"><%=CompanyType %> · <span class="eprint-crm-section-company eprint-crm-contacts-company"></span></p>
+                                </div>
+                                <div class="eprint-crm-section-hero-stats" aria-live="polite">
+                                    <span class="eprint-crm-section-count eprint-crm-contacts-count">0</span>
+                                    <span class="eprint-crm-section-count-label"><%=objLangClass.GetLanguageConversion("Contacts")%></span>
+                                </div>
+                            </div>
+                            <div class="eprint-crm-section-toolbar eprint-crm-contacts-toolbar">
+                                <div class="eprint-crm-section-search-wrap">
+                                    <label class="eprint-crm-sr-only" for="eprintCrmSectionSearch_contacts">Quick search contacts</label>
+                                    <input type="search" id="eprintCrmSectionSearch_contacts" class="eprint-crm-section-search eprint-crm-contacts-search"
+                                        placeholder="Search name, email, department on this page…" autocomplete="off" />
+                                </div>
+                                <div class="eprint-crm-section-actions">
+                                    <button type="button" class="headerbutton white eprint-crm-section-btn-add"
+                                        onclick="javascript:addNewcontact('contact','add','<%=ClientID %>','0');return false;">+ <%=objLangClass.GetLanguageConversion("Add_New_Contact")%></button>
+                                    <button type="button" class="headerbutton white"
+                                        onclick="var b=document.getElementById('<%=btn_ClearFilter_Contact.ClientID %>');if(b){b.click();} return false;">
+                                        <%=objLangClass.GetLanguageConversion("Clear_All_Filters")%></button>
+                                </div>
+                            </div>
+                            <div class="eprint-crm-section-body-card eprint-crm-contacts-grid-card">
+                                    <asp:PlaceHolder ID="plh_ContactDetails" runat="server"></asp:PlaceHolder>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="div_DepartmentMain" runat="server" class="eprint-crm-section-pilot-root" data-crm-section="dept" style="width: 100%; display: none;">
+                        <div class="eprint-crm-section-pilot">
+                            <div class="eprint-crm-section-hero">
+                                <div class="eprint-crm-section-hero-main">
+                                    <h2 class="eprint-crm-section-title"><%=objLangClass.GetLanguageConversion("Departments")%></h2>
+                                    <p class="eprint-crm-section-subtitle"><%=CompanyType %> · <span class="eprint-crm-section-company"></span></p>
+                                </div>
+                                <div class="eprint-crm-section-hero-stats" aria-live="polite">
+                                    <span class="eprint-crm-section-count">0</span>
+                                    <span class="eprint-crm-section-count-label"><%=objLangClass.GetLanguageConversion("Departments")%></span>
+                                </div>
+                            </div>
+                            <div class="eprint-crm-section-toolbar">
+                                <div class="eprint-crm-section-search-wrap">
+                                    <input type="search" class="eprint-crm-section-search" placeholder="Search departments on this page…" autocomplete="off" />
+                                </div>
+                                <div class="eprint-crm-section-actions">
+                                    <button type="button" class="headerbutton white eprint-crm-section-btn-add"
+                                        onclick="javascript:addNewDepartment('dept','add','<%=ClientID %>','0');return false;">+ <%=objLangClass.GetLanguageConversion("Add_New_Department")%></button>
+                                    <button type="button" class="headerbutton white"
+                                        onclick="var b=document.getElementById('<%=btn_ClearFilters_Dept.ClientID %>');if(b){b.click();} return false;">
+                                        <%=objLangClass.GetLanguageConversion("Clear_All_Filters")%></button>
+                                </div>
+                            </div>
+                            <div class="eprint-crm-section-body-card">
                         <div>
                             <asp:UpdatePanel ID="up_DeptDetails" runat="server">
                                 <ContentTemplate>
@@ -4196,7 +4144,7 @@
                                             <telerik:RadGrid ID="RadGrid_Department" runat="server" OnNeedDataSource="RadGrid_Department_OnNeedDataSource"
                                                 OnItemDataBound="RadGridDepartment_OnRowDataBound" AllowFilteringByColumn="true"  OnItemCommand="RadGrid_Department_ItemCommand"
                                                 AutoGenerateColumns="false" Width="100%" AllowPaging="true" AllowSorting="true"
-                                                GridLines="none" PageSize="50" CssClass="AddBorders" HeaderStyle-Font-Bold="true"
+                                                GridLines="none" PageSize="50" CssClass="AddBorders eprint-crm-section-grid" HeaderStyle-Font-Bold="true" ShowGroupPanel="false"
                                                 Skin="Default" EnableEmbeddedSkins="true" loadingpanelid="RadAjaxLoadingPanel1"
                                                 HeaderStyle-ForeColor="#333333" HeaderStyle-BorderStyle="Double" BorderColor="White"
                                                 FilterItemStyle-HorizontalAlign="Justify" GroupingSettings-CaseSensitive="false" OnPageIndexChanged="RadGrid_Department_PageIndexChanged" AllowCustomPaging="True">
@@ -4458,8 +4406,34 @@
                                 </ContentTemplate>
                             </asp:UpdatePanel>
                         </div>
+                            </div>
+                        </div>
                     </div>
-                    <div id="div_AddressMain" runat="server" style="width: 100%; display: none;">
+                    <div id="div_AddressMain" runat="server" class="eprint-crm-section-pilot-root" data-crm-section="address" style="width: 100%; display: none;">
+                        <div class="eprint-crm-section-pilot">
+                            <div class="eprint-crm-section-hero">
+                                <div class="eprint-crm-section-hero-main">
+                                    <h2 class="eprint-crm-section-title"><%=objLangClass.GetLanguageConversion("Address_Book")%></h2>
+                                    <p class="eprint-crm-section-subtitle"><%=CompanyType %> · <span class="eprint-crm-section-company"></span></p>
+                                </div>
+                                <div class="eprint-crm-section-hero-stats" aria-live="polite">
+                                    <span class="eprint-crm-section-count">0</span>
+                                    <span class="eprint-crm-section-count-label"><%=objLangClass.GetLanguageConversion("Address_Book")%></span>
+                                </div>
+                            </div>
+                            <div class="eprint-crm-section-toolbar">
+                                <div class="eprint-crm-section-search-wrap">
+                                    <input type="search" class="eprint-crm-section-search" data-crm-section="address" placeholder="Search addresses on this page…" autocomplete="off" />
+                                </div>
+                                <div class="eprint-crm-section-actions">
+                                    <button type="button" class="headerbutton white eprint-crm-section-btn-add"
+                                        onclick="javascript:addNewAddress('Address','add','<%=ClientID %>','0');return false;">+ <%=objLangClass.GetLanguageConversion("Add_New_Address")%></button>
+                                    <button type="button" class="headerbutton white"
+                                        onclick="var b=document.getElementById('<%=btn_ClearFilter_Address.ClientID %>');if(b){b.click();} return false;">
+                                        <%=objLangClass.GetLanguageConversion("Clear_All_Filters")%></button>
+                                </div>
+                            </div>
+                            <div class="eprint-crm-section-body-card">
                         <div>
                             <asp:UpdatePanel ID="up_AddressDetails" runat="server">
                                 <ContentTemplate>
@@ -4486,9 +4460,9 @@
                                         <div id="div_Address" style="padding: 2px 7px 25px 6px; display: block;">
                                             <telerik:RadGrid ID="RadGrid_Address" runat="server" AllowPaging="true" AllowSorting="true" OnItemCommand="RadGrid_Address_ItemCommand"
                                                 AutoGenerateColumns="false" PagerStyle-AlwaysVisible="true" GroupingEnabled="false"
-                                                PageSize="50" Width="100%" ShowGroupPanel="true" ShowStatusBar="true" HeaderStyle-Font-Bold="true"
-                                                OnNeedDataSource="RadGrid_Address_OnNeedDataSource" AllowFilteringByColumn="true"
-                                                OnItemDataBound="RadGridAddress_OnRowDataBound" CssClass="AddBorders" EnableEmbeddedSkins="true"
+                                                PageSize="50" Width="100%" ShowGroupPanel="false" ShowStatusBar="true" HeaderStyle-Font-Bold="true"
+                                                OnNeedDataSource="RadGrid_Address_OnNeedDataSource" OnPreRender="RadGrid_Address_PreRender" AllowFilteringByColumn="true"
+                                                OnItemDataBound="RadGridAddress_OnRowDataBound" CssClass="AddBorders eprint-crm-section-grid" EnableEmbeddedSkins="true"
                                                 HeaderStyle-ForeColor="#333333" HeaderStyle-BorderStyle="Double" BorderColor="White"
                                                 FilterItemStyle-HorizontalAlign="Justify" Skin="Default" GroupingSettings-CaseSensitive="false">
                                                 <AlternatingItemStyle BackColor="White" />
@@ -4513,7 +4487,7 @@
                                                                                     <div style="float: left;">
                                                                                         <input id="checkAll_Address" runat="server" name="checkAll_Address" onclick="checkAll_new_Address(this);"
                                                                                             type="checkbox" />
-                                                                                        <input id="hdnUPDOWN" runat="server" type="hidden" /></ItemTemplate>
+                                                                                        <input id="hdnUPDOWN" runat="server" type="hidden" />
                                                                                     </div>
                                                                                 </td>
                                                                                 <td>
@@ -4658,8 +4632,18 @@
                                 </ContentTemplate>
                             </asp:UpdatePanel>
                         </div>
+                            </div>
+                        </div>
                     </div>
-                    <div id="div_b2bMain" runat="server" style="width: 100%; display: none;">
+                    <div id="div_b2bMain" runat="server" class="eprint-crm-section-pilot-root" data-crm-section="estore" style="width: 100%; display: none;">
+                        <div class="eprint-crm-section-pilot">
+                            <div class="eprint-crm-section-hero">
+                                <div class="eprint-crm-section-hero-main">
+                                    <h2 class="eprint-crm-section-title"><%=objLangClass.GetLanguageConversion("eStore")%></h2>
+                                    <p class="eprint-crm-section-subtitle"><%=CompanyType %> · <span class="eprint-crm-section-company"></span></p>
+                                </div>
+                            </div>
+                            <div class="eprint-crm-section-body-card eprint-crm-section-body-card--form">
                         <div>
                             <asp:UpdatePanel ID="up_2b2Details" runat="server">
                                 <ContentTemplate>
@@ -4707,14 +4691,42 @@
                             var WebStorePathB2C = '<%=WebStorePathB2C %>';
 
                         </script>
+                            </div>
+                        </div>
                     </div>
-                    <div id="div_ProductsMain" runat="server" style="width: 100%; display: none;">
-                        <div style="margin-top: -5px;">
+                    <div id="div_ProductsMain" runat="server" class="eprint-crm-section-pilot-root" data-crm-section="products" style="width: 100%; display: none;">
+                        <div class="eprint-crm-section-pilot">
+                            <div class="eprint-crm-section-hero">
+                                <div class="eprint-crm-section-hero-main">
+                                    <h2 class="eprint-crm-section-title"><%=objLangClass.GetLanguageConversion("Products")%></h2>
+                                    <p class="eprint-crm-section-subtitle"><%=CompanyType %> · <span class="eprint-crm-section-company"></span></p>
+                                </div>
+                                <div class="eprint-crm-section-hero-stats" aria-live="polite">
+                                    <span class="eprint-crm-section-count">0</span>
+                                    <span class="eprint-crm-section-count-label"><%=objLangClass.GetLanguageConversion("Products")%></span>
+                                </div>
+                            </div>
+                            <div class="eprint-crm-section-toolbar">
+                                <div class="eprint-crm-section-search-wrap">
+                                    <input type="search" class="eprint-crm-section-search" placeholder="Search products on this page…" autocomplete="off" />
+                                </div>
+                                <div class="eprint-crm-section-actions">
+                                    <button type="button" class="headerbutton white eprint-crm-section-btn-add"
+                                        onclick="javascript:addNewProduct('Product','add','<%=ClientID %>','0');return false;">+ <%=objLangClass.GetLanguageConversion("Add_New_Product")%></button>
+                                    <button type="button" class="headerbutton white"
+                                        onclick="javascript:clearfilter_product();return false;">
+                                        <%=objLangClass.GetLanguageConversion("Clear_All_Filters")%></button>
+                                </div>
+                            </div>
+                            <div class="eprint-crm-section-body-card">
+                        <div style="margin-top: 0;">
                             <asp:UpdatePanel ID="up_ProductDetails" runat="server">
                                 <ContentTemplate>
                                     <asp:PlaceHolder ID="plh_ProductDetails" runat="server"></asp:PlaceHolder>
                                 </ContentTemplate>
                             </asp:UpdatePanel>
+                        </div>
+                            </div>
                         </div>
                     </div>
                     <div id="div_NotesMain" runat="server" style="width: 100%; display: none; overflow: hidden; height: auto">
@@ -4790,17 +4802,56 @@
                             <asp:PlaceHolder ID="ph_notesPrint" runat="server"></asp:PlaceHolder>
                         </div>
                     </div>
-                    <div id="div_EmailMain" runat="server" style="width: 100%; display: none;">
-                        <div style="margin-top: -5px;">
+                    <div id="div_EmailMain" runat="server" class="eprint-crm-section-pilot-root" data-crm-section="emails" style="width: 100%; display: none;">
+                        <div class="eprint-crm-section-pilot">
+                            <div class="eprint-crm-section-hero">
+                                <div class="eprint-crm-section-hero-main">
+                                    <h2 class="eprint-crm-section-title"><%=objLangClass.GetLanguageConversion("Emails")%></h2>
+                                    <p class="eprint-crm-section-subtitle"><%=CompanyType %> · <span class="eprint-crm-section-company"></span></p>
+                                </div>
+                                <div class="eprint-crm-section-hero-stats" aria-live="polite">
+                                    <span class="eprint-crm-section-count">0</span>
+                                    <span class="eprint-crm-section-count-label"><%=objLangClass.GetLanguageConversion("Emails")%></span>
+                                </div>
+                            </div>
+                            <div class="eprint-crm-section-toolbar">
+                                <div class="eprint-crm-section-search-wrap">
+                                    <input type="search" class="eprint-crm-section-search" placeholder="Search emails on this page…" autocomplete="off" />
+                                </div>
+                                <div class="eprint-crm-section-actions">
+                                    <button type="button" class="headerbutton white eprint-crm-section-btn-add"
+                                        onclick="var b=document.getElementById('<%=btn_AddNewEmail.ClientID %>');if(b){b.click();} return false;">+ <%=objLangClass.GetLanguageConversion("Add_New_Email")%></button>
+                                    <button type="button" class="headerbutton white"
+                                        onclick="javascript:clearfilter_email();return false;">
+                                        <%=objLangClass.GetLanguageConversion("Clear_All_Filters")%></button>
+                                </div>
+                            </div>
+                            <div class="eprint-crm-section-body-card">
+                        <div>
                             <asp:UpdatePanel ID="up_EmailsDetails" runat="server">
                                 <ContentTemplate>
                                     <asp:PlaceHolder ID="plh_EmailsDetails" runat="server"></asp:PlaceHolder>
                                 </ContentTemplate>
                             </asp:UpdatePanel>
                         </div>
+                            </div>
+                        </div>
                     </div>
 
-                    <div id="div_ActivitiesMain" runat="server" style="width: 100%; display: none;">
+                    <div id="div_ActivitiesMain" runat="server" class="eprint-crm-section-pilot-root" data-crm-section="records" style="width: 100%; display: none;">
+                        <div class="eprint-crm-section-pilot">
+                            <div class="eprint-crm-section-hero">
+                                <div class="eprint-crm-section-hero-main">
+                                    <h2 class="eprint-crm-section-title"><%=objLangClass.GetLanguageConversion("Records")%></h2>
+                                    <p class="eprint-crm-section-subtitle"><%=CompanyType %> · <span class="eprint-crm-section-company"></span></p>
+                                </div>
+                            </div>
+                            <div class="eprint-crm-section-toolbar">
+                                <div class="eprint-crm-section-search-wrap">
+                                    <input type="search" class="eprint-crm-section-search" placeholder="Search records on this page…" autocomplete="off" />
+                                </div>
+                            </div>
+                            <div class="eprint-crm-section-body-card">
                         <div>
                             <asp:UpdatePanel ID="up_ActivitiesDetails" runat="server">
                                 <ContentTemplate>
@@ -4808,8 +4859,34 @@
                                 </ContentTemplate>
                             </asp:UpdatePanel>
                         </div>
+                            </div>
+                        </div>
                     </div>
-                    <div id="div_CostcentreMain" runat="server" style="width: 100%; display: none;">
+                    <div id="div_CostcentreMain" runat="server" class="eprint-crm-section-pilot-root" data-crm-section="costcentre" style="width: 100%; display: none;">
+                        <div class="eprint-crm-section-pilot">
+                            <div class="eprint-crm-section-hero">
+                                <div class="eprint-crm-section-hero-main">
+                                    <h2 class="eprint-crm-section-title"><%=objLangClass.GetLanguageConversion("Cost_Centre")%></h2>
+                                    <p class="eprint-crm-section-subtitle"><%=CompanyType %> · <span class="eprint-crm-section-company"></span></p>
+                                </div>
+                                <div class="eprint-crm-section-hero-stats" aria-live="polite">
+                                    <span class="eprint-crm-section-count">0</span>
+                                    <span class="eprint-crm-section-count-label"><%=objLangClass.GetLanguageConversion("Cost_Centre")%></span>
+                                </div>
+                            </div>
+                            <div class="eprint-crm-section-toolbar">
+                                <div class="eprint-crm-section-search-wrap">
+                                    <input type="search" class="eprint-crm-section-search" placeholder="Search cost centres on this page…" autocomplete="off" />
+                                </div>
+                                <div class="eprint-crm-section-actions">
+                                    <button type="button" class="headerbutton white eprint-crm-section-btn-add"
+                                        onclick="javascript:addNewCostcenter('costcentre','add','<%=ClientID %>');return false;">+ <%=objLangClass.GetLanguageConversion("Add_New_Cost_Centre")%></button>
+                                    <button type="button" class="headerbutton white"
+                                        onclick="var b=document.getElementById('<%=btn_ClearFilter_Costcenter.ClientID %>');if(b){b.click();} return false;">
+                                        <%=objLangClass.GetLanguageConversion("Clear_All_Filters")%></button>
+                                </div>
+                            </div>
+                            <div class="eprint-crm-section-body-card">
                         <asp:UpdatePanel ID="UpdatePanel6" runat="server">
                             <ContentTemplate>
                                 <div>
@@ -4843,7 +4920,7 @@
                                         PagerStyle-AlwaysVisible="true" AllowAutomaticUpdates="false" PageSize="30" Width="99.5%" OnItemCommand="grdcostcenter_ItemCommand"
                                         OnItemDataBound="grdcostcenter_ItemDataBound" ShowStatusBar="true" OnNeedDataSource="grdcostcentre_NeedDataSource"
                                         AllowAutomaticDeletes="false" AllowAutomaticInserts="false" HeaderStyle-Font-Bold="true"
-                                        AllowFilteringByColumn="true" GridLines="none" CssClass="AddBorders" EnableEmbeddedSkins="true"
+                                        AllowFilteringByColumn="true" GridLines="none" CssClass="AddBorders eprint-crm-section-grid" EnableEmbeddedSkins="true"
                                         HeaderStyle-ForeColor="#333333" HeaderStyle-BorderStyle="Double" BorderColor="White"
                                         FilterItemStyle-HorizontalAlign="Justify" Skin="Default" GroupingSettings-CaseSensitive="false">
                                         <AlternatingItemStyle BackColor="White" />
@@ -4961,6 +5038,8 @@
                                 }
                             </script>
                         </telerik:RadCodeBlock>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -4979,47 +5058,6 @@
                 <asp:LinkButton ID="lnkLeftArrow" runat="server" CssClass="imgleftarrow" Style="cursor: pointer; display: none;"
                     ToolTip="Show Quick Actions" OnClientClick="javascript:ShowQuickActions(); return false;"></asp:LinkButton>
             </div>
-            <div id="DivPrintOptions" runat="server" class="ddM3" style="display: none; position: absolute; height: 108px; width: 230px; margin-top: 19px; float: right; margin-left: -253px;"
-                onmouseover="javascript:ShowPrintMoreActions(); return false;" onmouseout="javascript:HidePrintMoreActions(); return false;">
-                <table border="0" cellpadding="0" cellspacing="0" width="100%">
-                    <tr>
-                        <td class="moreactionpanel" style="width: 250px;">
-                            <div style="margin-left: 6px; margin-top: 5px; margin-bottom: 6px;">
-                                <asp:LinkButton ID="lnlCustomerInfoWithAddress" runat="server" Text="Customer Info and Address"
-                                    OnClientClick="javascript:PrintCustomerInfoandAddress(); return false;" Style="color: #000000;"
-                                    CssClass="moreaction"></asp:LinkButton>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="moreactionpanel" style="width: 250px;">
-                            <div style="margin-left: 6px; margin-top: 5px; margin-bottom: 6px;">
-                                <asp:LinkButton ID="lnlCustomerInfowithDepartment" runat="server" Text="Customer Info with Department"
-                                    OnClientClick="javascript:PrintCustomerInfowithDepartment(); return false;" Style="color: #000000;"
-                                    CssClass="moreaction"></asp:LinkButton>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="moreactionpanel" style="width: 250px;">
-                            <div style="margin-left: 6px; margin-top: 5px; margin-bottom: 6px;">
-                                <asp:LinkButton ID="lnkMap" runat="server" Text="Customer Name with Location Map"
-                                    OnClientClick="javascript:PrintCustomerNamwithLocationMap(); return false;" Style="color: #000000;"
-                                    CssClass="moreaction"></asp:LinkButton>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="moreactionpanel" style="width: 250px;">
-                            <div style="margin-left: 6px; margin-top: 5px; margin-bottom: 6px;">
-                                <asp:LinkButton ID="lnlAllNotes" runat="server" Text="Customer Info with all Notes"
-                                    OnClientClick="javascript:CustomerInfowithallNotes(); return false;" Style="color: #000000;"
-                                    CssClass="moreaction"></asp:LinkButton>
-                            </div>
-                        </td>
-                    </tr>
-                </table>
-            </div>
         </td>
     </tr>
 </table>
@@ -5027,6 +5065,7 @@
 <asp:HiddenField ID="hdntodaydate" runat="server" />
 <asp:HiddenField ID="hdnCommanID" runat="server" />
 <asp:HiddenField ID="hdnSectionName" runat="server" />
+<asp:HiddenField ID="hdnActiveCrmTab" runat="server" Value="client" />
 <asp:HiddenField ID="hdnbuttonid" runat="server" />
 <asp:HiddenField ID="hdnTaskFollowParentID" runat="server" />
 <asp:HiddenField ID="hdnTaskFollowParentType" runat="server" />
@@ -7032,142 +7071,55 @@
         return false;
     }
 
-    function OpeneRecordsDiv() {
-
-        var OldSitePath = '';
-        if (CompanyType == 'Customer' || CompanyType == 'customer') {
-            OldSitePath = "<span class='navigatorpanelblack'><b><a href='../welcome.aspx' class='subnavigatorblack' style='text-decoration:underline'>Home</a>&nbsp;&gt;&nbsp;<a href='client_view.aspx' class='subnavigatorblack' style='text-decoration:underline'>Customer View</a></b></span><span class='navigatorpanelblack'><b>&nbsp;&gt;&nbsp;Customer Details > Records</b></span>";
-        }
+    function crmUpdateSitePath(sectionName) {
+        var listView = 'client_view.aspx';
+        var entityLabel = 'Customer';
+        var detailsLabel = 'Customer Details';
         if (CompanyType == 'Supplier' || CompanyType == 'supplier') {
-            OldSitePath = "<span class='navigatorpanelblack'><b><a href='../welcome.aspx' class='subnavigatorblack' style='text-decoration:underline'>Home</a>&nbsp;&gt;&nbsp;<a href='client_view.aspx?type=Supplier' class='subnavigatorblack' style='text-decoration:underline'>Supplier View</a></b></span><span class='navigatorpanelblack'><b>&nbsp;&gt;&nbsp;Supplier Details > Records</b></span>";
+            listView = 'client_view.aspx?type=Supplier';
+            entityLabel = 'Supplier';
+            detailsLabel = 'Supplier Details';
+        } else if (CompanyType == 'Prospect' || CompanyType == 'prospect') {
+            listView = 'client_view.aspx?type=Prospect';
+            entityLabel = 'Prospect';
+            detailsLabel = 'Prospect Details';
         }
-        if (CompanyType == 'Prospect' || CompanyType == 'prospect') {
-            OldSitePath = "<span class='navigatorpanelblack'><b><a href='../welcome.aspx' class='subnavigatorblack' style='text-decoration:underline'>Home</a>&nbsp;&gt;&nbsp;<a href='client_view.aspx?type=Prospect' class='subnavigatorblack' style='text-decoration:underline'>Prospect View</a></b></span><span class='navigatorpanelblack'><b>&nbsp;&gt;&nbsp;Prospect Details > Records</b></span>";
+        var sitePathEl = document.getElementById("ctl00_header2_lblsitepath");
+        if (sitePathEl) {
+            sitePathEl.innerHTML = "<span class='navigatorpanelblack'><b><a href='../welcome.aspx' class='subnavigatorblack' style='text-decoration:underline'>Home</a>&nbsp;&gt;&nbsp;<a href='" + listView + "' class='subnavigatorblack' style='text-decoration:underline'>" + entityLabel + " View</a></b></span><span class='navigatorpanelblack'><b>&nbsp;&gt;&nbsp;" + detailsLabel + " &gt; " + sectionName + "</b></span>";
         }
-        document.getElementById("ctl00_header2_lblsitepath").innerHTML = OldSitePath;
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_divLoadingImageCus").style.display = "block";
-        document.cookie = "CRMTabName" + ClientID + "=activities";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_DivsearchButton").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_divbtnedit").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_divbtndelete").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_ActivitiesMain").style.display = "block";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_AddressMain").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_ContactMain").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_CostcentreMain").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_ClientMain").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_DepartmentMain").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_b2bMain").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_ProductsMain").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_EmailMain").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_DivAnotherDesign").style.display = "block";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_DeptControls").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_CostcenterControls").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_AddressControls").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_ProductsControls").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_ContactControls").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_EmailControls").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_EstimateControls").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_eStoreControls").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_JobControls").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_InvoiceControls").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_PanelName").innerHTML = "Records";
-        document.getElementById("DivEditCallPopup").style.display = "none";
-        document.getElementById("DivAddNotePopup").style.display = "none";
-        var btnRecords = document.getElementById("ctl00_ContentPlaceHolder1_Client_lnkRecords");
-        btnRecords.click();
+    }
+
+    function crmCloseCrmPopups() {
+        var divEdit = document.getElementById("DivEditCallPopup");
+        if (divEdit) { divEdit.style.display = "none"; }
+        var divNote = document.getElementById("DivAddNotePopup");
+        if (divNote) { divNote.style.display = "none"; }
+    }
+
+    function OpeneRecordsDiv() {
+        crmUpdateSitePath("Records");
+        crmCloseCrmPopups();
+        return crmNavigateTab("activities", "<%=lnk_ActivitiesTab.ClientID %>", "Records");
     }
 
     function OpeneEmailDiv() {
-        var OldSitePath = '';
-        if (CompanyType == 'Customer' || CompanyType == 'customer') {
-            OldSitePath = "<span class='navigatorpanelblack'><b><a href='../welcome.aspx' class='subnavigatorblack' style='text-decoration:underline'>Home</a>&nbsp;&gt;&nbsp;<a href='client_view.aspx' class='subnavigatorblack' style='text-decoration:underline'>Customer View</a></b></span><span class='navigatorpanelblack'><b>&nbsp;&gt;&nbsp;Customer Details > Emails</b></span>";
-        }
-        if (CompanyType == 'Supplier' || CompanyType == 'supplier') {
-            OldSitePath = "<span class='navigatorpanelblack'><b><a href='../welcome.aspx' class='subnavigatorblack' style='text-decoration:underline'>Home</a>&nbsp;&gt;&nbsp;<a href='client_view.aspx?type=Supplier' class='subnavigatorblack' style='text-decoration:underline'>Supplier View</a></b></span><span class='navigatorpanelblack'><b>&nbsp;&gt;&nbsp;Supplier Details > Emails</b></span>";
-        }
-        if (CompanyType == 'Prospect' || CompanyType == 'prospect') {
-            OldSitePath = "<span class='navigatorpanelblack'><b><a href='../welcome.aspx' class='subnavigatorblack' style='text-decoration:underline'>Home</a>&nbsp;&gt;&nbsp;<a href='client_view.aspx?type=Prospect' class='subnavigatorblack' style='text-decoration:underline'>Prospect View</a></b></span><span class='navigatorpanelblack'><b>&nbsp;&gt;&nbsp;Prospect Details > Emails</b></span>";
-        }
-        document.getElementById("ctl00_header2_lblsitepath").innerHTML = OldSitePath;
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_divLoadingImageCus").style.display = "block";
-        document.cookie = "CRMTabName" + ClientID + "=emails";
-
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_DivsearchButton").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_divbtnedit").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_divbtndelete").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_ActivitiesMain").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_AddressMain").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_ContactMain").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_CostcentreMain").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_ClientMain").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_DepartmentMain").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_b2bMain").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_ProductsMain").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_EmailMain").style.display = "block";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_DivAnotherDesign").style.display = "block";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_PanelName").innerHTML = "Emails";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_DeptControls").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_CostcenterControls").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_AddressControls").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_ProductsControls").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_ContactControls").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_EmailControls").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_EstimateControls").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_eStoreControls").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_JobControls").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_InvoiceControls").style.display = "none";
-        document.getElementById("DivEditCallPopup").style.display = "none";
-        document.getElementById("DivAddNotePopup").style.display = "none";
-        var btneMail = document.getElementById("ctl00_ContentPlaceHolder1_Client_lnkEmail");
-        btneMail.click();
+        crmUpdateSitePath("Emails");
+        crmCloseCrmPopups();
+        return crmNavigateTab("emails", "<%=lnk_EmailsTab.ClientID %>", "Emails");
     }
 
     var FromCRMProductLoad = false;
 
     function OpeneProductsDiv() {
-        if (!FromCRMProductLoad) {
-            document.getElementById("ctl00_ContentPlaceHolder1_Client_divLoadingImageCus").style.display = "block";
+        crmUpdateSitePath("Products");
+        crmCloseCrmPopups();
+        if (!FromCRMProductLoad && window.eprintCrmSections) {
+            setTimeout(function () { window.eprintCrmSections.refresh("products"); }, 300);
         }
-        var OldSitePath = '';
-        if (CompanyType == 'Customer' || CompanyType == 'customer') {
-            OldSitePath = "<span class='navigatorpanelblack'><b><a href='../welcome.aspx' class='subnavigatorblack' style='text-decoration:underline'>Home</a>&nbsp;&gt;&nbsp;<a href='client_view.aspx' class='subnavigatorblack' style='text-decoration:underline'>Customer View</a></b></span><span class='navigatorpanelblack'><b>&nbsp;&gt;&nbsp;Customer Details > Products</b></span>";
-        }
-        if (CompanyType == 'Supplier' || CompanyType == 'supplier') {
-            OldSitePath = "<span class='navigatorpanelblack'><b><a href='../welcome.aspx' class='subnavigatorblack' style='text-decoration:underline'>Home</a>&nbsp;&gt;&nbsp;<a href='client_view.aspx?type=Supplier' class='subnavigatorblack' style='text-decoration:underline'>Supplier View</a></b></span><span class='navigatorpanelblack'><b>&nbsp;&gt;&nbsp;Supplier Details > Products</b></span>";
-        }
-        if (CompanyType == 'Prospect' || CompanyType == 'prospect') {
-            OldSitePath = "<span class='navigatorpanelblack'><b><a href='../welcome.aspx' class='subnavigatorblack' style='text-decoration:underline'>Home</a>&nbsp;&gt;&nbsp;<a href='client_view.aspx?type=Prospect' class='subnavigatorblack' style='text-decoration:underline'>Prospect View</a></b></span><span class='navigatorpanelblack'><b>&nbsp;&gt;&nbsp;Prospect Details > Products</b></span>";
-        }
-        document.getElementById("ctl00_header2_lblsitepath").innerHTML = OldSitePath;
-        document.cookie = "CRMTabName" + ClientID + "=products";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_DivsearchButton").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_divbtnedit").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_divbtndelete").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_ActivitiesMain").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_AddressMain").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_ContactMain").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_CostcentreMain").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_ClientMain").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_DepartmentMain").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_b2bMain").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_ProductsMain").style.display = "block";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_EmailMain").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_DivAnotherDesign").style.display = "block";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_DeptControls").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_CostcenterControls").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_AddressControls").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_ContactControls").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_EmailControls").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_EstimateControls").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_eStoreControls").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_JobControls").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_InvoiceControls").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_PanelName").innerHTML = "Products";
-        document.getElementById("DivEditCallPopup").style.display = "none";
-        document.getElementById("DivAddNotePopup").style.display = "none";
-        var btneProduct = document.getElementById("ctl00_ContentPlaceHolder1_Client_lnlProducts");
-        btneProduct.click();
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_ProductsControls").style.display = "block";
+        var result = crmNavigateTab("products", "<%=lnk_ProductsTab.ClientID %>", "Products", FromCRMProductLoad);
+        FromCRMProductLoad = false;
+        return result;
     }
 
     var strSuc = '<%=strSuc %>';
@@ -7177,134 +7129,44 @@
     }
 
     function OpeneStoreDiv() {
-        //document.getElementById("ctl00_ContentPlaceHolder1_Client_divLoadingImageCus").style.display = "block";
+        crmUpdateSitePath("eStore");
+        crmCloseCrmPopups();
+        return crmNavigateTab("b2b", "<%=lnk_b2bTab.ClientID %>", "eStore");
+    }
+
+    function crmUpdateAddressBreadcrumb() {
         var OldSitePath = '';
-        if (CompanyType == 'Customer' || CompanyType == 'customer') {
-            OldSitePath = "<span class='navigatorpanelblack'><b><a href='../welcome.aspx' class='subnavigatorblack' style='text-decoration:underline'>Home</a>&nbsp;&gt;&nbsp;<a href='client_view.aspx' class='subnavigatorblack' style='text-decoration:underline'>Customer View</a></b></span><span class='navigatorpanelblack'><b>&nbsp;&gt;&nbsp;Customer Details > eStore</b></span>";
+        var companyType = (typeof CompanyType !== "undefined") ? CompanyType : "";
+        if (companyType == 'Customer' || companyType == 'customer') {
+            OldSitePath = "<span class='navigatorpanelblack'><b><a href='../welcome.aspx' class='subnavigatorblack' style='text-decoration:underline'>Home</a>&nbsp;&gt;&nbsp;<a href='client_view.aspx' class='subnavigatorblack' style='text-decoration:underline'>Customer View</a></b></span><span class='navigatorpanelblack'><b>&nbsp;&gt;&nbsp;Customer Details > Address Book</b></span>";
         }
-        if (CompanyType == 'Supplier' || CompanyType == 'supplier') {
-            OldSitePath = "<span class='navigatorpanelblack'><b><a href='../welcome.aspx' class='subnavigatorblack' style='text-decoration:underline'>Home</a>&nbsp;&gt;&nbsp;<a href='client_view.aspx?type=Supplier' class='subnavigatorblack' style='text-decoration:underline'>Supplier View</a></b></span><span class='navigatorpanelblack'><b>&nbsp;&gt;&nbsp;Supplier Details > eStore</b></span>";
+        if (companyType == 'Supplier' || companyType == 'supplier') {
+            OldSitePath = "<span class='navigatorpanelblack'><b><a href='../welcome.aspx' class='subnavigatorblack' style='text-decoration:underline'>Home</a>&nbsp;&gt;&nbsp;<a href='client_view.aspx?type=Supplier' class='subnavigatorblack' style='text-decoration:underline'>Supplier View</a></b></span><span class='navigatorpanelblack'><b>&nbsp;&gt;&nbsp;Supplier Details > Address Book</b></span>";
         }
-        if (CompanyType == 'Prospect' || CompanyType == 'prospect') {
-            OldSitePath = "<span class='navigatorpanelblack'><b><a href='../welcome.aspx' class='subnavigatorblack' style='text-decoration:underline'>Home</a>&nbsp;&gt;&nbsp;<a href='client_view.aspx?type=Prospect' class='subnavigatorblack' style='text-decoration:underline'>Prospect View</a></b></span><span class='navigatorpanelblack'><b>&nbsp;&gt;&nbsp;Prospect Details > eStore</b></span>";
+        if (companyType == 'Prospect' || companyType == 'prospect') {
+            OldSitePath = "<span class='navigatorpanelblack'><b><a href='../welcome.aspx' class='subnavigatorblack' style='text-decoration:underline'>Home</a>&nbsp;&gt;&nbsp;<a href='client_view.aspx?type=Prospect' class='subnavigatorblack' style='text-decoration:underline'>Prospect View</a></b></span><span class='navigatorpanelblack'><b>&nbsp;&gt;&nbsp;Prospect Details > Address Book</b></span>";
         }
-        document.getElementById("ctl00_header2_lblsitepath").innerHTML = OldSitePath;
-        document.cookie = "CRMTabName" + ClientID + "=b2b";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_DivsearchButton").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_divbtnedit").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_divbtndelete").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_ActivitiesMain").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_AddressMain").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_ContactMain").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_CostcentreMain").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_ClientMain").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_DepartmentMain").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_b2bMain").style.display = "block";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_ProductsMain").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_EmailMain").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_DivAnotherDesign").style.display = "block";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_DeptControls").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_CostcenterControls").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_AddressControls").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_ProductsControls").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_EmailControls").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_ContactControls").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_EstimateControls").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_eStoreControls").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_JobControls").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_InvoiceControls").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_PanelName").innerHTML = "eStore";
-        document.getElementById("DivEditCallPopup").style.display = "none";
-        document.getElementById("DivAddNotePopup").style.display = "none";
-        //var btneStore = document.getElementById("ctl00_ContentPlaceHolder1_Client_lnkEstore");
-        //btneStore.click();
+        var sitePath = document.getElementById("ctl00_header2_lblsitepath");
+        if (sitePath) {
+            sitePath.innerHTML = OldSitePath;
+        }
+        window.crmUpdateAddressBreadcrumb = crmUpdateAddressBreadcrumb;
     }
 
     function OpenAddressBookDiv() {
-        var OldSitePath = '';
-        if (CompanyType == 'Customer' || CompanyType == 'customer') {
-            OldSitePath = "<span class='navigatorpanelblack'><b><a href='../welcome.aspx' class='subnavigatorblack' style='text-decoration:underline'>Home</a>&nbsp;&gt;&nbsp;<a href='client_view.aspx' class='subnavigatorblack' style='text-decoration:underline'>Customer View</a></b></span><span class='navigatorpanelblack'><b>&nbsp;&gt;&nbsp;Customer Details > Address Book</b></span>";
-        }
-        if (CompanyType == 'Supplier' || CompanyType == 'supplier') {
-            OldSitePath = "<span class='navigatorpanelblack'><b><a href='../welcome.aspx' class='subnavigatorblack' style='text-decoration:underline'>Home</a>&nbsp;&gt;&nbsp;<a href='client_view.aspx?type=Supplier' class='subnavigatorblack' style='text-decoration:underline'>Supplier View</a></b></span><span class='navigatorpanelblack'><b>&nbsp;&gt;&nbsp;Supplier Details > Address Book</b></span>";
-        }
-        if (CompanyType == 'Prospect' || CompanyType == 'prospect') {
-            OldSitePath = "<span class='navigatorpanelblack'><b><a href='../welcome.aspx' class='subnavigatorblack' style='text-decoration:underline'>Home</a>&nbsp;&gt;&nbsp;<a href='client_view.aspx?type=Prospect' class='subnavigatorblack' style='text-decoration:underline'>Prospect View</a></b></span><span class='navigatorpanelblack'><b>&nbsp;&gt;&nbsp;Prospect Details > Address Book</b></span>";
-        }
-        document.getElementById("ctl00_header2_lblsitepath").innerHTML = OldSitePath;
-
-        document.cookie = "CRMTabName" + ClientID + "=address";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_DivsearchButton").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_divbtnedit").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_divbtndelete").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_ActivitiesMain").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_AddressMain").style.display = "block";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_ContactMain").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_CostcentreMain").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_ClientMain").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_DepartmentMain").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_b2bMain").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_ProductsMain").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_EmailMain").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_DivAnotherDesign").style.display = "block";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_DeptControls").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_CostcenterControls").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_AddressControls").style.display = "block";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_ProductsControls").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_ContactControls").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_EmailControls").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_EstimateControls").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_eStoreControls").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_JobControls").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_InvoiceControls").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_PanelName").innerHTML = "Address Book";
-        document.getElementById("DivEditCallPopup").style.display = "none";
-        document.getElementById("DivAddNotePopup").style.display = "none";
+        crmUpdateAddressBreadcrumb();
+        var editCallPopup = document.getElementById("DivEditCallPopup");
+        if (editCallPopup) { editCallPopup.style.display = "none"; }
+        var addNotePopup = document.getElementById("DivAddNotePopup");
+        if (addNotePopup) { addNotePopup.style.display = "none"; }
+        return crmNavigateTab("address", "<%=lnk_AddressTab.ClientID %>", "Address Book");
     }
 
     function OpenContactDiv() {
-        debugger;
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_divLoadingImageCus").style.display = "block";
-        window.location.href = window.location.href;
-        var OldSitePath = '';
-        if (CompanyType == 'Customer' || CompanyType == 'customer') {
-            OldSitePath = "<span class='navigatorpanelblack'><b><a href='../welcome.aspx' class='subnavigatorblack' style='text-decoration:underline'>Home</a>&nbsp;&gt;&nbsp;<a href='client_view.aspx' class='subnavigatorblack' style='text-decoration:underline'>Customer View</a></b></span><span class='navigatorpanelblack'><b>&nbsp;&gt;&nbsp;Customer Details > Contacts</b></span>";
+        if (window.eprintCrmSections) {
+            setTimeout(function () { window.eprintCrmSections.refresh("contacts"); }, 300);
         }
-        if (CompanyType == 'Supplier' || CompanyType == 'supplier') {
-            OldSitePath = "<span class='navigatorpanelblack'><b><a href='../welcome.aspx' class='subnavigatorblack' style='text-decoration:underline'>Home</a>&nbsp;&gt;&nbsp;<a href='client_view.aspx?type=Supplier' class='subnavigatorblack' style='text-decoration:underline'>Supplier View</a></b></span><span class='navigatorpanelblack'><b>&nbsp;&gt;&nbsp;Supplier Details > Contacts</b></span>";
-        }
-        if (CompanyType == 'Prospect' || CompanyType == 'prospect') {
-            OldSitePath = "<span class='navigatorpanelblack'><b><a href='../welcome.aspx' class='subnavigatorblack' style='text-decoration:underline'>Home</a>&nbsp;&gt;&nbsp;<a href='client_view.aspx?type=Prospect' class='subnavigatorblack' style='text-decoration:underline'>Prospect View</a></b></span><span class='navigatorpanelblack'><b>&nbsp;&gt;&nbsp;Prospect Details > Contacts</b></span>";
-        }
-        document.getElementById("ctl00_header2_lblsitepath").innerHTML = OldSitePath;
-        document.cookie = "CRMTabName" + ClientID + "=contacts";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_DivsearchButton").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_divbtnedit").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_divbtndelete").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_ActivitiesMain").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_ContactMain").style.display = "block";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_ContactControls").style.display = "block";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_CostcentreMain").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_ClientMain").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_DepartmentMain").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_AddressMain").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_b2bMain").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_ProductsMain").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_EmailMain").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_DivAnotherDesign").style.display = "block";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_DeptControls").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_CostcenterControls").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_AddressControls").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_ProductsControls").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_EmailControls").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_EstimateControls").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_eStoreControls").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_JobControls").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_InvoiceControls").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_PanelName").innerHTML = "Contacts";
-        document.getElementById("DivEditCallPopup").style.display = "none";
-        document.getElementById("DivAddNotePopup").style.display = "none";
-        
+        return crmNavigateTab("contacts", "<%=lnk_ContactTab.ClientID %>", "Contacts");
     }
 
     function OpenCostCentreDiv() {
@@ -7319,36 +7181,22 @@
             OldSitePath = "<span class='navigatorpanelblack'><b><a href='../welcome.aspx' class='subnavigatorblack' style='text-decoration:underline'>Home</a>&nbsp;&gt;&nbsp;<a href='client_view.aspx?type=Prospect' class='subnavigatorblack' style='text-decoration:underline'>Prospect View</a></b></span><span class='navigatorpanelblack'><b>&nbsp;&gt;&nbsp;Prospect Details > Cost Centres</b></span>";
         }
         document.getElementById("ctl00_header2_lblsitepath").innerHTML = OldSitePath;
-        document.cookie = "CRMTabName" + ClientID + "=costcentre";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_DivsearchButton").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_divbtnedit").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_divbtndelete").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_ActivitiesMain").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_CostcentreMain").style.display = "block";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_ClientMain").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_DepartmentMain").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_ContactMain").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_AddressMain").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_b2bMain").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_ProductsMain").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_EmailMain").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_DivAnotherDesign").style.display = "block";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_DeptControls").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_CostcenterControls").style.display = "block";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_AddressControls").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_ProductsControls").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_ContactControls").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_EmailControls").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_EstimateControls").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_eStoreControls").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_JobControls").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_InvoiceControls").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_PanelName").innerHTML = "Cost Centres";
         document.getElementById("DivEditCallPopup").style.display = "none";
         document.getElementById("DivAddNotePopup").style.display = "none";
+        return crmNavigateTab("costcentre", "<%=lnk_CostCenterTab.ClientID %>", "Cost Centres");
     }
 
     function OpenClientDetailsDiv() {
+        crmUpdateSummaryBreadcrumb();
+        document.getElementById("DivEditCallPopup").style.display = "none";
+        document.getElementById("DivAddNotePopup").style.display = "none";
+        if (typeof crmtooltip === "function") {
+            crmtooltip();
+        }
+        return crmNavigateTab("client", "<%=lnk_ClientTab.ClientID %>", "Summary Information");
+    }
+
+    function crmUpdateSummaryBreadcrumb() {
         var OldSitePath = '';
         if (CompanyType == 'Customer' || CompanyType == 'customer') {
             OldSitePath = "<span class='navigatorpanelblack'><b><a href='../welcome.aspx' class='subnavigatorblack' style='text-decoration:underline'>Home</a>&nbsp;&gt;&nbsp;<a href='client_view.aspx' class='subnavigatorblack' style='text-decoration:underline'>Customer View</a></b></span><span class='navigatorpanelblack'><b>&nbsp;&gt;&nbsp;Customer Details > Summary Information</b></span>";
@@ -7359,78 +7207,14 @@
         if (CompanyType == 'Prospect' || CompanyType == 'prospect') {
             OldSitePath = "<span class='navigatorpanelblack'><b><a href='../welcome.aspx' class='subnavigatorblack' style='text-decoration:underline'>Home</a>&nbsp;&gt;&nbsp;<a href='client_view.aspx?type=Prospect' class='subnavigatorblack' style='text-decoration:underline'>Prospect View</a></b></span><span class='navigatorpanelblack'><b>&nbsp;&gt;&nbsp;Prospect Details > Summary Information</b></span>";
         }
-        document.getElementById("ctl00_header2_lblsitepath").innerHTML = OldSitePath;
-        document.cookie = "CRMTabName" + ClientID + "=client";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_DivsearchButton").style.display = "block";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_divbtnedit").style.display = "block";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_divbtndelete").style.display = "block";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_ActivitiesMain").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_ClientMain").style.display = "block";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_DepartmentMain").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_CostcentreMain").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_ContactMain").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_AddressMain").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_b2bMain").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_ProductsMain").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_EmailMain").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_DivAnotherDesign").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_DeptControls").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_CostcenterControls").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_AddressControls").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_ProductsControls").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_ContactControls").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_EmailControls").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_EstimateControls").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_eStoreControls").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_JobControls").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_InvoiceControls").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_PanelName").innerHTML = "Summary Information";
-        document.getElementById("DivEditCallPopup").style.display = "none";
-        document.getElementById("DivAddNotePopup").style.display = "none";
-        crmtooltip();
+        var sitePath = document.getElementById("ctl00_header2_lblsitepath");
+        if (sitePath) {
+            sitePath.innerHTML = OldSitePath;
+        }
     }
 
     function OpenDepartmentDiv() {
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_divLoadingImageCus").style.display = "block";
-        window.location.href = window.location.href;
-        var OldSitePath = '';
-        if (CompanyType == 'Customer' || CompanyType == 'customer') {
-            OldSitePath = "<span class='navigatorpanelblack'><b><a href='../welcome.aspx' class='subnavigatorblack' style='text-decoration:underline'>Home</a>&nbsp;&gt;&nbsp;<a href='client_view.aspx' class='subnavigatorblack' style='text-decoration:underline'>Customer View</a></b></span><span class='navigatorpanelblack'><b>&nbsp;&gt;&nbsp;Customer Details > Departments</b></span>";
-        }
-        if (CompanyType == 'Supplier' || CompanyType == 'supplier') {
-            OldSitePath = "<span class='navigatorpanelblack'><b><a href='../welcome.aspx' class='subnavigatorblack' style='text-decoration:underline'>Home</a>&nbsp;&gt;&nbsp;<a href='client_view.aspx?type=Supplier' class='subnavigatorblack' style='text-decoration:underline'>Supplier View</a></b></span><span class='navigatorpanelblack'><b>&nbsp;&gt;&nbsp;Supplier Details > Departments</b></span>";
-        }
-        if (CompanyType == 'Prospect' || CompanyType == 'prospect') {
-            OldSitePath = "<span class='navigatorpanelblack'><b><a href='../welcome.aspx' class='subnavigatorblack' style='text-decoration:underline'>Home</a>&nbsp;&gt;&nbsp;<a href='client_view.aspx?type=Prospect' class='subnavigatorblack' style='text-decoration:underline'>Prospect View</a></b></span><span class='navigatorpanelblack'><b>&nbsp;&gt;&nbsp;Prospect Details > Departments</b></span>";
-        }
-        document.getElementById("ctl00_header2_lblsitepath").innerHTML = OldSitePath;
-        document.cookie = "CRMTabName" + ClientID + "=dept";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_DivsearchButton").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_divbtnedit").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_divbtndelete").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_ActivitiesMain").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_DepartmentMain").style.display = "block";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_ClientMain").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_CostcentreMain").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_ContactMain").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_AddressMain").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_b2bMain").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_ProductsMain").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_EmailMain").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_DivAnotherDesign").style.display = "block";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_DeptControls").style.display = "block";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_CostcenterControls").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_AddressControls").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_ProductsControls").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_ContactControls").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_EmailControls").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_EstimateControls").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_eStoreControls").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_JobControls").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_div_InvoiceControls").style.display = "none";
-        document.getElementById("ctl00_ContentPlaceHolder1_Client_PanelName").innerHTML = "Departments";
-        document.getElementById("DivEditCallPopup").style.display = "none";
-        document.getElementById("DivAddNotePopup").style.display = "none";
+        return crmNavigateTab("dept", "<%=lnk_DeptTab.ClientID %>", "Departments");
     }
 
     function clearfilter_product() {
@@ -7674,6 +7458,33 @@
     }
 
 
+    function crmPrepareTab(tabKey, panelLabel, allowPostBack) {
+        return window.crmPrepareTab(tabKey, panelLabel, allowPostBack);
+    }
+
+    function crmNavigateTab(tabKey, linkButtonClientId, panelLabel, skipLoading) {
+        crmPrepareTab(tabKey, panelLabel, false);
+        if (!skipLoading) {
+            setTimeout("LoadImgStarts()", 0);
+        }
+        if (linkButtonClientId && crmFireTabClick(linkButtonClientId)) {
+            return false;
+        }
+        if (linkButtonClientId) {
+            return getMainTabs(tabKey, "yes");
+        }
+        return false;
+    }
+
+    function crmFireTabClick(tabButtonClientId) {
+        var tabButton = document.getElementById(tabButtonClientId);
+        if (tabButton) {
+            tabButton.click();
+            return true;
+        }
+        return false;
+    }
+
     function getMainTabs(value, isfrompopup, jhu) {
         var lbl_ClientTab = document.getElementById("<%=lbl_ClientTab.ClientID %>");
         var lbl_ContactTab = document.getElementById("<%=lbl_ContactTab.ClientID %>");
@@ -7687,82 +7498,81 @@
         var lbl_CostCentreTab = document.getElementById("<%=lblcostcentretabs.ClientID %>");
 
         var CompanyType = '<%=CompanyType %>';
-        document.cookie = "CRMTabName" + ClientID + "=" + value;
+        var tabCookieKey = "CRMTabName" + (window.eprintCrmTabClientId || ClientID);
+        document.cookie = tabCookieKey + "=" + value;
+        var hdnTab = document.getElementById("<%=hdnActiveCrmTab.ClientID %>");
+        if (hdnTab) {
+            hdnTab.value = (value || "client").toLowerCase();
+        }
         if (value == 'client') {
-
+            setTimeout("LoadImgStarts()", 0);
             if (isfrompopup == 'yes') {
-                setTimeout("LoadImgStarts()", 0);
-                __doPostBack('ctl00$ContentPlaceHolder1$Client$lnk_ClientTab', '');
+                ReadWindowClose(value);
             }
+            crmFireTabClick("<%=lnk_ClientTab.ClientID %>");
             return false;
         }
         else if (value == 'dept') {
-
+            setTimeout("LoadImgStarts()", 0);
             if (isfrompopup == 'yes') {
-
-                setTimeout("LoadImgStarts()", 0);
                 ReadWindowClose(value);
-                __doPostBack('ctl00$ContentPlaceHolder1$Client$lnk_DeptTab', '');
             }
+            crmFireTabClick("<%=lnk_DeptTab.ClientID %>");
             return false;
         }
         else if (value == 'contacts') {
+            setTimeout("LoadImgStarts()", 0);
             if (isfrompopup == 'yes') {
-                setTimeout("LoadImgStarts()", 0);
                 ReadWindowClose(value);
-                __doPostBack('ctl00$ContentPlaceHolder1$Client$lnk_ContactTab', '');
             }
+            crmFireTabClick("<%=lnk_ContactTab.ClientID %>");
             return false;
-
         }
         else if (value == 'address') {
+            setTimeout("LoadImgStarts()", 0);
             if (isfrompopup == 'yes') {
-                setTimeout("LoadImgStarts()", 0);
                 ReadWindowClose(value);
-                __doPostBack('ctl00$ContentPlaceHolder1$Client$lnk_AddressTab', '');
             }
+            crmFireTabClick("<%=lnk_AddressTab.ClientID %>");
             return false;
         }
 
         else if (value == 'b2b') {
             setTimeout("LoadImgStarts()", 0);
-            __doPostBack('ctl00$ContentPlaceHolder1$Client$lnk_b2bTab', '');
+            crmFireTabClick("<%=lnk_b2bTab.ClientID %>");
             return false;
         }
 
         else if (value == 'products') {
             setTimeout("LoadImgStarts()", 0);
-            __doPostBack('ctl00$ContentPlaceHolder1$Client$lnk_ProductsTab', '');
+            crmFireTabClick("<%=lnk_ProductsTab.ClientID %>");
             return false;
         }
         else if (value == 'notes') {
             if (isfrompopup == 'yes') {
                 setTimeout("LoadImgStarts()", 0);
                 ReadWindowClose(value);
-                __doPostBack('ctl00$ContentPlaceHolder1$Client$lnk_NotesTab', '');
+                crmFireTabClick("<%=lnk_NotesTab.ClientID %>");
             }
-            __doPostBack('ctl00$ContentPlaceHolder1$Client$lnk_NotesTab', ''); // new line july22nd
+            crmFireTabClick("<%=lnk_NotesTab.ClientID %>");
             return false;
         }
         else if (value == 'emails') {
             setTimeout("LoadImgStarts()", 0);
             ReadWindowClose(value);
-            __doPostBack('ctl00$ContentPlaceHolder1$Client$lnk_EmailsTab', '');
+            crmFireTabClick("<%=lnk_EmailsTab.ClientID %>");
             return false;
         }
         else if (value == 'CostCenter') {
             setTimeout("LoadImgStarts()", 0);
             ReadWindowClose(value);
-            __doPostBack('ctl00$ContentPlaceHolder1$Client$lnk_CostCenterTab', '');
+            crmFireTabClick("<%=lnk_CostCenterTab.ClientID %>");
             return false;
         }
         else if (value == 'activities') {
             setTimeout("LoadImgStarts()", 0);
-            if (jhu == 'y') {
-                __doPostBack('', '');
-            }
-            else {
-                __doPostBack('ctl00$ContentPlaceHolder1$Client$lnk_ActivitiesTab', '');
+            if (jhu != 'y') {
+                crmFireTabClick("<%=lnk_ActivitiesTab.ClientID %>");
             }
             return false;
         }
@@ -7774,10 +7584,6 @@
 
     function TakeOut() {
         window.close();
-    }
-
-    if (redirectFrom != '') {
-        getMainTabs(redirectFrom);
     }
 
     function ReadWindowClose(windowid) {
@@ -8103,7 +7909,10 @@
     var CompanyType = '<%=CompanyType %>';
     var sitePath = '<%=nmsCommon.global.sitePath()%>';
     var ClientID = '<%=ClientID%>';
-    var redirectFrom = '';
+    var redirectFrom = '<%=redirectFrom.Replace("\\", "\\\\").Replace("'", "\\'") %>';
+    if (redirectFrom != '') {
+        getMainTabs(redirectFrom);
+    }
     var AccountID = '<%=AccountID %>';
     var WebStorePathB2B = '<%=WebStorePathB2B %>';
     var WebStorePathB2C = '<%=WebStorePathB2C %>';

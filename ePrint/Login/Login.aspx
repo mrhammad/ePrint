@@ -1,9 +1,9 @@
-<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Login.aspx.cs" Inherits="ePrint.Printcenter.Views.Login" Theme="Theme1" EnableViewStateMac="false" EnableEventValidation="false" %>
+<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Login.aspx.cs" Inherits="ePrint.Printcenter.Views.Login" EnableViewStateMac="false" EnableEventValidation="false" StyleSheetTheme="" Theme="" %>
 
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head id="Head1" runat="server">
-    <title><%#strCompany%></title>
+    <title><%= strCompany %></title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <style type="text/css">
         :root {
@@ -188,8 +188,8 @@
 
     </style>
     
-    <script src="/js/commonloading.js?VN='<%#VersionNumber%>'" type="text/javascript"></script>
-    <script src="/js/default.js?VN='<%#VersionNumber%>'" type="text/javascript"></script>
+    <script src="/js/commonloading.js?VN=<%= VersionNumber %>" type="text/javascript"></script>
+    <script src="/js/default.js?VN=<%= VersionNumber %>" type="text/javascript"></script>
 </head>
 <body>
     <form id="form1" runat="server">

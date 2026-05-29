@@ -2818,10 +2818,10 @@ namespace ePrint.usercontrol.Item
                 DataTable dataTable = EstimatesBasePage.estimate_qty_select(this.CompanyID, this.EstimateItemID, (long)0);
                 foreach (DataRow row in dataTable.Rows)
                 {
-                    int num = Convert.ToInt32(row["Qty1"]);
-                    int num1 = Convert.ToInt32(row["Qty2"]);
-                    int num2 = Convert.ToInt32(row["Qty3"]);
-                    int num3 = Convert.ToInt32(row["Qty4"]);
+                    int num = row["Qty1"] == DBNull.Value ? 0 : Convert.ToInt32(row["Qty1"]);
+                    int num1 = row["Qty2"] == DBNull.Value ? 0 : Convert.ToInt32(row["Qty2"]);
+                    int num2 = row["Qty3"] == DBNull.Value ? 0 : Convert.ToInt32(row["Qty3"]);
+                    int num3 = row["Qty4"] == DBNull.Value ? 0 : Convert.ToInt32(row["Qty4"]);
                     if (num != 0)
                     {
                         this.txtQuantity.Text = num.ToString();
@@ -2872,7 +2872,7 @@ namespace ePrint.usercontrol.Item
                 this.hid_IsSheetCustom.Value = row1["IsSheetCustom"].ToString();
                 this.hid_IsJobCustom.Value = row1["IsJobCustom"].ToString();
                 this.EstimateLargeItemID = Convert.ToInt64(row1["EstimateLargeItemID"]);
-                this.EstimateCalculationID = Convert.ToInt64(row1["EstimateCalculationID"]);
+                this.EstimateCalculationID = row1["EstimateCalculationID"] == DBNull.Value ? 0L : Convert.ToInt64(row1["EstimateCalculationID"]);
                 this.TypeID = this.EstimateLargeItemID;
                 stringBuilder.Append("EstimateType»largeformat±");
                 stringBuilder.Append("ProductType»largeformat±");

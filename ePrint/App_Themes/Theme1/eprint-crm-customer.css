@@ -1,0 +1,700 @@
+/* CRM Customer / Supplier / Prospect detail — Option 1 visual refresh */
+.eprint-crm-customer {
+  --crm-accent: #e67e22;
+  --crm-accent-dark: #c0392b;
+  --crm-nav-bg: #f8fafc;
+  --crm-nav-border: #e2e8f0;
+  --crm-nav-text: #334155;
+  --crm-nav-hover: #fff7ed;
+  --crm-surface: #ffffff;
+  --crm-border: #e2e8f0;
+  --crm-text: #1e293b;
+  --crm-muted: #64748b;
+  --crm-radius: 8px;
+  --crm-shadow: 0 1px 3px rgba(15, 23, 42, 0.08), 0 4px 12px rgba(15, 23, 42, 0.04);
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  color: var(--crm-text);
+}
+
+/* —— Context left navigation —— */
+.eprint-crm-customer .eprint-crm-context-nav {
+  vertical-align: top !important;
+  width: 200px !important;
+  padding-right: 12px !important;
+}
+
+.eprint-crm-customer .eprint-crm-context-nav-wrap {
+  margin-top: 0 !important;
+  width: 100% !important;
+}
+
+.eprint-crm-customer .eprint-crm-context-nav table {
+  background: var(--crm-nav-bg) !important;
+  border: 1px solid var(--crm-nav-border) !important;
+  border-radius: var(--crm-radius) !important;
+  width: 100% !important;
+  margin-top: 0 !important;
+  box-shadow: var(--crm-shadow);
+  overflow: hidden;
+}
+
+.eprint-crm-customer .moreactionpanel {
+  border-bottom: 1px solid var(--crm-nav-border);
+  padding: 0 !important;
+  width: 100% !important;
+}
+
+.eprint-crm-customer .moreactionpanel:last-child {
+  border-bottom: none;
+}
+
+.eprint-crm-customer .moreactionpanel > div {
+  margin: 0 !important;
+  padding: 10px 14px !important;
+  font-weight: 600 !important;
+  font-size: 13px !important;
+  border-left: 3px solid transparent;
+  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+
+.eprint-crm-customer .moreactionpanel:hover > div {
+  background: var(--crm-nav-hover) !important;
+  border-left-color: var(--crm-accent);
+}
+
+.eprint-crm-customer .moreactionpanel a,
+.eprint-crm-customer .moreactionpanel .moreaction,
+.eprint-crm-customer .moreactionpanel .moreaction:link,
+.eprint-crm-customer .moreactionpanel .moreaction:visited {
+  color: var(--crm-nav-text) !important;
+  text-decoration: none !important;
+  font-weight: 600 !important;
+  font-size: 13px !important;
+}
+
+.eprint-crm-customer .moreactionpanel:hover a,
+.eprint-crm-customer .moreactionpanel:hover .moreaction {
+  color: var(--crm-accent-dark) !important;
+}
+
+/* —— Main content card —— */
+.eprint-crm-customer .eprint-crm-main-panel {
+  padding-left: 4px !important;
+  vertical-align: top !important;
+}
+
+.eprint-crm-customer .eprint-crm-content-card {
+  border: 1px solid var(--crm-border) !important;
+  border-radius: var(--crm-radius) !important;
+  box-shadow: var(--crm-shadow) !important;
+  margin-top: 0 !important;
+  min-height: 470px;
+  background: var(--crm-surface);
+  overflow: hidden;
+}
+
+/* —— Page header bar —— */
+.eprint-crm-customer .DivButtonsHeader {
+  height: auto !important;
+  min-height: 48px !important;
+  padding: 8px 12px !important;
+  border-bottom: 1px solid var(--crm-border) !important;
+  background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%) !important;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.eprint-crm-customer .DivButtonsHeader > div[id$="_Div14"] {
+  flex: 1 1 auto;
+  float: none !important;
+  margin: 0 !important;
+}
+
+.eprint-crm-customer .DivButtonsHeader [id$="_lbltitlecompanyname"],
+.eprint-crm-customer .DivButtonsHeader [id$="_PanelName"] {
+  font-size: 1.125rem !important;
+  font-weight: 700 !important;
+  color: var(--crm-text) !important;
+}
+
+.eprint-crm-customer .DivButtonsHeader [id$="_PanelName"] {
+  font-weight: 600 !important;
+  color: var(--crm-muted) !important;
+}
+
+.eprint-crm-customer .DivButtonsHeader > div[style*="float: right"],
+.eprint-crm-customer .DivButtonsHeader > div[id*="Controls"] {
+  float: right !important;
+  margin-top: 0 !important;
+  margin-right: 4px !important;
+}
+
+/* —— Toolbar buttons —— */
+.eprint-crm-customer .headerbutton.white,
+.eprint-crm-customer input.headerbutton.white,
+.eprint-crm-customer .moreoptions.white {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  border: 1px solid var(--crm-border) !important;
+  border-radius: 6px !important;
+  background: #fff !important;
+  color: var(--crm-text) !important;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.06) !important;
+  min-height: 32px !important;
+  padding: 4px 14px !important;
+  filter: none !important;
+}
+
+.eprint-crm-customer .headerbutton.white:hover,
+.eprint-crm-customer input.headerbutton.white:hover,
+.eprint-crm-customer .moreoptions.white:hover {
+  background: var(--crm-nav-hover) !important;
+  border-color: var(--crm-accent) !important;
+  color: var(--crm-accent-dark) !important;
+}
+
+.eprint-crm-customer [id$="_btn_AddNewContact"],
+.eprint-crm-customer [id$="_btn_AddNewDepartment"],
+.eprint-crm-customer [id$="_btn_AddNewAddress"],
+.eprint-crm-customer [id$="_btn_AddNewCostCenter"],
+.eprint-crm-customer [id$="_btn_AddNewProduct"],
+.eprint-crm-customer [id$="_btn_AddNewEmail"] {
+  background: linear-gradient(180deg, var(--crm-accent) 0%, var(--crm-accent-dark) 100%) !important;
+  border-color: var(--crm-accent-dark) !important;
+  color: #fff !important;
+}
+
+.eprint-crm-customer [id$="_btn_AddNewContact"]:hover,
+.eprint-crm-customer [id$="_btn_AddNewDepartment"]:hover,
+.eprint-crm-customer [id$="_btn_AddNewAddress"]:hover,
+.eprint-crm-customer [id$="_btn_AddNewCostCenter"]:hover,
+.eprint-crm-customer [id$="_btn_AddNewProduct"]:hover,
+.eprint-crm-customer [id$="_btn_AddNewEmail"]:hover {
+  filter: brightness(1.05);
+  color: #fff !important;
+}
+
+/* —— Horizontal tab strip (top of sections) —— */
+.eprint-crm-customer #li_Client,
+.eprint-crm-customer #li_Contacts,
+.eprint-crm-customer #li_Address,
+.eprint-crm-customer #li_costcentre,
+.eprint-crm-customer #liCostCenter,
+.eprint-crm-customer [id^="li_"] {
+  border-radius: 6px 6px 0 0;
+}
+
+.eprint-crm-customer [id$="div_ContactsTabs"],
+.eprint-crm-customer [id$="div_ClientTabs"],
+.eprint-crm-customer [id$="div_AddressTabs"],
+.eprint-crm-customer [id$="div_costcentretabs"],
+.eprint-crm-customer [id$="divCostCenter"] {
+  border-radius: 6px 6px 0 0;
+  font-size: 13px;
+}
+
+/* —— RadGrid (contacts and other CRM grids) —— */
+.eprint-crm-customer .RadGrid {
+  border: 1px solid var(--crm-border) !important;
+  border-radius: var(--crm-radius);
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif !important;
+  font-size: 13px !important;
+}
+
+.eprint-crm-customer .RadGrid .rgHeader,
+.eprint-crm-customer .RadGrid th.rgResizeCol {
+  background: #f1f5f9 !important;
+  background-image: none !important;
+  color: var(--crm-text) !important;
+  font-weight: 600 !important;
+  font-size: 12px !important;
+  text-transform: none;
+  letter-spacing: 0.01em;
+  border-color: var(--crm-border) !important;
+  padding: 10px 8px !important;
+}
+
+.eprint-crm-customer .RadGrid .rgFilterRow td {
+  background: #fafbfc !important;
+  padding: 6px 8px !important;
+}
+
+.eprint-crm-customer .RadGrid .rgRow td,
+.eprint-crm-customer .RadGrid .rgAltRow td {
+  border-color: #f1f5f9 !important;
+  padding: 8px !important;
+  color: var(--crm-text);
+}
+
+.eprint-crm-customer .RadGrid .rgAltRow {
+  background: #fafbfc !important;
+}
+
+.eprint-crm-customer .RowMouseOver td,
+.eprint-crm-customer .RadGrid .rgRow:hover td,
+.eprint-crm-customer .RadGrid .rgAltRow:hover td {
+  background-color: #fff7ed !important;
+}
+
+.eprint-crm-customer .RadGrid .rgSelectedRow,
+.eprint-crm-customer .RadGrid .rgSelectedRow td {
+  background-color: #ffedd5 !important;
+  background-image: none !important;
+  color: var(--crm-text) !important;
+}
+
+.eprint-crm-customer .RadGrid .rgPager {
+  background: #f8fafc !important;
+  border-top: 1px solid var(--crm-border) !important;
+  padding: 8px !important;
+  color: var(--crm-muted) !important;
+  font-size: 12px !important;
+}
+
+.eprint-crm-customer .RadGrid .rgPager .rgPagerButton,
+.eprint-crm-customer .RadGrid .rgPager .rgNumPart a {
+  border-radius: 4px;
+}
+
+.eprint-crm-customer .RadGrid .rgCommandRow {
+  background: #f8fafc !important;
+}
+
+/* —— Content area padding —— */
+.eprint-crm-customer .eprint-crm-main-panel #div_ContactMain,
+.eprint-crm-customer .eprint-crm-main-panel #div_ClientMain,
+.eprint-crm-customer .eprint-crm-main-panel #div_DepartmentMain,
+.eprint-crm-customer .eprint-crm-main-panel [id$="_div_ContactMain"],
+.eprint-crm-customer .eprint-crm-main-panel [id$="_div_ClientMain"] {
+  padding: 0 12px 16px;
+}
+
+/* —— Loading overlay —— */
+.eprint-crm-customer #ds00 {
+  background: rgba(248, 250, 252, 0.65) !important;
+}
+
+/* =============================================================================
+   Option 2 — layout UX (flex shell, icon nav, sticky header, scroll body)
+   ============================================================================= */
+
+.eprint-crm-layout-v2 {
+  display: block;
+  width: 100%;
+}
+
+/* Customer detail inside app shell (modules sidebar + CRM section nav) */
+body.eprint-app-shell #mainContent .eprint-crm-layout-v2 {
+  max-width: 100%;
+}
+
+body.eprint-app-shell #mainContent .eprint-crm-content-card {
+  max-height: none;
+}
+
+body.eprint-app-shell #mainContent .eprint-crm-sticky-header {
+  top: 0;
+}
+
+.eprint-crm-layout-v2 > tbody,
+.eprint-crm-layout-v2 > tbody > tr.eprint-crm-layout-row {
+  display: block;
+  width: 100%;
+}
+
+.eprint-crm-layout-v2 > tbody > tr.eprint-crm-layout-row > td {
+  display: block;
+  width: 100%;
+}
+
+.eprint-crm-layout-v2 > tbody > tr.eprint-crm-layout-row > td.eprint-crm-main-panel {
+  width: 100% !important;
+  padding-left: 0 !important;
+}
+
+.eprint-crm-layout-v2 .eprint-crm-context-nav-legacy {
+  display: none !important;
+}
+
+/* Horizontal top tab navigation (below customer title) */
+.eprint-crm-layout-v2 .eprint-crm-nav-top {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: stretch;
+  gap: 4px;
+  padding: 0 16px 12px;
+  margin: 0;
+  background: #fff;
+  border: none;
+  border-bottom: 1px solid var(--crm-border);
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.eprint-crm-layout-v2 .eprint-crm-nav {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 4px;
+  padding: 8px;
+  background: var(--crm-nav-bg);
+  border: 1px solid var(--crm-nav-border);
+  border-radius: var(--crm-radius);
+  box-shadow: var(--crm-shadow);
+}
+
+.eprint-crm-layout-v2 .eprint-crm-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  border-left: none;
+  border-bottom: 3px solid transparent;
+  transition: background 0.15s ease, border-color 0.15s ease;
+  flex: 0 1 auto;
+  white-space: nowrap;
+}
+
+.eprint-crm-layout-v2 .eprint-crm-nav-item::before {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  background: #e2e8f0;
+  color: #475569;
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 28px;
+  text-align: center;
+  content: "?";
+}
+
+.eprint-crm-layout-v2 .eprint-crm-nav-item[data-crm-nav="client"]::before { content: "SI"; background: #dbeafe; color: #1d4ed8; }
+.eprint-crm-layout-v2 .eprint-crm-nav-item[data-crm-nav="dept"]::before { content: "DP"; background: #e0e7ff; color: #4338ca; }
+.eprint-crm-layout-v2 .eprint-crm-nav-item[data-crm-nav="costcentre"]::before { content: "CC"; background: #fce7f3; color: #be185d; }
+.eprint-crm-layout-v2 .eprint-crm-nav-item[data-crm-nav="contacts"]::before { content: "CT"; background: #ffedd5; color: #c2410c; }
+.eprint-crm-layout-v2 .eprint-crm-nav-item[data-crm-nav="address"]::before { content: "AD"; background: #d1fae5; color: #047857; }
+.eprint-crm-layout-v2 .eprint-crm-nav-item[data-crm-nav="estore"]::before { content: "ES"; background: #fef3c7; color: #b45309; }
+.eprint-crm-layout-v2 .eprint-crm-nav-item[data-crm-nav="products"]::before { content: "PR"; background: #ede9fe; color: #6d28d9; }
+.eprint-crm-layout-v2 .eprint-crm-nav-item[data-crm-nav="emails"]::before { content: "EM"; background: #cffafe; color: #0e7490; }
+.eprint-crm-layout-v2 .eprint-crm-nav-item[data-crm-nav="records"]::before { content: "RC"; background: #f3f4f6; color: #374151; }
+
+.eprint-crm-layout-v2 .eprint-crm-nav-item:hover {
+  background: var(--crm-nav-hover);
+  border-bottom-color: var(--crm-accent);
+}
+
+.eprint-crm-layout-v2 .eprint-crm-nav-item.eprint-crm-nav-active {
+  background: #fff7ed;
+  border-bottom-color: var(--crm-accent);
+}
+
+.eprint-crm-layout-v2 .eprint-crm-nav-top .eprint-crm-nav-item::before {
+  width: 24px;
+  height: 24px;
+  line-height: 24px;
+  font-size: 10px;
+}
+
+.eprint-crm-layout-v2 .eprint-crm-nav-item.eprint-crm-nav-active::before {
+  background: linear-gradient(135deg, var(--crm-accent), var(--crm-accent-dark));
+  color: #fff;
+}
+
+.eprint-crm-layout-v2 .eprint-crm-nav-link,
+.eprint-crm-layout-v2 .eprint-crm-nav-link:link,
+.eprint-crm-layout-v2 .eprint-crm-nav-link:visited {
+  color: var(--crm-nav-text) !important;
+  text-decoration: none !important;
+  font-weight: 600 !important;
+  font-size: 13px !important;
+  flex: 1 1 auto;
+}
+
+.eprint-crm-layout-v2 .eprint-crm-nav-active .eprint-crm-nav-link {
+  color: var(--crm-accent-dark) !important;
+}
+
+/* Hide legacy table nav + duplicate horizontal tabs */
+.eprint-crm-layout-v2 .moreactionpanel {
+  display: none !important;
+}
+
+.eprint-crm-layout-v2 #ynnav {
+  display: none !important;
+  height: 0 !important;
+  overflow: hidden !important;
+  visibility: hidden !important;
+}
+
+/* Content card: sticky header + scrollable body */
+.eprint-crm-layout-v2 .eprint-crm-content-card {
+  display: flex;
+  flex-direction: column;
+  max-height: calc(100vh - 96px);
+  min-height: 480px;
+}
+
+.eprint-crm-layout-v2 .eprint-crm-sticky-header {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  flex-shrink: 0;
+  background: #fff;
+  box-shadow: 0 1px 0 var(--crm-border);
+  display: block !important;
+  padding: 0 !important;
+}
+
+.eprint-crm-layout-v2 .eprint-crm-sticky-header .eprint-crm-nav-top {
+  flex-shrink: 0;
+}
+
+.eprint-crm-layout-v2 .eprint-crm-header-top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px 16px;
+  padding: 14px 16px 10px;
+  border-bottom: 1px solid var(--crm-border);
+  background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+}
+
+.eprint-crm-layout-v2 .eprint-crm-header-title {
+  float: none !important;
+  margin: 0 !important;
+}
+
+.eprint-crm-layout-v2 .eprint-crm-header-title [id$="_lbltitlecompanyname"] {
+  display: block;
+  font-size: 1.35rem !important;
+  font-weight: 700 !important;
+  color: var(--crm-text) !important;
+  line-height: 1.3;
+}
+
+.eprint-crm-layout-v2 .eprint-crm-section-label {
+  display: block;
+  font-size: 0.9rem !important;
+  font-weight: 500 !important;
+  color: var(--crm-muted) !important;
+  margin-top: 2px;
+}
+
+.eprint-crm-layout-v2 .eprint-crm-title-sep {
+  display: none;
+}
+
+.eprint-crm-layout-v2 .eprint-crm-header-badges {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.eprint-crm-layout-v2 .eprint-crm-type-badge {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  background: #ffedd5;
+  color: #9a3412;
+  border: 1px solid #fed7aa;
+}
+
+.eprint-crm-layout-v2 .eprint-crm-record-nav {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.eprint-crm-layout-v2 .eprint-crm-header-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 10px 16px 12px;
+  background: #fff;
+}
+
+.eprint-crm-layout-v2 .eprint-crm-header-toolbar > div {
+  float: none !important;
+  margin: 0 !important;
+}
+
+.eprint-crm-layout-v2 .eprint-crm-print-options-wrap {
+  position: relative !important;
+}
+
+.eprint-crm-layout-v2 .eprint-crm-print-options-menu {
+  background: #fff;
+  border: 1px solid var(--crm-border);
+  border-radius: var(--crm-radius);
+  box-shadow: var(--crm-shadow);
+}
+
+.eprint-crm-layout-v2 .eprint-crm-filter-toggle {
+  margin-right: auto !important;
+  order: -1;
+}
+
+/* Scroll region: all sections below header */
+.eprint-crm-layout-v2 .eprint-crm-content-card > div:not(.eprint-crm-sticky-header) {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-x: auto;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Collapsible column filters (default collapsed) */
+.eprint-crm-layout-v2.eprint-crm-filters-collapsed .RadGrid .rgFilterRow {
+  display: none !important;
+}
+
+.eprint-crm-layout-v2.eprint-crm-filters-expanded .RadGrid .rgFilterRow {
+  display: table-row !important;
+}
+
+.eprint-crm-layout-v2 .eprint-crm-filter-toggle {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif !important;
+}
+
+/* Grid area breathing room inside scroll region */
+.eprint-crm-layout-v2 [id$="_div_Contact"],
+.eprint-crm-layout-v2 #div_Contact {
+  padding: 8px 12px 16px !important;
+}
+
+/* Hide duplicate header action bars when section hero toolbar is active */
+.eprint-crm-layout-v2[data-crm-active-tab="dept"] [id$="div_DeptControls"],
+.eprint-crm-layout-v2[data-crm-active-tab="contacts"] [id$="div_ContactControls"],
+.eprint-crm-layout-v2[data-crm-active-tab="address"] [id$="div_AddressControls"],
+.eprint-crm-layout-v2[data-crm-active-tab="costcentre"] [id$="div_CostcenterControls"],
+.eprint-crm-layout-v2[data-crm-active-tab="products"] [id$="div_ProductsControls"],
+.eprint-crm-layout-v2[data-crm-active-tab="emails"] [id$="div_EmailControls"] {
+  display: none !important;
+}
+
+/* —— Small screens: horizontal scroll nav, stack header, full-width grids —— */
+@media (max-width: 899px) {
+  .eprint-crm-layout-v2 .eprint-crm-nav {
+    flex-direction: row;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    gap: 6px;
+    padding-bottom: 10px;
+    margin-bottom: 8px;
+  }
+
+  .eprint-crm-layout-v2 .eprint-crm-nav-item {
+    flex: 0 0 auto;
+    min-width: 132px;
+    padding: 8px 10px;
+  }
+
+  .eprint-crm-layout-v2 .eprint-crm-nav-item::before {
+    width: 24px;
+    height: 24px;
+    line-height: 24px;
+    font-size: 10px;
+  }
+
+  .eprint-crm-layout-v2 .eprint-crm-content-card {
+    max-height: none;
+    min-height: 0;
+  }
+
+  .eprint-crm-layout-v2 .eprint-crm-header-top {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .eprint-crm-layout-v2 .eprint-crm-header-toolbar {
+    justify-content: flex-start;
+    width: 100%;
+  }
+
+  .eprint-crm-layout-v2 .eprint-crm-header-toolbar > div {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  .eprint-crm-layout-v2 .eprint-crm-header-toolbar .headerbutton.white,
+  .eprint-crm-layout-v2 .eprint-crm-header-toolbar .moreoptions.white {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .eprint-crm-layout-v2 .eprint-crm-filter-toggle {
+    margin-right: 0 !important;
+    order: 0;
+    flex: 1 1 100%;
+  }
+
+  .eprint-crm-section-hero,
+  .eprint-crm-contacts-hero {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 14px;
+  }
+
+  .eprint-crm-section-toolbar,
+  .eprint-crm-contacts-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .eprint-crm-section-search-wrap,
+  .eprint-crm-contacts-search-wrap {
+    width: 100%;
+    max-width: none;
+  }
+
+  .eprint-crm-section-actions,
+  .eprint-crm-contacts-toolbar .eprint-crm-section-actions {
+    width: 100%;
+    flex-direction: column;
+  }
+
+  .eprint-crm-section-actions .headerbutton.white,
+  .eprint-crm-section-btn-add {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .eprint-crm-layout-v2 .RadGrid {
+    min-width: 720px;
+  }
+
+  .eprint-crm-layout-v2 .eprint-crm-section-body-card,
+  .eprint-crm-contacts-grid-card {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+@media (max-width: 480px) {
+  .eprint-crm-layout-v2 .eprint-crm-nav-item {
+    min-width: 118px;
+  }
+
+  .eprint-crm-layout-v2 .eprint-crm-header-title [id$="_lbltitlecompanyname"] {
+    font-size: 1.05rem !important;
+    word-break: break-word;
+  }
+}
