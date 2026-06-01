@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Login mockup C — Minimal light</title>
+  <style>
+    :root {
+      --orange: #e67e22;
+      --orange-dark: #c2410c;
+      --bg: #ffffff;
+      --text: #0f172a;
+      --muted: #64748b;
+      --border: #e2e8f0;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Inter, "Segoe UI", system-ui, sans-serif;
+      background: var(--bg);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+    .top { text-align: center; margin-bottom: 32px; }
+    .top .name { font-size: 1rem; font-weight: 700; color: var(--text); letter-spacing: -0.02em; }
+    .top .hint { font-size: 0.8125rem; color: var(--muted); margin-top: 4px; }
+    form { width: 100%; max-width: 320px; }
+    label { display: block; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); margin-bottom: 6px; }
+    input {
+      width: 100%;
+      padding: 10px 0;
+      border: none;
+      border-bottom: 1px solid var(--border);
+      font-size: 1rem;
+      margin-bottom: 20px;
+      background: transparent;
+    }
+    input:focus { outline: none; border-bottom-color: var(--orange); }
+    .row { font-size: 0.8125rem; color: var(--muted); margin-bottom: 24px; display: flex; align-items: center; gap: 8px; }
+    button {
+      width: 100%;
+      padding: 11px;
+      border: none;
+      border-radius: 6px;
+      background: var(--orange);
+      color: #fff;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    button:hover { background: var(--orange-dark); }
+    .foot { margin-top: 24px; text-align: center; font-size: 0.8125rem; color: var(--muted); }
+    .foot a { color: var(--orange-dark); text-decoration: none; font-weight: 600; }
+    .back { position: fixed; top: 16px; left: 16px; font-size: 0.8rem; color: var(--muted); text-decoration: none; }
+    .badge { position: fixed; top: 16px; right: 16px; font-size: 0.75rem; color: var(--muted); padding: 6px 10px; border: 1px solid var(--border); border-radius: 6px; }
+  </style>
+</head>
+<body>
+  <a class="back" href="index.html">← All concepts</a>
+  <span class="badge">Concept C</span>
+
+  <div class="top">
+    <div class="name">PixelPrint360</div>
+    <div class="hint">Sign in to continue</div>
+  </div>
+
+  <form>
+    <label for="email">Email</label>
+    <input id="email" type="email" placeholder="you@company.com" />
+
+    <label for="pw">Password</label>
+    <input id="pw" type="password" placeholder="Password" />
+
+    <label class="row"><input type="checkbox" /> Stay logged in</label>
+
+    <button type="button">Sign in</button>
+  </form>
+
+  <p class="foot"><a href="#">Create an account</a></p>
+</body>
+</html>

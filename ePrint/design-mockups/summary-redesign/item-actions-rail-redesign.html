@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Item actions rail — redesign mockup (EST-0000281)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --orange: #e67e22;
+      --orange-dark: #c2410c;
+      --orange-soft: #fff7ed;
+      --navy: #0f172a;
+      --surface: #ffffff;
+      --bg: #f4f6fa;
+      --border: #e2e8f0;
+      --text: #0f172a;
+      --muted: #64748b;
+      --rail-bg: #f8fafc;
+      --shadow: 0 1px 2px rgba(15, 23, 42, 0.06), 0 8px 24px rgba(15, 23, 42, 0.06);
+      --radius: 12px;
+      --radius-sm: 8px;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Inter, "Segoe UI", system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      font-size: 14px;
+      line-height: 1.45;
+    }
+    .preview-banner {
+      background: linear-gradient(90deg, #0f172a, #1e3a5f);
+      color: #94a3b8;
+      text-align: center;
+      padding: 10px 16px;
+      font-size: 0.8rem;
+    }
+    .preview-banner strong { color: #fbbf24; }
+    .page { max-width: 1280px; margin: 0 auto; padding: 20px; }
+
+    .compare-toggle {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+    .compare-toggle button {
+      font: inherit;
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 8px 14px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text);
+      cursor: pointer;
+    }
+    .compare-toggle button.active {
+      background: var(--orange);
+      border-color: var(--orange);
+      color: #fff;
+    }
+
+    .doc-shell {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+    .doc-mini-head {
+      padding: 14px 18px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .doc-mini-head h1 { margin: 0; font-size: 1.1rem; }
+    .doc-mini-head .cust { color: var(--muted); font-size: 0.85rem; }
+
+    .line-tabs {
+      display: flex;
+      gap: 8px;
+      padding: 12px 18px;
+      border-bottom: 1px solid var(--border);
+      background: #fafbfc;
+      flex-wrap: wrap;
+    }
+    .line-tabs button {
+      font: inherit;
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 8px 14px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text);
+      cursor: pointer;
+    }
+    .line-tabs button.active {
+      border-color: var(--orange);
+      box-shadow: 0 0 0 2px rgba(230, 126, 34, 0.25);
+      color: var(--orange-dark);
+    }
+
+    .item-workspace {
+      display: grid;
+      grid-template-columns: 220px 1fr 280px;
+      min-height: 480px;
+    }
+    @media (max-width: 900px) {
+      .item-workspace { grid-template-columns: 1fr; }
+    }
+
+    /* —— NEW RAIL —— */
+    .item-rail {
+      background: var(--rail-bg);
+      border-right: 1px solid var(--border);
+      padding: 14px 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .item-rail .section-label {
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      padding: 0 6px 6px;
+      margin: 0;
+    }
+    .rail-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+    }
+    .rail-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--border);
+      text-decoration: none;
+      color: inherit;
+      cursor: pointer;
+      transition: background 0.12s;
+    }
+    .rail-row:last-child { border-bottom: none; }
+    .rail-row:hover { background: #f1f5f9; }
+    .rail-row .left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+    }
+    .rail-row .icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+      background: #f1f5f9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.85rem;
+      flex-shrink: 0;
+    }
+    .rail-row .title {
+      font-weight: 600;
+      font-size: 0.82rem;
+    }
+    .rail-row .sub {
+      font-size: 0.72rem;
+      color: var(--muted);
+      margin-top: 1px;
+    }
+    .chip {
+      font-size: 0.7rem;
+      font-weight: 600;
+      padding: 4px 8px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: #f8fafc;
+      color: var(--text);
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .chip.link { color: #2563eb; border-color: #bfdbfe; background: #eff6ff; }
+    .chip.create {
+      background: var(--orange-soft);
+      border-color: #fdba74;
+      color: var(--orange-dark);
+    }
+    .chip.create:hover { background: #ffedd5; }
+
+    .rail-acc-hd {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 12px;
+      font-weight: 600;
+      font-size: 0.82rem;
+      cursor: pointer;
+      user-select: none;
+      border-bottom: 1px solid var(--border);
+    }
+    .rail-acc-hd:hover { background: #f8fafc; }
+    .rail-acc-hd .caret {
+      font-size: 0.6rem;
+      color: var(--muted);
+      transition: transform 0.15s;
+    }
+    .rail-acc-hd.open .caret { transform: rotate(180deg); }
+    .rail-acc-body {
+      display: none;
+      padding: 4px 0 8px;
+    }
+    .rail-acc-body.open { display: block; }
+    .rail-acc-body .rail-row { border-bottom: none; padding: 8px 12px 8px 20px; }
+    .rail-acc-body .group {
+      font-size: 0.65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--muted);
+      padding: 8px 12px 4px 20px;
+    }
+
+    /* —— OLD RAIL (for compare) —— */
+    .item-rail-old {
+      background: #ececec;
+      border-right: 1px solid #d0d0d0;
+      padding: 6px 0;
+      font-size: 0.82rem;
+      font-weight: 700;
+    }
+    .item-rail-old ul { list-style: none; margin: 0; padding: 0; }
+    .item-rail-old > ul > li { border-bottom: 1px solid #ddd; }
+    .item-rail-old .plain a {
+      display: block;
+      padding: 8px 10px;
+      color: #000;
+      text-decoration: none;
+    }
+    .item-rail-old .acc-hd {
+      padding: 8px 10px;
+      display: flex;
+      justify-content: space-between;
+      cursor: default;
+    }
+    .item-rail-old .acc-body {
+      padding: 0 0 6px 14px;
+      font-weight: 600;
+      font-size: 0.78rem;
+    }
+    .item-rail-old .acc-body div,
+    .item-rail-old .acc-body a {
+      padding: 4px 0;
+      color: #222;
+      text-decoration: none;
+      display: block;
+    }
+    .item-rail-old .muted-line { color: #666; font-weight: 500; }
+
+    .col-pricing, .col-desc {
+      padding: 16px;
+      border-right: 1px solid var(--border);
+    }
+    .col-desc { border-right: none; }
+    .col-pricing h2, .col-desc h2 {
+      margin: 0 0 12px;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--muted);
+    }
+    .pricing-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.82rem;
+    }
+    .pricing-table td {
+      padding: 6px 8px;
+      border-bottom: 1px solid var(--border);
+    }
+    .pricing-table td:last-child { text-align: right; font-weight: 600; }
+    .artwork-box {
+      border: 1px dashed var(--border);
+      border-radius: 8px;
+      padding: 10px;
+      margin-bottom: 12px;
+      font-size: 0.8rem;
+    }
+
+    .legend {
+      margin-top: 20px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 16px 18px;
+      font-size: 0.85rem;
+    }
+    .legend h3 { margin: 0 0 10px; font-size: 0.95rem; }
+    .legend ul { margin: 0; padding-left: 20px; color: var(--muted); }
+    .legend li { margin-bottom: 6px; }
+    .legend .chips-demo { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+
+    .hidden-view { display: none !important; }
+    #panelsWrap.both-mode {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+    }
+    #panelsWrap.both-mode .panel-view { min-height: 420px; }
+    #panelsWrap.both-mode .panel-view.hidden-view { display: grid !important; }
+    #panelsWrap.both-mode #viewNew { border-right: 2px solid var(--orange); }
+    #panelsWrap { position: relative; }
+    #panelsWrap.both-mode #viewOld::before {
+      content: "Current";
+      display: block;
+      font-size: 0.65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--muted);
+      padding: 8px 12px;
+      background: #ececec;
+      border-bottom: 1px solid #ddd;
+    }
+    #panelsWrap.both-mode #viewNew::before {
+      content: "Proposed";
+      display: block;
+      font-size: 0.65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--orange-dark);
+      padding: 8px 12px;
+      background: var(--orange-soft);
+      border-bottom: 1px solid #fdba74;
+    }
+    #panelsWrap.both-mode .col-pricing,
+    #panelsWrap.both-mode .col-desc { display: none; }
+    #panelsWrap.both-mode .item-workspace {
+      grid-template-columns: 1fr;
+    }
+  </style>
+</head>
+<body>
+  <div class="preview-banner">
+    <strong>Design mockup only</strong> — Item action rail redesign for line items (Re-Run, Add sub item, Documents).
+    Based on EST-0000281 screenshot. Not wired to the live app.
+  </div>
+
+  <div class="page">
+    <div class="compare-toggle" role="tablist" aria-label="Compare rail versions">
+      <button type="button" class="active" data-view="new">Proposed design</button>
+      <button type="button" data-view="old">Current (screenshot style)</button>
+      <button type="button" data-view="both">Side by side</button>
+    </div>
+
+    <div class="doc-shell">
+      <div class="doc-mini-head">
+        <h1>EST-0000281</h1>
+        <span class="cust">Customer: <strong>Test</strong></span>
+        <span style="margin-left:auto;font-size:0.8rem;color:var(--muted)">Line items tab · item 001 selected</span>
+      </div>
+      <div class="line-tabs">
+        <button type="button" class="active">EST-0000281-001</button>
+        <button type="button">EST-0000281-002</button>
+      </div>
+
+      <div id="panelsWrap">
+      <div id="viewNew" class="item-workspace panel-view">
+        <aside class="item-rail" aria-label="Item actions">
+          <div>
+            <p class="section-label">Actions</p>
+            <div class="rail-card">
+              <a class="rail-row" href="#">
+                <span class="left">
+                  <span class="icon" aria-hidden="true">↻</span>
+                  <span>
+                    <span class="title">Re-run item</span>
+                    <span class="sub">Open item for editing</span>
+                  </span>
+                </span>
+              </a>
+              <div>
+                <div class="rail-acc-hd" data-acc="sub" role="button" tabindex="0" aria-expanded="false">
+                  <span class="left" style="gap:10px">
+                    <span class="icon" aria-hidden="true">+</span>
+                    <span class="title">Add sub item</span>
+                  </span>
+                  <span class="caret">▼</span>
+                </div>
+                <div class="rail-acc-body" id="acc-sub">
+                  <div class="group">Sheet fed digital</div>
+                  <a class="rail-row" href="#"><span class="title">Single item</span></a>
+                  <a class="rail-row" href="#"><span class="title">Pads</span></a>
+                  <div class="group">Sheet fed offset</div>
+                  <a class="rail-row" href="#"><span class="title">Single item</span></a>
+                  <a class="rail-row" href="#"><span class="title">Pads</span></a>
+                  <a class="rail-row" href="#"><span class="title">Outwork</span></a>
+                  <a class="rail-row" href="#"><span class="title">Product catalogue</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <p class="section-label">Documents</p>
+            <div class="rail-card">
+              <a class="rail-row" href="#">
+                <span class="left">
+                  <span class="icon" aria-hidden="true">📋</span>
+                  <span><span class="title">Job</span></span>
+                </span>
+                <span class="chip create">Create</span>
+              </a>
+              <!-- Invoice hidden when no doc and no create — not shown -->
+              <a class="rail-row" href="#">
+                <span class="left">
+                  <span class="icon" aria-hidden="true">📦</span>
+                  <span>
+                    <span class="title">Proofs</span>
+                    <span class="sub">10 Feb 2025</span>
+                  </span>
+                </span>
+                <span class="chip link">PR-0000053</span>
+              </a>
+              <!-- Delivery note & PO only appear when applicable -->
+            </div>
+            <p style="margin:8px 6px 0;font-size:0.72rem;color:var(--muted)">
+              Empty rows (Invoice, Delivery note, PO) are hidden until Create or an existing number applies.
+            </p>
+          </div>
+        </aside>
+
+        <div class="col-pricing">
+          <h2>Item · 123</h2>
+          <div class="artwork-box">
+            <strong>Artwork file(s)</strong> — 123.xlsx <span style="color:var(--muted)">(+)</span>
+          </div>
+          <table class="pricing-table">
+            <tr><td>Finished quantity</td><td>1</td></tr>
+            <tr><td>Paper / stock</td><td>$1.10</td></tr>
+            <tr><td>Press</td><td>$10.28</td></tr>
+            <tr><td>Guillotine</td><td>$4.50</td></tr>
+            <tr><td>Cost price (ex. markup)</td><td>$15.78</td></tr>
+            <tr><td>Markup</td><td>$0.10</td></tr>
+            <tr><td><strong>Cost price (inc. markup)</strong></td><td><strong>$15.88</strong></td></tr>
+          </table>
+        </div>
+
+        <div class="col-desc">
+          <h2>Customer descriptions</h2>
+          <p style="margin:0;color:var(--muted);font-size:0.82rem">Item title, custom descriptions 1–11 (unchanged column).</p>
+        </div>
+      </div>
+
+      <div id="viewOld" class="item-workspace panel-view hidden-view">
+        <aside class="item-rail-old" aria-label="Current item menu">
+          <ul>
+            <li class="plain"><a href="#">Re-Run Item</a></li>
+            <li>
+              <div class="acc-hd"><span>Add Sub Item</span><span>▼</span></div>
+              <div class="acc-body">
+                <div>Sheet Fed Digital → Single Item, Pads…</div>
+              </div>
+            </li>
+            <li>
+              <div class="acc-hd"><span>Quick Links</span><span>▼</span></div>
+              <div class="acc-body">
+                <div>Job : Create</div>
+                <div class="muted-line">Invoice</div>
+                <div class="muted-line">Delivery Note</div>
+                <div class="muted-line">Purchase Order</div>
+                <div>Proofs PR-0000053 10/02/2025</div>
+              </div>
+            </li>
+          </ul>
+        </aside>
+        <div class="col-pricing">
+          <h2>Item · 123</h2>
+          <p style="color:var(--muted);font-size:0.82rem">Same pricing column — only the left rail differs.</p>
+        </div>
+        <div class="col-desc">
+          <h2>Customer descriptions</h2>
+        </div>
+      </div>
+      </div>
+    </div>
+
+    <div class="legend">
+      <h3>What changed in the proposed rail</h3>
+      <ul>
+        <li><strong>Actions</strong> vs <strong>Documents</strong> — two labelled groups instead of one “Quick Links” bucket.</li>
+        <li><strong>Row pattern</strong> — icon + title (+ optional subtitle) + trailing chip (Create / doc number).</li>
+        <li><strong>Hide empty links</strong> — no blank Invoice / Delivery note / PO lines.</li>
+        <li><strong>Add sub item</strong> collapsed by default — expands on click (try it above).</li>
+        <li><strong>Visual</strong> — white card on light rail, matches perfect-summary header/tabs.</li>
+      </ul>
+      <div class="chips-demo">
+        <span class="chip create">Create</span>
+        <span class="chip link">PR-0000053</span>
+        <span class="chip">J-0000123</span>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var subHd = document.querySelector(".rail-acc-hd[data-acc='sub']");
+      var subBody = document.getElementById("acc-sub");
+      if (subHd && subBody) {
+        function toggleSub() {
+          var open = subHd.classList.toggle("open");
+          subBody.classList.toggle("open", open);
+          subHd.setAttribute("aria-expanded", open ? "true" : "false");
+        }
+        subHd.addEventListener("click", toggleSub);
+        subHd.addEventListener("keydown", function (e) {
+          if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSub(); }
+        });
+      }
+
+      var btns = document.querySelectorAll(".compare-toggle button");
+      var wrap = document.getElementById("panelsWrap");
+      var viewNew = document.getElementById("viewNew");
+      var viewOld = document.getElementById("viewOld");
+      btns.forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          btns.forEach(function (b) { b.classList.remove("active"); });
+          btn.classList.add("active");
+          var v = btn.getAttribute("data-view");
+          wrap.classList.remove("both-mode");
+          if (v === "new") {
+            viewNew.classList.remove("hidden-view");
+            viewOld.classList.add("hidden-view");
+          } else if (v === "old") {
+            viewNew.classList.add("hidden-view");
+            viewOld.classList.remove("hidden-view");
+          } else {
+            wrap.classList.add("both-mode");
+            viewNew.classList.remove("hidden-view");
+            viewOld.classList.remove("hidden-view");
+          }
+        });
+      });
+    })();
+  </script>
+</body>
+</html>

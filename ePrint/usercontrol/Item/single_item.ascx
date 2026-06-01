@@ -2,6 +2,7 @@
 
 <%@ Register TagPrefix="telerik" Namespace="Telerik.Web.UI" Assembly="Telerik.Web.UI" %>
 <%@ Register TagPrefix="UC" TagName="Loading" Src="~/usercontrol/settings/Loading.ascx" %>
+<link rel="stylesheet" type="text/css" href="<%=strSitepath%>App_Themes/Theme1/eprint-single-item-add.css?VN=<%=VersionNumber%>" />
 <div id="ds00" style="display: block;">
 </div>
 <div id="div_Load" class="loading_new">
@@ -26,8 +27,17 @@
     </div>
 
     <div id="content">
+        <div id="eprint-single-item-root" class="eprint-single-item-stage1">
+            <div class="eprint-si-page-header">
+                <div>
+                    <h2><%=objLanguage.GetLanguageConversion("Single_Item") %></h2>
+                    <p class="eprint-si-meta">Sheet fed digital · Required fields marked *</p>
+                </div>
+                <div class="eprint-si-header-actions"></div>
+            </div>
+            <div id="eprint_si_legacy_columns" class="eprint-si-legacy-columns">
         <%-- LEFT SIDE --%>
-        <div style="float: left; width: 50%; border: solid 0px red;">
+        <div id="eprint_si_col_left" style="float: left; width: 50%; border: solid 0px red;">
             <div align="left" style="display: block;">
                 <div class="bglabelnewLarge">
                     <asp:Label ID="Label10" runat="server" CssClass="normaltext"> <%=objLanguage.GetLanguageConversion("Item_Title") %></asp:Label>
@@ -745,9 +755,12 @@
                 </div>
             </div>
         </div>
+            </div>
+        </div>
         <%-- </div>--%>
     </div>
 </div>
+<script type="text/javascript" src="<%=strSitepath %>js/item/eprint-single-item-add.js?VN=<%=VersionNumber%>"></script>
 <div id="divrad" style="display: none;">
     <telerik:RadWindowManager EnableShadow="false" ID="RadWindowManager1" DestroyOnClose="true"
         Opacity="100" runat="server" Width="1050" Height="525" OnClientClose="RadWinClose"

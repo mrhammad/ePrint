@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Login mockup A — Refined card</title>
+  <style>
+    :root {
+      --orange: #e67e22;
+      --orange-dark: #c2410c;
+      --bg: #f8fafc;
+      --surface: #ffffff;
+      --text: #0f172a;
+      --muted: #64748b;
+      --border: #e2e8f0;
+      --error: #dc2626;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Inter, "Segoe UI", system-ui, sans-serif;
+      background: var(--bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+    .panel {
+      width: 100%;
+      max-width: 400px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 32px 28px;
+    }
+    .logo {
+      width: 48px;
+      height: 48px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, var(--orange), var(--orange-dark));
+      color: #fff;
+      font-weight: 700;
+      font-size: 0.65rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 16px;
+    }
+    h1 { margin: 0 0 4px; font-size: 1.35rem; text-align: center; }
+    .sub { margin: 0 0 24px; text-align: center; color: var(--muted); font-size: 0.875rem; }
+    label { display: block; font-size: 0.8125rem; font-weight: 600; margin-bottom: 6px; color: var(--text); }
+    input {
+      width: 100%;
+      padding: 11px 12px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 1rem;
+      margin-bottom: 16px;
+    }
+    input:focus { outline: 2px solid #fed7aa; border-color: var(--orange); }
+    .row { display: flex; align-items: center; gap: 8px; margin-bottom: 20px; font-size: 0.875rem; color: var(--muted); }
+    button {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      background: var(--orange);
+      color: #fff;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+    button:hover { background: var(--orange-dark); }
+    .foot { margin-top: 20px; text-align: center; font-size: 0.875rem; color: var(--muted); }
+    .foot a { color: var(--orange-dark); font-weight: 600; text-decoration: none; }
+    .back { position: fixed; top: 16px; left: 16px; font-size: 0.8rem; color: var(--muted); text-decoration: none; }
+    .badge { position: fixed; top: 16px; right: 16px; font-size: 0.75rem; background: #fff7ed; color: var(--orange-dark); padding: 6px 10px; border-radius: 6px; font-weight: 600; }
+  </style>
+</head>
+<body>
+  <a class="back" href="index.html">← All concepts</a>
+  <span class="badge">Concept A</span>
+
+  <div class="panel">
+    <div class="logo">eP</div>
+    <h1>Sign in</h1>
+    <p class="sub">PixelPrint360 · Print MIS</p>
+
+    <label for="email">Email</label>
+    <input id="email" type="email" placeholder="you@company.com" />
+
+    <label for="pw">Password</label>
+    <input id="pw" type="password" placeholder="••••••••" />
+
+    <label class="row"><input type="checkbox" /> Stay logged in</label>
+
+    <button type="button">Sign in</button>
+
+    <p class="foot">No account? <a href="#">Sign up</a></p>
+  </div>
+</body>
+</html>

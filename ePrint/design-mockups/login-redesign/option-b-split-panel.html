@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Login mockup B — App-aligned split</title>
+  <style>
+    :root {
+      --navy: #1a2332;
+      --navy-muted: #94a3b8;
+      --orange: #e67e22;
+      --orange-dark: #c2410c;
+      --bg: #f8fafc;
+      --surface: #ffffff;
+      --text: #0f172a;
+      --muted: #64748b;
+      --border: #e2e8f0;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; min-height: 100vh; font-family: Inter, "Segoe UI", system-ui, sans-serif; }
+    .shell { display: flex; min-height: 100vh; }
+    .brand {
+      flex: 1;
+      min-width: 280px;
+      background: var(--navy);
+      color: #e2e8f0;
+      padding: 48px 40px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .brand-logo {
+      width: 56px;
+      height: 56px;
+      border-radius: 12px;
+      background: var(--orange);
+      color: #fff;
+      font-weight: 700;
+      font-size: 0.75rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 24px;
+    }
+    .brand h1 { margin: 0 0 12px; font-size: 1.75rem; color: #fff; font-weight: 700; letter-spacing: -0.02em; }
+    .brand p { margin: 0; font-size: 0.95rem; line-height: 1.6; color: var(--navy-muted); max-width: 36ch; }
+    .brand ul { margin: 28px 0 0; padding: 0; list-style: none; font-size: 0.875rem; color: #cbd5e1; }
+    .brand li { padding: 6px 0; padding-left: 20px; position: relative; }
+    .brand li::before { content: ""; position: absolute; left: 0; top: 12px; width: 6px; height: 6px; border-radius: 50%; background: var(--orange); }
+    .form-side {
+      flex: 1;
+      background: var(--bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 32px;
+    }
+    .form-card {
+      width: 100%;
+      max-width: 380px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 32px 28px;
+    }
+    .form-card h2 { margin: 0 0 6px; font-size: 1.35rem; }
+    .form-card .sub { margin: 0 0 24px; color: var(--muted); font-size: 0.875rem; }
+    label { display: block; font-size: 0.8125rem; font-weight: 600; margin-bottom: 6px; }
+    input {
+      width: 100%;
+      padding: 11px 12px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 1rem;
+      margin-bottom: 16px;
+    }
+    input:focus { outline: 2px solid #fed7aa; border-color: var(--orange); }
+    .row { display: flex; align-items: center; gap: 8px; margin-bottom: 20px; font-size: 0.875rem; color: var(--muted); }
+    button {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      background: var(--orange);
+      color: #fff;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+    button:hover { background: var(--orange-dark); }
+    .foot { margin-top: 20px; text-align: center; font-size: 0.875rem; color: var(--muted); }
+    .foot a { color: var(--orange-dark); font-weight: 600; text-decoration: none; }
+    .back { position: fixed; top: 16px; left: 16px; z-index: 2; font-size: 0.8rem; color: #94a3b8; text-decoration: none; }
+    .badge { position: fixed; top: 16px; right: 16px; z-index: 2; font-size: 0.75rem; background: #ecfdf5; color: #047857; padding: 6px 10px; border-radius: 6px; font-weight: 600; }
+    @media (max-width: 768px) {
+      .shell { flex-direction: column; }
+      .brand { padding: 32px 24px; min-height: auto; }
+    }
+  </style>
+</head>
+<body>
+  <a class="back" href="index.html">← All concepts</a>
+  <span class="badge">Concept B · Recommended</span>
+
+  <div class="shell">
+    <aside class="brand">
+      <div class="brand-logo">eP</div>
+      <h1>PixelPrint360</h1>
+      <p>Estimates, jobs, and production — one place for your print business.</p>
+      <ul>
+        <li>Customer &amp; estimate management</li>
+        <li>Line items and pricing</li>
+        <li>Jobs, invoices, and delivery</li>
+      </ul>
+    </aside>
+
+    <main class="form-side">
+      <div class="form-card">
+        <h2>Sign in</h2>
+        <p class="sub">Use your work email to access the MIS.</p>
+
+        <label for="email">Email</label>
+        <input id="email" type="email" placeholder="you@company.com" />
+
+        <label for="pw">Password</label>
+        <input id="pw" type="password" placeholder="••••••••" />
+
+        <label class="row"><input type="checkbox" /> Stay logged in</label>
+
+        <button type="button">Sign in</button>
+
+        <p class="foot">No account? <a href="#">Sign up</a></p>
+      </div>
+    </main>
+  </div>
+</body>
+</html>

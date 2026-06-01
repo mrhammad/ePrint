@@ -10,17 +10,15 @@
             <div style="float: right; border: 0px solid green; margin-top: 2px;">
                 <%--<asp:Button ID="btnCancel" CssClass="button" runat="server" Text="Cancel" OnClick="OnClick_btnCancel" />--%>
                 <%--As per the instruction this Save & Save stay functionality included in Save&Stay and Save btn Click of Summary page so these two btns made display none--%>
-                <div style="float: right">
+                <div style="float: right; padding-right: 10px">
+                    <div id="div_btnstay" style="display: none">
+                        <asp:Button ID="btnStay" CssClass="button" runat="server" Text="Save" OnClick="btnStay_Click" />
+                    </div>
                     <div id="div_btnsave" style="display: none">
-                        <asp:Button ID="btnSave" CssClass="button" runat="server" Text="Save" OnClick="btnStay_Click" />
+                        <asp:Button ID="btnSave" CssClass="button" runat="server" Text="Save" OnClick="btnStay_Click" Visible="false" />
                     </div>
                     <div id="div_saveprocess" style="display: none">
                         <img src="<%=strImagepath %>radimg1.gif" class="loadingimg" alt="loading" border="0" />
-                    </div>
-                </div>
-                <div style="float: right; padding-right: 10px">
-                    <div id="div_btnstay" style="display: none">
-                        <asp:Button ID="btnStay" CssClass="button" runat="server" Text="Save & Stay" OnClick="btnStay_Click" />
                     </div>
                     <div id="div_stayprocess" style="display: none">
                         <img src="<%=strImagepath %>radimg1.gif" class="loadingimg" alt="loading" border="0" />

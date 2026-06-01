@@ -1317,10 +1317,24 @@ function Eprint_GetminimumCost_ComparedtoCostwithMarkup_ForOtherCost(costprice, 
 function setLoadingPositionOfDivCenter() {
     if (objdivision) {
         var divisionloading = document.getElementById(objdivision);
-        divisionloading.style.left = ((document.body.clientWidth - divisionloading.offsetWidth) / 1.97) + "px";
-        var top = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
+        if (objdivision === "div_ProgressToJob") {
+            divisionloading.style.position = "fixed";
+            divisionloading.style.top = "50%";
+            divisionloading.style.left = "50%";
+            divisionloading.style.right = "auto";
+            divisionloading.style.bottom = "auto";
+            divisionloading.style.transform = "translate(-50%, -50%)";
+            divisionloading.style.margin = "0";
+            divisionloading.style.maxHeight = "90vh";
+            divisionloading.style.overflow = "hidden";
+        } else {
+            divisionloading.style.position = "absolute";
+            divisionloading.style.transform = "";
+            divisionloading.style.left = ((document.body.clientWidth - divisionloading.offsetWidth) / 1.97) + "px";
+            var top = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
 
-        divisionloading.style.top = (top + divFromTopPos) + "px";
+            divisionloading.style.top = (top + divFromTopPos) + "px";
+        }
 
         //new
         //divisionloading.style.top = (divFromTopPos)+(document.body.clientHeight / 30) + "px";
@@ -1330,10 +1344,16 @@ function setLoadingPositionOfDivCenter() {
         var docheightcomplete = (standardbody.offsetHeight > standardbody.scrollHeight) ? standardbody.offsetHeight : standardbody.scrollHeight// standardbody.clientHeight;
         var docwidthcomplete = (standardbody.offsetWidth > standardbody.scrollWidth) ? standardbody.offsetWidth : standardbody.scrollWidth// standardbody.clientWidth;
         var DivBack = document.getElementById("divBackGroundNew");
-        DivBack.style.left = "0px"
-        DivBack.style.width = docwidthcomplete + "px";
-        DivBack.style.height = docheightcomplete + "px";
-        DivBack.style.top = "0px";
+        if (DivBack) {
+            DivBack.style.position = "fixed";
+            DivBack.style.left = "0px";
+            DivBack.style.top = "0px";
+            DivBack.style.right = "0px";
+            DivBack.style.bottom = "0px";
+            DivBack.style.width = "100%";
+            DivBack.style.height = "100%";
+            DivBack.style.zIndex = "9999";
+        }
     }
 }
 

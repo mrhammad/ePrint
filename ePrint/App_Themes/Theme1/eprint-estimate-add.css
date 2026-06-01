@@ -1,0 +1,347 @@
+/**
+ * Add / edit estimate — Stage 1 (Option B: section cards)
+ */
+
+.eprint-estimate-stage1 {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 8px 4px 24px;
+  font-size: 13px;
+  color: #0f1f3d;
+}
+
+.eprint-estimate-stage1.eprint-est-layout-ready {
+  padding: 12px 8px 28px;
+}
+
+#divMainContent .div_addnewmargin:has(.eprint-est-layout-ready) {
+  background: #eef2f7;
+  border-radius: 10px;
+  padding: 12px 14px 20px;
+}
+
+/* Page header */
+.eprint-estimate-stage1 .eprint-est-page-header {
+  background: #ffffff;
+  border: 1px solid #dce3ee;
+  border-radius: 10px;
+  padding: 14px 18px;
+  margin-bottom: 14px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.eprint-estimate-stage1 .eprint-est-page-header h2 {
+  margin: 0 0 4px;
+  font-size: 20px;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.eprint-estimate-stage1 .eprint-est-meta {
+  margin: 0;
+  font-size: 12px;
+  color: #677793;
+}
+
+.eprint-estimate-stage1 .eprint-est-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.eprint-estimate-stage1 .eprint-est-header-actions .button,
+.eprint-estimate-stage1 .eprint-est-header-actions input[type="submit"],
+.eprint-estimate-stage1 .eprint-est-header-actions input[type="button"] {
+  border-radius: 8px !important;
+  font-weight: 600 !important;
+  padding: 8px 16px !important;
+}
+
+.eprint-estimate-stage1 .eprint-est-btn-primary,
+.eprint-estimate-stage1 .eprint-est-header-actions #btnNext,
+.eprint-estimate-stage1 .eprint-est-header-actions [id$="btnEditSave"] {
+  background: #f07d26 !important;
+  border-color: #f07d26 !important;
+  color: #fff !important;
+}
+
+.eprint-estimate-stage1 .eprint-est-btn-ghost {
+  background: #fff !important;
+  border: 1px solid #dce3ee !important;
+  color: #677793 !important;
+}
+
+/* Cards */
+.eprint-estimate-stage1 .eprint-est-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.eprint-estimate-stage1 .eprint-est-card {
+  background: #ffffff;
+  border: 1px solid #dce3ee;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.eprint-estimate-stage1 .eprint-est-card-head {
+  padding: 10px 14px;
+  background: #f8fafc;
+  border-bottom: 1px solid #dce3ee;
+}
+
+.eprint-estimate-stage1 .eprint-est-card-head h3 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.eprint-estimate-stage1 .eprint-est-card-head p {
+  margin: 2px 0 0;
+  font-size: 11px;
+  color: #677793;
+}
+
+.eprint-estimate-stage1 .eprint-est-card-body {
+  padding: 14px 16px;
+}
+
+/* Grids */
+.eprint-estimate-stage1 .eprint-est-field-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px 16px;
+}
+
+.eprint-estimate-stage1 .eprint-est-field-grid.cols-3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+/* Field row — label on top, control below (mockup .field) */
+.eprint-estimate-stage1 .eprint-est-field-row {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+  align-items: stretch;
+}
+
+.eprint-estimate-stage1 .eprint-est-field-row.full-width {
+  grid-column: 1 / -1;
+}
+
+.eprint-estimate-stage1 .eprint-est-field-row .bglabelnew {
+  background: transparent !important;
+  border: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  float: none !important;
+  width: 100% !important;
+  min-height: 0 !important;
+  display: block !important;
+}
+
+.eprint-estimate-stage1 .eprint-est-field-row .bglabelnew [style*="float: right"],
+.eprint-estimate-stage1 .eprint-est-field-row .bglabelnew [style*="float:right"] {
+  display: none !important;
+}
+
+.eprint-estimate-stage1 .eprint-est-field-row .bglabelnew label,
+.eprint-estimate-stage1 .eprint-est-field-row .bglabelnew .normalText,
+.eprint-estimate-stage1 .eprint-est-field-row .bglabelnew .normaltext {
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  color: #475569 !important;
+}
+
+.eprint-estimate-stage1 .eprint-est-field-with-action {
+  display: flex;
+  gap: 6px;
+  align-items: stretch;
+  width: 100%;
+}
+
+.eprint-estimate-stage1 .eprint-est-field-control {
+  flex: 1;
+  min-width: 0;
+}
+
+.eprint-estimate-stage1 .eprint-est-field-control > div,
+.eprint-estimate-stage1 .eprint-est-field-control .box,
+.eprint-estimate-stage1 .eprint-est-field-control .box_EstimateTitle,
+.eprint-estimate-stage1 .eprint-est-field-control .ddlsetting,
+.eprint-estimate-stage1 .eprint-est-field-control .ddl {
+  float: none !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  overflow: visible !important;
+  white-space: normal !important;
+}
+
+.eprint-estimate-stage1 .eprint-est-field-with-action input[type="image"],
+.eprint-estimate-stage1 .eprint-est-field-with-action img[src*="plus"] {
+  flex-shrink: 0;
+  width: 36px !important;
+  height: 36px !important;
+  border: 1px solid #cbd5e1 !important;
+  border-radius: 8px !important;
+  padding: 6px !important;
+  background: #f8fafc !important;
+  box-sizing: border-box;
+  object-fit: contain;
+}
+
+.eprint-estimate-stage1 .eprint-est-field-row input.textboxnew_estNew,
+.eprint-estimate-stage1 .eprint-est-field-row input.textboxnew,
+.eprint-estimate-stage1 .eprint-est-field-row select,
+.eprint-estimate-stage1 .eprint-est-field-row textarea,
+.eprint-estimate-stage1 .eprint-est-field-control input,
+.eprint-estimate-stage1 .eprint-est-field-control select,
+.eprint-estimate-stage1 .eprint-est-field-control textarea {
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box;
+  border: 1px solid #cbd5e1 !important;
+  border-radius: 8px !important;
+  padding: 8px 10px !important;
+  font-size: 13px !important;
+}
+
+.eprint-estimate-stage1 .eprint-est-field-row .graytext,
+.eprint-estimate-stage1 .eprint-est-field-control .graytext {
+  display: block;
+  width: 100% !important;
+  max-width: 100% !important;
+  padding: 8px 10px !important;
+  border: 1px solid #cbd5e1 !important;
+  border-radius: 8px !important;
+  background: #f8fafc !important;
+  box-sizing: border-box;
+  white-space: normal !important;
+  min-height: 38px;
+  line-height: 1.35;
+}
+
+.eprint-estimate-stage1 .eprint-est-field-row #divCheck {
+  position: absolute;
+  z-index: 1000;
+}
+
+/* Schedule — date chips (mockup .timeline) */
+.eprint-estimate-stage1 .eprint-est-schedule-grid {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px 14px;
+}
+
+.eprint-estimate-stage1 .eprint-est-date-chip {
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 8px 10px;
+  background: #fafbfc;
+  margin: 0 !important;
+  float: none !important;
+  width: auto !important;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.eprint-estimate-stage1 .eprint-est-date-chip .bglabelnew label,
+.eprint-estimate-stage1 .eprint-est-date-chip .bglabelnew .normalText {
+  font-size: 10px !important;
+  font-weight: 700 !important;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #677793 !important;
+}
+
+.eprint-estimate-stage1 .eprint-est-date-chip .box,
+.eprint-estimate-stage1 .eprint-est-date-chip .eprint-est-field-control {
+  width: 100% !important;
+  padding: 0 !important;
+}
+
+.eprint-estimate-stage1 .eprint-est-date-chip input {
+  border: none !important;
+  background: transparent !important;
+  padding: 0 !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  width: 100% !important;
+  box-shadow: none !important;
+}
+
+/* Document card — header/footer side by side; comments full width (mockup) */
+.eprint-estimate-stage1 .eprint-est-document-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px 16px;
+}
+
+.eprint-estimate-stage1 [data-eprint-section="document"] .eprint-est-field-row.full-width,
+.eprint-estimate-stage1 [data-eprint-section="document"] #div_comment {
+  grid-column: 1 / -1;
+}
+
+.eprint-estimate-stage1 [data-eprint-section="document"] textarea,
+.eprint-estimate-stage1 [data-eprint-section="document"] #div_comment textarea {
+  min-height: 72px;
+  width: 100% !important;
+  resize: vertical;
+}
+
+/* Schedule card must not use document field-row styling */
+.eprint-estimate-stage1 [data-eprint-section="schedule"] .eprint-est-date-chip {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Hide legacy columns only after layout succeeded */
+.eprint-estimate-stage1.eprint-est-layout-ready .eprint-est-columns.eprint-est-columns-hidden {
+  display: none !important;
+  visibility: hidden !important;
+  height: 0 !important;
+  overflow: hidden !important;
+}
+
+/* Safety: never blank the page if layout did not finish */
+.eprint-estimate-stage1:not(.eprint-est-layout-ready) .eprint-est-columns {
+  display: block !important;
+  visibility: visible !important;
+  height: auto !important;
+  overflow: visible !important;
+}
+
+.eprint-estimate-stage1 .onlyEmpty,
+.eprint-estimate-stage1 .only5px,
+.eprint-estimate-stage1 .only10px {
+  display: none !important;
+}
+
+@media (max-width: 960px) {
+  .eprint-estimate-stage1 .eprint-est-field-grid,
+  .eprint-estimate-stage1 .eprint-est-field-grid.cols-3,
+  .eprint-estimate-stage1 [data-eprint-section="document"] .eprint-est-field-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .eprint-estimate-stage1 .eprint-est-schedule-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .eprint-estimate-stage1 .eprint-est-schedule-grid {
+    grid-template-columns: 1fr;
+  }
+}

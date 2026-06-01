@@ -1,286 +1,405 @@
-<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Login.aspx.cs" Inherits="ePrint.Printcenter.Views.Login" EnableViewStateMac="false" EnableEventValidation="false" StyleSheetTheme="" Theme="" %>
+<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Login.aspx.cs" Inherits="ePrint.Printcenter.Views.Login" EnableViewState="false" EnableViewStateMac="false" EnableEventValidation="false" StyleSheetTheme="" Theme="" %>
 
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
 <head id="Head1" runat="server">
     <title><%= strCompany %></title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <style type="text/css">
         :root {
-            --primary-color: #2563eb;
-            --bg-color: #f3f4f6;
-            --text-dark: #1f2937;
-            --text-light: #6b7280;
-            --error-red: #ef4444;
+            --eprint-navy: #1a2332;
+            --eprint-navy-muted: #94a3b8;
+            --eprint-orange: #e67e22;
+            --eprint-orange-dark: #c2410c;
+            --eprint-bg: #f8fafc;
+            --eprint-surface: #ffffff;
+            --eprint-text: #0f172a;
+            --eprint-muted: #64748b;
+            --eprint-border: #e2e8f0;
+            --eprint-error: #dc2626;
         }
+
+        * { box-sizing: border-box; }
 
         body {
             margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg-color);
+            min-height: 100vh;
+            font-family: Inter, "Segoe UI", system-ui, sans-serif;
+            color: var(--eprint-text);
+        }
+
+        .eprint-login-shell {
             display: flex;
-            align-items: center;
-            justify-content: center;
             min-height: 100vh;
         }
 
-        .login-container {
-            background: #ffffff;
-            width: 100%;
-            max-width: 420px;
-            padding: 2.5rem;
+        .eprint-login-brand-panel {
+            flex: 1;
+            min-width: 280px;
+            background: var(--eprint-navy);
+            color: #e2e8f0;
+            padding: 48px 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .eprint-login-brand-logo-wrap {
+            margin-bottom: 24px;
+        }
+
+        .eprint-login-brand-logo-wrap .eprint-login-logo {
+            max-width: 160px;
+            max-height: 56px;
+            width: auto;
+            height: auto;
+            display: block;
+            border-radius: 8px;
+        }
+
+        .eprint-login-brand-logo-wrap .eprint-login-brand {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: #fff;
+            letter-spacing: -0.02em;
+            line-height: 1.2;
+        }
+
+        .eprint-login-brand-fallback {
+            width: 56px;
+            height: 56px;
             border-radius: 12px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
-            text-align: center;
+            background: var(--eprint-orange);
+            color: #fff;
+            font-weight: 700;
+            font-size: 0.75rem;
+            display: none;
+            align-items: center;
+            justify-content: center;
         }
 
-        .brand-header {
-            margin-bottom: 2rem;
+        .eprint-login-brand-panel h1 {
+            margin: 0 0 12px;
+            font-size: 1.75rem;
+            color: #fff;
+            font-weight: 700;
+            letter-spacing: -0.02em;
         }
 
-        .brand-header img {
-            max-width: 180px;
-            margin-bottom: 1rem;
+        .eprint-login-brand-panel:has(.eprint-login-brand) h1 {
+            display: none;
         }
 
-        .login-title {
-            font-size: 1.5rem;
-            font-weight: 600;
-            color: var(--text-dark);
-            margin-bottom: 0.5rem;
+        .eprint-login-brand-panel .eprint-login-tagline {
+            margin: 0;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: var(--eprint-navy-muted);
+            max-width: 36ch;
+        }
+
+        .eprint-login-features {
+            margin: 28px 0 0;
+            padding: 0;
+            list-style: none;
+            font-size: 0.875rem;
+            color: #cbd5e1;
+        }
+
+        .eprint-login-features li {
+            padding: 6px 0;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .eprint-login-features li::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 12px;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--eprint-orange);
+        }
+
+        .eprint-login-form-side {
+            flex: 1;
+            background: var(--eprint-bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 32px;
+        }
+
+        .eprint-login-form-card {
+            width: 100%;
+            max-width: 380px;
+            background: var(--eprint-surface);
+            border: 1px solid var(--eprint-border);
+            border-radius: 12px;
+            padding: 32px 28px;
+        }
+
+        .eprint-login-form-card h2 {
+            margin: 0 0 6px;
+            font-size: 1.35rem;
+            font-weight: 700;
+        }
+
+        .eprint-login-form-card .eprint-login-sub {
+            margin: 0 0 24px;
+            color: var(--eprint-muted);
+            font-size: 0.875rem;
         }
 
         .input-group {
-            text-align: left;
-            margin-bottom: 1.25rem;
-            position: relative;
+            margin-bottom: 16px;
         }
 
         .input-group label {
             display: block;
-            font-size: 0.875rem;
-            font-weight: 500;
-            margin-bottom: 0.5rem;
-            color: var(--text-dark);
+            font-size: 0.8125rem;
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: var(--eprint-text);
         }
 
         .LoginText {
             width: 100%;
-            padding: 12px 16px;
-            border: 1px solid #d1d5db;
-            border-radius: 6px;
+            padding: 11px 12px;
+            border: 1px solid var(--eprint-border);
+            border-radius: 8px;
             font-size: 1rem;
             box-sizing: border-box;
-            transition: border-color 0.2s;
         }
 
         .LoginText:focus {
-            outline: none;
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+            outline: 2px solid #fed7aa;
+            border-color: var(--eprint-orange);
         }
 
         .validation-msg {
-            font-size: 11px;
-            color: var(--error-red);
+            font-size: 0.75rem;
+            color: var(--eprint-error);
             margin-top: 4px;
             display: block;
-        }
-
-        .login-actions {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-top: 1.5rem;
-        }
-
-.Loginbuttoscss {
-            /* Sunrise Radiant Gradient */
-            background: linear-gradient(135deg, #ff8c00 0%, #ee0979 100%) !important;
-            
-            color: white !important;
-            border: none;
-            padding: 12px 24px;
-            border-radius: 6px;
-            font-weight: 600;
-            cursor: pointer;
-            width: 100% !important;
-            height: 45px;
-            
-            /* Warm shadow to match the sunrise */
-            box-shadow: 0 4px 15px rgba(238, 9, 121, 0.2);
-            
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-            box-sizing: border-box;
-        }
-
-        .Loginbuttoscss:hover {
-            /* Brightens like the sun coming up */
-            filter: brightness(1.1);
-            box-shadow: 0 8px 20px rgba(238, 9, 121, 0.3);
-            transform: translateY(-1px);
-        }
-
-        .Loginbuttoscss:active {
-            transform: translateY(0px);
-            filter: brightness(0.95);
         }
 
         .remember-me {
             display: flex;
             align-items: center;
+            gap: 8px;
+            margin-bottom: 20px;
             font-size: 0.875rem;
-            color: var(--text-light);
+            color: var(--eprint-muted);
             cursor: pointer;
         }
 
         .remember-me input {
-            margin-right: 8px;
+            margin: 0;
         }
 
         #div_InvalidMsg {
             background-color: #fee2e2;
             border: 1px solid #fecaca;
-            padding: 10px;
-            border-radius: 6px;
-            margin-bottom: 1.5rem;
-            color: var(--error-red);
+            padding: 10px 12px;
+            border-radius: 8px;
+            margin-bottom: 16px;
+            color: var(--eprint-error);
             font-size: 0.875rem;
         }
 
-        /* Modal / System Upgrade styling */
-        #loginmodal {
-            background: white;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
-        }
-
-
-        /* Force the button container to stay full width */
         #div_btnlogin {
             width: 100%;
-            display: block;
-            text-align: center; /* Centers the content inside */
         }
 
-        /* Ensure the button doesn't shrink when text changes to an image */
         .Loginbuttoscss {
             width: 100% !important;
-            min-width: 100%; 
+            min-width: 100%;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            background: var(--eprint-orange) !important;
+            color: #fff !important;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            height: 45px;
             display: flex;
             align-items: center;
             justify-content: center;
-            height: 45px; /* Set a fixed height so it doesn't 'jump' vertically */
             box-sizing: border-box;
+            box-shadow: none;
+            transition: background 0.15s ease;
         }
 
-        /* If the script puts the image inside the button, center it */
+        .Loginbuttoscss:hover {
+            background: var(--eprint-orange-dark) !important;
+            filter: none;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .Loginbuttoscss:active {
+            transform: none;
+            filter: none;
+        }
+
         .Loginbuttoscss img {
             margin: 0 auto;
             display: block;
-            vertical-align: middle;
+            height: 20px;
+            width: auto;
         }
 
+        .eprint-login-loader {
+            display: none;
+            width: 100%;
+            text-align: center;
+        }
+
+        .eprint-login-loader .Loginbuttoscss {
+            opacity: 0.92;
+            cursor: wait;
+        }
+
+        .auth-footer {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 0.875rem;
+            color: var(--eprint-muted);
+        }
+
+        .auth-footer a {
+            color: var(--eprint-orange-dark);
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .auth-footer a:hover {
+            text-decoration: underline;
+        }
+
+        #div_RegisteredMsg {
+            margin-top: 16px;
+            background-color: #ecfdf5;
+            border: 1px solid #a7f3d0;
+            padding: 10px 12px;
+            border-radius: 8px;
+            color: #047857;
+            font-size: 0.875rem;
+        }
+
+        @media (max-width: 768px) {
+            .eprint-login-shell {
+                flex-direction: column;
+            }
+
+            .eprint-login-brand-panel {
+                padding: 32px 24px;
+                min-height: auto;
+            }
+
+            .eprint-login-features {
+                display: none;
+            }
+        }
     </style>
-    
-    <script src="/js/commonloading.js?VN=<%= VersionNumber %>" type="text/javascript"></script>
-    <script src="/js/default.js?VN=<%= VersionNumber %>" type="text/javascript"></script>
 </head>
 <body>
     <form id="form1" runat="server">
-        <div class="login-container">
-            
-            <div style="display:none;">
-            <%-- This literal is used for dynamic updates from the server --%>
-            <asp:Literal runat="server" ID="ltrLoginPageUpdates"></asp:Literal>
-    
-            <%-- This label is used for the 'Remember Me' note logic --%>
-            <asp:Label ID="lblRemembermeNote" runat="server"></asp:Label>
-            </div>
-
-            <div class="brand-header">
-                <asp:PlaceHolder ID="plhLoginImg" runat="server"></asp:PlaceHolder>
-                <div class="login-title"><%#objLanguage.GetLanguageConversion("Login")%></div>
-            </div>
-
-            <div id="div_InvalidMsg" runat="server" style="display: none;">
-                <asp:Image ID="ImgError" runat="server" ImageUrl="~/Images/error.gif" style="vertical-align:middle; margin-right:5px;"/>
-                <asp:Label ID="lblerror" runat="server" Visible="false" Text="Invalid login details"></asp:Label>
-            </div>
-
-            <div class="input-group">
-                <asp:Label ID="lblEmail" runat="server" Text="Email"></asp:Label>
-                <input type="text" id="email" runat="server" name="useremail" class="LoginText" placeholder="you@example.com" />
-                <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ControlToValidate="email" 
-                    Display="Dynamic" ErrorMessage="Enter Email" CssClass="validation-msg"></asp:RequiredFieldValidator>
-                <asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server" ControlToValidate="email"
-                    Display="Dynamic" ErrorMessage="Invalid Email" CssClass="validation-msg"
-                    ValidationExpression="^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$"></asp:RegularExpressionValidator>
-            </div>
-
-            <div class="input-group">
-                <asp:Label ID="lblPassword" runat="server" Text="Password"></asp:Label>
-                <asp:TextBox runat="server" ID="password" CssClass="LoginText" TextMode="Password" placeholder="••••••••"></asp:TextBox>
-                <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" ControlToValidate="password"
-                    Display="Dynamic" ErrorMessage="Enter Password" CssClass="validation-msg"></asp:RequiredFieldValidator>
-            </div>
-
-            <div style="margin-bottom: 1.5rem; display: flex; align-items: center;">
-                 <label class="remember-me">
-                    <input type="checkbox" id="chkremember" runat="server" /> 
-                    <asp:Label ID="lblRememberMe" runat="server" Text="Remember Me"></asp:Label>
-                </label>
-            </div>
-
-<%--            <div id="div_btnlogin">
-                <asp:Button ID="btnlogin" runat="server" Text="Login" OnClientClick="if(Page_ClientValidate()) {loadingimagelogin('btnlogin','div_process');} else {return false;}"
-                    OnClick="btnLogIN_Click" CssClass="Loginbuttoscss" />
-            </div>
-
-            <div id="div_process" style="display: none; margin-top: 10px;">
-                <img src="Images/radimg1.gif" alt="loading" />
-            </div>--%>
-
-            <div id="div_btnlogin" style="width: 100%; height: 45px;">
-                <asp:Button ID="btnlogin" runat="server" Text="Login" 
-                    OnClientClick="if(Page_ClientValidate()) { this.style.display='none'; document.getElementById('div_process').style.display='block'; } else {return false;}"
-                    OnClick="btnLogIN_Click" CssClass="Loginbuttoscss" />
-    
-                <div id="div_process" style="display: none; width: 100%; text-align: center;">
-                    <%-- We use the same class so the "box" stays the same size/color --%>
-                    <div class="Loginbuttoscss" style="background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%); opacity: 0.9;">
-                        <asp:Image ID="imgLoader" runat="server" ImageUrl="~/Images/radimg1.gif" AlternateText="loading" style="height: 20px; width: auto; display: inline-block;" />
-                    </div>
+        <div class="eprint-login-shell">
+            <aside class="eprint-login-brand-panel" aria-label="Product information">
+                <div class="eprint-login-brand-logo-wrap">
+                    <asp:PlaceHolder ID="plhLoginImg" runat="server"></asp:PlaceHolder>
+                    <div class="eprint-login-brand-fallback" id="eprintBrandFallback" aria-hidden="true">eP</div>
                 </div>
-            </div>
+                <h1><%= strCompany %></h1>
+                <p class="eprint-login-tagline">Estimates, jobs, and production — one place for your print business.</p>
+                <ul class="eprint-login-features">
+                    <li>Customer &amp; estimate management</li>
+                    <li>Line items and pricing</li>
+                    <li>Jobs, invoices, and delivery</li>
+                </ul>
+            </aside>
 
-            <div class="auth-footer" style="margin-top: 1.25rem; font-size: 0.875rem; color: #6b7280;">
-                Don't have an account? <a href="~/Login/SignUp.aspx" runat="server" id="lnkSignUp" style="color: #2563eb; font-weight: 500; text-decoration: none;">Sign up</a>
-            </div>
+            <main class="eprint-login-form-side">
+                <div class="eprint-login-form-card">
+                    <div style="display:none;">
+                        <asp:Literal runat="server" ID="ltrLoginPageUpdates"></asp:Literal>
+                        <asp:Label ID="lblRemembermeNote" runat="server"></asp:Label>
+                    </div>
 
-            <div id="div_RegisteredMsg" runat="server" visible="false" style="margin-top: 1rem; background-color: #d1fae5; border: 1px solid #a7f3d0; padding: 10px; border-radius: 6px; color: #059669; font-size: 0.875rem; text-align: left;">
-                <asp:Label ID="lblRegistered" runat="server"></asp:Label>
-            </div>
+                    <h2><asp:Label ID="lblLoginTitle" runat="server" Text="Login"></asp:Label></h2>
+                    <p class="eprint-login-sub">Use your work email to access the MIS.</p>
 
-            <asp:PlaceHolder ID="plhFooter" Visible="false" runat="server"></asp:PlaceHolder>
+                    <div id="div_InvalidMsg" runat="server" style="display: none;">
+                        <asp:Image ID="ImgError" runat="server" ImageUrl="~/Images/error.gif" style="vertical-align:middle; margin-right:5px;" />
+                        <asp:Label ID="lblerror" runat="server" Visible="false" Text="Invalid login details"></asp:Label>
+                    </div>
+
+                    <div class="input-group">
+                        <asp:Label ID="lblEmail" runat="server" Text="Email"></asp:Label>
+                        <input type="text" id="email" runat="server" name="useremail" class="LoginText" placeholder="you@company.com" />
+                        <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ControlToValidate="email"
+                            Display="Dynamic" ErrorMessage="Enter Email" CssClass="validation-msg" EnableClientScript="false"></asp:RequiredFieldValidator>
+                        <asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server" ControlToValidate="email"
+                            Display="Dynamic" ErrorMessage="Invalid Email" CssClass="validation-msg"
+                            ValidationExpression="^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$" EnableClientScript="false"></asp:RegularExpressionValidator>
+                    </div>
+
+                    <div class="input-group">
+                        <asp:Label ID="lblPassword" runat="server" Text="Password"></asp:Label>
+                        <asp:TextBox runat="server" ID="password" CssClass="LoginText" TextMode="Password" placeholder="••••••••"></asp:TextBox>
+                        <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" ControlToValidate="password"
+                            Display="Dynamic" ErrorMessage="Enter Password" CssClass="validation-msg" EnableClientScript="false"></asp:RequiredFieldValidator>
+                    </div>
+
+                    <label class="remember-me">
+                        <input type="checkbox" id="chkremember" runat="server" />
+                        <asp:Label ID="lblRememberMe" runat="server" Text="Remember Me"></asp:Label>
+                    </label>
+
+                    <div id="div_btnlogin">
+                        <asp:Button ID="btnlogin" runat="server" Text="Login"
+                            OnClientClick="this.style.display='none'; document.getElementById('div_process').style.display='block'; return true;"
+                            OnClick="btnLogIN_Click" CssClass="Loginbuttoscss" />
+
+                        <div id="div_process" class="eprint-login-loader">
+                            <div class="Loginbuttoscss">
+                                <asp:Image ID="imgLoader" runat="server" ImageUrl="~/Images/radimg1.gif" AlternateText="loading" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="auth-footer">
+                        Don't have an account? <a href="~/Login/SignUp.aspx" runat="server" id="lnkSignUp">Sign up</a>
+                    </div>
+
+                    <div id="div_RegisteredMsg" runat="server" visible="false">
+                        <asp:Label ID="lblRegistered" runat="server"></asp:Label>
+                    </div>
+
+                    <asp:PlaceHolder ID="plhFooter" Visible="false" runat="server"></asp:PlaceHolder>
+                </div>
+            </main>
         </div>
 
-        <div id="loginmodal" style="display:none; max-width: 700px; margin: 20px;">
-             <h3>System Upgrade Notification</h3>
-             <p>Your ePrint MIS system has been upgraded to version 3.5.</p>
-             <a href="#" class="close">Close</a>
-        </div>
-
-        <script src="js/jquery(1.7.1).min.js" type="text/javascript"></script>
-        <script src="js/jquery.reveal.js" type="text/javascript"></script>
         <script type="text/javascript">
-            // Your existing cookie/modal logic
-            remember();
+            (function () {
+                var hp = document.getElementById('<%= hdnpassword.ClientID %>');
+                var pw = document.getElementById('<%= password.ClientID %>');
+                if (hp && pw && hp.value) {
+                    pw.value = hp.value;
+                }
+                var wrap = document.querySelector('.eprint-login-brand-logo-wrap');
+                var fb = document.getElementById('eprintBrandFallback');
+                if (wrap && fb) {
+                    var hasLogo = wrap.querySelector('.eprint-login-logo, .eprint-login-brand');
+                    fb.style.display = hasLogo ? 'none' : 'flex';
+                }
+            })();
         </script>
 
         <div style="display:none;">
@@ -288,7 +407,6 @@
             <asp:HiddenField ID="hdn_login" runat="server" />
             <asp:HiddenField ID="hdn_pass" runat="server" />
         </div>
-
     </form>
 </body>
 </html>

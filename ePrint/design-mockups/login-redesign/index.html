@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Login redesign — choose a concept</title>
+  <style>
+    :root {
+      --navy: #1a2332;
+      --orange: #e67e22;
+      --orange-dark: #c2410c;
+      --text: #0f172a;
+      --muted: #64748b;
+      --border: #e2e8f0;
+      --surface: #ffffff;
+      --bg: #f8fafc;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Inter, "Segoe UI", system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+    }
+    .wrap { max-width: 960px; margin: 0 auto; padding: 40px 24px 56px; }
+    h1 { margin: 0 0 8px; font-size: 1.75rem; letter-spacing: -0.02em; }
+    .lead { margin: 0 0 32px; color: var(--muted); max-width: 52ch; }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 16px;
+    }
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .card h2 { margin: 0; font-size: 1.1rem; }
+    .card p { margin: 0; font-size: 0.875rem; color: var(--muted); flex: 1; }
+    .tag {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      padding: 4px 8px;
+      border-radius: 6px;
+      background: #fff7ed;
+      color: var(--orange-dark);
+      width: fit-content;
+    }
+    .tag.rec { background: #ecfdf5; color: #047857; }
+    a.btn {
+      display: inline-block;
+      text-align: center;
+      padding: 10px 16px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.875rem;
+      text-decoration: none;
+      background: var(--orange);
+      color: #fff;
+    }
+    a.btn:hover { background: var(--orange-dark); }
+    a.btn.secondary {
+      background: var(--surface);
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+    .note {
+      margin-top: 32px;
+      padding: 16px;
+      border-radius: 8px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      font-size: 0.875rem;
+      color: var(--muted);
+    }
+    .note strong { color: var(--text); }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Login page redesign</h1>
+    <p class="lead">
+      Four static mockups for the lightweight login page. Each keeps email, password, remember me, sign in, and sign up —
+      aligned with the app shell (navy sidebar, orange accent, light surfaces).
+    </p>
+
+    <div class="grid">
+      <article class="card">
+        <span class="tag rec">Recommended</span>
+        <h2>B — App-aligned split</h2>
+        <p>Navy brand panel on the left, form on the right. Matches post-login navigation and summary redesign.</p>
+        <a class="btn" href="option-b-split-panel.html">Open mockup</a>
+      </article>
+
+      <article class="card">
+        <span class="tag">Option</span>
+        <h2>A — Refined card</h2>
+        <p>Evolution of today’s centered card: cleaner spacing, flat surfaces, orange primary button (no gradient).</p>
+        <a class="btn" href="option-a-refined-card.html">Open mockup</a>
+      </article>
+
+      <article class="card">
+        <span class="tag">Option</span>
+        <h2>C — Minimal light</h2>
+        <p>Maximum simplicity: small card, lots of whitespace, fastest perceived load. Good for local dev.</p>
+        <a class="btn" href="option-c-minimal-light.html">Open mockup</a>
+      </article>
+
+      <article class="card">
+        <span class="tag">Option</span>
+        <h2>D — Brand hero</h2>
+        <p>Full-height marketing panel with product message; form in a narrow column. Strong first impression.</p>
+        <a class="btn" href="option-d-brand-hero.html">Open mockup</a>
+      </article>
+    </div>
+
+    <p class="note">
+      <strong>How to view:</strong> Open this folder in the browser (e.g. file:///…/design-mockups/login-redesign/index.html)
+      or serve from your dev site. Static HTML only — not wired to Login.aspx yet.
+    </p>
+  </div>
+</body>
+</html>

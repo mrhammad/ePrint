@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Variant A — CRM-style tabs (Estimate Summary)</title>
+  <style>
+    :root {
+      --accent: #e67e22;
+      --accent-dark: #c0392b;
+      --nav-bg: #f8fafc;
+      --border: #e2e8f0;
+      --text: #1e293b;
+      --muted: #64748b;
+      --surface: #ffffff;
+      --radius: 8px;
+      --shadow: 0 1px 3px rgba(15, 23, 42, 0.08), 0 4px 12px rgba(15, 23, 42, 0.04);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background: #eef2f7;
+      color: var(--text);
+    }
+    .preview-banner {
+      background: #1e293b;
+      color: #f8fafc;
+      padding: 8px 16px;
+      font-size: 0.8rem;
+      text-align: center;
+    }
+    .preview-banner a { color: #fdba74; }
+    .shell {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 16px;
+    }
+    .doc-summary {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+    /* —— Sticky header (CRM-like) —— */
+    .doc-header {
+      border-bottom: 1px solid var(--border);
+      background: linear-gradient(180deg, #fff 0%, #f8fafc 100%);
+      padding: 12px 16px;
+    }
+    .doc-header-top {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+    .doc-title-block h1 {
+      margin: 0;
+      font-size: 1.25rem;
+      font-weight: 700;
+    }
+    .doc-title-block .sub {
+      margin: 4px 0 0;
+      font-size: 0.875rem;
+      color: var(--muted);
+    }
+    .doc-title-block .sub strong { color: var(--text); }
+    .badge {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      background: #fff7ed;
+      color: var(--accent-dark);
+      border: 1px solid #fed7aa;
+    }
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+    }
+    .btn {
+      padding: 7px 14px;
+      border-radius: 6px;
+      font-size: 0.8125rem;
+      font-weight: 600;
+      border: 1px solid var(--border);
+      background: #fff;
+      color: var(--text);
+      cursor: pointer;
+    }
+    .btn:hover { background: var(--nav-bg); }
+    .btn-primary {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+    .btn-primary:hover { background: #d35400; }
+    .btn-ghost { border-color: transparent; background: transparent; color: var(--muted); }
+    /* —— Horizontal nav tabs —— */
+    .doc-nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      border-bottom: 1px solid var(--border);
+      background: var(--nav-bg);
+      padding: 0 8px;
+    }
+    .doc-nav button {
+      border: none;
+      background: transparent;
+      padding: 10px 14px;
+      font-size: 0.8125rem;
+      font-weight: 600;
+      color: var(--muted);
+      cursor: pointer;
+      border-bottom: 3px solid transparent;
+      margin-bottom: -1px;
+    }
+    .doc-nav button:hover { color: var(--text); background: #fff7ed; }
+    .doc-nav button.active {
+      color: var(--accent-dark);
+      border-bottom-color: var(--accent);
+      background: #fff;
+    }
+    .doc-nav .code {
+      display: inline-block;
+      font-size: 0.65rem;
+      font-weight: 700;
+      opacity: 0.7;
+      margin-right: 4px;
+    }
+    /* —— Section hero (blue bar → subtle) —— */
+    .section-hero {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 14px 16px;
+      background: #0f4c81;
+      color: #fff;
+    }
+    .section-hero h2 { margin: 0; font-size: 1rem; font-weight: 700; }
+    .section-hero p { margin: 4px 0 0; font-size: 0.8rem; opacity: 0.9; }
+    .section-hero .meta {
+      text-align: right;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      opacity: 0.85;
+    }
+    .panel { display: none; padding: 0; }
+    .panel.active { display: block; }
+    .panel-inner { padding: 16px; }
+    /* —— KPI strip —— */
+    .kpi-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    .kpi {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 12px 14px;
+      background: var(--nav-bg);
+    }
+    .kpi label {
+      display: block;
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+    .kpi .val { font-size: 1.1rem; font-weight: 700; }
+    /* —— Line items (replaces accordion rows) —— */
+    .items-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+    .search {
+      flex: 1;
+      min-width: 200px;
+      padding: 8px 12px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-size: 0.875rem;
+    }
+    .item-list { border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+    .item-row {
+      border-bottom: 1px solid var(--border);
+      background: #fff;
+    }
+    .item-row:last-child { border-bottom: none; }
+    .item-head {
+      display: grid;
+      grid-template-columns: 1fr auto auto auto;
+      gap: 16px;
+      align-items: center;
+      padding: 12px 14px;
+      cursor: pointer;
+      font-size: 0.875rem;
+    }
+    .item-head:hover { background: #fff7ed; }
+    .item-id { font-weight: 700; color: var(--accent-dark); font-size: 0.8rem; }
+    .item-desc { color: var(--text); }
+    .item-qty, .item-price { font-weight: 600; white-space: nowrap; }
+    .item-chevron { color: var(--muted); font-size: 0.75rem; }
+    .item-body {
+      display: none;
+      padding: 0 14px 14px;
+      background: var(--nav-bg);
+      border-top: 1px dashed var(--border);
+      font-size: 0.8125rem;
+      color: var(--muted);
+    }
+    .item-row.open .item-body { display: block; }
+    .item-row.open .item-chevron { transform: rotate(180deg); }
+    .totals-bar {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: 24px;
+      padding: 14px 16px;
+      background: #f1f5f9;
+      border-top: 2px solid var(--border);
+      font-size: 0.875rem;
+    }
+    .totals-bar .grand {
+      font-size: 1.125rem;
+      font-weight: 700;
+      color: var(--accent-dark);
+    }
+    .customer-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 12px;
+    }
+    .field label { font-size: 0.7rem; color: var(--muted); font-weight: 600; display: block; }
+    .field span { font-size: 0.875rem; }
+    .placeholder {
+      padding: 40px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.875rem;
+      border: 1px dashed var(--border);
+      border-radius: var(--radius);
+    }
+  </style>
+</head>
+<body>
+  <div class="preview-banner">
+    Design preview only — Variant A (CRM-style) &nbsp;|&nbsp;
+    <a href="index.html">All variants</a>
+  </div>
+
+  <div class="shell">
+    <div class="doc-summary eprint-doc-summary">
+      <header class="doc-header">
+        <div class="doc-header-top">
+          <div class="doc-title-block">
+            <span class="badge">Estimate</span>
+            <h1>EST-0000936</h1>
+            <p class="sub">Customer: <strong>Test Company by Ham</strong> · Status: <strong>Open</strong></p>
+          </div>
+          <div class="toolbar">
+            <button type="button" class="btn">Estimate options ▾</button>
+            <button type="button" class="btn">Change status ▾</button>
+            <button type="button" class="btn">Print / email ▾</button>
+            <button type="button" class="btn btn-primary">+ New estimate</button>
+          </div>
+        </div>
+        <nav class="doc-nav" aria-label="Estimate sections">
+          <button type="button" class="active" data-tab="overview"><span class="code">OV</span>Overview</button>
+          <button type="button" data-tab="items"><span class="code">LI</span>Line items</button>
+          <button type="button" data-tab="customer"><span class="code">CU</span>Customer</button>
+          <button type="button" data-tab="attachments"><span class="code">AT</span>Attachments</button>
+          <button type="button" data-tab="activity"><span class="code">AC</span>Activity</button>
+        </nav>
+      </header>
+
+      <section class="section-hero" id="hero">
+        <div>
+          <h2 id="hero-title">Overview</h2>
+          <p id="hero-sub">Estimate · Test Company by Ham</p>
+        </div>
+        <div class="meta" id="hero-meta">1 line item · $67.53 ex tax</div>
+      </section>
+
+      <div class="panel active" data-panel="overview">
+        <div class="panel-inner">
+          <div class="kpi-row">
+            <div class="kpi"><label>Subtotal (ex tax)</label><div class="val">$67.53</div></div>
+            <div class="kpi"><label>Tax</label><div class="val">$0.00</div></div>
+            <div class="kpi"><label>Total</label><div class="val">$67.53</div></div>
+            <div class="kpi"><label>Line items</label><div class="val">1</div></div>
+          </div>
+          <p style="font-size:0.875rem;color:var(--muted);margin:0 0 12px;">
+            Replaces the first accordion panel (customer + options + status) with a compact header and dedicated Customer tab.
+          </p>
+          <div class="item-list">
+            <div class="item-row open">
+              <div class="item-head" onclick="this.parentElement.classList.toggle('open')">
+                <div>
+                  <div class="item-id">EST-0000936-001</div>
+                  <div class="item-desc">rsfsdfsd (Sheet Fed Digital: Single)</div>
+                </div>
+                <div class="item-qty">Qty: 100</div>
+                <div class="item-price">$67.53</div>
+                <div class="item-chevron">▼</div>
+              </div>
+              <div class="item-body">
+                Quick preview of item detail — full spec opens in existing item screen or inline panel.
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="totals-bar">
+          <span>Quantity 1 total</span>
+          <span class="grand">Total (ex tax): $67.53</span>
+        </div>
+      </div>
+
+      <div class="panel" data-panel="items">
+        <div class="panel-inner">
+          <div class="items-toolbar">
+            <input type="search" class="search" placeholder="Search line items…" />
+            <button type="button" class="btn">+ Add item</button>
+            <button type="button" class="btn">Reorder</button>
+            <button type="button" class="btn">Expand all</button>
+          </div>
+          <div class="item-list">
+            <div class="item-row">
+              <div class="item-head" onclick="this.parentElement.classList.toggle('open')">
+                <div>
+                  <div class="item-id">EST-0000936-001</div>
+                  <div class="item-desc">rsfsdfsd (Sheet Fed Digital: Single)</div>
+                </div>
+                <div class="item-qty">Qty: 100</div>
+                <div class="item-price">$67.53</div>
+                <div class="item-chevron">▼</div>
+              </div>
+              <div class="item-body">Press specs, finishing, notes, supplier quotes — content from current accordion body.</div>
+            </div>
+          </div>
+        </div>
+        <div class="totals-bar">
+          <span>All items</span>
+          <span class="grand">Total (ex tax): $67.53</span>
+        </div>
+      </div>
+
+      <div class="panel" data-panel="customer">
+        <div class="panel-inner">
+          <div class="customer-grid">
+            <div class="field"><label>Company</label><span>Test Company by Ham</span></div>
+            <div class="field"><label>Contact</label><span>—</span></div>
+            <div class="field"><label>Phone</label><span>—</span></div>
+            <div class="field"><label>Email</label><span>—</span></div>
+            <div class="field"><label>Delivery address</label><span>—</span></div>
+            <div class="field"><label>Invoice address</label><span>—</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel" data-panel="attachments">
+        <div class="panel-inner"><div class="placeholder">Attachments list / upload (same as today, new tab)</div></div>
+      </div>
+
+      <div class="panel" data-panel="activity">
+        <div class="panel-inner"><div class="placeholder">Tasks, notes, status history</div></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var tabs = document.querySelectorAll(".doc-nav button");
+      var panels = document.querySelectorAll(".panel");
+      var titles = {
+        overview: ["Overview", "Estimate · Test Company by Ham", "Summary at a glance"],
+        items: ["Line items", "EST-0000936", "Edit, reorder, expand details"],
+        customer: ["Customer details", "Test Company by Ham", "Billing & delivery"],
+        attachments: ["Attachments", "EST-0000936", "Files & proofs"],
+        activity: ["Activity", "EST-0000936", "Notes & tasks"]
+      };
+      tabs.forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          var id = btn.getAttribute("data-tab");
+          tabs.forEach(function (b) { b.classList.remove("active"); });
+          btn.classList.add("active");
+          panels.forEach(function (p) {
+            p.classList.toggle("active", p.getAttribute("data-panel") === id);
+          });
+          var t = titles[id];
+          if (t) {
+            document.getElementById("hero-title").textContent = t[0];
+            document.getElementById("hero-sub").textContent = t[1];
+            document.getElementById("hero-meta").textContent = t[2];
+          }
+        });
+      });
+    })();
+  </script>
+</body>
+</html>

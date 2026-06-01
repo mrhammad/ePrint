@@ -527,6 +527,7 @@ namespace ePrint
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            BasePage.CompletePostLoginBootstrap(this.Session, this.cmn);
             this.companyid = Convert.ToInt32(this.Session["CompanyID"]);
             this.UserID = Convert.ToInt32(this.Session["UserID"].ToString());
             if ((new BaseClass()).Return_IsEnable_CRM(Convert.ToInt32(this.companyid)).Trim().ToLower() == "true")

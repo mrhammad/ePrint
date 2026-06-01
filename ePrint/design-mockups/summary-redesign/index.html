@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Summary screen redesign — design previews</title>
+  <style>
+    :root {
+      --accent: #e67e22;
+      --text: #1e293b;
+      --muted: #64748b;
+      --border: #e2e8f0;
+      --bg: #f1f5f9;
+      --card: #fff;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+    }
+    .wrap { max-width: 960px; margin: 0 auto; padding: 32px 20px 48px; }
+    h1 { font-size: 1.5rem; margin: 0 0 8px; }
+    .lead { color: var(--muted); margin: 0 0 28px; max-width: 720px; }
+    .note {
+      background: #fff7ed;
+      border: 1px solid #fed7aa;
+      border-radius: 8px;
+      padding: 14px 16px;
+      margin-bottom: 28px;
+      font-size: 0.9rem;
+    }
+    .grid { display: grid; gap: 16px; }
+    @media (min-width: 640px) { .grid { grid-template-columns: 1fr 1fr; } }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 1px 3px rgba(15, 23, 42, 0.06);
+    }
+    .card h2 { margin: 0 0 8px; font-size: 1.1rem; }
+    .card p { margin: 0 0 14px; font-size: 0.875rem; color: var(--muted); }
+    .tag {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      padding: 3px 8px;
+      border-radius: 4px;
+      margin-bottom: 10px;
+    }
+    .tag-rec { background: #dcfce7; color: #166534; }
+    .tag-alt { background: #e0f2fe; color: #0369a1; }
+    a.btn {
+      display: inline-block;
+      padding: 8px 16px;
+      background: var(--accent);
+      color: #fff;
+      text-decoration: none;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 0.875rem;
+    }
+    a.btn:hover { background: #d35400; }
+    ul.compare { margin: 24px 0 0; padding-left: 20px; font-size: 0.875rem; color: var(--muted); }
+    ul.compare li { margin-bottom: 6px; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Estimate / Job / Order / Invoice — summary redesign</h1>
+    <p class="lead">
+      Static HTML previews only. No changes were made to <code>item_summary_main.ascx</code> or live pages.
+      All four document types share the same summary control today (accordion + gradient headers).
+    </p>
+    <p style="margin:0 0 24px;padding:16px 18px;background:linear-gradient(135deg,#fff7ed,#ffedd5);border:1px solid #fdba74;border-radius:10px;">
+      <strong style="color:#c2410c;">Recommended — complete design from your screenshots:</strong>
+      <a href="index-perfect.html" style="display:inline-block;margin-top:8px;padding:10px 18px;background:#e67e22;color:#fff;text-decoration:none;border-radius:8px;font-weight:700;">Open perfect summary mockup →</a>
+    </p>
+    <div class="note">
+      <strong>Current pain points:</strong> red–yellow gradient accordion bars, actions buried in headers,
+      customer + line items + totals compete for attention, weak scanability on wide screens.<br />
+      <strong>Direction:</strong> align with CRM Customer detail — sticky top bar, horizontal sections, card body, clear totals.
+    </div>
+
+    <div class="grid">
+      <article class="card">
+        <span class="tag tag-rec">Recommended</span>
+        <h2>Variant A — CRM-style tabs</h2>
+        <p>Horizontal tabs (Overview, Line items, Customer, Attachments, Activity). Flat header, orange accent, expandable line rows inside one panel.</p>
+        <a class="btn" href="variant-a-crm-tabs.html">Open preview</a>
+      </article>
+
+      <article class="card">
+        <span class="tag tag-alt">Alternative</span>
+        <h2>Variant B — Card list</h2>
+        <p>No accordion chrome. Hero header + stacked line-item cards with inline qty/price. Good for mobile and fewer clicks.</p>
+        <a class="btn" href="variant-b-card-list.html">Open preview</a>
+      </article>
+
+      <article class="card">
+        <span class="tag tag-alt">Alternative</span>
+        <h2>Variant C — Dense table + drawer</h2>
+        <p>Spreadsheet-style grid for power users; click a row to open a right drawer for item detail. Best for many line items.</p>
+        <a class="btn" href="variant-c-dense-table.html">Open preview</a>
+      </article>
+    </div>
+
+    <ul class="compare">
+      <li><strong>A</strong> — Lowest risk for users already on CRM Customer; maps cleanly to existing tab patterns.</li>
+      <li><strong>B</strong> — Simplest markup; replace accordion <code>h3</code> bars with cards.</li>
+      <li><strong>C</strong> — Highest information density; more JS for drawer (or reuse RadWindow).</li>
+    </ul>
+
+    <p style="margin-top:28px;padding-top:20px;border-top:1px solid var(--border);">
+      <strong>New — based on your EST-0000936 screenshots:</strong>
+      <a href="index-from-screenshots.html" style="color:var(--accent);font-weight:600;">Open screenshot-based mockups (G, H, I)</a>
+    </p>
+    <p style="margin-top:12px;">
+      <strong>Item action rail (circled sidebar):</strong>
+      <a href="item-actions-rail-redesign.html" class="btn" style="margin-left:8px;">Open item rail redesign mockup</a>
+    </p>
+  </div>
+</body>
+</html>

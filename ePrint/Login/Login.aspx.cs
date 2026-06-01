@@ -22,8 +22,6 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
-using Telerik.Web.UI;
-
 namespace ePrint.Printcenter.Views
 {
     public partial class Login : System.Web.UI.Page
@@ -119,6 +117,7 @@ namespace ePrint.Printcenter.Views
 
         public string forecolor = "";
         private static readonly object LoginPerfLogLock = new object();
+        private static int? _cachedLoginCompanyId;
 
         public BasePage objpage = new BasePage();
 
@@ -494,6 +493,7 @@ namespace ePrint.Printcenter.Views
 
         protected void btnLogIN_Click(object sender, EventArgs e)
         {
+            this.EnsureLoginSessionPrimed(this.GetLoginCompanyId());
             HttpCookie httpCookie = new HttpCookie("notifiocation397", "no");
             base.Response.Cookies.Add(httpCookie);
             if (Login.displayVerificationImage >= 3)
@@ -720,11 +720,17 @@ namespace ePrint.Printcenter.Views
             {
                 sqlCommand.Parameters.AddWithValue("password", commonClass.Encrypt(this.password.Text.ToString().Trim()));
                 str = commonClass.Encrypt(this.password.Text.ToString().Trim());
-                pAddress.InsertLoginInfo(this.objclass.SpecialEncode(this.email.Value), commonClass.Encrypt(this.password.Text.ToString().Trim()));
+                if (!BasePage.IsLightweightAuthPageEnabled())
+                {
+                    pAddress.InsertLoginInfo(this.objclass.SpecialEncode(this.email.Value), commonClass.Encrypt(this.password.Text.ToString().Trim()));
+                }
             }
             else
             {
-                pAddress.InsertLoginInfo(this.objclass.SpecialEncode(this.email.Value), commonClass.Encrypt(this.hdnpassword.Value.ToString().Trim()));
+                if (!BasePage.IsLightweightAuthPageEnabled())
+                {
+                    pAddress.InsertLoginInfo(this.objclass.SpecialEncode(this.email.Value), commonClass.Encrypt(this.hdnpassword.Value.ToString().Trim()));
+                }
                 sqlCommand.Parameters.AddWithValue("password", commonClass.Encrypt(this.hdnpassword.Value.ToString().Trim()));
                 str = commonClass.Encrypt(this.hdnpassword.Value.ToString().Trim());
             }
@@ -851,48 +857,43 @@ namespace ePrint.Printcenter.Views
                     num = Convert.ToInt64(this.hdnScreenWidth.Value);
                 }
                 this.InsertSessionValue(this.objclass.SpecialEncode(this.email.Value), str, num);
-                SqlCommand sqlCommand2 = new SqlCommand("crm_update_InvalidAttempts", _commonClass.openConnection())
+                SqlConnection loginConn = _commonClass.openConnection();
+                try
                 {
-                    CommandType = CommandType.StoredProcedure
-                };
-                sqlCommand2.Parameters.AddWithValue("@email", this.email.Value.Trim());
-                sqlCommand2.Parameters.AddWithValue("@password", str);
-                sqlCommand2.ExecuteNonQuery();
-                this.LogLoginPerfStage("crm_update_InvalidAttempts", stageTimer, loginTimer);
-                _commonClass.closeConnection();
-                SqlCommand sqlCommand3 = new SqlCommand("crm_update_loginDay", _commonClass.openConnection())
+                    SqlCommand sqlCommand2 = new SqlCommand("crm_update_InvalidAttempts", loginConn)
+                    {
+                        CommandType = CommandType.StoredProcedure
+                    };
+                    sqlCommand2.Parameters.AddWithValue("@email", this.email.Value.Trim());
+                    sqlCommand2.Parameters.AddWithValue("@password", str);
+                    sqlCommand2.ExecuteNonQuery();
+                    SqlCommand sqlCommand3 = new SqlCommand("crm_update_loginDay", loginConn)
+                    {
+                        CommandType = CommandType.StoredProcedure
+                    };
+                    sqlCommand3.Parameters.AddWithValue("@companyId", this.COMPANYID);
+                    sqlCommand3.ExecuteNonQuery();
+                }
+                finally
                 {
-                    CommandType = CommandType.StoredProcedure
-                };
-                sqlCommand3.Parameters.AddWithValue("@companyId", this.COMPANYID);
-                sqlCommand3.ExecuteNonQuery();
-                this.LogLoginPerfStage("crm_update_loginDay", stageTimer, loginTimer);
-                _commonClass.closeConnection();
+                    _commonClass.closeConnection();
+                }
+                this.LogLoginPerfStage("crm_update_InvalidAttempts+loginDay", stageTimer, loginTimer);
                 if (Convert.ToDateTime(this.ChangePasswordOn.ToShortDateString()) == Convert.ToDateTime(DateTime.Now.ToShortDateString()))
                 {
                     base.Response.Redirect(string.Concat(global.sitePath(), "changepassword.aspx"), true);
                 }
                 if (HttpContext.Current.Cache[""] == null || isPageLoad)
                 {
-                    loginClass _loginClass = new loginClass();
-                    _loginClass.LogInFromDefault(this.objclass.SpecialEncode(this.email.Value.ToString()), str);
-                    this.LogLoginPerfStage("LogInFromDefault", stageTimer, loginTimer);
-                    if (this.Session["userTypeID"] != null)
+                    bool deferNavigationBootstrap = BasePage.IsLightweightAuthPageEnabled()
+                        && BasePage.IsHomeDefaultLanding(this.defaultlanding);
+                    if (deferNavigationBootstrap)
                     {
-                        SqlCommand sqlCommand4 = new SqlCommand("PC_RolesAndPrivileges_select", (new commonClass()).openConnection())
-                        {
-                            CommandType = CommandType.StoredProcedure
-                        };
-                        sqlCommand4.CommandTimeout = Int32.MaxValue;//KR 01-11-2018
-                        sqlCommand4.Parameters.AddWithValue("@UserTypeID", Convert.ToInt32(this.Session["userTypeID"]));
-                        SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(sqlCommand4);
-                        DataSet dataSet = new DataSet();
-                        sqlDataAdapter.Fill(dataSet);
-                        this.Session["Roles_Privileges_Others"] = dataSet.Tables[0];
-                        this.Session["Roles_Privileges_Tabs"] = dataSet.Tables[1];
-                        this.Session["Roles_Privileges_Reports"] = dataSet.Tables[2];
-                        this.LogLoginPerfStage("PC_RolesAndPrivileges_select", stageTimer, loginTimer);
+                        this.Session["DeferNavigationBootstrap"] = "1";
                     }
+                    loginClass _loginClass = new loginClass();
+                    _loginClass.LogInFromDefault(this.objclass.SpecialEncode(this.email.Value.ToString()), str, deferNavigationBootstrap);
+                    this.LogLoginPerfStage("LogInFromDefault", stageTimer, loginTimer);
                     DataTable dataTable1 = SettingsBasePage.select_SystemIp_Address(Convert.ToInt64(this.Session["UserTypeID"]));
                     foreach (DataRow row in dataTable1.Rows)
                     {
@@ -909,6 +910,27 @@ namespace ePrint.Printcenter.Views
                             string str1 = string.Concat("update tb_company set nooflogin=nooflogin+1 where companyid=", this.COMPANYID);
                             (new SqlCommand(str1, _commonClass.openConnection())).ExecuteNonQuery();
                             _commonClass.closeConnection();
+                        }
+                        if (this.TryFastHomeLoginRedirect())
+                        {
+                            this.LogLoginPerfFinal("fast home redirect", loginTimer);
+                            return;
+                        }
+                        if (this.Session["userTypeID"] != null)
+                        {
+                            SqlCommand sqlCommand4 = new SqlCommand("PC_RolesAndPrivileges_select", (new commonClass()).openConnection())
+                            {
+                                CommandType = CommandType.StoredProcedure
+                            };
+                            sqlCommand4.CommandTimeout = Int32.MaxValue;//KR 01-11-2018
+                            sqlCommand4.Parameters.AddWithValue("@UserTypeID", Convert.ToInt32(this.Session["userTypeID"]));
+                            SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(sqlCommand4);
+                            DataSet dataSet = new DataSet();
+                            sqlDataAdapter.Fill(dataSet);
+                            this.Session["Roles_Privileges_Others"] = dataSet.Tables[0];
+                            this.Session["Roles_Privileges_Tabs"] = dataSet.Tables[1];
+                            this.Session["Roles_Privileges_Reports"] = dataSet.Tables[2];
+                            this.LogLoginPerfStage("PC_RolesAndPrivileges_select", stageTimer, loginTimer);
                         }
                         try
                         {
@@ -1283,6 +1305,28 @@ namespace ePrint.Printcenter.Views
 
                 lock (LoginPerfLogLock)
                 {
+                    // Append-only; keep file trimmed so AV/lock contention stays low on dev machines.
+                    const int maxLogBytes = 512000;
+                    try
+                    {
+                        if (File.Exists(filePath))
+                        {
+                            var info = new FileInfo(filePath);
+                            if (info.Length > maxLogBytes)
+                            {
+                                string[] lines = File.ReadAllLines(filePath);
+                                int keep = Math.Min(lines.Length, 400);
+                                if (keep < lines.Length)
+                                {
+                                    File.WriteAllLines(filePath, lines.Skip(lines.Length - keep).ToArray());
+                                }
+                            }
+                        }
+                    }
+                    catch
+                    {
+                        // ignore trim failures
+                    }
                     File.AppendAllText(filePath, datedLine + Environment.NewLine);
                 }
             }
@@ -1329,6 +1373,10 @@ namespace ePrint.Printcenter.Views
         protected override void OnInit(EventArgs e)
         {
             base.OnInit(e);
+            if (this.form1 != null)
+            {
+                this.form1.Action = base.ResolveUrl("~/Login/Login.aspx");
+            }
             this.LogPagePerfStage("OnInit (after base)", this._pagePerfStage);
         }
 
@@ -1342,6 +1390,13 @@ namespace ePrint.Printcenter.Views
         {
             base.OnLoadComplete(e);
             this.LogPagePerfStage("OnLoadComplete (after base)", this._pagePerfStage);
+        }
+
+        protected override void OnPreRender(EventArgs e)
+        {
+            this.LogPagePerfStage("OnPreRender (before base)", this._pagePerfStage);
+            base.OnPreRender(e);
+            this.LogPagePerfStage("OnPreRender (after base)", this._pagePerfStage);
         }
 
         protected override void OnPreRenderComplete(EventArgs e)
@@ -1387,6 +1442,101 @@ namespace ePrint.Printcenter.Views
             stageTimer.Restart();
         }
 
+        private int GetLoginCompanyId()
+        {
+            if (!_cachedLoginCompanyId.HasValue)
+            {
+                _cachedLoginCompanyId = Convert.ToInt32(EprintConfigurationManager.AppSettings["CompanyID"].ToString());
+            }
+            return _cachedLoginCompanyId.Value;
+        }
+
+        private bool TryFastHomeLoginRedirect()
+        {
+            if (!BasePage.IsLightweightAuthPageEnabled() || !BasePage.IsHomeDefaultLanding(this.defaultlanding))
+            {
+                return false;
+            }
+            if (this.Session["DirectLogin"] != null)
+            {
+                string direct = this.Session["DirectLogin"].ToString();
+                this.Session["DirectLogin"] = null;
+                this.Session["PostLoginBootstrapPending"] = "1";
+                this.EndLoginResponse(direct);
+                return true;
+            }
+            this.Session["PostLoginBootstrapPending"] = "1";
+            int milliseconds = DateTime.Now.TimeOfDay.Milliseconds;
+            string welcomeUrl = string.Concat(global.sitePath(), "welcome.aspx?sec=", milliseconds.ToString());
+            this.EndLoginResponse(welcomeUrl);
+            return true;
+        }
+
+        private void EndLoginResponse(string url)
+        {
+            base.Response.Redirect(url, false);
+            HttpContext.Current.ApplicationInstance.CompleteRequest();
+        }
+
+        private void EnsureLoginSessionPrimed(int companyId)
+        {
+            this.Session["LoginCompanyID"] = companyId;
+            this.Session["language"] = "english";
+            if (this.Session["ConnectionString"] == null)
+            {
+                HttpCookie connectionCookie = base.Request.Cookies["connectionstring"];
+                this.Session["ConnectionString"] = connectionCookie != null && !string.IsNullOrEmpty(connectionCookie.Value)
+                    ? connectionCookie.Value
+                    : "CRMConnectionString";
+            }
+        }
+
+        private void SetupAuthPageChrome(int companyId, Stopwatch pageLoadStage)
+        {
+            BasePage.LoadAuthPageLanguageFile(companyId, this.Session, this.cmn);
+            this.LogPagePerfStage("Page_Load.LoadAuthPageLanguageFile", pageLoadStage);
+            if (BasePage.IsLightweightAuthPageEnabled())
+            {
+                this.objpage.ApplyAuthPageLogoLightweight(this.plhLoginImg, companyId);
+                this.LogPagePerfStage("Page_Load.ApplyAuthPageLogoLightweight", pageLoadStage);
+            }
+            else
+            {
+                this.objpage.ApplyAuthPageLogo(this.plhLoginImg, companyId);
+                this.LogPagePerfStage("Page_Load.ApplyAuthPageLogo", pageLoadStage);
+            }
+        }
+
+        private void ApplyLoginFormLabels()
+        {
+            this.lblLoginTitle.Text = this.objLanguage.GetLanguageConversion("Login");
+            this.btnlogin.Text = "Sign in";
+            this.lblEmail.Text = this.objLanguage.GetLanguageConversion("Email");
+            this.lblPassword.Text = this.objLanguage.GetLanguageConversion("Password");
+            this.lblRememberMe.Text = "Stay logged in";
+            this.lblRemembermeNote.Text = this.objLanguage.GetLanguageConversion("Remember_Me_Note");
+            this.RegularExpressionValidator1.ErrorMessage = this.objLanguage.GetLanguageConversion("Invalid_Email");
+            this.RequiredFieldValidator1.ErrorMessage = "Please enter Email";
+            this.RequiredFieldValidator2.ErrorMessage = this.objLanguage.GetLanguageConversion("Please_Enter_Password");
+        }
+
+        /// <summary>Pre-fill remember-me fields only; user must click Login (no auto-login on page load).</summary>
+        private void PrefillRememberMeCookiesOnly()
+        {
+            if (base.Request.Cookies["email"] == null || base.Request.Cookies["password"] == null)
+            {
+                this.chkremember.Checked = false;
+                return;
+            }
+            this.email.Value = base.Request.Cookies["email"].Value;
+            this.chkremember.Checked = true;
+            this.PasswordValue = base.Request.Cookies["password"].Value;
+            this.password.Attributes.Add("value", this.PasswordValue);
+            this.hdnpassword.Value = base.Request.Cookies["password"].Value;
+            this.hdn_pass.Value = this.hdnpassword.Value;
+            this.hdn_login.Value = this.email.Value;
+        }
+
         protected void Page_Load(object sender, EventArgs e)
         {
             if (base.Request.Url.ToString().ToLower().IndexOf("dmcsportonline") != -1)
@@ -1412,23 +1562,18 @@ namespace ePrint.Printcenter.Views
             {
                 this.ServerName = ConnectionClass.ServerName;
             }
-            int num1 = Convert.ToInt32(EprintConfigurationManager.AppSettings["CompanyID"].ToString());
-            this.Session["LoginCompanyID"] = num1;
+            int num1 = this.GetLoginCompanyId();
+            if (base.IsPostBack || !BasePage.IsLightweightAuthPageEnabled())
+            {
+                this.EnsureLoginSessionPrimed(num1);
+            }
             Stopwatch pageLoadStage = Stopwatch.StartNew();
-            BasePage.LoadAuthPageLanguageFile(num1, this.Session, this.cmn);
-            this.LogPagePerfStage("Page_Load.LoadAuthPageLanguageFile", pageLoadStage);
-            BasePage.ApplyAuthPageLoginButtonColor(num1, this.Session, this.btnlogin, this.cmn);
-            this.LogPagePerfStage("Page_Load.ApplyAuthPageLoginButtonColor", pageLoadStage);
-            this.objpage.ApplyAuthPageLogo(this.plhLoginImg, num1);
-            this.LogPagePerfStage("Page_Load.ApplyAuthPageLogo", pageLoadStage);
-            this.btnlogin.Text = this.objLanguage.GetLanguageConversion("Login");
-            this.lblEmail.Text = this.objLanguage.GetLanguageConversion("Email");
-            this.lblPassword.Text = this.objLanguage.GetLanguageConversion("Password");
-            this.lblRememberMe.Text = "Stay logged in";
-            this.lblRemembermeNote.Text = this.objLanguage.GetLanguageConversion("Remember_Me_Note");
-            this.RegularExpressionValidator1.ErrorMessage = this.objLanguage.GetLanguageConversion("Invalid_Email");
-            this.RequiredFieldValidator1.ErrorMessage = "Please enter Email";
-            this.RequiredFieldValidator2.ErrorMessage = this.objLanguage.GetLanguageConversion("Please_Enter_Password");
+            if (!base.IsPostBack)
+            {
+                this.SetupAuthPageChrome(num1, pageLoadStage);
+            }
+            this.ApplyLoginFormLabels();
+            this.LogPagePerfStage("Page_Load.ApplyLoginFormLabels", pageLoadStage);
 
             //Ticket 214: Undoing the changes as they are not part of the roll out. 
             //As of now ticket 214 is working fine as per requirements
@@ -1439,31 +1584,40 @@ namespace ePrint.Printcenter.Views
                 empty = this.GetSubDomainName(base.Request.Url.ToString());
                 if (empty.Length <= 0 || !(empty.ToLower() != "www") || !(empty.ToLower() != "192"))
                 {
-                    this.Session["ConnectionString"] = "CRMConnectionString";
+                    if (!BasePage.IsLightweightAuthPageEnabled())
+                    {
+                        this.Session["ConnectionString"] = "CRMConnectionString";
+                    }
                     base.Response.Cookies.Add(new HttpCookie("connectionstring", "CRMConnectionString"));
                     base.Response.Cookies.Add(new HttpCookie("sitepath", "SitePath"));
                     base.Response.Cookies.Add(new HttpCookie("filepath", "FilePath"));
                 }
                 else
                 {
-                    this.Session["ConnectionString"] = empty.ToLower();
+                    if (!BasePage.IsLightweightAuthPageEnabled())
+                    {
+                        this.Session["ConnectionString"] = empty.ToLower();
+                    }
                     base.Response.Cookies.Add(new HttpCookie("connectionstring", empty.ToLower()));
                     base.Response.Cookies.Add(new HttpCookie("sitepath", string.Concat("SitePath_", empty.ToLower())));
                     base.Response.Cookies.Add(new HttpCookie("filepath", string.Concat("FilePath_", empty.ToLower())));
                 }
-                HttpCookie item = base.Request.Cookies["hdnSessionId"];
-                if (item != null)
+                if (!BasePage.IsLightweightAuthPageEnabled())
                 {
-                    commonClass _commonClass = new commonClass();
-                    SqlCommand sqlCommand2 = new SqlCommand("crm_resumeSession_delete", _commonClass.openConnection())
+                    HttpCookie item = base.Request.Cookies["hdnSessionId"];
+                    if (item != null)
                     {
-                        CommandType = CommandType.StoredProcedure
-                    };
-                    sqlCommand2.Parameters.Add("@hdnSessionID", item.Value.ToString());
-                    sqlCommand2.ExecuteNonQuery();
-                    _commonClass.closeConnection();
-                    base.Request.Cookies.Set(new HttpCookie("hdnSessionId", ""));
-                    base.Response.Cookies.Set(new HttpCookie("hdnSessionId", ""));
+                        commonClass _commonClass = new commonClass();
+                        SqlCommand sqlCommand2 = new SqlCommand("crm_resumeSession_delete", _commonClass.openConnection())
+                        {
+                            CommandType = CommandType.StoredProcedure
+                        };
+                        sqlCommand2.Parameters.Add("@hdnSessionID", item.Value.ToString());
+                        sqlCommand2.ExecuteNonQuery();
+                        _commonClass.closeConnection();
+                        base.Request.Cookies.Set(new HttpCookie("hdnSessionId", ""));
+                        base.Response.Cookies.Set(new HttpCookie("hdnSessionId", ""));
+                    }
                 }
             }
             if (!base.IsPostBack && string.Equals(Request.QueryString["registered"], "1", StringComparison.Ordinal))
@@ -1476,33 +1630,20 @@ namespace ePrint.Printcenter.Views
                 Login.displayVerificationImage = 1;
                 Login.isSecurity = false;
             }
-            this.strpath = global.imagePath();
-            this.Session["language"] = "english";
+            if (base.IsPostBack || !BasePage.IsLightweightAuthPageEnabled())
+            {
+                this.EnsureLoginSessionPrimed(num1);
+            }
             this.div_InvalidMsg.Style.Add("display", "none");
             this.lblerror.Visible = false;
             this.email.Focus();
-            this.chkremember.Value = this.objLanguage.convert("Remember me");
             this.nooflogin = 0;
             this.COMPANYID = 0;
             if (!base.IsPostBack)
             {
-                if (base.Request.Cookies["email"] == null || base.Request.Cookies["password"] == null)
-                {
-                    this.chkremember.Checked = false;
-                    return;
-                }
-                this.email.Value = base.Request.Cookies["email"].Value;
-                this.chkremember.Checked = true;
-                this.PasswordValue = base.Request.Cookies["password"].Value;
-                this.password.Attributes.Add("value", this.PasswordValue);
-                this.hdnpassword.Value = base.Request.Cookies["password"].Value;
-                this.hdn_pass.Value = this.hdnpassword.Value;
-                this.hdn_login.Value = this.email.Value.ToString();
-                if (this.hdn_login.Value.Trim().Length > 0 && this.hdn_pass.Value.Trim().Length > 0)
-                {
-                    this.login(true);
-                }
+                this.PrefillRememberMeCookiesOnly();
             }
+            this.LogPagePerfStage("Page_Load.End", pageLoadStage);
         }
 
     }

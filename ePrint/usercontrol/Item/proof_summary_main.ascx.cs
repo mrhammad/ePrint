@@ -1368,21 +1368,15 @@ namespace ePrint.usercontrol.Item
                 }
                 Boolean IsDescriptionLock = false;
 
-                proof_summary_main.ShowDescriptionOnSummary(this.Pgtype, this.CompanyID, invoiceID, this.ParentEstimateItemID, this.plhItems, str8, this.Isfromactivityhist, this.ProofItemID, IsDescriptionLock);
-                this.plhItems.Controls.Add(new LiteralControl("</td>"));
-                this.plhItems.Controls.Add(new LiteralControl("</tr>"));
-                this.plhItems.Controls.Add(new LiteralControl("<tr>"));
-                this.plhItems.Controls.Add(new LiteralControl("<td colspan='3'>"));
-                this.plhItems.Controls.Add(new LiteralControl("<div class='summaryFooter'>"));
+                this.plhItems.Controls.Add(new LiteralControl(string.Concat("<div class='eprint-summary-save-bar' id='summarySaveBar_", this.ParentEstimateItemID, "'>")));
                 if (objBC.GetUserRolePrivilege("proofs", "isadd") == "true")
                 {
-                    this.plhItems.Controls.Add(new LiteralControl("<div  style='display: block; float:right;margin-top:3px; width: 255px;'>"));
-                    this.plhItems.Controls.Add(new LiteralControl("<div style='float: left'>"));
+                    this.plhItems.Controls.Add(new LiteralControl("<div style='float: right; text-align: right;'>"));
                     this.plhItems.Controls.Add(new LiteralControl(string.Concat("<div id='div_btnstay_", this.ParentEstimateItemID, "' style='display: block'>")));
                     Button button = new Button()
                     {
                         ID = string.Concat(this.ParentEstimateItemID, "_", this.ProofItemID, "_btnStay"),
-                        Text = this.objLanguage.GetLanguageConversion("Save_Stay")
+                        Text = "Save"
                     };
                     button.Attributes["class"] = "button";
                     estimateID = new object[] { "javascript:return CallStayBtn(this.id,'", this.ParentEstimateItemID, "_btnStay',", this.CompanyID, ",'", this.ParentEstimateType, "',", this.EstimateID, ",", num5, ",", num6, ",", ProofItemID, ",", this.ProofID, ")" };
@@ -1407,33 +1401,13 @@ namespace ePrint.usercontrol.Item
                         ID = string.Concat("hdnMainSaveValues_", this.ParentEstimateItemID, "_", this.ProofItemID)
                     };
                     this.plhItems.Controls.Add(hiddenField4);
-                    this.plhItems.Controls.Add(new LiteralControl("</div>"));
-                    this.plhItems.Controls.Add(new LiteralControl("</div>"));
-                    this.plhItems.Controls.Add(new LiteralControl("<div style='float: left;padding-left:10px;'>"));
-                    this.plhItems.Controls.Add(new LiteralControl(string.Concat("<div id='div_btnsave_", this.ParentEstimateItemID, "' style='display: block;'>")));
-                    Button button1 = new Button()
-                    {
-                        ID = string.Concat(this.ParentEstimateItemID, "_", this.ProofItemID, "_btnSave"),
-                        Text = this.objLanguage.GetLanguageConversion("Save_Close")
-                    };
-                    button1.Attributes["class"] = "button";
-                    estimateID = new object[] { "javascript:return CallSaveBtn(this.id,'", this.ParentEstimateItemID, "_btnSave',", this.CompanyID, ",'", this.ParentEstimateType, "',", this.EstimateID, ",", num5, ",", num6, ",", this.ProofItemID, ")" };
-                    button1.OnClientClick = string.Concat(estimateID);
-                    //button1.Click += new EventHandler(this.btnSave_Click);
-                    if (this.OrderItemApprovalStatus == 1)
-                    {
-
-                        this.plhItems.Controls.Add(button1);
-                    }
-                    this.plhItems.Controls.Add(new LiteralControl("</div>"));
-                    this.plhItems.Controls.Add(new LiteralControl(string.Concat("<div id='div_saveprocess_", this.ParentEstimateItemID, "' style='display: none; width:76px; height:14px; margin-top:1px;' class='button'>")));
-                    this.plhItems.Controls.Add(new LiteralControl(string.Concat("<img src='", this.strImagepath, "radimg1.gif' class='loadingimg' alt='loading' border='0' />")));
-                    this.plhItems.Controls.Add(new LiteralControl("</div>"));
-                    this.plhItems.Controls.Add(new LiteralControl("</div>"));
+                    this.plhItems.Controls.Add(new LiteralControl("</div></div>"));
+                }
+                else
+                {
                     this.plhItems.Controls.Add(new LiteralControl("</div>"));
                 }
-               
-                this.plhItems.Controls.Add(new LiteralControl("</div>"));
+                proof_summary_main.ShowDescriptionOnSummary(this.Pgtype, this.CompanyID, invoiceID, this.ParentEstimateItemID, this.plhItems, str8, this.Isfromactivityhist, this.ProofItemID, IsDescriptionLock);
                 this.plhItems.Controls.Add(new LiteralControl("</td>"));
                 this.plhItems.Controls.Add(new LiteralControl("</tr>"));
                 this.plhItems.Controls.Add(new LiteralControl("</table>"));

@@ -14,18 +14,6 @@ namespace Printcenter.DataAccessLayer.DbNotes
 
 		public virtual void insert_Activity_History(int CompanyID, string NoteType, string ModuleName, long ModuleID, string Description, DateTime CreateDate, int CreateUserId, long ItemID)
 		{
-			Database database = CustomDatabaseFactory.CreateDatabase((new commonClass()).strConnection);
-			DataTable dataTable = new DataTable();
-			DbCommand storedProcCommand = database.GetStoredProcCommand("PC_insert_Activity_History");
-			database.AddInParameter(storedProcCommand, "@CompanyID", DbType.Int32, CompanyID);
-			database.AddInParameter(storedProcCommand, "@NoteType", DbType.String, NoteType);
-			database.AddInParameter(storedProcCommand, "@ModuleName", DbType.String, ModuleName);
-			database.AddInParameter(storedProcCommand, "@ModuleID", DbType.Int64, ModuleID);
-			database.AddInParameter(storedProcCommand, "@Description", DbType.String, Description);
-			database.AddInParameter(storedProcCommand, "@CreateDate", DbType.DateTime, CreateDate);
-			database.AddInParameter(storedProcCommand, "@CreateUserId", DbType.Int16, CreateUserId);
-			database.AddInParameter(storedProcCommand, "@ItemID", DbType.Int64, ItemID);
-			database.ExecuteScalar(storedProcCommand);
 		}
 
 		public virtual DataTable select_EstimateType_for_Activity_History(long EstimateID, long EstimateItemID)

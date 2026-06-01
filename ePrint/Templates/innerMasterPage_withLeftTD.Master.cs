@@ -398,18 +398,6 @@ namespace ePrint.Templates
             {
                 this.printcenter_leftpanel.Visible = true;
                 this.contextPanel.Visible = true;
-                return;
-            }
-
-            if (url.Contains("/client")
-                || url.Contains("/contact")
-                || url.Contains("/accounts/")
-                || url.Contains("customviewcrm")
-                || pageName == "client"
-                || pageName == "contact")
-            {
-                this.panel_company.Visible = true;
-                this.contextPanel.Visible = true;
             }
         }
     }

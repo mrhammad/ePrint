@@ -868,7 +868,7 @@
                                             <span id="spn_txtdeliverydate" class="spanerrorMsg" style="display: none; width: 170px"></span>
                                         </div>
                                     </div>
-                                    <div align="left" id="div1" style="border: 1px solid red; clear: both; display: none;">
+                                    <div align="left" id="div1" style="display: none;" aria-hidden="true">
                                         <div class="bglabel">
                                             <asp:Label ID="Label1" runat="server" Text="Delivery Date" CssClass="normaltext"><%=objLanguage.GetLanguageConversion("Delivery_Date")%></asp:Label>
                                         </div>

@@ -336,6 +336,11 @@
     <Content Include="App_Themes\Theme1\eprint-sidebar.css" />
     <Content Include="App_Themes\Theme1\eprint-crm-customer.css" />
     <Content Include="App_Themes\Theme1\eprint-crm-sections.css" />
+    <Content Include="App_Themes\Theme1\eprint-perfect-summary.css" />
+    <Content Include="App_Themes\Theme1\eprint-estimate-add.css" />
+    <Content Include="App_Themes\Theme1\eprint-single-item-add.css" />
+    <Content Include="App_Themes\Theme1\eprint-p2j-modal.css" />
+    <Content Include="js\eprint-perfect-summary.js" />
     <Content Include="js\eprint-crm-customer.js" />
     <Content Include="js\eprint-crm-sections.js" />
     <Content Include="App_Themes\Theme1\Menu.Eprint_Skin.css" />
@@ -1952,6 +1957,8 @@
     <Content Include="js\item\dragdrop.js" />
     <Content Include="js\item\email_printbroker.js" />
     <Content Include="js\item\estimate_stage1.js" />
+    <Content Include="js\item\eprint-estimate-add.js" />
+    <Content Include="js\item\eprint-single-item-add.js" />
     <Content Include="js\item\estimate_summary.js" />
     <Content Include="js\item\finished_goods.js" />
     <Content Include="js\item\float_popup.js" />

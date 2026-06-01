@@ -1140,107 +1140,13 @@ public class login : System.Web.UI.Page, IRequiresSessionState
 
     protected void Page_Load(object sender, EventArgs e)
     {
-        if (base.Request.Url.ToString().ToLower().IndexOf("dmcsportonline") != -1)
+        string qs = base.Request.QueryString.ToString();
+        string target = base.ResolveUrl("~/Login/Login.aspx");
+        if (!string.IsNullOrEmpty(qs))
         {
-            bool flag = false;
-            string lower = base.Request.Url.ToString().ToLower();
-            if (lower.ToString().ToLower().IndexOf("https") == -1)
-            {
-                lower = lower.Replace("http", "https");
-                flag = true;
-            }
-            if (lower.ToString().ToLower().IndexOf("https://dmcsportonline.com.au") != -1)
-            {
-                lower = lower.Replace("https://dmcsportonline.com.au", "https://www.dmcsportonline.com.au");
-                flag = true;
-            }
-            if (flag)
-            {
-                base.Response.Redirect(lower);
-            }
+            target = string.Concat(target, "?", qs);
         }
-        if (ConnectionClass.ServerName != null)
-        {
-            this.ServerName = ConnectionClass.ServerName;
-        }
-        int num1 = Convert.ToInt32(EprintConfigurationManager.AppSettings["CompanyID"].ToString());
-        this.Session["LoginCompanyID"] = num1;
-        BasePage.LoadAuthPageLanguageFile(num1, this.Session, this.cmn);
-        BasePage.ApplyAuthPageLoginButtonColor(num1, this.Session, this.btnlogin, this.cmn);
-        this.objpage.ApplyAuthPageLogo(this.plhLoginImg, num1);
-        this.btnlogin.Text = this.objLanguage.GetLanguageConversion("Login");
-        this.lblEmail.Text = this.objLanguage.GetLanguageConversion("Email");
-        this.lblPassword.Text = this.objLanguage.GetLanguageConversion("Password");
-        this.lblRememberMe.Text = "Stay logged in";
-        this.lblRemembermeNote.Text = this.objLanguage.GetLanguageConversion("Remember_Me_Note");
-        this.RegularExpressionValidator1.ErrorMessage = this.objLanguage.GetLanguageConversion("Invalid_Email");
-        this.RequiredFieldValidator1.ErrorMessage = "Please enter Email";
-        this.RequiredFieldValidator2.ErrorMessage = this.objLanguage.GetLanguageConversion("Please_Enter_Password");
-        if (!base.IsPostBack)
-        {
-            string empty = string.Empty;
-            empty = this.GetSubDomainName(base.Request.Url.ToString());
-            if (empty.Length <= 0 || !(empty.ToLower() != "www") || !(empty.ToLower() != "192"))
-            {
-                this.Session["ConnectionString"] = "CRMConnectionString";
-                base.Response.Cookies.Add(new HttpCookie("connectionstring", "CRMConnectionString"));
-                base.Response.Cookies.Add(new HttpCookie("sitepath", "SitePath"));
-                base.Response.Cookies.Add(new HttpCookie("filepath", "FilePath"));
-            }
-            else
-            {
-                this.Session["ConnectionString"] = empty.ToLower();
-                base.Response.Cookies.Add(new HttpCookie("connectionstring", empty.ToLower()));
-                base.Response.Cookies.Add(new HttpCookie("sitepath", string.Concat("SitePath_", empty.ToLower())));
-                base.Response.Cookies.Add(new HttpCookie("filepath", string.Concat("FilePath_", empty.ToLower())));
-            }
-            HttpCookie item = base.Request.Cookies["hdnSessionId"];
-            if (item != null)
-            {
-                commonClass _commonClass = new commonClass();
-                SqlCommand sqlCommand2 = new SqlCommand("crm_resumeSession_delete", _commonClass.openConnection())
-                {
-                    CommandType = CommandType.StoredProcedure
-                };
-                sqlCommand2.Parameters.Add("@hdnSessionID", item.Value.ToString());
-                sqlCommand2.ExecuteNonQuery();
-                _commonClass.closeConnection();
-                base.Request.Cookies.Set(new HttpCookie("hdnSessionId", ""));
-                base.Response.Cookies.Set(new HttpCookie("hdnSessionId", ""));
-            }
-        }
-        if (!base.IsPostBack)
-        {
-            _default.displayVerificationImage = 1;
-            _default.isSecurity = false;
-        }
-        this.strpath = global.imagePath();
-        this.Session["language"] = "english";
-        this.div_InvalidMsg.Style.Add("display", "none");
-        this.lblerror.Visible = false;
-        this.email.Focus();
-        this.chkremember.Value = this.objLanguage.convert("Remember me");
-        this.nooflogin = 0;
-        this.COMPANYID = 0;
-        if (!base.IsPostBack)
-        {
-            if (base.Request.Cookies["email"] == null || base.Request.Cookies["password"] == null)
-            {
-                this.chkremember.Checked = false;
-                return;
-            }
-            this.email.Value = base.Request.Cookies["email"].Value;
-            this.chkremember.Checked = true;
-            this.PasswordValue = base.Request.Cookies["password"].Value;
-            this.password.Attributes.Add("value", this.PasswordValue);
-            this.hdnpassword.Value = base.Request.Cookies["password"].Value;
-            this.hdn_pass.Value = this.hdnpassword.Value;
-            this.hdn_login.Value = this.email.Value.ToString();
-            if (this.hdn_login.Value.Trim().Length > 0 && this.hdn_pass.Value.Trim().Length > 0)
-            {
-                this.login(true);
-            }
-        }
+        base.Response.Redirect(target, true);
     }
 }
 }

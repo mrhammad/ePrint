@@ -475,10 +475,7 @@ namespace ePrint.usercontrol.Item
                 this.rdb_Delete_Job_All.Text = this.objLanguage.GetLanguageConversion("Delete_Invoice_and_its_corresponding_Order");
                 this.rdb_Delete_Job.Text = this.objLanguage.GetLanguageConversion("Delete_Invoice_and_keep_Order_live");
             }
-            if (base.Request.Browser.Browser.ToString().ToLower() == "firefox")
-            {
-                this.Div_StatusList.Attributes.Add("style", "width: 223px; padding: 0px; margin-top: -2px;");
-            }
+            /* Status dropdown layout is handled by eprint-perfect-summary.css / .js */
             DataTable dataTable = SettingsBasePage.settings_companyprofile_select(this.CompanyID);
             this.ManageStockPermission = Convert.ToInt32(dataTable.Rows[0]["ProductStockManagement"]);
             this.StockCancellationType = baseClass.Return_StockManagementSettings("SC_IfJobCancelled");
@@ -676,18 +673,7 @@ namespace ePrint.usercontrol.Item
                 this.Check_SpecialPrivilege = false;
             }
             this.plhItems.Controls.Clear();
-            item_summary_quicklinks userID = (item_summary_quicklinks)base.LoadControl("~/usercontrol/Item/item_summary_quicklinks.ascx");
-            userID.ID = "custdetails_quickLinks";
-            userID.UserID = this.UserID;
-            userID.CompanyID = this.CompanyID;
-            userID.EstimateID = this.EstimateID;
-            userID.jobID = this.jobID;
-            userID.InvoiceID = this.InvoiceID;
-            userID.jID = this.jID;
-            userID.InvID = this.InvID;
-            userID.quicklinksfrom = "customer details";
-
-            this.plhdetailsqicklinks.Controls.Add(userID);
+            /* Customer tab Quick Links panel removed — details use full width in perfect summary layout */
             Item_Summary_CustomerDetails usercontrolItemItemSummaryCustomerDetail = (Item_Summary_CustomerDetails)base.LoadControl("~/usercontrol/Item/Item_Summary_CustomerDetails.ascx");
             if (this.Module != "invoice")
             {
@@ -2398,19 +2384,13 @@ namespace ePrint.usercontrol.Item
                     invoiceID = this.EstimateID;
                 }
 
-                EstimateCommonMethods.ShowDescriptionOnSummary(this.Pgtype, this.CompanyID, invoiceID, this.ParentEstimateItemID, this.plhItems, str8, this.Isfromactivityhist, IsDescriptionLock);
-                this.plhItems.Controls.Add(new LiteralControl("</td>"));
-                this.plhItems.Controls.Add(new LiteralControl("</tr>"));
-                this.plhItems.Controls.Add(new LiteralControl("<tr>"));
-                this.plhItems.Controls.Add(new LiteralControl("<td colspan='3'>"));
-                this.plhItems.Controls.Add(new LiteralControl("<div class='summaryFooter'>"));
-                this.plhItems.Controls.Add(new LiteralControl("<div  style='display: block; float:right;margin-top:3px; width: 255px;'>"));
-                this.plhItems.Controls.Add(new LiteralControl("<div style='float: left'>"));
+                this.plhItems.Controls.Add(new LiteralControl(string.Concat("<div class='eprint-summary-save-bar' id='summarySaveBar_", this.ParentEstimateItemID, "'>")));
+                this.plhItems.Controls.Add(new LiteralControl("<div style='float: right; text-align: right;'>"));
                 this.plhItems.Controls.Add(new LiteralControl(string.Concat("<div id='div_btnstay_", this.ParentEstimateItemID, "' style='display: block'>")));
                 Button button = new Button()
                 {
                     ID = string.Concat(this.ParentEstimateItemID, "_btnStay"),
-                    Text = this.objLanguage.GetLanguageConversion("Save_Stay")
+                    Text = "Save"
                 };
                 button.Attributes["class"] = "button";
                 estimateID = new object[] { "javascript:return CallStayBtn(this.id,'", this.ParentEstimateItemID, "_btnStay',", this.CompanyID, ",'", this.ParentEstimateType, "',", this.EstimateID, ",", num5, ",", num6, ")" };
@@ -2453,41 +2433,8 @@ namespace ePrint.usercontrol.Item
                     ID = string.Concat("hdnMainSaveValues_", this.ParentEstimateItemID)
                 };
                 this.plhItems.Controls.Add(hiddenField4);
-                this.plhItems.Controls.Add(new LiteralControl("</div>"));
-                this.plhItems.Controls.Add(new LiteralControl("</div>"));
-                this.plhItems.Controls.Add(new LiteralControl("<div style='float: left;padding-left:10px;'>"));
-                this.plhItems.Controls.Add(new LiteralControl(string.Concat("<div id='div_btnsave_", this.ParentEstimateItemID, "' style='display: block;'>")));
-                Button button1 = new Button()
-                {
-                    ID = string.Concat(this.ParentEstimateItemID, "_btnSave"),
-                    Text = this.objLanguage.GetLanguageConversion("Save_Close")
-                };
-                button1.Attributes["class"] = "button";
-                estimateID = new object[] { "javascript:return CallSaveBtn(this.id,'", this.ParentEstimateItemID, "_btnSave',", this.CompanyID, ",'", this.ParentEstimateType, "',", this.EstimateID, ",", num5, ",", num6, ")" };
-                button1.OnClientClick = string.Concat(estimateID);
-                button1.Click += new EventHandler(this.btnSave_Click);
-                if (this.OrderItemApprovalStatus == 1)
-                {
-                    if (this.Module.ToLower() == "job")
-                    {
-                        if (this.ReturnRoles_Privileges_ForGrid_New("jobs", "isadd", this.Page.Request.Url.ToString()).Trim().ToLower() == "true")
-                        {
-                            this.plhItems.Controls.Add(button1);
-                        }
-                    }
-                    else
-                    {
-
-                        this.plhItems.Controls.Add(button1);
-                    }
-                }
-                this.plhItems.Controls.Add(new LiteralControl("</div>"));
-                this.plhItems.Controls.Add(new LiteralControl(string.Concat("<div id='div_saveprocess_", this.ParentEstimateItemID, "' style='display: none; width:76px; height:14px; margin-top:1px;' class='button'>")));
-                this.plhItems.Controls.Add(new LiteralControl(string.Concat("<img src='", this.strImagepath, "radimg1.gif' class='loadingimg' alt='loading' border='0' />")));
-                this.plhItems.Controls.Add(new LiteralControl("</div>"));
-                this.plhItems.Controls.Add(new LiteralControl("</div>"));
-                this.plhItems.Controls.Add(new LiteralControl("</div>"));
-                this.plhItems.Controls.Add(new LiteralControl("</div>"));
+                this.plhItems.Controls.Add(new LiteralControl("</div></div>"));
+                EstimateCommonMethods.ShowDescriptionOnSummary(this.Pgtype, this.CompanyID, invoiceID, this.ParentEstimateItemID, this.plhItems, str8, this.Isfromactivityhist, IsDescriptionLock);
                 this.plhItems.Controls.Add(new LiteralControl("</td>"));
                 this.plhItems.Controls.Add(new LiteralControl("</tr>"));
                 this.plhItems.Controls.Add(new LiteralControl("</table>"));

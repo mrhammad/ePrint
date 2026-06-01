@@ -2,19 +2,6 @@
 
 <%@ Register TagPrefix="telerik" Namespace="Telerik.Web.UI" Assembly="Telerik.Web.UI" %>
 <style type="text/css">
-    #estoreaccordion ul li:hover {
-        background-color: #EEEEEE;
-        cursor: pointer;
-        border-radius: 5px;
-    }
-
-    #estoreaccordion h1 a {
-    }
-
-        #estoreaccordion h1 a .ui-icon {
-            float: right;
-        }
-
     label {
         cursor: pointer;
     }
@@ -23,8 +10,15 @@
         padding-left: 10px;
     }
 
-    #divqlItems .activity-list {
-        padding-left: 10px;
+    #estoreaccordion li.eprint-addsub-dropdown-mode > h1,
+    #estoreaccordion li.eprint-addsub-dropdown-mode > ul.Summary_panelitems,
+    #estoreaccordion li.eprint-addsub-dropdown-mode > li.Summary_PanelList,
+    #estoreaccordion li.eprint-addsub-dropdown-mode > li.Summary_PanelList_main,
+    #estoreaccordion li.eprint-addsub-dropdown-mode > li.lisubItems,
+    .eprint-estore-accordion li.eprint-addsub-dropdown-mode > li.Summary_PanelList,
+    .eprint-estore-accordion li.eprint-addsub-dropdown-mode > li.Summary_PanelList_main,
+    .eprint-estore-accordion li.eprint-addsub-dropdown-mode > li.lisubItems {
+        display: none !important;
     }
 </style>
 
@@ -77,6 +71,203 @@
         return "";
     }
 
+    function eprintRunAddSubItem(selectEl) {
+        if (!selectEl || !selectEl.value) {
+            return;
+        }
+        var pid = selectEl.getAttribute("data-parent-id");
+        var ptype = selectEl.getAttribute("data-parent-type");
+        if (typeof CallPage === "function" && pid) {
+            CallPage(selectEl.value, pid, ptype || "");
+        }
+        selectEl.selectedIndex = 0;
+    }
+
+    function initAddSubItemDropdown() {
+        var addSubRoots = document.querySelectorAll("li[id*='liaddItemhead']");
+        var r;
+        for (r = 0; r < addSubRoots.length; r++) {
+            var root = addSubRoots[r];
+            if (!root || root.getAttribute("data-addsub-dropdown") === "1" || root.querySelector(".eprint-addsub-dropdown[data-addsub-dropdown='1']")) {
+                continue;
+            }
+            var header = root.querySelector("h1[id^='AddSubItem_']");
+
+            var listItems = [];
+            var rootKids = root.children;
+            var c;
+            for (c = 0; c < rootKids.length; c++) {
+                var kid = rootKids[c];
+                if (!kid) {
+                    continue;
+                }
+                var tag = (kid.tagName || "").toUpperCase();
+                if (tag === "LI" && (kid.id || "").indexOf("liaddItemhead") < 0) {
+                    listItems.push(kid);
+                }
+            }
+
+            var list = root.querySelector("ul[id^='Ul7_']");
+            if (!listItems.length && list) {
+                var liChildren = list.children;
+                for (c = 0; c < liChildren.length; c++) {
+                    if ((liChildren[c].tagName || "").toUpperCase() === "LI") {
+                        listItems.push(liChildren[c]);
+                    }
+                }
+            }
+
+            if (!listItems.length) {
+                continue;
+            }
+
+            var container = document.createElement("div");
+            container.className = "eprint-addsub-dropdown";
+
+            var select = document.createElement("select");
+            select.className = "eprint-addsub-select";
+            var defaultOpt = document.createElement("option");
+            defaultOpt.value = "";
+            defaultOpt.textContent = "Add Sub Item";
+            select.appendChild(defaultOpt);
+
+            var actions = [];
+            var activeGroup = "";
+
+            function getCleanText(node) {
+                return (node && node.textContent ? node.textContent : "").replace(/\s+/g, " ").trim();
+            }
+
+            function getOrCreateGroup(groupLabel, selectEl) {
+                var groups = selectEl.querySelectorAll("optgroup");
+                var g;
+                for (g = 0; g < groups.length; g++) {
+                    if (groups[g].label === groupLabel) {
+                        return groups[g];
+                    }
+                }
+                var optGroup = document.createElement("optgroup");
+                optGroup.label = groupLabel;
+                selectEl.appendChild(optGroup);
+                return optGroup;
+            }
+
+            var i;
+            for (i = 0; i < listItems.length; i++) {
+                var li = listItems[i];
+                var anchor = li.querySelector("a");
+                var itemText = getCleanText(anchor || li);
+                if (!itemText) {
+                    continue;
+                }
+                var isSub = (li.className || "").indexOf("lisubItems") >= 0;
+                var nextLi = (i + 1 < listItems.length) ? listItems[i + 1] : null;
+                var nextIsSub = !!(nextLi && (nextLi.className || "").indexOf("lisubItems") >= 0);
+                if (!isSub && nextIsSub) {
+                    activeGroup = itemText;
+                    continue;
+                }
+
+                var liOnClick = li.getAttribute("onclick") || "";
+                var onClickCode = anchor ? (anchor.getAttribute("onclick") || "") : "";
+                var hrefVal = anchor ? (anchor.getAttribute("href") || "") : "";
+                var canTrigger = !!liOnClick || !!onClickCode || (hrefVal && hrefVal !== "#");
+                if (!canTrigger) {
+                    if (!isSub) {
+                        activeGroup = itemText;
+                    }
+                    continue;
+                }
+
+                var actionIndex = actions.length;
+                actions.push({ li: li, anchor: anchor });
+                var option = document.createElement("option");
+                option.value = actionIndex.toString();
+                option.textContent = itemText;
+                if (isSub && activeGroup) {
+                    getOrCreateGroup(activeGroup, select).appendChild(option);
+                } else {
+                    select.appendChild(option);
+                }
+            }
+
+            function triggerSelectedAddSubItem() {
+                var idx = select.value;
+                if (idx === "" || isNaN(parseInt(idx, 10))) {
+                    return;
+                }
+                var action = actions[parseInt(idx, 10)];
+                if (!action) {
+                    return;
+                }
+                var liNode = action.li;
+                var a = action.anchor;
+
+                if (liNode && typeof liNode.onclick === "function") {
+                    liNode.onclick();
+                    return;
+                }
+
+                if (a && typeof a.onclick === "function") {
+                    a.onclick();
+                    return;
+                }
+
+                if (liNode) {
+                    if (window.jQuery) {
+                        window.jQuery(liNode).trigger("click");
+                    } else if (typeof liNode.click === "function") {
+                        liNode.click();
+                    }
+                } else if (a) {
+                    if (window.jQuery) {
+                        window.jQuery(a).trigger("click");
+                    } else if (typeof a.click === "function") {
+                        a.click();
+                    }
+                }
+
+                if (a && a.getAttribute("href") && a.getAttribute("href") !== "#" && a.getAttribute("href").indexOf("javascript:") !== 0) {
+                    window.location.href = a.getAttribute("href");
+                }
+            }
+
+            select.addEventListener("change", function () {
+                if (select.value !== "") {
+                    triggerSelectedAddSubItem();
+                    select.selectedIndex = 0;
+                }
+            });
+
+            container.appendChild(select);
+
+            if (actions.length > 0) {
+                if (header) {
+                    header.style.display = "none";
+                }
+                if (list) {
+                    list.style.display = "none";
+                    list.setAttribute("data-addsub-hidden", "1");
+                }
+                var legacyItems = root.querySelectorAll("li.Summary_PanelList, li.Summary_PanelList_main, li.lisubItems");
+                var li;
+                for (li = 0; li < legacyItems.length; li++) {
+                    legacyItems[li].style.display = "none";
+                }
+                if (header && header.nextSibling) {
+                    root.insertBefore(container, header.nextSibling);
+                } else {
+                    root.insertBefore(container, root.firstChild);
+                }
+                root.className = (root.className || "") + " eprint-addsub-dropdown-mode";
+                root.setAttribute("data-addsub-dropdown", "1");
+            }
+        }
+    }
+
+    window.initAddSubItemDropdown = initAddSubItemDropdown;
+    window.eprintRunAddSubItem = eprintRunAddSubItem;
+
 
     function getcookiesvalue() {
         debugger;
@@ -104,7 +295,7 @@
 
         if (hdnGetCookiesValue != null) {
             if (!window.location.href.toLowerCase().includes('proof_summary')) {
-                $('ul#estoreaccordion > li > ul').hide();
+                $('.eprint-estore-accordion > li > ul, ul#estoreaccordion > li > ul').hide();
             }
             //$('ul#estoreaccordion > li > ul').hide();
             $('#' + hdnGetCookiesValue.value).show();
@@ -137,40 +328,48 @@
 
 
 
-    $(document).ready(function () {
-        if (!window.location.href.toLowerCase().includes('proof_summary')) {
-            $('ul#estoreaccordion > li > ul').hide();
-        }
-        $('#Action').click(function () {
-            $(".one").toggle();
-            $("#Ul5").slideUp();
-        });
-        $('#AddSubItem').click(function () {
-            $(".three").toggle();
-            $("#ul7").slideUp();
-        });
-        $('#general').click(function () {
-            $(".four").toggle();
-            $("#Ul3").slideUp();
-        });
-
-        $('ul#estoreaccordion > li > h1').click(function () {
-            if ($(this).next().css('display') == 'none') {
-                $('ul#estoreaccordion > li > ul').slideUp();
-                $(this).next().slideDown();
+    if (!window._eprintEstoreAccordionQuicklinksInit) {
+        window._eprintEstoreAccordionQuicklinksInit = true;
+        $(document).ready(function () {
+            if (!window.location.href.toLowerCase().includes('proof_summary')) {
+                $('ul#estoreaccordion > li > ul').hide();
             }
-            else {
-                $(this).next().slideUp();
+
+            for (var i = 0; i < PrntEstItmIDs_List.length - 1; i++) {
+                if (!document.getElementById('eprintPerfectSummaryRoot')) {
+                    $("#Ul3_" + PrntEstItmIDs_List[i].toString()).slideDown();
+                }
+            }
+            getcookiesvalue();
+            initAddSubItemDropdown();
+
+            if (window.eprintPerfectSummary && window.eprintPerfectSummary.init) {
+                window.eprintPerfectSummary.init();
             }
         });
-
-        for (var i = 0; i < PrntEstItmIDs_List.length - 1; i++) {
-            $("#Ul3_" + PrntEstItmIDs_List[i].toString()).slideDown();
-        }
-        getcookiesvalue();
-    });
+    }
 </script>
 <script language="javascript" type="text/javascript">
+
+    function syncEstoreAccordionList(id, header) {
+        var ul = null;
+        var suffix = "";
+        if (header == 3) {
+            ul = document.getElementById("Ul7_" + id);
+            suffix = "3";
+        } else if (header == 4) {
+            ul = document.getElementById("Ul3_" + id);
+            suffix = "4";
+        } else if (header == 1) {
+            ul = document.getElementById("Ul5_" + id);
+            suffix = "1";
+        }
+        if (!ul) {
+            return;
+        }
+        var imgdown = document.getElementById("imgdown" + suffix + "_" + id);
+        ul.style.display = (imgdown && imgdown.style.display !== "none") ? "block" : "none";
+    }
 
     function rotatearrow(id, header) {
         var imgup;
@@ -241,6 +440,9 @@
                 imgdown.style.display = "none";
             }
         }
+        syncEstoreAccordionList(id, 1);
+        syncEstoreAccordionList(id, 3);
+        syncEstoreAccordionList(id, 4);
     }
     function proof_rotatearrow(id) {
         debugger;
@@ -297,15 +499,12 @@
                         <td>
                             <asp:Panel ID="pnlLeft" runat="server" Visible="true">
                                 <div id="div_WebstoreContent" style="overflow: hidden;" runat="server">
-                                    <div class="Summary_ItemDiv">
-                                        <ul class="accordion setting_accordiondiv" id="estoreaccordion">
+                                    <div class="Summary_ItemDiv eprint-item-actions-sidebar">
+                                        <ul class="accordion setting_accordiondiv eprint-item-actions-list" id="estoreaccordion">
                                             <li id="liChangeFile" class="summary_itemsalign HeaderText" visible="false" runat="server" style="margin-top: 0px; min-height: 22px;">
                                                 <a class="" href="#" style="color: Black; padding-left: 6px; vertical-align: sub; padding-top: 5px;">&nbsp;<%=objLanguage.GetLanguageConversion("Change_File")%></a>
                                             </li>
-                                            <li id="liReRun" class="summary_itemsalign HeaderText" runat="server" style="margin-top: 0px; min-height: 22px;">
-                                                <a class="" href="#" style="color: Black; padding-left: 6px; vertical-align: sub; padding-top: 5px;">&nbsp;<%=objLanguage.GetLanguageConversion("ReRun_Item")%></a>
-                                            </li>
-                                            <li id="RCM_Options" runat="server" class="summary_itemsalign">
+                                            <li id="RCM_Options" runat="server" class="summary_itemsalign" visible="false">
                                                 <asp:PlaceHolder ID="plhAction" runat="server"></asp:PlaceHolder>
                                                 <li id="liCopyItem" runat="server" class="Summary_PanelList"><a class="anchor_fontsize"
                                                     href="#" style="color: Black">&nbsp;<%=objLanguage.GetLanguageConversion("Copy_Item")%></a></li>
@@ -317,7 +516,7 @@
                                                     href="#" style="color: Black">&nbsp;<%=objLanguage.GetLanguageConversion("Revert_Item")%></a></li>
                                                 <asp:PlaceHolder ID="plhAction2" runat="server"></asp:PlaceHolder>
                                             </li>
-                                            <li id="liaddItemhead" runat="server" class="summary_itemsalign">
+                                            <li id="liaddItemhead" runat="server" class="summary_itemsalign eprint-addsub-slot">
                                                 <asp:PlaceHolder ID="plhSubItems" runat="server"></asp:PlaceHolder>
                                                 <li id="lisheefedDigital" runat="server" class="Summary_PanelList_main"><a class="anchor_fontsize"
                                                     href="#" style="color: Black; cursor: default;">&nbsp;<%=objLanguage.GetLanguageConversion("Sheet_Fed_Digital")%></a></li>
@@ -353,7 +552,10 @@
                                                     href="#" style="color: Black">&nbsp;<%=objLanguage.GetLanguageConversion("Inventory")%></a></li>
                                                 <asp:PlaceHolder ID="plhSubItems2" runat="server"></asp:PlaceHolder>
                                             </li>
-                                            <li id="liQl" runat="server" class="summary_itemsalign">
+                                            <li id="liReRun" class="summary_itemsalign eprint-sidebar-rerun" runat="server">
+                                                <a class="eprint-sidebar-action-link" href="#">&nbsp;<%=objLanguage.GetLanguageConversion("ReRun_Item")%></a>
+                                            </li>
+                                            <li id="liQl" runat="server" class="summary_itemsalign eprint-quicklinks-block">
                                                 <asp:PlaceHolder ID="QL" runat="server"></asp:PlaceHolder>
                                                 <asp:PlaceHolder ID="plhQL" runat="server"></asp:PlaceHolder>
                                                 <asp:PlaceHolder ID="QL2" runat="server"></asp:PlaceHolder>

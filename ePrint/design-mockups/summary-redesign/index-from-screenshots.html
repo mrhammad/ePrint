@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Summary mockups — based on your screenshots</title>
+  <style>
+    :root { --bg: #f1f5f9; --card: #fff; --text: #0f172a; --muted: #64748b; --line: #e2e8f0; --accent: #e67e22; }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: "Segoe UI", Tahoma, sans-serif; background: var(--bg); color: var(--text); }
+    .wrap { max-width: 920px; margin: 0 auto; padding: 28px 18px 40px; }
+    h1 { margin: 0 0 8px; font-size: 1.4rem; }
+    .lead { color: var(--muted); margin: 0 0 20px; line-height: 1.5; }
+    .map {
+      background: #fff7ed;
+      border: 1px solid #fed7aa;
+      border-radius: 10px;
+      padding: 14px 16px;
+      margin-bottom: 22px;
+      font-size: 0.88rem;
+    }
+    .map ul { margin: 8px 0 0; padding-left: 20px; }
+    .map li { margin: 4px 0; }
+    .grid { display: grid; gap: 14px; }
+    @media (min-width: 700px) { .grid { grid-template-columns: 1fr 1fr; } }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 16px;
+      box-shadow: 0 1px 3px rgba(15,23,42,.06);
+    }
+    .card h2 { margin: 0 0 8px; font-size: 1rem; }
+    .card p { margin: 0 0 12px; color: var(--muted); font-size: 0.86rem; min-height: 48px; }
+    .tag { font-size: 0.68rem; font-weight: 700; text-transform: uppercase; background: #dcfce7; color: #166534; padding: 3px 8px; border-radius: 4px; display: inline-block; margin-bottom: 8px; }
+    a.btn {
+      display: inline-block;
+      background: var(--accent);
+      color: #fff;
+      text-decoration: none;
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.85rem;
+    }
+    .links { margin-top: 24px; font-size: 0.85rem; }
+    .links a { color: #2563eb; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Summary redesign — from your live screens</h1>
+    <p class="lead">
+      These mockups are based on EST-0000936 screenshots you shared: gradient accordion header,
+      estimate information grid, quick links, options menu, status colours, line item pricing, and description rows.
+      <strong>Static HTML only — no app changes.</strong>
+    </p>
+
+    <div class="map">
+      <strong>What we mapped from your screenshots:</strong>
+      <ul>
+        <li><strong>Screen 1–3:</strong> Panel 1 header (Options, customer, number, status) + detail grid + quick links</li>
+        <li><strong>Screen 4:</strong> Expanded line item — item actions rail (Re-Run, Item Options, Add Sub Item, Quick Links, Item History), pricing, descriptions</li>
+        <li><strong>Screen 5:</strong> All-items totals breakdown</li>
+        <li><strong>Options menu:</strong> Print/Email, Add Main Item, Progress to Job, Attachments, Copy, Re-Run</li>
+      </ul>
+    </div>
+
+    <div class="grid">
+      <article class="card">
+        <span class="tag">Closest to today</span>
+        <h2>Variant G — Modern accordion</h2>
+        <p>Same accordion structure you use now, with cleaner layout and one expanded item example.</p>
+        <a class="btn" href="variant-g-modern-accordion.html">Open G</a>
+      </article>
+
+      <article class="card">
+        <span class="tag">Recommended next</span>
+        <h2>Variant H — Screen-accurate tabs</h2>
+        <p>Tabs for Overview, Customer info, Line items, Item detail, Attachments, Activity — each wired to real UI areas.</p>
+        <a class="btn" href="variant-h-screen-accurate-tabs.html">Open H</a>
+      </article>
+
+      <article class="card">
+        <span class="tag">Item-focused</span>
+        <h2>Variant I — Master / detail items</h2>
+        <p>Item list on the left; full pricing + descriptions on the right (your expanded item view).</p>
+        <a class="btn" href="variant-i-master-detail-items.html">Open I</a>
+      </article>
+
+      <article class="card">
+        <span class="tag">Your latest screenshot</span>
+        <h2>Variant J — Item actions sidebar</h2>
+        <p>Re-Run Item, Item Options, Add Sub Item, Quick Links, Item History — expandable rail per line item.</p>
+        <a class="btn" href="variant-j-item-actions-sidebar.html">Open J</a>
+      </article>
+    </div>
+
+    <p class="links">
+      Earlier concepts: <a href="index.html">Variant A / B / C</a> ·
+      <a href="index-more-concepts.html">Variant D / E / F</a>
+    </p>
+  </div>
+</body>
+</html>

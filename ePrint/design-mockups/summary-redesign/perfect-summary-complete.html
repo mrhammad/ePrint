@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Perfect Summary — Complete feature mockup (EST-0000936)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --orange: #e67e22;
+      --orange-dark: #c2410c;
+      --orange-soft: #fff7ed;
+      --navy: #0f172a;
+      --surface: #ffffff;
+      --bg: #f4f6fa;
+      --border: #e2e8f0;
+      --border-strong: #cbd5e1;
+      --text: #0f172a;
+      --muted: #64748b;
+      --label-bg: #f8fafc;
+      --success: #16a34a;
+      --danger: #dc2626;
+      --info: #2563eb;
+      --purple: #7c3aed;
+      --shadow: 0 1px 2px rgba(15, 23, 42, 0.06), 0 8px 24px rgba(15, 23, 42, 0.06);
+      --radius: 12px;
+      --radius-sm: 8px;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Inter, "Segoe UI", system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      font-size: 14px;
+      line-height: 1.45;
+    }
+    .preview-tag {
+      background: linear-gradient(90deg, #0f172a, #1e3a5f);
+      color: #94a3b8;
+      text-align: center;
+      padding: 10px 16px;
+      font-size: 0.8rem;
+    }
+    .preview-tag strong { color: #fbbf24; }
+    .page { max-width: 1400px; margin: 0 auto; padding: 20px; }
+
+    /* —— Document shell —— */
+    .doc {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    /* Sticky header */
+    .doc-head {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+    }
+    .head-main {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 18px 20px 14px;
+      background: linear-gradient(180deg, #fff 0%, #fafbfc 100%);
+    }
+    .head-left { display: flex; gap: 14px; align-items: flex-start; min-width: 280px; }
+    .doc-badge {
+      width: 48px; height: 48px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, var(--orange), var(--orange-dark));
+      color: #fff;
+      font-weight: 700;
+      font-size: 0.7rem;
+      display: flex; align-items: center; justify-content: center;
+      text-align: center; line-height: 1.1; flex-shrink: 0;
+      box-shadow: 0 4px 12px rgba(230, 126, 34, 0.35);
+    }
+    .head-left h1 { margin: 0; font-size: 1.35rem; font-weight: 700; letter-spacing: -0.02em; }
+    .head-left .sub { margin: 4px 0 0; color: var(--muted); font-size: 0.875rem; }
+    .head-left .sub b { color: var(--text); font-weight: 600; }
+
+    .kpis { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+    .kpi {
+      background: var(--label-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 8px 12px;
+      min-width: 100px;
+    }
+    .kpi .lbl { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--muted); font-weight: 600; }
+    .kpi .val { font-size: 1rem; font-weight: 700; margin-top: 2px; }
+    .kpi.highlight { background: var(--orange-soft); border-color: #fed7aa; }
+    .kpi.highlight .val { color: var(--orange-dark); }
+
+    .head-actions { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+    .dropdown { position: relative; }
+    .dropdown > button {
+      display: inline-flex; align-items: center; gap: 8px;
+      border: none; border-radius: var(--radius-sm);
+      padding: 10px 14px; font-weight: 600; font-size: 0.85rem;
+      cursor: pointer; font-family: inherit;
+      box-shadow: 0 1px 2px rgba(0,0,0,.08);
+    }
+    .btn-est-options { background: linear-gradient(180deg, #e74c3c, #c0392b); color: #fff; }
+    .btn-status { background: var(--purple); color: #fff; min-width: 160px; justify-content: space-between; }
+    .dropdown-menu {
+      display: none; position: absolute; right: 0; top: calc(100% + 6px);
+      min-width: 220px; background: #fff; border: 1px solid var(--border);
+      border-radius: var(--radius-sm); box-shadow: 0 12px 32px rgba(15,23,42,.15);
+      z-index: 30; padding: 6px 0; font-size: 0.85rem;
+    }
+    .dropdown.open .dropdown-menu { display: block; }
+    .dropdown-menu a, .dropdown-menu div {
+      display: block; padding: 9px 14px; color: var(--text); text-decoration: none;
+      cursor: pointer;
+    }
+    .dropdown-menu a:hover, .dropdown-menu div:hover { background: #f1f5f9; }
+    .dropdown-menu .disabled { color: #94a3b8; cursor: not-allowed; }
+    .dropdown-menu .sep { height: 1px; background: var(--border); margin: 4px 0; }
+    .status-menu { min-width: 240px; }
+    .status-menu .s-item { font-weight: 600; font-size: 0.8rem; }
+    .s-green { background: #22c55e !important; color: #fff !important; }
+    .s-red { background: #ef4444 !important; color: #fff !important; }
+    .s-blue { background: #3b82f6 !important; color: #fff !important; }
+    .s-amber { background: #f59e0b !important; color: #fff !important; }
+    .s-purple { background: #7c3aed !important; color: #fff !important; }
+
+    /* Tabs */
+    .doc-tabs {
+      display: flex; flex-wrap: wrap; gap: 4px;
+      padding: 0 16px;
+      background: #f8fafc;
+      border-bottom: 1px solid var(--border);
+      overflow-x: auto;
+    }
+    .doc-tabs button {
+      border: none; background: transparent;
+      padding: 12px 16px; font-size: 0.85rem; font-weight: 600;
+      color: var(--muted); cursor: pointer; font-family: inherit;
+      border-bottom: 3px solid transparent; margin-bottom: -1px;
+      white-space: nowrap;
+    }
+    .doc-tabs button:hover { color: var(--text); }
+    .doc-tabs button.active {
+      color: var(--orange-dark);
+      border-bottom-color: var(--orange);
+      background: #fff;
+    }
+    .doc-tabs button .count {
+      background: var(--border); color: var(--muted);
+      font-size: 0.7rem; padding: 2px 6px; border-radius: 999px; margin-left: 6px;
+    }
+    .doc-tabs button.active .count { background: var(--orange-soft); color: var(--orange-dark); }
+
+    .panel { display: none; padding: 18px 20px 24px; min-height: 480px; }
+    .panel.active { display: block; }
+
+    /* Overview */
+    .overview-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    @media (max-width: 900px) { .overview-grid { grid-template-columns: 1fr; } }
+    .card-block {
+      border: 1px solid var(--border); border-radius: var(--radius-sm);
+      overflow: hidden; background: #fff;
+    }
+    .card-block .cb-hd {
+      padding: 10px 14px; font-weight: 700; font-size: 0.8rem;
+      background: var(--label-bg); border-bottom: 1px solid var(--border);
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .card-block .cb-bd { padding: 12px 14px; font-size: 0.85rem; }
+    .ql-row { display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px dashed var(--border); }
+    .ql-row:last-child { border-bottom: none; }
+    .ql-row a { color: var(--info); font-weight: 500; text-decoration: none; }
+
+    /* Customer grid */
+    .customer-layout { display: grid; grid-template-columns: 220px 1fr; gap: 16px; }
+    @media (max-width: 800px) { .customer-layout { grid-template-columns: 1fr; } }
+    .field-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      border: 1px solid var(--border); border-radius: var(--radius-sm); overflow: hidden;
+    }
+    .field { display: grid; grid-template-columns: 140px 1fr; border-bottom: 1px solid var(--border); font-size: 0.8rem; }
+    .field:nth-child(odd) { border-right: 1px solid var(--border); }
+    .field .fl { background: var(--label-bg); padding: 8px 10px; font-weight: 600; color: #475569; }
+    .field .fv { padding: 8px 10px; }
+    .field.span-2 { grid-column: 1 / -1; border-right: none; }
+
+    /* Line items — master detail */
+    .items-workspace {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 0;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      min-height: 520px;
+    }
+    .item-list { background: #f8fafc; border-right: 1px solid var(--border); }
+    .item-list-hd {
+      padding: 12px 14px; font-weight: 700; font-size: 0.8rem;
+      border-bottom: 1px solid var(--border); background: #fff;
+    }
+    .item-pick {
+      padding: 12px 14px; border-bottom: 1px solid var(--border);
+      cursor: pointer; background: #fff; transition: background .15s;
+    }
+    .item-pick:hover { background: #f1f5f9; }
+    .item-pick.active {
+      background: var(--orange-soft);
+      border-left: 4px solid var(--orange);
+      padding-left: 10px;
+    }
+    .item-pick .code { font-weight: 700; font-size: 0.82rem; color: var(--orange-dark); }
+    .item-pick .desc { font-size: 0.78rem; color: var(--muted); margin: 4px 0; }
+    .item-pick .meta { font-size: 0.78rem; display: flex; justify-content: space-between; font-weight: 600; }
+    .item-totals-pick {
+      padding: 12px 14px; background: linear-gradient(90deg, #fff7ed, #ffedd5);
+      font-weight: 700; font-size: 0.82rem; cursor: pointer;
+      border-top: 2px solid var(--orange);
+    }
+
+    .item-detail { display: flex; flex-direction: column; background: #fff; }
+    .item-detail-hd {
+      padding: 12px 16px; border-bottom: 1px solid var(--border);
+      display: flex; justify-content: space-between; align-items: center;
+      background: linear-gradient(90deg, #fff7ed 0%, #fff 40%);
+    }
+    .item-detail-hd h2 { margin: 0; font-size: 0.95rem; }
+    .item-detail-body {
+      display: grid;
+      grid-template-columns: 200px 300px 1fr;
+      flex: 1; min-height: 400px;
+    }
+    @media (max-width: 1100px) {
+      .items-workspace { grid-template-columns: 1fr; }
+      .item-detail-body { grid-template-columns: 1fr; }
+    }
+
+    /* Item actions rail — modernized */
+    .item-rail {
+      background: #f1f5f9;
+      border-right: 1px solid var(--border);
+      padding: 8px 0;
+      font-size: 0.8rem;
+    }
+    .item-rail ul { list-style: none; margin: 0; padding: 0; }
+    .rail-link {
+      display: block; padding: 10px 14px; font-weight: 600; color: var(--text);
+      text-decoration: none; cursor: pointer; border-bottom: 1px solid var(--border);
+    }
+    .rail-link:hover { background: #e2e8f0; }
+    .rail-acc-hd {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 10px 14px; font-weight: 700; cursor: pointer;
+      border-bottom: 1px solid var(--border); user-select: none;
+    }
+    .rail-acc-hd:hover { background: #e2e8f0; }
+    .rail-acc-bd { display: none; padding: 4px 0 8px; background: #fff; border-bottom: 1px solid var(--border); }
+    .rail-acc-bd.open { display: block; }
+    .rail-acc-bd a {
+      display: block; padding: 7px 14px 7px 22px; color: #334155;
+      text-decoration: none; font-weight: 500; font-size: 0.78rem;
+    }
+    .rail-acc-bd a:hover { background: var(--orange-soft); color: var(--orange-dark); }
+    .rail-acc-bd .grp {
+      padding: 8px 14px 4px 18px; font-size: 0.68rem; text-transform: uppercase;
+      color: var(--muted); font-weight: 700; letter-spacing: 0.04em;
+    }
+
+    .pricing-panel {
+      border-right: 1px solid var(--border);
+      padding: 12px; font-size: 0.8rem; overflow-y: auto;
+    }
+    .pricing-panel h3 { margin: 0 0 10px; font-size: 0.85rem; }
+    .attach-row {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 8px 10px; background: var(--label-bg); border-radius: var(--radius-sm);
+      margin-bottom: 10px; font-weight: 600;
+    }
+    .attach-row button {
+      width: 28px; height: 28px; border-radius: 6px; border: 1px solid var(--border);
+      background: #fff; font-size: 1.1rem; cursor: pointer; color: var(--orange);
+    }
+    .pr { display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px dashed var(--border); }
+    .pr.link span:last-child { color: var(--info); font-weight: 600; cursor: pointer; }
+    .pr.total { font-weight: 700; font-size: 0.95rem; color: var(--danger); border-bottom: none; margin-top: 6px; }
+    .pr.profit { color: var(--success); font-weight: 600; }
+
+    .desc-panel { padding: 10px; overflow: auto; }
+    .desc-table { width: 100%; border-collapse: collapse; font-size: 0.76rem; }
+    .desc-table th {
+      text-align: left; background: var(--label-bg); padding: 6px 8px;
+      border: 1px solid var(--border); width: 110px; font-weight: 600;
+    }
+    .desc-table td { border: 1px solid var(--border); padding: 4px 6px; vertical-align: top; }
+    .desc-table input, .desc-table textarea {
+      width: 100%; border: 1px solid var(--border); border-radius: 4px;
+      padding: 4px 6px; font-family: inherit; font-size: 0.76rem;
+    }
+    .desc-table textarea { min-height: 36px; resize: vertical; }
+
+    /* Totals panel view */
+    .totals-view { padding: 20px; max-width: 480px; margin: 0 auto; }
+    .totals-view h3 { margin: 0 0 14px; }
+    .totals-view .pr { font-size: 0.9rem; }
+
+    /* Attachments & Activity */
+    .two-col-panels { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    @media (max-width: 768px) { .two-col-panels { grid-template-columns: 1fr; } }
+    .file-card {
+      display: flex; align-items: center; gap: 12px;
+      padding: 12px; border: 1px solid var(--border); border-radius: var(--radius-sm);
+      margin-bottom: 8px; background: #fff;
+    }
+    .file-icon {
+      width: 40px; height: 40px; border-radius: 8px;
+      background: var(--orange-soft); color: var(--orange-dark);
+      display: flex; align-items: center; justify-content: center; font-weight: 700;
+    }
+    .timeline { border-left: 2px solid var(--border); margin-left: 8px; padding-left: 16px; }
+    .timeline-item { margin-bottom: 14px; position: relative; }
+    .timeline-item::before {
+      content: ""; position: absolute; left: -21px; top: 4px;
+      width: 10px; height: 10px; border-radius: 50%;
+      background: var(--orange); border: 2px solid #fff;
+    }
+    .timeline-item .time { font-size: 0.75rem; color: var(--muted); }
+    .timeline-item strong { display: block; font-size: 0.85rem; }
+
+    /* Sticky footer totals */
+    .doc-foot {
+      position: sticky; bottom: 0;
+      background: linear-gradient(90deg, #fff7ed, #fff);
+      border-top: 2px solid var(--orange);
+      padding: 12px 20px;
+      display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center;
+      gap: 12px; font-weight: 600; font-size: 0.9rem;
+      box-shadow: 0 -4px 16px rgba(15,23,42,.06);
+    }
+
+    /* Feature checklist */
+    .checklist {
+      margin-top: 20px;
+      background: #ecfdf5;
+      border: 1px solid #86efac;
+      border-radius: var(--radius-sm);
+      padding: 14px 18px;
+      font-size: 0.8rem;
+    }
+    .checklist h3 { margin: 0 0 10px; font-size: 0.9rem; color: #166534; }
+    .checklist ul {
+      margin: 0; padding: 0; list-style: none;
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 6px 16px;
+    }
+    .checklist li::before { content: "✓ "; color: var(--success); font-weight: 700; }
+
+    .hidden { display: none !important; }
+  </style>
+</head>
+<body>
+  <div class="preview-tag">
+    <strong>Perfect summary mockup</strong> — Static HTML only · All features from your live EST-0000936 screens · Click tabs, items, menus &amp; rail sections
+  </div>
+
+  <div class="page">
+    <div class="doc">
+      <header class="doc-head">
+        <div class="head-main">
+          <div class="head-left">
+            <div class="doc-badge">EST</div>
+            <div>
+              <h1>EST-0000936</h1>
+              <p class="sub">Customer: <b>Test Company by Ham</b> · rsfsdfsd · Sheet Fed Digital</p>
+            </div>
+          </div>
+          <div class="kpis">
+            <div class="kpi highlight"><span class="lbl">Sub total (ex)</span><span class="val">$67.53</span></div>
+            <div class="kpi"><span class="lbl">Inc. tax</span><span class="val">$74.28</span></div>
+            <div class="kpi"><span class="lbl">Gross profit</span><span class="val">79.48%</span></div>
+            <div class="kpi"><span class="lbl">Items</span><span class="val">1</span></div>
+          </div>
+          <div class="head-actions">
+            <div class="dropdown" id="ddOptions">
+              <button type="button" class="btn-est-options">Estimate Options ▾</button>
+              <div class="dropdown-menu">
+                <a href="#">Print / Email</a>
+                <a href="#">Add Main Item</a>
+                <div class="disabled">Progress to Job</div>
+                <div class="disabled">Attachments (estimate)</div>
+                <a href="#">Copy Estimate</a>
+                <div class="disabled">Re-Run Customer Details</div>
+              </div>
+            </div>
+            <div class="dropdown" id="ddStatus">
+              <button type="button" class="btn-status"><span id="statusLabel">New Estimate</span> ▾</button>
+              <div class="dropdown-menu status-menu">
+                <div class="s-item s-green">ESTIMATE WON</div>
+                <div class="s-item s-green">Archive - Updated</div>
+                <div class="s-item s-red">Blocked</div>
+                <div class="s-item s-blue">Post Press</div>
+                <div class="s-item s-blue">Pre Press</div>
+                <div class="s-item s-amber">Task with Client</div>
+                <div class="sep"></div>
+                <div class="s-item s-purple">New Estimate</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <nav class="doc-tabs" aria-label="Summary sections">
+          <button type="button" class="tab active" data-tab="overview">Overview</button>
+          <button type="button" class="tab" data-tab="customer">Customer &amp; estimate info</button>
+          <button type="button" class="tab" data-tab="items">Line items <span class="count">1</span></button>
+          <button type="button" class="tab" data-tab="attachments">Attachments</button>
+          <button type="button" class="tab" data-tab="activity">Activity &amp; history</button>
+          <button type="button" class="tab" data-tab="notes">Notes</button>
+        </nav>
+      </header>
+
+      <!-- OVERVIEW -->
+      <section class="panel active" id="overview">
+        <div class="overview-grid">
+          <div class="card-block">
+            <div class="cb-hd">Document quick links <a href="#" style="font-size:0.75rem;color:var(--info)">View all in Customer tab</a></div>
+            <div class="cb-bd">
+              <div class="ql-row"><span>Job</span><a href="#">Direct Invoice</a></div>
+              <div class="ql-row"><span>Invoice</span><span style="color:var(--muted)">—</span></div>
+              <div class="ql-row"><span>Delivery Note</span><span style="color:var(--muted)">—</span></div>
+              <div class="ql-row"><span>Purchase Order</span><span style="color:var(--muted)">—</span></div>
+              <div class="ql-row"><span>Product Catalogue</span><a href="#">rsfsdfsd · Create</a></div>
+              <div class="ql-row"><span>History</span><a href="#">View History</a></div>
+            </div>
+          </div>
+          <div class="card-block">
+            <div class="cb-hd">Status &amp; key dates</div>
+            <div class="cb-bd">
+              <p><strong>Status:</strong> <span style="color:var(--purple)">New Estimate</span></p>
+              <p><strong>Estimate date:</strong> 28/05/2026 · <strong>Valid:</strong> 30 days</p>
+              <p><strong>Estimated delivery:</strong> 11/06/2026</p>
+              <p style="margin-top:10px;font-style:italic;color:var(--muted);font-size:0.82rem">Further to your recent enquiry, I have pleasure in submitting our estimate…</p>
+            </div>
+          </div>
+        </div>
+        <p style="margin-top:16px;font-size:0.85rem;color:var(--muted)">Open <strong>Line items</strong> for full item rail, pricing, descriptions &amp; sub-item actions.</p>
+      </section>
+
+      <!-- CUSTOMER -->
+      <section class="panel" id="customer">
+        <div class="customer-layout">
+          <div class="card-block">
+            <div class="cb-hd">Quick links</div>
+            <div class="cb-bd">
+              <div class="ql-row"><span>Job</span><a href="#">Direct Invoice</a></div>
+              <div class="ql-row"><span>Invoice</span><span>—</span></div>
+              <div class="ql-row"><span>Delivery Note</span><span>—</span></div>
+              <div class="ql-row"><span>Purchase Order</span><span>—</span></div>
+              <div class="ql-row"><span>Product Catalogue</span><a href="#">Create</a></div>
+              <div class="ql-row"><span>View History</span><a href="#">Open</a></div>
+            </div>
+          </div>
+          <div class="field-grid">
+            <div class="field"><div class="fl">Company</div><div class="fv">Test Company by Ham</div></div>
+            <div class="field"><div class="fl">Estimate Title</div><div class="fv">rsfsdfsd</div></div>
+            <div class="field"><div class="fl">Contact</div><div class="fv">Ham N</div></div>
+            <div class="field"><div class="fl">Estimate Number</div><div class="fv">EST-0000936</div></div>
+            <div class="field"><div class="fl">Department</div><div class="fv">Main</div></div>
+            <div class="field"><div class="fl">Account Status</div><div class="fv"></div></div>
+            <div class="field"><div class="fl">Contact Email</div><div class="fv">ham@hexicomsoftware.com</div></div>
+            <div class="field"><div class="fl">Estimate Date</div><div class="fv">28/05/2026</div></div>
+            <div class="field"><div class="fl">Contact Phone</div><div class="fv">0333333333</div></div>
+            <div class="field"><div class="fl">Estimated Proof</div><div class="fv">11/06/2026</div></div>
+            <div class="field"><div class="fl">Greeting</div><div class="fv">Dear Ham</div></div>
+            <div class="field"><div class="fl">Estimated Delivery</div><div class="fv">11/06/2026</div></div>
+            <div class="field"><div class="fl">Sales Person</div><div class="fv">n/a</div></div>
+            <div class="field"><div class="fl">Valid for</div><div class="fv">30 day(s)</div></div>
+            <div class="field span-2"><div class="fl">Delivery Address</div><div class="fv"></div></div>
+            <div class="field span-2"><div class="fl">Invoice Address</div><div class="fv"></div></div>
+            <div class="field span-2"><div class="fl">Header</div><div class="fv">Further to your recent enquiry, I have pleasure in submitting our estimate to meet your requirements as follows.</div></div>
+            <div class="field span-2"><div class="fl">Footer</div><div class="fv"></div></div>
+            <div class="field span-2"><div class="fl">Comments</div><div class="fv"></div></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- LINE ITEMS -->
+      <section class="panel" id="items">
+        <div class="items-workspace">
+          <div class="item-list">
+            <div class="item-list-hd">Line items</div>
+            <div class="item-pick active" data-view="item">
+              <div class="code">EST-0000936-001</div>
+              <div class="desc">rsfsdfsd (Sheet Fed Digital: Single)</div>
+              <div class="meta"><span>Qty 100</span><span>$67.53</span></div>
+            </div>
+            <div class="item-totals-pick" data-view="totals">All items details · $67.53 ex tax</div>
+          </div>
+
+          <div class="item-detail" id="viewItem">
+            <div class="item-detail-hd">
+              <h2>EST-0000936-001 — rsfsdfsd</h2>
+              <span style="font-size:0.8rem;color:var(--muted)">Qty 100 · Sub $67.53</span>
+            </div>
+            <div class="item-detail-body">
+              <nav class="item-rail" aria-label="Item actions">
+                <ul>
+                  <li><a class="rail-link" href="#">Re-Run Item</a></li>
+                  <li>
+                    <div class="rail-acc-hd open" data-rail="opts">Item Options <span>▲</span></div>
+                    <div class="rail-acc-bd open" id="opts">
+                      <a href="#">Copy Item</a>
+                      <a href="#">Delete Item</a>
+                      <a href="#">Edit Job Card</a>
+                      <a href="#">Revert Item</a>
+                    </div>
+                  </li>
+                  <li>
+                    <div class="rail-acc-hd open" data-rail="sub">Add Sub Item <span>▲</span></div>
+                    <div class="rail-acc-bd open" id="sub">
+                      <div class="grp">Sheet Fed Digital</div>
+                      <a href="#">Single Item</a>
+                      <a href="#">Pads</a>
+                      <div class="grp">Sheet Fed Offset</div>
+                      <a href="#">Single Item</a>
+                      <a href="#">Pads</a>
+                      <a href="#">Outwork</a>
+                      <a href="#">Product Catalogue</a>
+                      <a href="#">Other Cost</a>
+                      <a href="#">Delivery Cost</a>
+                      <div class="grp">Large Format</div>
+                      <a href="#">Linear</a>
+                      <a href="#">Sq Meter</a>
+                      <a href="#">Inventory</a>
+                    </div>
+                  </li>
+                  <li>
+                    <div class="rail-acc-hd open" data-rail="ql">Quick Links <span>▲</span></div>
+                    <div class="rail-acc-bd open" id="ql">
+                      <a href="#">Create Job</a>
+                      <a href="#">Create Invoice</a>
+                      <a href="#">Delivery Note</a>
+                      <a href="#">Purchase Order</a>
+                      <a href="#">Proofs</a>
+                    </div>
+                  </li>
+                  <li><a class="rail-link" href="#">Item History</a></li>
+                </ul>
+              </nav>
+              <section class="pricing-panel">
+                <div class="attach-row">
+                  <span>Artwork file(s) · 0</span>
+                  <button type="button" title="Add attachment">+</button>
+                </div>
+                <h3>Pricing</h3>
+                <div class="pr"><span>Finished quantity</span><span>100</span></div>
+                <div class="pr link"><span>Paper / Stock</span><span>$29.64</span></div>
+                <div class="pr link"><span>Press</span><span>$15.38</span></div>
+                <div class="pr"><span>Cost (ex markup)</span><span>$13.86</span></div>
+                <div class="pr"><span>Markup %</span><span>50.00</span></div>
+                <div class="pr"><span>Markup $</span><span>$22.51</span></div>
+                <div class="pr"><span>Sub total</span><span>$67.53 🔒</span></div>
+                <div class="pr"><span>Tax (GST)</span><span>$6.75</span></div>
+                <div class="pr total"><span>Selling (inc tax)</span><span>$74.28</span></div>
+                <div class="pr profit"><span>Gross profit</span><span>$53.67 · 79.48%</span></div>
+              </section>
+              <section class="desc-panel">
+                <table class="desc-table">
+                  <tr><th>Item Title</th><td><input type="text" value="rsfsdfsd" /></td><td>☑</td></tr>
+                  <tr><th>Colour</th><td><input type="text" value="CMYK full colour process" /></td><td>☑</td></tr>
+                  <tr><th>Description</th><td><textarea></textarea></td><td>☐</td></tr>
+                  <tr><th>Artwork</th><td><textarea></textarea></td><td>☐</td></tr>
+                  <tr><th>Size</th><td><textarea></textarea></td><td>☐</td></tr>
+                  <tr><th>Stock</th><td><textarea></textarea></td><td>☐</td></tr>
+                  <tr><th>Delivery</th><td><textarea></textarea></td><td>☐</td></tr>
+                  <tr><th>Finishing</th><td><textarea></textarea></td><td>☐</td></tr>
+                  <tr><th>Proofs</th><td><textarea></textarea></td><td>☐</td></tr>
+                  <tr><th>Terms</th><td><textarea></textarea></td><td>☐</td></tr>
+                </table>
+              </section>
+            </div>
+          </div>
+
+          <div class="item-detail hidden" id="viewTotals">
+            <div class="item-detail-hd"><h2>All items details</h2></div>
+            <div class="totals-view">
+              <h3>Quantity 1</h3>
+              <div class="pr"><span>Cost price ex. markup</span><span>$13.86</span></div>
+              <div class="pr"><span>Selling price (ex tax)</span><span>$67.53</span></div>
+              <div class="pr"><span>Tax</span><span>$6.75</span></div>
+              <div class="pr total"><span>Selling price (inc tax)</span><span>$74.28</span></div>
+              <div class="pr profit"><span>Gross profit</span><span>$53.67 (79.48%)</span></div>
+              <div class="pr"><span>Comments</span><span></span></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ATTACHMENTS -->
+      <section class="panel" id="attachments">
+        <div class="two-col-panels">
+          <div class="card-block">
+            <div class="cb-hd">Estimate-level</div>
+            <div class="cb-bd">
+              <p style="color:var(--muted);font-size:0.85rem;margin:0 0 10px">Via Estimate Options → Attachments (when enabled)</p>
+              <button type="button" style="padding:8px 14px;border-radius:8px;border:1px solid var(--border);background:#fff;font-weight:600;cursor:pointer">+ Add attachment</button>
+            </div>
+          </div>
+          <div class="card-block">
+            <div class="cb-hd">Line item — EST-0000936-001</div>
+            <div class="cb-bd">
+              <div class="file-card">
+                <div class="file-icon">ART</div>
+                <div>
+                  <strong>Artwork file(s)</strong>
+                  <div style="font-size:0.8rem;color:var(--muted)">0 files · add from item pricing panel</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ACTIVITY -->
+      <section class="panel" id="activity">
+        <div class="two-col-panels">
+          <div class="card-block">
+            <div class="cb-hd">Estimate history</div>
+            <div class="cb-bd">
+              <div class="timeline">
+                <div class="timeline-item">
+                  <span class="time">Today 10:12</span>
+                  <strong>Status updated</strong>
+                  New Estimate
+                </div>
+                <div class="timeline-item">
+                  <span class="time">Today 09:58</span>
+                  <strong>View History</strong>
+                  Customer estimate timeline
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card-block">
+            <div class="cb-hd">Item history — 001</div>
+            <div class="cb-bd">
+              <div class="timeline">
+                <div class="timeline-item">
+                  <span class="time">Yesterday</span>
+                  <strong>Item created</strong>
+                  Sheet Fed Digital: Single
+                </div>
+              </div>
+              <a href="#" style="color:var(--info);font-weight:600;font-size:0.85rem">Open Item History</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- NOTES -->
+      <section class="panel" id="notes">
+        <div class="card-block">
+          <div class="cb-hd">Activity / notes (UCActivityHistory area)</div>
+          <div class="cb-bd">
+            <textarea style="width:100%;min-height:120px;border:1px solid var(--border);border-radius:8px;padding:10px;font-family:inherit" placeholder="Add note…"></textarea>
+            <p style="font-size:0.8rem;color:var(--muted);margin:8px 0 0">Matches notes control at top of summary today — kept as dedicated tab in this design.</p>
+          </div>
+        </div>
+      </section>
+
+      <footer class="doc-foot">
+        <span>All items (ex. tax): <strong style="color:var(--orange-dark)">$67.53</strong></span>
+        <span>Inc. tax: <strong>$74.28</strong></span>
+        <span>Gross profit: <strong style="color:var(--success)">79.48%</strong></span>
+        <button type="button" style="padding:8px 16px;background:var(--orange);color:#fff;border:none;border-radius:8px;font-weight:700;cursor:pointer">Progress to Job</button>
+      </footer>
+    </div>
+
+    <div class="checklist">
+      <h3>Complete feature checklist (nothing removed)</h3>
+      <ul>
+        <li>Estimate Options menu</li>
+        <li>Colour status dropdown</li>
+        <li>Customer &amp; estimate info grid</li>
+        <li>Document quick links</li>
+        <li>Line item list + expand</li>
+        <li>Re-Run Item</li>
+        <li>Item Options (copy, delete, job card…)</li>
+        <li>Add Sub Item (all product types)</li>
+        <li>Item Quick Links</li>
+        <li>Item History</li>
+        <li>Pricing + Paper/Press links</li>
+        <li>Artwork attachments</li>
+        <li>Customer description rows</li>
+        <li>All-items totals breakdown</li>
+        <li>Attachments tab</li>
+        <li>Activity / history tab</li>
+        <li>Notes</li>
+      </ul>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      document.querySelectorAll('.tab').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          document.querySelectorAll('.tab').forEach(function (b) { b.classList.remove('active'); });
+          document.querySelectorAll('.panel').forEach(function (p) { p.classList.remove('active'); });
+          btn.classList.add('active');
+          document.getElementById(btn.getAttribute('data-tab')).classList.add('active');
+        });
+      });
+
+      ['ddOptions', 'ddStatus'].forEach(function (id) {
+        var dd = document.getElementById(id);
+        dd.querySelector('button').addEventListener('click', function (e) {
+          e.stopPropagation();
+          var open = dd.classList.toggle('open');
+          document.querySelectorAll('.dropdown').forEach(function (d) {
+            if (d !== dd) d.classList.remove('open');
+          });
+          if (!open) dd.classList.remove('open');
+        });
+        dd.querySelectorAll('.dropdown-menu .s-item').forEach(function (el) {
+          el.addEventListener('click', function () {
+            document.getElementById('statusLabel').textContent = el.textContent.trim();
+            dd.classList.remove('open');
+          });
+        });
+      });
+      document.addEventListener('click', function () {
+        document.querySelectorAll('.dropdown').forEach(function (d) { d.classList.remove('open'); });
+      });
+
+      document.querySelectorAll('.item-pick, .item-totals-pick').forEach(function (el) {
+        el.addEventListener('click', function () {
+          document.querySelectorAll('.item-pick').forEach(function (p) { p.classList.remove('active'); });
+          if (el.classList.contains('item-pick')) el.classList.add('active');
+          var totals = el.getAttribute('data-view') === 'totals';
+          document.getElementById('viewItem').classList.toggle('hidden', totals);
+          document.getElementById('viewTotals').classList.toggle('hidden', !totals);
+        });
+      });
+
+      document.querySelectorAll('.rail-acc-hd').forEach(function (hd) {
+        hd.addEventListener('click', function () {
+          var id = hd.getAttribute('data-rail');
+          var bd = document.getElementById(id);
+          var open = bd.classList.toggle('open');
+          hd.classList.toggle('open', open);
+          hd.querySelector('span').textContent = open ? '▲' : '▼';
+        });
+      });
+    })();
+  </script>
+</body>
+</html>

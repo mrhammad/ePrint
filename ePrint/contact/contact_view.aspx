@@ -1,4 +1,4 @@
-﻿<%@ page title="" language="C#" masterpagefile="~/Templates/innerMasterPage_withLeftTD.master" autoeventwireup="true" CodeBehind="contact_view.aspx.cs" Inherits="ePrint.contact.contact_view" enableviewstatemac="false" enableEventValidation="false" theme="Theme1" %>
+﻿<%@ page title="" language="C#" masterpagefile="~/Templates/innerMasterPage_withoutLeftTD.master" autoeventwireup="true" CodeBehind="contact_view.aspx.cs" Inherits="ePrint.contact.contact_view" enableviewstatemac="false" enableEventValidation="false" theme="Theme1" %>
 
 <%@ Register TagPrefix="telerik" Namespace="Telerik.Web.UI" Assembly="Telerik.Web.UI" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
@@ -372,6 +372,4 @@
             RadWindowHistory.center();
         }
     </script>
-</asp:Content>
-<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder2" runat="Server">
 </asp:Content>

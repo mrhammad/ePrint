@@ -1,0 +1,306 @@
+/* Estimate / Job / Order / Invoice summary — Variant A (CRM-style tabs) */
+.eprint-doc-summary {
+  --doc-accent: #e67e22;
+  --doc-accent-dark: #c0392b;
+  --doc-nav-bg: #f8fafc;
+  --doc-border: #e2e8f0;
+  --doc-text: #1e293b;
+  --doc-muted: #64748b;
+  --doc-surface: #ffffff;
+  --doc-radius: 8px;
+  --doc-shadow: 0 1px 3px rgba(15, 23, 42, 0.08), 0 4px 12px rgba(15, 23, 42, 0.04);
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  color: var(--doc-text);
+  background: var(--doc-surface);
+  border: 1px solid var(--doc-border);
+  border-radius: var(--doc-radius);
+  box-shadow: var(--doc-shadow);
+  overflow: hidden;
+  width: 100%;
+  margin-top: 8px;
+}
+
+.eprint-doc-summary .eprint-doc-header {
+  border-bottom: 1px solid var(--doc-border);
+  background: linear-gradient(180deg, #fff 0%, #f8fafc 100%);
+  padding: 12px 16px;
+}
+
+.eprint-doc-summary .eprint-doc-header-top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.eprint-doc-summary .eprint-doc-title-block h1.eprint-doc-title {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--doc-text);
+  display: inline;
+}
+
+.eprint-doc-summary .eprint-doc-badge {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  background: #fff7ed;
+  color: var(--doc-accent-dark);
+  border: 1px solid #fed7aa;
+  margin-right: 8px;
+  vertical-align: middle;
+}
+
+.eprint-doc-summary .eprint-doc-subtitle {
+  margin: 6px 0 0;
+  font-size: 0.875rem;
+  color: var(--doc-muted);
+}
+
+.eprint-doc-summary .eprint-doc-subtitle strong {
+  color: var(--doc-text);
+  font-weight: 600;
+}
+
+.eprint-doc-summary .eprint-doc-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.eprint-doc-summary .eprint-doc-toolbar #spnOptions,
+.eprint-doc-summary .eprint-doc-toolbar #spnStatus {
+  display: inline-block;
+}
+
+.eprint-doc-summary .eprint-doc-toolbar .btnstyle {
+  border-radius: 6px !important;
+  border: 1px solid var(--doc-border) !important;
+  background: #fff !important;
+  min-height: 32px;
+}
+
+.eprint-doc-summary .eprint-doc-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  border-bottom: 1px solid var(--doc-border);
+  background: var(--doc-nav-bg);
+  padding: 0 8px;
+}
+
+.eprint-doc-summary .eprint-doc-nav button {
+  border: none;
+  background: transparent;
+  padding: 10px 14px;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--doc-muted);
+  cursor: pointer;
+  border-bottom: 3px solid transparent;
+  margin-bottom: -1px;
+}
+
+.eprint-doc-summary .eprint-doc-nav button:hover {
+  color: var(--doc-text);
+  background: #fff7ed;
+}
+
+.eprint-doc-summary .eprint-doc-nav button.active {
+  color: var(--doc-accent-dark);
+  border-bottom-color: var(--doc-accent);
+  background: #fff;
+}
+
+.eprint-doc-summary .eprint-doc-nav .code {
+  display: inline-block;
+  font-size: 0.65rem;
+  font-weight: 700;
+  opacity: 0.7;
+  margin-right: 4px;
+}
+
+.eprint-doc-summary .eprint-doc-hero {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 16px;
+  background: #0f4c81;
+  color: #fff;
+}
+
+.eprint-doc-summary .eprint-doc-hero h2 {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.eprint-doc-summary .eprint-doc-hero p {
+  margin: 4px 0 0;
+  font-size: 0.8rem;
+  opacity: 0.9;
+}
+
+.eprint-doc-summary .eprint-doc-hero .meta {
+  text-align: right;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  opacity: 0.85;
+}
+
+.eprint-doc-summary .eprint-doc-panel {
+  display: none;
+}
+
+.eprint-doc-summary .eprint-doc-panel.active {
+  display: block;
+}
+
+.eprint-doc-summary .eprint-doc-panel-inner {
+  padding: 16px;
+}
+
+.eprint-doc-summary .eprint-doc-kpi-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.eprint-doc-summary .eprint-doc-kpi {
+  border: 1px solid var(--doc-border);
+  border-radius: var(--doc-radius);
+  padding: 12px 14px;
+  background: var(--doc-nav-bg);
+}
+
+.eprint-doc-summary .eprint-doc-kpi label {
+  display: block;
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--doc-muted);
+  margin-bottom: 4px;
+}
+
+.eprint-doc-summary .eprint-doc-kpi .val {
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.eprint-doc-summary .eprint-doc-overview-hint {
+  font-size: 0.875rem;
+  color: var(--doc-muted);
+  margin: 0 0 12px;
+}
+
+.eprint-doc-summary .eprint-doc-link-btn {
+  border: none;
+  background: none;
+  color: var(--doc-accent-dark);
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: underline;
+  padding: 0;
+  font-size: 0.875rem;
+}
+
+/* Line items accordion — flat rows (no sunrise gradient) */
+.eprint-doc-summary #accordion.eprint-doc-items-accordion .ui-accordion-header {
+  background: #fff !important;
+  background-image: none !important;
+  border: none !important;
+  border-bottom: 1px solid var(--doc-border) !important;
+  color: var(--doc-text) !important;
+  text-shadow: none !important;
+  height: auto !important;
+  min-height: 44px;
+  padding: 0 !important;
+  margin: 0 !important;
+  border-radius: 0 !important;
+  transition: background 0.15s ease;
+}
+
+.eprint-doc-summary #accordion.eprint-doc-items-accordion .ui-accordion-header.ui-state-active {
+  background: #fff7ed !important;
+  background-image: none !important;
+  color: var(--doc-text) !important;
+  border-bottom-color: var(--doc-accent) !important;
+}
+
+.eprint-doc-summary #accordion.eprint-doc-items-accordion .ui-accordion-header a {
+  padding: 10px 12px !important;
+  display: block;
+}
+
+.eprint-doc-summary #accordion.eprint-doc-items-accordion .ui-accordion-header .ui-icon {
+  margin-left: auto !important;
+  margin-right: 12px !important;
+  float: right;
+  margin-top: 12px !important;
+}
+
+.eprint-doc-summary #accordion.eprint-doc-items-accordion .ui-accordion-content,
+.eprint-doc-summary #accordion.eprint-doc-items-accordion .ui-accordion-content-active {
+  border: none !important;
+  padding: 8px 12px 14px !important;
+  background: var(--doc-nav-bg) !important;
+  overflow: visible !important;
+  height: auto !important;
+  max-height: none !important;
+}
+
+.eprint-doc-summary #accordion.eprint-doc-items-accordion {
+  border: 1px solid var(--doc-border);
+  border-radius: var(--doc-radius);
+  overflow: hidden;
+  width: 100% !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.eprint-doc-summary #accordion.eprint-doc-items-accordion h3.eprint-doc-totals-header {
+  background: #f1f5f9 !important;
+  border-top: 2px solid var(--doc-border) !important;
+}
+
+.eprint-doc-summary #accordion.eprint-doc-items-accordion h3.eprint-doc-totals-header.ui-state-active {
+  background: #e2e8f0 !important;
+}
+
+.eprint-doc-summary .eprint-doc-customer-panel .HeaderText {
+  font-weight: 600;
+}
+
+.eprint-doc-summary .eprint-doc-placeholder {
+  padding: 32px 16px;
+  text-align: center;
+  color: var(--doc-muted);
+  font-size: 0.875rem;
+  border: 1px dashed var(--doc-border);
+  border-radius: var(--doc-radius);
+  margin: 16px;
+}
+
+/* Hide legacy duplicate number row inside accordion toolbar migration */
+.eprint-doc-summary .eprint-doc-header .eprint-doc-hide-legacy-label {
+  display: none !important;
+}
+
+.eprint-doc-summary #divstatus .eprint-doc-legacy-est-label {
+  display: none !important;
+}

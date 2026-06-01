@@ -2,6 +2,7 @@
 
 <%@ Register TagPrefix="UC" TagName="Loading" Src="~/usercontrol/settings/Loading.ascx" %>
 <%@ Register TagPrefix="telerik" Namespace="Telerik.Web.UI" Assembly="Telerik.Web.UI" %>
+<link rel="stylesheet" type="text/css" href="<%=strSitepath%>App_Themes/Theme1/eprint-single-item-add.css?VN=<%=VersionNumber%>" />
 <div id="ds00" style="display: block;">
 </div>
 <div id="div_Load" class="loading_new">
@@ -26,8 +27,21 @@
     </div>
     <div id="div_AlertPopup" style="display: none; position: absolute; width: 1100px; left: 450px; z-index: 10;"></div>
     <div id="content">
+        <div id="eprint-booklet-item-root" class="eprint-booklet-item-stage1">
+            <div class="eprint-si-page-header">
+                <div>
+                    <h2><%=objLanguage.GetLanguageConversion("Booklet") %></h2>
+                    <p class="eprint-si-meta">Sheet fed digital booklet · Required fields marked *</p>
+                </div>
+                <div class="eprint-si-header-actions"></div>
+            </div>
+            <div id="eprint_si_booklet_sections_bar" class="eprint-si-booklet-sections-bar">
+                <span class="eprint-si-booklet-sections-label">Sections:</span>
+                <div id="eprint_si_booklet_sections_host" class="eprint-si-booklet-sections-nav"></div>
+            </div>
+            <div id="eprint_si_legacy_columns" class="eprint-si-legacy-columns">
         <%-- LEFT SIDE --%>
-        <div style="float: left; width: 50%; border: solid 0px red;">
+        <div id="eprint_si_col_left" style="float: left; width: 50%; border: solid 0px red;">
             <div align="left" style="display: block;">
                 <div class="bglabelnewLarge">
                     <asp:Label ID="Label10" runat="server" Text="Item Title" CssClass="normaltext"></asp:Label>
@@ -812,9 +826,12 @@
                 </div>
             </div>
         </div>
+            </div>
+        </div>
         <%--  </div>--%>
     </div>
 </div>
+<script type="text/javascript" src="<%=strSitepath %>js/item/eprint-single-item-add.js?VN=<%=VersionNumber%>"></script>
 <div id="divrad" style="display: none;">
     <telerik:RadWindowManager EnableShadow="false" ID="RadWindowManager1" DestroyOnClose="true"
         Opacity="100" runat="server" Width="1000" Height="500" OnClientClose="RadWinClose"

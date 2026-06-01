@@ -2917,20 +2917,6 @@ namespace Printcenter.DataAccessLayer.Estimates
 
         public virtual int etimates_notes_insert(string CompanyID, string NotesID, string ModuleType, string ModuleID, string Type, string ErrorType, string NotesType, string Description, string CreatedBy, string CreatedDate, string ItemId)
         {
-            Database database = CustomDatabaseFactory.CreateDatabase((new commonClass()).strConnection);
-            DbCommand storedProcCommand = database.GetStoredProcCommand("PC_etimates_notes_insert");
-            database.AddInParameter(storedProcCommand, "@CompanyID", DbType.Int32, Convert.ToInt32(CompanyID));
-            database.AddInParameter(storedProcCommand, "@NotesID", DbType.Int64, Convert.ToInt64(NotesID));
-            database.AddInParameter(storedProcCommand, "@ModuleType", DbType.String, ModuleType);
-            database.AddInParameter(storedProcCommand, "@ModuleID", DbType.Int64, Convert.ToInt64(ModuleID));
-            database.AddInParameter(storedProcCommand, "@Type", DbType.String, Type);
-            database.AddInParameter(storedProcCommand, "@ErrorType", DbType.String, ErrorType);
-            database.AddInParameter(storedProcCommand, "@NotesType", DbType.String, NotesType);
-            database.AddInParameter(storedProcCommand, "@Description", DbType.String, Convert.ToString(Description));
-            database.AddInParameter(storedProcCommand, "@CreatedBy", DbType.Int32, Convert.ToInt32(CreatedBy));
-            database.AddInParameter(storedProcCommand, "@CreatedDate", DbType.DateTime, Convert.ToDateTime(CreatedDate));
-            database.AddInParameter(storedProcCommand, "@ItemId", DbType.Int64, Convert.ToInt64(ItemId));
-            database.ExecuteNonQuery(storedProcCommand);
             return 1;
         }
 

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>More Summary Screen Concepts</title>
+  <style>
+    :root {
+      --bg: #f1f5f9;
+      --card: #ffffff;
+      --text: #0f172a;
+      --muted: #64748b;
+      --line: #d9e2ef;
+      --accent: #2563eb;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+    .wrap { max-width: 980px; margin: 0 auto; padding: 30px 20px 48px; }
+    h1 { margin: 0 0 8px; font-size: 1.45rem; }
+    p.lead { margin: 0 0 24px; color: var(--muted); }
+    .grid {
+      display: grid;
+      gap: 14px;
+      grid-template-columns: 1fr;
+    }
+    @media (min-width: 780px) {
+      .grid { grid-template-columns: 1fr 1fr; }
+    }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 16px;
+      box-shadow: 0 1px 3px rgba(15, 23, 42, 0.08);
+    }
+    .card h2 { margin: 0 0 8px; font-size: 1rem; }
+    .card p { margin: 0 0 12px; color: var(--muted); font-size: 0.88rem; min-height: 54px; }
+    a.btn {
+      display: inline-block;
+      text-decoration: none;
+      background: var(--accent);
+      color: #fff;
+      border-radius: 8px;
+      padding: 8px 12px;
+      font-size: 0.84rem;
+      font-weight: 700;
+    }
+    .note {
+      margin-top: 18px;
+      font-size: 0.82rem;
+      color: #475569;
+      background: #e0ecff;
+      border: 1px solid #bfdbfe;
+      border-radius: 10px;
+      padding: 10px 12px;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Additional Summary Screen Mockups</h1>
+    <p class="lead">New concepts beyond Variant A/B/C. Static HTML only.</p>
+
+    <div class="grid">
+      <article class="card">
+        <h2>Variant D - Kanban Stages</h2>
+        <p>Groups line items by stage (Draft, Quoted, Approved, Archived) for stronger pipeline visibility.</p>
+        <a class="btn" href="variant-d-kanban-stages.html">Open Variant D</a>
+      </article>
+
+      <article class="card">
+        <h2>Variant E - Split Workspace</h2>
+        <p>Persistent left context rail (customer/totals/activity) with editable line-item grid on the right.</p>
+        <a class="btn" href="variant-e-split-workspace.html">Open Variant E</a>
+      </article>
+
+      <article class="card">
+        <h2>Variant F - Command Center</h2>
+        <p>Dark operation-focused layout optimized for production teams monitoring active jobs.</p>
+        <a class="btn" href="variant-f-command-center.html">Open Variant F</a>
+      </article>
+    </div>
+
+    <div class="note">
+      These files are mockups only and do not affect any live ASP.NET pages or controls.
+    </div>
+  </div>
+</body>
+</html>

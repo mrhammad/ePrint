@@ -41,6 +41,9 @@
 <link type="text/css" href="<%=strSitepath %>css/smoothness/jquery-ui-1.8.21.custom.css"
     rel="stylesheet" />
 <script type="text/javascript" src="<%=strSitepath %>js/jquery-ui-1.8.21.custom.min.js?VN='<%=VersionNumber%>'"></script>
+<link rel="stylesheet" type="text/css" href="<%=strSitepath%>App_Themes/Theme1/eprint-perfect-summary.css?VN=<%=VersionNumber%>" />
+<link rel="stylesheet" type="text/css" href="<%=strSitepath%>App_Themes/Theme1/eprint-p2j-modal.css?VN=<%=VersionNumber%>" />
+<script type="text/javascript" src="<%=strSitepath%>js/eprint-perfect-summary.js?VN=<%=VersionNumber%>"></script>
 <script type="text/javascript" src="<%=strSitepath %>js/item/item_summary_reeng.js?VN='<%=VersionNumber%>'"></script>
 <script language="javascript" type="text/javascript" src="<%=strSitepath %>js/Item/AutoFill.js?VN='<%=VersionNumber%>'"></script>
 <script type="text/javascript">
@@ -121,35 +124,6 @@
 </script>
 <script src="<%=strSitepath %>js/wizard.js?VN='<%=VersionNumber%>'" type="text/javascript"></script>
 <style>
-
-/* This targets the accordion header background with a Sunrise Gradient */
-#accordion .ui-accordion-header {
-    /* A transition from Deep Orange (#FF4E50) to Golden Yellow (#FC913A) */
-    background: #FF4E50 !important; 
-    background: linear-gradient(90deg, #FF4E50 0%, #F9D423 100%) !important;
-    background-image: linear-gradient(90deg, #FF4E50 0%, #F9D423 100%) !important;
-    
-    border: 1px solid #e67e22 !important; /* Soft sunset orange border */
-    color: #ffffff !important; /* Keep text white for readability */
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.2); /* Slight shadow to help text pop against yellow */
-}
-
-/* This ensures the 'Active' state (when clicked) looks like high-noon */
-#accordion .ui-accordion-header.ui-state-active {
-    background: #F9D423 !important; /* Solid bright yellow when active */
-    background-image: linear-gradient(90deg, #f39c12 0%, #F9D423 100%) !important;
-    color: #333333 !important; /* Darker text for better contrast on bright yellow */
-    border: 1px solid #d35400 !important;
-}
-
-/* Optional: Smooth transition for a modern feel */
-#accordion .ui-accordion-header {
-    transition: background 0.3s ease;
-}
-
-/* Let expanded item panels grow naturally; parent .eprint-page-body scrolls */
-#accordion .ui-accordion-content,
-#accordion .ui-accordion-content-active,
 #accordion2 .ui-accordion-content,
 #accordion2 .ui-accordion-content-active {
     overflow: visible !important;
@@ -196,11 +170,21 @@
         height: 40px !important;
     }
 
-    #spnStatusItems a, #spnStatus a {
+    /* Do not target #spnStatus a — that includes status dropdown links and breaks the menu layout */
+    #spnStatusItems a {
         background: White !important;
         width: 167px;
         white-space: nowrap;
         overflow: hidden;
+    }
+
+    #spnStatus .eprint-status-menu a,
+    #spnStatus .Div_AccountList a,
+    #spnStatus [id$="_Div_StatusList"] a {
+        width: 100% !important;
+        white-space: normal !important;
+        overflow: visible !important;
+        display: block !important;
     }
 
     .RadWindow_Default .rwIcon, .RadWindow_Default .rwResize, .RadWindow_Default .rwCommandButton {
@@ -250,7 +234,6 @@
 
     $(document).ready(function () {
         initAccordion2();
-        document.getElementById("tabs").style.visibility = 'visible';
     });
     $(document).ready(function () {
 
@@ -258,73 +241,37 @@
        
 
         $(function () {
-            $('#tabs').tabs();
-            $('#tabs').tabs('select', '#tabs-2');
-
-            if ('<%=tab %>' != '') {
-                if ('<%=tab %>' == 'Q') {
-                    $('#tabs').tabs('select', '#tabs-3');
-                    initAccordion2(0);
-                }
+            var $legacyTabs = $('#tabs.eprint-legacy-tabs-hook');
+            if ($legacyTabs.length && typeof $.fn.tabs === 'function') {
+                try {
+                    if (!$legacyTabs.data('tabs')) {
+                        $legacyTabs.tabs();
+                    }
+                    $legacyTabs.tabs('select', '#tabs-2');
+                    if ('<%=tab %>' != '') {
+                        if ('<%=tab %>' == 'Q') {
+                            $legacyTabs.tabs('select', '#tabs-3');
+                            initAccordion2(0);
+                        }
+                    }
+                } catch (tabsErr) { /* legacy tabs optional */ }
             }
 
-            $("#accordion").accordion({
-                header: "h3", collapsible: true, autoHeight: false
-            });
-
-            $("#accordion #spnOptions").click(function (event) {
+            $(document).on("click", "#eprintLineItemPanels #spnMoreAction, #eprintLineItemPanels #spnStatusItems, #eprintLineItemPanels #spnStatusLock, #eprintLineItemPanels #spnStatusUnLock", function (event) {
                 event.stopImmediatePropagation();
                 event.preventDefault();
             });
 
-            $("#accordion #spnStatus").click(function (event) {
-                event.stopImmediatePropagation();
-                event.preventDefault();
-            });
-
-            $("#accordion #spnMoreAction").click(function (event) {
-                event.stopImmediatePropagation();
-                event.preventDefault();
-            });
-
-            $("#accordion #spnStatusItems").click(function (event) {
-                event.stopImmediatePropagation();
-                event.preventDefault();
-            });
-
-            $("#accordion #spnStatusLock").click(function (event) {
-                event.stopImmediatePropagation();
-                event.preventDefault();
-            });
-
-            $("#accordion #spnStatusUnLock").click(function (event) {
-                event.stopImmediatePropagation();
-                event.preventDefault();
-            });
-
-            //Changed by Pradeep ------ 04-12-2012
-            var accordionindex = 0;
-
-            accordionindex = Number($("#ctl00_ContentPlaceHolder1_UCItemSummaryMain_hdnaccordionIndex").val());
-            //            }
-            //---------end----------.
-
-            if (accordionindex == 0) {
-                $("#accordion").accordion('activate', 1);
+            if (window.eprintPerfectSummary && window.eprintPerfectSummary.init) {
+                window.eprintPerfectSummary.init();
             }
-            else {
-                $("#accordion").accordion('activate', accordionindex);
-            }
-            document.getElementById("tabs").style.visibility = 'visible';
-
-           
             if ($("#ctl00_ContentPlaceHolder1_UCItemSummaryMain_hdnIsSortingAllowed").val() == "true" && (window.location.href.includes("estimate_summary_reeng") || window.location.href.includes("job_order_summary") || window.location.href.includes("invoice_summary_reeng") || window.location.href.includes("invoice_order_summary") || window.location.href.includes("job_summary_reeng") || window.location.href.includes("order_summary"))) {
 
 
-                $('#accordion').sortable({
-                    placeholder: "placeholder",
-                    axis: 'y',
-                    items: 'h3[data-value="sortable"]',
+                $('#eprintLineItemTabsNav').sortable({
+                    placeholder: "eprint-line-tab-placeholder",
+                    axis: 'x',
+                    items: 'button[data-item-id]',
 
                     stop: function (event, ui) {
 
@@ -332,8 +279,9 @@
                         var bar = new Promise((resolve, reject) => {
 
                          
-                            $('[data-value]').each(function (i, item) {
-                                var estimateItemId = $(this).attr('id');
+                            var $tabBtns = $('#eprintLineItemTabsNav button[data-item-id]');
+                            $tabBtns.each(function (i, item) {
+                                var estimateItemId = $(this).attr('data-item-id');
                                 console.log("position:" + i + "  >>  " + estimateItemId);
 
                                 var pageName = "";
@@ -349,7 +297,7 @@
 
                                 ePrint.press_select.Update_EstimateItems_SortingOrder(estimateItemId, i + 1, pageName);
 
-                                if (i === $('[data-value]').length - 1) {
+                                if (i === $tabBtns.length - 1) {
                                     resolve();
                                     window.location.reload(true);
                                 }
@@ -373,7 +321,6 @@
     });
     function CloseTab(tab) {
         initAccordion2(tab);
-        document.getElementById("tabs").style.visibility = 'visible';
     }
 
 
@@ -488,85 +435,123 @@
                     </asp:UpdatePanel>
                 </div>
                 <div class="div_spacing1">
-                    <div id="tabs" class="ui-tabs" style="width: 100%; border: solid 0px red; visibility: hidden">
-                        <div id="divSupplierQuote" runat="server">
-                            <%--By Naveen for Customer Details Accordion--%>
-                            <div id='accordion' style='width: 100%; padding: 0px; margin: 0px;'>
-                                <div style="width: 100%; margin-top: 5px;">
-                                    <h3 class="acc_height">
-                                        <a style="border-bottom-width: 0px;" href='#'>
-                                            <table cellpadding="0" cellspacing="0" border="0" width="100%">
-                                                <tr>
-                                                    <td style="width: 185px;">
-                                                        <span id="spnOptions">
-                                                            <UC:MoreOptions ID="ucMore" runat="server" />
-                                                        </span>
-                                                    </td>
-                                                    <td style="width: 20%;">
-                                                        <asp:Label ID="lblText" Text="Customer Details" runat="server" CssClass="HeaderText"
-                                                            Style="vertical-align: baseline;"><%=objLangClass.GetLanguageConversion("Customer_Deatils")%>:</asp:Label>
-                                                        <asp:Label ID="LblCompanyName" runat="server" Font-Bold="false"></asp:Label>
-                                                    </td>
-                                                    <td>
-                                                        <div id="divstatus" runat="server" style="float: left; margin-top: 4px;">
-                                                            <asp:Label ID="lblEstNoText" runat="server" Font-Bold="true" Style="padding-left: 100px;"
-                                                                Text="Estimate Number"></asp:Label>
-                                                            <asp:Label ID="lblEstJobInvNo" runat="server" Font-Bold="false"></asp:Label>
+                    <%-- Legacy jQuery UI tabs hook (supplier quote / outwork); content lives outside this wrapper --%>
+                    <div id="tabs" class="ui-tabs eprint-legacy-tabs-hook">
+                        <ul class="eprint-legacy-tabs-nav" style="display: none;">
+                            <li><a href="#tabs-2">Main</a></li>
+                            <li><a href="#tabs-3">Quote</a></li>
+                        </ul>
+                        <div id="tabs-2"></div>
+                        <div id="tabs-3"></div>
+                    </div>
+                    <div id="divSupplierQuote" runat="server">
+                            <div id="eprintPerfectSummaryRoot" class="eprint-perfect-summary eprint-doc">
+                                <header class="eprint-doc-head">
+                                    <div class="head-main">
+                                        <div class="head-left">
+                                            <div class="eprint-doc-badge" id="eprintDocBadge">DOC</div>
+                                            <div class="eprint-doc-title-host">
+                                                <div class="eprint-doc-title" id="eprintDocTitle">
+                                                    <asp:Label ID="lblEstJobInvNo" runat="server" Font-Bold="true"></asp:Label>
+                                                </div>
+                                                <p class="sub" id="eprintDocSubtitle">
+                                                    <asp:Label ID="lblText" Text="Customer Details" runat="server" CssClass="HeaderText eprint-doc-hide"><%=objLangClass.GetLanguageConversion("Customer_Deatils")%>:</asp:Label>
+                                                    <asp:Label ID="LblCompanyName" runat="server" Font-Bold="true"></asp:Label>
+                                                </p>
+                                                <div id="divstatus" runat="server" class="eprint-doc-hide">
+                                                    <asp:Label ID="lblEstNoText" runat="server" Font-Bold="true" Text="Estimate Number"></asp:Label>
+                                                </div>
+                                                <asp:HiddenField ID="hdnReduceStockTypeForCancelled" Value="false" runat="server" />
+                                                <asp:HiddenField ID="hdn_SelectedStatusID" runat="server" Value="0" />
+                                            </div>
+                                        </div>
+                                        <div class="kpis" id="eprintKpiRow"></div>
+                                        <div class="head-actions">
+                                            <div class="eprint-toolbar-options">
+                                                <span id="spnOptions">
+                                                    <UC:MoreOptions ID="ucMore" runat="server" />
+                                                </span>
+                                            </div>
+                                            <div class="eprint-toolbar-status">
+                                                <span id="spnStatus">
+                                                    <div id="ddlStatus" runat="server" class="btnstyle eprint-status-trigger"
+                                                        onmouseover="javascript:OpenStatus(); return false;"
+                                                        onmouseout="javascript:CloseStatus(); return false;">
+                                                        <div class="eprint-status-trigger-label">
+                                                            <asp:Label ID="lblStatusTitle" runat="server" Text="" Style="font-size: 12px;"></asp:Label>
                                                         </div>
-                                                        <asp:HiddenField ID="hdnReduceStockTypeForCancelled" Value="false" runat="server" />
-                                                        <asp:HiddenField ID="hdn_SelectedStatusID" runat="server" Value="0" />
-                                                    </td>
-                                                    <td>
-                                                        <div id="divLocked" runat="server" style="float: left; margin-top: 4px;">
-                                                            <asp:Label ID="lblLocked" runat="server" Font-Bold="true" Style="padding-right: 32px; color: red"></asp:Label>
-
+                                                        <div class="eprint-status-trigger-arrow">
+                                                            <asp:Image ID="imgArrow" runat="server" ImageUrl="~/images/down_arrow.png" />
                                                         </div>
-
-                                                    </td>
-                                                    <td style="width: 190px;">
-                                                        <span id="spnStatus">
-                                                            <div id="ddlStatus" runat="server" class="btnstyle" style="width: 208px; padding-top: 4px; margin-right: 25px; text-align: left; overflow: hidden; white-space: nowrap;"
-                                                                onmouseover="javascript:OpenStatus(); return false;"
-                                                                onmouseout="javascript:CloseStatus(); return false;">
-                                                                <div style="width: 185px; overflow: hidden; white-space: nowrap; float: left;">
-                                                                    <asp:Label ID="lblStatusTitle" runat="server" Text="" Style="font-size: 12px; white-space: nowrap; overflow: hidden;"></asp:Label>
-                                                                </div>
-                                                                <div style="float: right; padding-top: 5px">
-                                                                    <asp:Image ID="imgArrow" runat="server" ImageUrl="~/images/down_arrow.png" />
-                                                                </div>
-                                                            </div>
-                                                            <div id="Div_StatusList" runat="server" style="width: 223px; padding: 0px;" class="Div_AccountList"
-                                                                onmouseover="javascript:OpenStatus(); return false;" onmouseout="javascript:CloseStatus(); return false;">
-                                                                <asp:PlaceHolder ID="plhStatusList" runat="server"></asp:PlaceHolder>
-                                                            </div>
-                                                        </span>
-                                                    </td>
-                                                </tr>
-                                            </table>
-                                        </a>
-                                    </h3>
-                                    <div style="padding: 5px; margin: 0px; margin-top: -1px">
-                                        <table style="width: 100%;" cellspacing="0" border="0">
-                                            <tr>
-                                                <td valign="top" style="width: 50px;">
-                                                    <asp:PlaceHolder ID="plhdetailsqicklinks" runat="server"></asp:PlaceHolder>
-                                                </td>
-                                                <td valign="top" style="padding-left: 15px;">
-                                                    <div id="Div_CustomerDetails" style="border: 0px solid red;">
-                                                        <asp:PlaceHolder ID="plhCustomerInfo" runat="server"></asp:PlaceHolder>
                                                     </div>
-                                                </td>
-                                            </tr>
-                                        </table>
+                                                    <div id="Div_StatusList" runat="server" class="Div_AccountList eprint-status-menu" style="display: none;"
+                                                        onmouseover="javascript:OpenStatus(); return false;" onmouseout="javascript:CloseStatus(); return false;">
+                                                        <asp:PlaceHolder ID="plhStatusList" runat="server"></asp:PlaceHolder>
+                                                    </div>
+                                                </span>
+                                            </div>
+                                            <div id="divLocked" runat="server" style="display: inline-block;">
+                                                <asp:Label ID="lblLocked" runat="server" Font-Bold="true" Style="color: red"></asp:Label>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                                <asp:PlaceHolder ID="plhItems" runat="server" EnableViewState="false"></asp:PlaceHolder>
-                                <asp:HiddenField ID="hdnItems" runat="server" Value="" />
-                                <asp:HiddenField ID="hdnPCPath" runat="server" Value="" />
-                            </div>
-                            <%--End By Naveen--%>
-                        </div>
+                                    <nav class="eprint-doc-tabs" aria-label="Document sections">
+                                        <button type="button" class="active" data-tab="customer">Customer &amp; estimate info</button>
+                                        <button type="button" data-tab="items">Line items <span class="count" id="eprintItemTabCount">0</span></button>
+                                        <button type="button" data-tab="attachments">Attachments</button>
+                                    </nav>
+                                </header>
 
+                                <section class="eprint-panel active" data-panel="customer" id="eprintPanelCustomer">
+                                    <div class="customer-layout customer-layout--full">
+                                        <asp:PlaceHolder ID="plhdetailsqicklinks" runat="server" Visible="false"></asp:PlaceHolder>
+                                        <div id="Div_CustomerDetails" class="eprint-customer-details-host">
+                                            <asp:PlaceHolder ID="plhCustomerInfo" runat="server"></asp:PlaceHolder>
+                                        </div>
+                                    </div>
+                                </section>
+
+                                <section class="eprint-panel" data-panel="items" id="eprintPanelItems">
+                                    <div class="eprint-line-items-shell">
+                                        <nav id="eprintLineItemTabsNav" class="eprint-line-item-tabs" aria-label="Line items"></nav>
+                                        <div id="eprintLineItemPanels" class="eprint-line-item-panels"></div>
+                                        <div id="eprintAllItemsTotals" class="eprint-all-items-totals">
+                                            <div class="eprint-all-items-totals-hd">All items details</div>
+                                            <div id="eprintAllItemsTotalsBody" class="eprint-all-items-totals-bd"></div>
+                                        </div>
+                                        <div id="eprintItemsSource" class="eprint-items-source" aria-hidden="true">
+                                            <div id="accordion" class="eprint-perfect-items-accordion" style="width: 100%; padding: 0; margin: 0;">
+                                                <asp:PlaceHolder ID="plhItems" runat="server" EnableViewState="false"></asp:PlaceHolder>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <asp:HiddenField ID="hdnItems" runat="server" Value="" />
+                                    <asp:HiddenField ID="hdnPCPath" runat="server" Value="" />
+                                </section>
+
+                                <section class="eprint-panel" data-panel="attachments" id="eprintPanelAttachments">
+                                    <div class="two-col-panels">
+                                        <div class="card-block">
+                                            <div class="cb-hd">Estimate / document attachments</div>
+                                            <div class="cb-bd">
+                                                <p style="margin:0 0 10px;color:#64748b;font-size:0.85rem">Use <strong>Estimate options</strong> in the header for Print/Email and estimate-level attachments when enabled.</p>
+                                            </div>
+                                        </div>
+                                        <div class="card-block">
+                                            <div class="cb-hd">Line item artwork</div>
+                                            <div class="cb-bd">
+                                                <p style="margin:0;color:#64748b;font-size:0.85rem">Artwork file(s) and the (+) control are on each line item under the <strong>Line items</strong> tab.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </section>
+
+                                <footer class="eprint-doc-foot">
+                                    <span>All items (ex. tax): <strong id="eprintFootSubtotal">—</strong></span>
+                                    <span>Status: <strong id="eprintFootStatus">—</strong></span>
+                                    <span id="eprintFootExtra"></span>
+                                </footer>
+                            </div>
                     </div>
                     <div style="clear: both; padding-top: 10px">
                     </div>
@@ -582,7 +567,7 @@
         OnClientClose="RadWinClose" Behaviors="Close, Move,Reload,Resize" ReloadOnShow="true">
     </telerik:RadWindowManager>
 </div>
-<div id="div_ProgressToJob" style="display: none; position: absolute; vertical-align: middle; z-index: 100; width: 40%; height: 50%"
+<div id="div_ProgressToJob" class="eprint-p2j-modal" style="display: none; z-index: 10000;"
     align="center">
     <asp:PlaceHolder ID="plhProgressToJob" runat="server"></asp:PlaceHolder>
 </div>
@@ -1067,12 +1052,23 @@
     }
 </script>
 <script>
+    function eprintGetStatusListEl() {
+        return document.querySelector("[id$='_Div_StatusList']")
+            || document.getElementById("ctl00_ContentPlaceHolder1_UCItemSummaryMain_Div_StatusList");
+    }
+
     function OpenStatus() {
-        document.getElementById("ctl00_ContentPlaceHolder1_UCItemSummaryMain_Div_StatusList").style.display = "block";
+        var el = eprintGetStatusListEl();
+        if (el) {
+            el.style.display = "block";
+        }
     }
 
     function CloseStatus() {
-        document.getElementById("ctl00_ContentPlaceHolder1_UCItemSummaryMain_Div_StatusList").style.display = "none";
+        var el = eprintGetStatusListEl();
+        if (el) {
+            el.style.display = "none";
+        }
     }
 
     function OpenItemStatus(ID) {

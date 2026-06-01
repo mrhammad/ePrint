@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Variant H — Screen-accurate tabs (from your screenshots)</title>
+  <style>
+    :root {
+      --accent: #e67e22;
+      --border: #dce4ef;
+      --text: #1e293b;
+      --muted: #64748b;
+      --label: #f1f5f9;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: "Segoe UI", Tahoma, sans-serif; background: #eef2f7; color: var(--text); }
+    .banner { background: #1e293b; color: #cbd5e1; text-align: center; padding: 8px; font-size: 0.78rem; }
+    .shell { max-width: 1280px; margin: 0 auto; padding: 14px; }
+    .card { background: #fff; border: 1px solid var(--border); border-radius: 10px; overflow: hidden; box-shadow: 0 2px 8px rgba(15,23,42,.06); }
+
+    .sticky-top {
+      position: sticky;
+      top: 0;
+      z-index: 5;
+      background: #fff;
+      border-bottom: 1px solid var(--border);
+      padding: 12px 14px;
+    }
+    .sticky-top .row1 {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+    .btn {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 7px 12px;
+      font-weight: 700;
+      font-size: 0.8rem;
+      background: #fff;
+      cursor: default;
+    }
+    .btn.options { background: #c0392b; color: #fff; border-color: #922b21; }
+    .status-dd {
+      background: #7c3aed;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 8px 12px;
+      font-weight: 700;
+      font-size: 0.8rem;
+    }
+    .meta { font-size: 0.85rem; color: var(--muted); }
+    .meta strong { color: var(--text); }
+
+    .tabs { display: flex; gap: 4px; flex-wrap: wrap; border-top: 1px solid var(--border); padding-top: 10px; }
+    .tabs button {
+      border: 1px solid var(--border);
+      background: #f8fafc;
+      border-radius: 8px 8px 0 0;
+      padding: 8px 14px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .tabs button.active { background: #fff7ed; border-bottom-color: #fff; color: #c2410c; }
+
+    .panel { display: none; padding: 14px; }
+    .panel.active { display: block; }
+
+    .two-col { display: grid; grid-template-columns: 200px 1fr; gap: 12px; }
+    .quick { background: #f8fafc; border: 1px solid var(--border); border-radius: 8px; padding: 10px; font-size: 0.8rem; }
+    .quick a { color: #2563eb; text-decoration: none; }
+    .grid4 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+      font-size: 0.76rem;
+    }
+    .gcell { display: grid; grid-template-columns: 130px 1fr; border-bottom: 1px solid var(--border); }
+    .gcell .l { background: var(--label); padding: 5px 8px; font-weight: 600; }
+    .gcell .v { padding: 5px 8px; }
+
+    .items-list { display: grid; gap: 8px; }
+    .item-card {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .item-card .hd {
+      background: linear-gradient(90deg, #ff4e50, #f9d423);
+      color: #fff;
+      padding: 8px 12px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .item-card .bd { padding: 10px; font-size: 0.8rem; background: #fafbfc; }
+
+    .attach-list, .activity-list { font-size: 0.82rem; }
+    .attach-list li, .activity-list li { margin: 8px 0; padding: 8px; background: #f8fafc; border-radius: 6px; border: 1px solid var(--border); }
+
+    .menu-demo {
+      margin-top: 8px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      width: 220px;
+      font-size: 0.78rem;
+      overflow: hidden;
+    }
+    .menu-demo div { padding: 7px 10px; border-bottom: 1px solid var(--border); }
+    .menu-demo .disabled { color: #94a3b8; }
+    .status-palette { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+    .status-palette span { font-size: 0.72rem; padding: 4px 8px; border-radius: 4px; font-weight: 700; }
+    .s-green { background: #22c55e; color: #fff; }
+    .s-red { background: #ef4444; color: #fff; }
+    .s-blue { background: #3b82f6; color: #fff; }
+    .s-purple { background: #7c3aed; color: #fff; }
+  </style>
+</head>
+<body>
+  <div class="banner">Variant H — Every area from your screenshots mapped to a tab (no empty placeholders)</div>
+  <div class="shell">
+    <div class="card">
+      <div class="sticky-top">
+        <div class="row1">
+          <button type="button" class="btn options">Estimate Options ▾</button>
+          <div class="meta">
+            <span>Customer: <strong>Test Company by Ham</strong></span>
+            &nbsp;|&nbsp;
+            <span>Estimate: <strong>EST-0000936</strong></span>
+          </div>
+          <select class="status-dd"><option>New Estimate</option></select>
+        </div>
+        <div class="menu-demo" title="From screenshot — Options dropdown">
+          <div>Print/Email</div>
+          <div>Add Main Item</div>
+          <div class="disabled">Progress to Job</div>
+          <div class="disabled">Attachments</div>
+          <div>Copy Estimate</div>
+          <div class="disabled">Re-Run Customer Details</div>
+        </div>
+        <div class="status-palette">
+          <span class="s-green">ESTIMATE WON</span>
+          <span class="s-red">Blocked</span>
+          <span class="s-blue">Pre Press</span>
+          <span class="s-purple">New Estimate</span>
+        </div>
+        <nav class="tabs" aria-label="Summary sections">
+          <button type="button" class="tab active" data-tab="overview">Overview</button>
+          <button type="button" class="tab" data-tab="customer">Customer &amp; estimate info</button>
+          <button type="button" class="tab" data-tab="items">Line items (1)</button>
+          <button type="button" class="tab" data-tab="item-detail">Item detail</button>
+          <button type="button" class="tab" data-tab="attachments">Attachments</button>
+          <button type="button" class="tab" data-tab="activity">Activity / history</button>
+        </nav>
+      </div>
+
+      <section class="panel active" id="overview">
+        <p style="margin:0 0 10px;font-size:0.85rem;color:var(--muted)">At-a-glance: same header fields, totals, and quick actions — no accordion click required.</p>
+        <div class="two-col">
+          <div class="quick">
+            <strong>Quick Links</strong><br />
+            Job: Direct Invoice<br />
+            Product Catalogue: rsfsdfsd<br />
+            <a href="#">View History</a>
+          </div>
+          <div>
+            <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:12px;">
+              <div style="background:#f8fafc;border:1px solid var(--border);border-radius:8px;padding:10px;"><div style="font-size:0.7rem;color:var(--muted)">Sub total (ex tax)</div><strong>$67.53</strong></div>
+              <div style="background:#f8fafc;border:1px solid var(--border);border-radius:8px;padding:10px;"><div style="font-size:0.7rem;color:var(--muted)">Inc tax</div><strong>$74.28</strong></div>
+              <div style="background:#f8fafc;border:1px solid var(--border);border-radius:8px;padding:10px;"><div style="font-size:0.7rem;color:var(--muted)">Gross profit</div><strong>79.48%</strong></div>
+              <div style="background:#f8fafc;border:1px solid var(--border);border-radius:8px;padding:10px;"><div style="font-size:0.7rem;color:var(--muted)">Status</div><strong>New Estimate</strong></div>
+            </div>
+            <div class="item-card">
+              <div class="hd"><span>EST-0000936-001</span><span>Sub Total $67.53</span></div>
+              <div class="bd">rsfsdfsd (Sheet Fed Digital: Single) · Qty 100</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel" id="customer">
+        <div class="two-col">
+          <div class="quick"><strong>Quick Links</strong> (same as today)</div>
+          <div class="grid4">
+            <div class="gcell"><div class="l">Company</div><div class="v">Test Company by Ham</div></div>
+            <div class="gcell"><div class="l">Estimate Title</div><div class="v">rsfsdfsd</div></div>
+            <div class="gcell"><div class="l">Department</div><div class="v">Main</div></div>
+            <div class="gcell"><div class="l">Valid for</div><div class="v">30 day(s)</div></div>
+            <div class="gcell"><div class="l">Contact Phone</div><div class="v">0333333333</div></div>
+            <div class="gcell"><div class="l">Estimated Proof</div><div class="v">11/06/2026</div></div>
+            <div class="gcell"><div class="l">Delivery Address</div><div class="v"></div></div>
+            <div class="gcell"><div class="l">Comments</div><div class="v"></div></div>
+          </div>
+        </div>
+        <p style="font-size:0.78rem;color:var(--muted);margin-top:10px;">Full 4-column label grid from “Estimate Information Detail” lives here — not hidden behind accordion panel 1 only.</p>
+      </section>
+
+      <section class="panel" id="items">
+        <div class="items-list">
+          <article class="item-card">
+            <div class="hd"><span>EST-0000936-001 · rsfsdfsd</span><span>Qty 100 · $67.53</span></div>
+            <div class="bd">Re-Run Item · Item Options · Add Sub Item (from item quick links column)</div>
+          </article>
+        </div>
+        <div style="margin-top:12px;padding:10px;background:#fff7ed;border:1px solid #fed7aa;border-radius:8px;font-weight:700;">
+          All Items Total (Ex. Tax): $67.53
+        </div>
+      </section>
+
+      <section class="panel" id="item-detail">
+        <p style="font-size:0.82rem;color:var(--muted)">Expanded item view from your screenshot: pricing left, customer descriptions right.</p>
+        <div style="display:grid;grid-template-columns:300px 1fr;gap:12px;font-size:0.8rem;">
+          <div style="border:1px solid var(--border);border-radius:8px;padding:10px;">
+            <div>Paper/Stock $29.64 · Press $15.38</div>
+            <div>Sub Total $67.53 · Tax $6.75</div>
+            <div style="color:#b91c1c;font-weight:700">Selling Price (Inc. Tax) $74.28</div>
+          </div>
+          <div style="border:1px solid var(--border);border-radius:8px;padding:10px;">
+            Item Title, Description, Artwork, Colour, Size, Stock, Delivery, Finishing… (checkbox + text areas)
+          </div>
+        </div>
+      </section>
+
+      <section class="panel" id="attachments">
+        <ul class="attach-list">
+          <li><strong>Artwork File(s)</strong> — 0 attachments · Add (+) · per line item EST-0000936-001</li>
+          <li><strong>Estimate-level attachments</strong> — via Estimate Options → Attachments (when enabled)</li>
+        </ul>
+      </section>
+
+      <section class="panel" id="activity">
+        <ul class="activity-list">
+          <li><strong>View History</strong> — customer / estimate timeline (quick link)</li>
+          <li><strong>Item History</strong> — per line item</li>
+          <li><strong>Notes</strong> — UCActivityHistory area (top of page today)</li>
+        </ul>
+      </section>
+    </div>
+  </div>
+  <script>
+    document.querySelectorAll('.tab').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        document.querySelectorAll('.tab').forEach(function (b) { b.classList.remove('active'); });
+        document.querySelectorAll('.panel').forEach(function (p) { p.classList.remove('active'); });
+        btn.classList.add('active');
+        document.getElementById(btn.getAttribute('data-tab')).classList.add('active');
+      });
+    });
+  </script>
+</body>
+</html>

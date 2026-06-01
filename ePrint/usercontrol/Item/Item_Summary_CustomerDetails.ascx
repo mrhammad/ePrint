@@ -220,7 +220,7 @@
                         <asp:Label ID="lblOrderNumber" CssClass="normalText" runat="server"></asp:Label>
                     </div>
                 </div>--%>
-                <div id="Div_InvoicePaid" runat="server" align="left" style="display: block; clear: both;">
+                <div id="Div_InvoicePaid" runat="server" align="left" class="eprint-invoice-only-field" style="display: none; clear: both;">
                     <div class="bglabel" align="left">
                         <div style="float: left">
                             <span class="normalText">
@@ -298,7 +298,7 @@
                         <asp:Label ID="lblEstimateDate" CssClass="normalText" runat="server"></asp:Label>
                     </div>
                 </div>
-                <div id="div_InvoiceDueDate" style="display: none" runat="server">
+                <div id="div_InvoiceDueDate" class="eprint-invoice-only-field" style="display: none" runat="server">
                     <div class="bglabel" align="left">
                         <span id="spn_DueDate" class="normalText">
                             <%=objLanguage.GetLanguageConversion("Invoice_DueDate")%></span>
@@ -703,37 +703,68 @@
 </script>
 <script type="text/javascript">
     var Module = "<%=Module %>";
+    if (!Module || Module === "undefined") {
+        Module = "<%=Pgtype %>";
+    }
+
+    function hideEstimateWorkflowDateFields(hideAll) {
+        var ids = ["Div_EstArtwork", "Div_Estproof", "div_ApprovalNew", "divProductionDate", "divJobCompletionDate"];
+        var i, el;
+        for (i = 0; i < ids.length; i++) {
+            el = document.querySelector(".eprint-customer-details-host [id$='" + ids[i] + "']")
+                || document.getElementById(ids[i]);
+            if (el) {
+                el.style.display = hideAll ? "none" : "";
+            }
+        }
+    }
+
     function LoadPageInformation() {
         if (Module == "job") {
             document.getElementById("divInvoice").style.display = "none";
+            document.getElementById("Div_Status").style.display = "none";
             document.getElementById("spnDate").innerHTML = '<%=objLang.GetLanguageConversion("Job_Date") %>';
             document.getElementById("<%=Div_InvoicePaid.ClientID%>").style.display = "none";
             document.getElementById("<%=spnNo.ClientID%>").innerHTML = '<%=objLang.GetLanguageConversion("Job_Number") %>';
             document.getElementById("<%=spntitle.ClientID%>").innerHTML = '<%=objLang.GetLanguageConversion("Job_Title") %>';
             document.getElementById("CompletionDate").style.display = "block";
+            document.getElementById("Div_EstDates").style.display = "none";
             document.getElementById("Div_ValidFor").style.display = "none";
+            hideEstimateWorkflowDateFields(true);
         }
         else if (Module == "invoice") {
             document.getElementById("Div_JobEstNo").style.display = "none";
+            document.getElementById("Div_Status").style.display = "none";
             document.getElementById("spnDate").innerHTML = '<%=objLang.GetLanguageConversion("Invoice_Date") %>';
             document.getElementById("<%=spnNo.ClientID%>").innerHTML = '<%=objLang.GetLanguageConversion("Invoice_Number") %>';
             document.getElementById("CompletionDate").style.display = "none";
             document.getElementById("<%=spntitle.ClientID%>").innerHTML = '<%=objLang.GetLanguageConversion("Invoice_Title") %>';
             document.getElementById("Div_ValidFor").style.display = "none";
             document.getElementById("divInvoice").style.display = "none";
+            document.getElementById("<%=Div_InvoicePaid.ClientID%>").style.display = "block";
+            document.getElementById("<%=div_InvoiceDueDate.ClientID%>").style.display = "block";
             document.getElementById("<%=spnDelivery.ClientID%>").innerHTML = '<%=objLang.GetLanguageConversion("Delivery_Date") %>';
             document.getElementById("Div_EstDates").style.display = "block";
+            hideEstimateWorkflowDateFields(true);
+            var deliveryOnly = document.querySelector(".eprint-customer-details-host [id$='div_deliverydate']")
+                || document.getElementById("div_deliverydate");
+            if (deliveryOnly) {
+                deliveryOnly.style.display = "block";
+            }
         }
         else if (Module == "estimate") {
             document.getElementById("divInvoice").style.display = "none";
+            document.getElementById("Div_Status").style.display = "none";
             document.getElementById("spnDate").innerHTML = '<%=objLang.GetLanguageConversion("Estimate_Date") %>';
             document.getElementById("Div_JobEstNo").style.display = "none";
             document.getElementById("<%=Div_InvoicePaid.ClientID%>").style.display = "none";
+            document.getElementById("<%=div_InvoiceDueDate.ClientID%>").style.display = "none";
             document.getElementById("Div_EstDates").style.display = "block";
             document.getElementById("CompletionDate").style.display = "none";
             document.getElementById("Div_ValidFor").style.display = "block";
             document.getElementById("<%=spnNo.ClientID%>").innerHTML = '<%=objLang.GetLanguageConversion("Estimate_Number") %>';
             document.getElementById("<%=spntitle.ClientID%>").innerHTML = '<%=objLang.GetLanguageConversion("Estimate_Title") %>';
+            document.getElementById("<%=spnDelivery.ClientID%>").innerHTML = '<%=objLang.GetLanguageConversion("Estimated_Delivery") %>';
         }
         else if (Module == "order") {
             document.getElementById("divInvoice").style.display = "none";
@@ -795,8 +826,12 @@
 
         }
 
-}
-LoadPageInformation();
+        if (typeof window !== "undefined") {
+            window.Module = Module;
+            window.eprintLoadCustomerPageInformation = LoadPageInformation;
+        }
+    }
+    LoadPageInformation();
 
 function SeletedStatusID(ObjID) {
     document.getElementById("<%=hdn_SelectedStatusID.ClientID%>").value = ObjID;

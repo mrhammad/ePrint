@@ -931,19 +931,17 @@ namespace ePrint.usercontrol.Item
             string empty = string.Empty;
             if (!base.IsPostBack)
             {
-                this.btnStay.Text = this.objLanguage.GetLanguageConversion("Save_Stay");
-                this.btnSave.Text = this.objLanguage.GetLanguageConversion("Save");
+                this.btnStay.Text = "Save";
             }
+            this.btnSave.Visible = false;
             if (base.Request.Url.ToString().ToLower().Contains("estimates/"))
             {
                 if (this.objBase.ReturnRoles_Privileges_ForGrid("estimates", "isadd", this.Page.Request.Url.ToString()).Trim().ToLower() != "false")
                 {
-                    this.btnSave.Visible = true;
                     this.btnStay.Visible = true;
                 }
                 else
                 {
-                    this.btnSave.Visible = false;
                     this.btnStay.Visible = false;
                 }
             }
@@ -951,12 +949,10 @@ namespace ePrint.usercontrol.Item
             {
                 if (this.objBase.ReturnRoles_Privileges_ForGrid("jobs", "isadd", this.Page.Request.Url.ToString()).Trim().ToLower() != "false")
                 {
-                    this.btnSave.Visible = true;
                     this.btnStay.Visible = true;
                 }
                 else
                 {
-                    this.btnSave.Visible = false;
                     this.btnStay.Visible = false;
                 }
             }
@@ -964,12 +960,10 @@ namespace ePrint.usercontrol.Item
             {
                 if (this.objBase.ReturnRoles_Privileges_ForGrid("invoices", "isadd", this.Page.Request.Url.ToString()).Trim().ToLower() != "false")
                 {
-                    this.btnSave.Visible = true;
                     this.btnStay.Visible = true;
                 }
                 else
                 {
-                    this.btnSave.Visible = false;
                     this.btnStay.Visible = false;
                 }
             }
@@ -977,12 +971,10 @@ namespace ePrint.usercontrol.Item
             {
                 if (this.objBase.ReturnRoles_Privileges_ForGrid("webstoreorder", "isadd", this.Page.Request.Url.ToString()).Trim().ToLower() != "false")
                 {
-                    this.btnSave.Visible = true;
                     this.btnStay.Visible = true;
                 }
                 else
                 {
-                    this.btnSave.Visible = false;
                     this.btnStay.Visible = false;
                 }
             }
@@ -1028,7 +1020,6 @@ namespace ePrint.usercontrol.Item
             }
             if (!base.IsPostBack && this.IsFromActHist.ToLower() == "yes")
             {
-                this.btnSave.Visible = false;
                 this.btnStay.Visible = false;
             }
             bool unitOfMeasure = ConnectionClass.UnitOfMeasure;
@@ -1435,7 +1426,7 @@ namespace ePrint.usercontrol.Item
                 estimateItemID = new object[] { "onblur=javascript:AllowNumber_WithNegative(this,this.value);todecimal_function(this,this.value);ProfitMargin_OnBlur(this.value,1,'percent',", this.EstimateItemID, ",", num, ");" };
                 string str7 = string.Concat(estimateItemID);
                 ControlCollection controls15 = this.plhItemTotal.Controls;
-                estimateItemID = new object[] { "<input type='text' ", str5, " id='txtProfitMarginPercentage1_", this.EstimateItemID, "_", num, "' class='textboxnew' maxlength='12' ", str7, " style='width: 80px;text-align: right;' value='", this.commclass.Eprint_ReturnFinal_Formated_Amount(this.CompanyID, this.UserID, estimatesItem.ProfitMargin1, 0, "", false, false, false), "' />" };
+                estimateItemID = new object[] { "<input type='text' readonly='readonly' id='txtProfitMarginPercentage1_", this.EstimateItemID, "_", num, "' class='textboxnew eprint-field-readonly' maxlength='12' style='width: 80px;text-align: right;' value='", this.commclass.Eprint_ReturnFinal_Formated_Amount(this.CompanyID, this.UserID, estimatesItem.ProfitMargin1, 0, "", false, false, false), "' />" };
                 controls15.Add(new LiteralControl(string.Concat(estimateItemID)));
                 ControlCollection controlCollections15 = this.plhItemTotal.Controls;
                 estimateItemID = new object[] { "<input type='hidden' id='hdn_ProfitMarginPercentage1_", this.EstimateItemID, "_", num, "' value='", estimatesItem.ProfitMargin1, "' />" };
@@ -1445,7 +1436,7 @@ namespace ePrint.usercontrol.Item
                 estimateItemID = new object[] { "onblur=javascript:AllowNumber_WithNegative(this,this.value);todecimal_function(this,this.value);ProfitMargin_OnBlur(this.value,2,'percent',", this.EstimateItemID, ",", num, ");" };
                 string str8 = string.Concat(estimateItemID);
                 ControlCollection controls16 = this.plhItemTotal.Controls;
-                estimateItemID = new object[] { "<input type='text' ", str5, " id='txtProfitMarginPercentage2_", this.EstimateItemID, "_", num, "' class='textboxnew' maxlength='12' ", str8, " style='width: 80px;text-align: right;' value='", this.commclass.Eprint_ReturnFinal_Formated_Amount(this.CompanyID, this.UserID, estimatesItem.ProfitMargin2, 0, "", false, false, false), "' />" };
+                estimateItemID = new object[] { "<input type='text' readonly='readonly' id='txtProfitMarginPercentage2_", this.EstimateItemID, "_", num, "' class='textboxnew' maxlength='12' ", str8, " style='width: 80px;text-align: right;' value='", this.commclass.Eprint_ReturnFinal_Formated_Amount(this.CompanyID, this.UserID, estimatesItem.ProfitMargin2, 0, "", false, false, false), "' />" };
                 controls16.Add(new LiteralControl(string.Concat(estimateItemID)));
                 ControlCollection controlCollections16 = this.plhItemTotal.Controls;
                 estimateItemID = new object[] { "<input type='hidden' id='hdn_ProfitMarginPercentage2_", this.EstimateItemID, "_", num, "' value='", estimatesItem.ProfitMargin2, "' />" };
@@ -1455,7 +1446,7 @@ namespace ePrint.usercontrol.Item
                 estimateItemID = new object[] { "onblur=javascript:AllowNumber_WithNegative(this,this.value);todecimal_function(this,this.value);ProfitMargin_OnBlur(this.value,3,'percent',", this.EstimateItemID, ",", num, ");" };
                 string str9 = string.Concat(estimateItemID);
                 ControlCollection controls17 = this.plhItemTotal.Controls;
-                estimateItemID = new object[] { "<input type='text' ", str5, "  id='txtProfitMarginPercentage3_", this.EstimateItemID, "_", num, "' class='textboxnew' maxlength='12' ", str9, " style='width: 80px;text-align: right;' value='", this.commclass.Eprint_ReturnFinal_Formated_Amount(this.CompanyID, this.UserID, estimatesItem.ProfitMargin3, 0, "", false, false, false), "' />" };
+                estimateItemID = new object[] { "<input type='text' readonly='readonly'  id='txtProfitMarginPercentage3_", this.EstimateItemID, "_", num, "' class='textboxnew' maxlength='12' ", str9, " style='width: 80px;text-align: right;' value='", this.commclass.Eprint_ReturnFinal_Formated_Amount(this.CompanyID, this.UserID, estimatesItem.ProfitMargin3, 0, "", false, false, false), "' />" };
                 controls17.Add(new LiteralControl(string.Concat(estimateItemID)));
                 ControlCollection controlCollections17 = this.plhItemTotal.Controls;
                 estimateItemID = new object[] { "<input type='hidden' id='hdn_ProfitMarginPercentage3_", this.EstimateItemID, "_", num, "' value='", estimatesItem.ProfitMargin3, "' />" };
@@ -1465,7 +1456,7 @@ namespace ePrint.usercontrol.Item
                 estimateItemID = new object[] { "onblur=javascript:AllowNumber_WithNegative(this,this.value);todecimal_function(this,this.value);ProfitMargin_OnBlur(this.value,4,'percent',", this.EstimateItemID, ",", num, ");" };
                 string str10 = string.Concat(estimateItemID);
                 ControlCollection controls18 = this.plhItemTotal.Controls;
-                estimateItemID = new object[] { "<input type='text' ", str5, "  id='txtProfitMarginPercentage4_", this.EstimateItemID, "_", num, "' class='textboxnew' maxlength='12' ", str10, " style='width: 80px;text-align: right;' value='", this.commclass.Eprint_ReturnFinal_Formated_Amount(this.CompanyID, this.UserID, estimatesItem.ProfitMargin4, 0, "", false, false, false), "' />" };
+                estimateItemID = new object[] { "<input type='text' readonly='readonly'  id='txtProfitMarginPercentage4_", this.EstimateItemID, "_", num, "' class='textboxnew' maxlength='12' ", str10, " style='width: 80px;text-align: right;' value='", this.commclass.Eprint_ReturnFinal_Formated_Amount(this.CompanyID, this.UserID, estimatesItem.ProfitMargin4, 0, "", false, false, false), "' />" };
                 controls18.Add(new LiteralControl(string.Concat(estimateItemID)));
                 ControlCollection controlCollections18 = this.plhItemTotal.Controls;
                 estimateItemID = new object[] { "<input type='hidden' id='hdn_ProfitMarginPercentage4_", this.EstimateItemID, "_", num, "' value='", estimatesItem.ProfitMargin4, "' />" };
@@ -1493,7 +1484,7 @@ namespace ePrint.usercontrol.Item
                 estimateItemID = new object[] { "onblur=javascript:AllowNumber_WithNegative(this,this.value);todecimal_function(this,this.value);ProfitMargin_OnBlur(this.value,1,'price',", this.EstimateItemID, ",", num, ");" };
                 string str11 = string.Concat(estimateItemID);
                 ControlCollection controlCollections19 = this.plhItemTotal.Controls;
-                estimateItemID = new object[] { "<input type='text' ", str5, " id='txtProfitMarginPrice1_", this.EstimateItemID, "_", num, "' class='textboxnew' maxlength='12' ", str11, " style='width: 80px;text-align: right;' value='", this.commclass.Eprint_ReturnFinal_Formated_Amount(this.CompanyID, this.UserID, estimatesItem.ProfitMarginPrice1, 0, "", false, false, false), "' />" };
+                estimateItemID = new object[] { "<input type='text' readonly='readonly' id='txtProfitMarginPrice1_", this.EstimateItemID, "_", num, "' class='textboxnew' maxlength='12' ", str11, " style='width: 80px;text-align: right;' value='", this.commclass.Eprint_ReturnFinal_Formated_Amount(this.CompanyID, this.UserID, estimatesItem.ProfitMarginPrice1, 0, "", false, false, false), "' />" };
                 controlCollections19.Add(new LiteralControl(string.Concat(estimateItemID)));
                 ControlCollection controls20 = this.plhItemTotal.Controls;
                 estimateItemID = new object[] { "<input type='hidden' id='hdn_ProfitMarginPrice1_", this.EstimateItemID, "_", num, "' value='", estimatesItem.ProfitMarginPrice1, "' />" };
@@ -1503,7 +1494,7 @@ namespace ePrint.usercontrol.Item
                 estimateItemID = new object[] { "onblur=javascript:AllowNumber_WithNegative(this,this.value);todecimal_function(this,this.value);ProfitMargin_OnBlur(this.value,2,'price',", this.EstimateItemID, ",", num, ");" };
                 string str12 = string.Concat(estimateItemID);
                 ControlCollection controlCollections20 = this.plhItemTotal.Controls;
-                estimateItemID = new object[] { "<input type='text' ", str5, " id='txtProfitMarginPrice2_", this.EstimateItemID, "_", num, "' class='textboxnew' maxlength='12' ", str12, " style='width: 80px;text-align: right;' value='", this.commclass.Eprint_ReturnFinal_Formated_Amount(this.CompanyID, this.UserID, estimatesItem.ProfitMarginPrice2, 0, "", false, false, false), "' />" };
+                estimateItemID = new object[] { "<input type='text' readonly='readonly' id='txtProfitMarginPrice2_", this.EstimateItemID, "_", num, "' class='textboxnew' maxlength='12' ", str12, " style='width: 80px;text-align: right;' value='", this.commclass.Eprint_ReturnFinal_Formated_Amount(this.CompanyID, this.UserID, estimatesItem.ProfitMarginPrice2, 0, "", false, false, false), "' />" };
                 controlCollections20.Add(new LiteralControl(string.Concat(estimateItemID)));
                 ControlCollection controls21 = this.plhItemTotal.Controls;
                 estimateItemID = new object[] { "<input type='hidden' id='hdn_ProfitMarginPrice2_", this.EstimateItemID, "_", num, "' value='", estimatesItem.ProfitMarginPrice2, "' />" };
@@ -1513,7 +1504,7 @@ namespace ePrint.usercontrol.Item
                 estimateItemID = new object[] { "onblur=javascript:AllowNumber_WithNegative(this,this.value);todecimal_function(this,this.value);ProfitMargin_OnBlur(this.value,3,'price',", this.EstimateItemID, ",", num, ");" };
                 string str13 = string.Concat(estimateItemID);
                 ControlCollection controlCollections21 = this.plhItemTotal.Controls;
-                estimateItemID = new object[] { "<input type='text' ", str5, " id='txtProfitMarginPrice3_", this.EstimateItemID, "_", num, "' class='textboxnew' maxlength='12' ", str13, " style='width: 80px;text-align: right;' value='", this.commclass.Eprint_ReturnFinal_Formated_Amount(this.CompanyID, this.UserID, estimatesItem.ProfitMarginPrice3, 0, "", false, false, false), "' />" };
+                estimateItemID = new object[] { "<input type='text' readonly='readonly' id='txtProfitMarginPrice3_", this.EstimateItemID, "_", num, "' class='textboxnew' maxlength='12' ", str13, " style='width: 80px;text-align: right;' value='", this.commclass.Eprint_ReturnFinal_Formated_Amount(this.CompanyID, this.UserID, estimatesItem.ProfitMarginPrice3, 0, "", false, false, false), "' />" };
                 controlCollections21.Add(new LiteralControl(string.Concat(estimateItemID)));
                 ControlCollection controls22 = this.plhItemTotal.Controls;
                 estimateItemID = new object[] { "<input type='hidden' id='hdn_ProfitMarginPrice3_", this.EstimateItemID, "_", num, "' value='", estimatesItem.ProfitMarginPrice3, "' />" };
@@ -1523,7 +1514,7 @@ namespace ePrint.usercontrol.Item
                 estimateItemID = new object[] { "onblur=javascript:AllowNumber_WithNegative(this,this.value);todecimal_function(this,this.value);ProfitMargin_OnBlur(this.value,4,'price',", this.EstimateItemID, ",", num, ");" };
                 string str14 = string.Concat(estimateItemID);
                 ControlCollection controlCollections22 = this.plhItemTotal.Controls;
-                estimateItemID = new object[] { "<input type='text' ", str5, " id='txtProfitMarginPrice4_", this.EstimateItemID, "_", num, "' class='textboxnew' maxlength='12' ", str14, " style='width: 80px;text-align: right;' value='", this.commclass.Eprint_ReturnFinal_Formated_Amount(this.CompanyID, this.UserID, estimatesItem.ProfitMarginPrice4, 0, "", false, false, false), "' />" };
+                estimateItemID = new object[] { "<input type='text' readonly='readonly' id='txtProfitMarginPrice4_", this.EstimateItemID, "_", num, "' class='textboxnew' maxlength='12' ", str14, " style='width: 80px;text-align: right;' value='", this.commclass.Eprint_ReturnFinal_Formated_Amount(this.CompanyID, this.UserID, estimatesItem.ProfitMarginPrice4, 0, "", false, false, false), "' />" };
                 controlCollections22.Add(new LiteralControl(string.Concat(estimateItemID)));
                 ControlCollection controls23 = this.plhItemTotal.Controls;
                 estimateItemID = new object[] { "<input type='hidden' id='hdn_ProfitMarginPrice4_", this.EstimateItemID, "_", num, "' value='", estimatesItem.ProfitMarginPrice4, "' />" };
@@ -2224,13 +2215,13 @@ namespace ePrint.usercontrol.Item
                 if (this.EstType.ToLower() != "x")
                 {
                     ControlCollection controlCollections25 = this.plhItemTotal.Controls;
-                    estimateItemID = new object[] { "<input type='text' ", str5, " id='txtSubTotal1_", this.EstimateItemID, "_", num, "' class='textboxnew' maxlength='12' ", str15, " style='width:80px;text-align: right;font-weight:bold;' value='", this.commclass.Eprint_ReturnFinal_Formated_Amount(this.CompanyID, this.UserID, estimatesItem.SubTotal1, 0, "", false, false, false), "' />" };
+                    estimateItemID = new object[] { "<input type='text' readonly='readonly' id='txtSubTotal1_", this.EstimateItemID, "_", num, "' class='textboxnew eprint-field-readonly' maxlength='12' style='width:80px;text-align: right;font-weight:bold;' value='", this.commclass.Eprint_ReturnFinal_Formated_Amount(this.CompanyID, this.UserID, estimatesItem.SubTotal1, 0, "", false, false, false), "' />" };
                     controlCollections25.Add(new LiteralControl(string.Concat(estimateItemID)));
                 }
                 else
                 {
                     ControlCollection controls26 = this.plhItemTotal.Controls;
-                    estimateItemID = new object[] { "<input disabled='disabled' type='text' ", str5, " id='txtSubTotal1_", this.EstimateItemID, "_", num, "' class='textboxnew' maxlength='12' ", str15, " style='width:80px;text-align: right;font-weight:bold;' value='", this.commclass.Eprint_ReturnFinal_Formated_Amount(this.CompanyID, this.UserID, estimatesItem.SubTotal1, 0, "", false, false, false, false, true), "' />" };
+                    estimateItemID = new object[] { "<input type='text' readonly='readonly' id='txtSubTotal1_", this.EstimateItemID, "_", num, "' class='textboxnew eprint-field-readonly' maxlength='12' style='width:80px;text-align: right;font-weight:bold;' value='", this.commclass.Eprint_ReturnFinal_Formated_Amount(this.CompanyID, this.UserID, estimatesItem.SubTotal1, 0, "", false, false, false, false, true), "' />" };
                     controls26.Add(new LiteralControl(string.Concat(estimateItemID)));
                 }
                 ControlCollection controlCollections26 = this.plhItemTotal.Controls;
@@ -2241,7 +2232,7 @@ namespace ePrint.usercontrol.Item
                 estimateItemID = new object[] { "onblur=javascript:AllowNumber_WithNegative(this,this.value);todecimal_function(this,this.value);SubTotal_OnBlur(this.value,2,", this.EstimateItemID, ",", num, ",'", this.EstType.ToUpper(), "');" };
                 string str16 = string.Concat(estimateItemID);
                 ControlCollection controls27 = this.plhItemTotal.Controls;
-                estimateItemID = new object[] { "<input type='text' ", str5, " id='txtSubTotal2_", this.EstimateItemID, "_", num, "' class='textboxnew' maxlength='12' ", str16, " style='width: 80px;text-align: right;font-weight:bold;' value='", this.commclass.Eprint_ReturnFinal_Formated_Amount(this.CompanyID, this.UserID, estimatesItem.SubTotal2, 0, "", false, false, false), "' />" };
+                estimateItemID = new object[] { "<input type='text' readonly='readonly' id='txtSubTotal2_", this.EstimateItemID, "_", num, "' class='textboxnew eprint-field-readonly' maxlength='12' style='width: 80px;text-align: right;font-weight:bold;' value='", this.commclass.Eprint_ReturnFinal_Formated_Amount(this.CompanyID, this.UserID, estimatesItem.SubTotal2, 0, "", false, false, false), "' />" };
                 controls27.Add(new LiteralControl(string.Concat(estimateItemID)));
                 ControlCollection controlCollections27 = this.plhItemTotal.Controls;
                 estimateItemID = new object[] { "<input type='hidden' id='hdn_SubTotal2_", this.EstimateItemID, "_", num, "' value='", estimatesItem.SubTotal2, "' />" };
@@ -2251,7 +2242,7 @@ namespace ePrint.usercontrol.Item
                 estimateItemID = new object[] { "onblur=javascript:AllowNumber_WithNegative(this,this.value);todecimal_function(this,this.value);SubTotal_OnBlur(this.value,3,", this.EstimateItemID, ",", num, ",'",this.EstType.ToUpper(),"');" };
                 string str17 = string.Concat(estimateItemID);
                 ControlCollection controls28 = this.plhItemTotal.Controls;
-                estimateItemID = new object[] { "<input type='text' ", str5, " id='txtSubTotal3_", this.EstimateItemID, "_", num, "' class='textboxnew' maxlength='12' ", str17, " style='width: 80px;text-align: right;font-weight:bold;' value='", this.commclass.Eprint_ReturnFinal_Formated_Amount(this.CompanyID, this.UserID, estimatesItem.SubTotal3, 0, "", false, false, false), "' />" };
+                estimateItemID = new object[] { "<input type='text' readonly='readonly' id='txtSubTotal3_", this.EstimateItemID, "_", num, "' class='textboxnew eprint-field-readonly' maxlength='12' style='width: 80px;text-align: right;font-weight:bold;' value='", this.commclass.Eprint_ReturnFinal_Formated_Amount(this.CompanyID, this.UserID, estimatesItem.SubTotal3, 0, "", false, false, false), "' />" };
                 controls28.Add(new LiteralControl(string.Concat(estimateItemID)));
                 ControlCollection controlCollections28 = this.plhItemTotal.Controls;
                 estimateItemID = new object[] { "<input type='hidden' id='hdn_SubTotal3_", this.EstimateItemID, "_", num, "' value='", estimatesItem.SubTotal3, "' />" };
@@ -2261,7 +2252,7 @@ namespace ePrint.usercontrol.Item
                 estimateItemID = new object[] { "onblur=javascript:AllowNumber_WithNegative(this,this.value);todecimal_function(this,this.value);SubTotal_OnBlur(this.value,4,", this.EstimateItemID, ",", num, ",'", this.EstType.ToUpper(), "');" };
                 string str18 = string.Concat(estimateItemID);
                 ControlCollection controls29 = this.plhItemTotal.Controls;
-                estimateItemID = new object[] { "<input type='text' ", str5, " id='txtSubTotal4_", this.EstimateItemID, "_", num, "' class='textboxnew' maxlength='12' ", str18, " style='width: 80px;text-align: right;font-weight:bold;' value='", this.commclass.Eprint_ReturnFinal_Formated_Amount(this.CompanyID, this.UserID, estimatesItem.SubTotal4, 0, "", false, false, false), "' />" };
+                estimateItemID = new object[] { "<input type='text' readonly='readonly' id='txtSubTotal4_", this.EstimateItemID, "_", num, "' class='textboxnew eprint-field-readonly' maxlength='12' style='width: 80px;text-align: right;font-weight:bold;' value='", this.commclass.Eprint_ReturnFinal_Formated_Amount(this.CompanyID, this.UserID, estimatesItem.SubTotal4, 0, "", false, false, false), "' />" };
                 controls29.Add(new LiteralControl(string.Concat(estimateItemID)));
                 ControlCollection controlCollections29 = this.plhItemTotal.Controls;
                 estimateItemID = new object[] { "<input type='hidden' id='hdn_SubTotal4_", this.EstimateItemID, "_", num, "' value='", estimatesItem.SubTotal4, "' />" };
@@ -2581,15 +2572,12 @@ namespace ePrint.usercontrol.Item
             item_summary_total.IsEditOnlyHisRecords = baseClass.ReturnRoles_Privileges_Others("editrecords");
             if (item_summary_total.IsEditOnlyHisRecords.ToLower() == "his" && base.Session["UserID"].ToString() != item_summary_total.SalesPersonID)
             {
-                this.btnSave.Visible = false;
                 this.btnStay.Visible = false;
             }
             Button button = this.btnStay;
             estimateItemID = new object[] { "javascript:CallSave(", this.EstimateID, ", ", this.EstimateItemID, ", '", this.EstType, "', ", this.QtyCount, ",", this.SectionCount, ",'stay');" };
             button.OnClientClick = string.Concat(estimateItemID);
-            Button button1 = this.btnSave;
-            estimateItemID = new object[] { "javascript:CallSave(", this.EstimateID, ", ", this.EstimateItemID, ", '", this.EstType, "', ", this.QtyCount, ",", this.SectionCount, ",'save');" };
-            button1.OnClientClick = string.Concat(estimateItemID);
+            this.btnSave.Visible = false;
         }
 
         public void SaveClick(string type, string finalvalues, string JobID, string InvoiceID, string ItemDesc)

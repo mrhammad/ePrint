@@ -42,6 +42,11 @@ namespace ePrint.Printcenter.Views
         protected global::System.Web.UI.WebControls.Label lblRemembermeNote;
 
         /// <summary>
+        /// lblLoginTitle control.
+        /// </summary>
+        protected global::System.Web.UI.WebControls.Label lblLoginTitle;
+
+        /// <summary>
         /// lblEmail control.
         /// </summary>
         /// <remarks>

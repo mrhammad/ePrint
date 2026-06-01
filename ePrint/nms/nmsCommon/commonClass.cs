@@ -2014,34 +2014,9 @@ namespace nmsCommon
 
         public void Insert_Activity_History_For_Inventory(long InventoryID, string Description, int UserID, decimal Quantity, string ActionType, decimal FinalQuantity)
         {
-            SqlCommand sqlCommand = new SqlCommand("PC_insert_Activity_History_For_Inventory", this.openConnection())
-            {
-                CommandType = CommandType.StoredProcedure
-            };
-            sqlCommand.Parameters.AddWithValue("@InventoryID", InventoryID);
-            sqlCommand.Parameters.AddWithValue("@Description", Description);
-            sqlCommand.Parameters.AddWithValue("@UserID", UserID);
-            sqlCommand.Parameters.AddWithValue("@Quantity", Quantity);
-            sqlCommand.Parameters.AddWithValue("@ActionType", ActionType);
-            sqlCommand.Parameters.AddWithValue("@FinalQuantity", FinalQuantity);
-            sqlCommand.ExecuteNonQuery();
-            this.closeConnection();
         }
         public void Insert_Activity_History_For_InventoryNew(long InventoryID, string Description, int UserID, decimal Quantity, string ActionType, decimal FinalQuantity, long EstimateItemID)
         {
-            SqlCommand sqlCommand = new SqlCommand("PC_insert_Activity_History_For_InventoryNew", this.openConnection())
-            {
-                CommandType = CommandType.StoredProcedure
-            };
-            sqlCommand.Parameters.AddWithValue("@InventoryID", InventoryID);
-            sqlCommand.Parameters.AddWithValue("@Description", Description);
-            sqlCommand.Parameters.AddWithValue("@UserID", UserID);
-            sqlCommand.Parameters.AddWithValue("@Quantity", Quantity);
-            sqlCommand.Parameters.AddWithValue("@ActionType", ActionType);
-            sqlCommand.Parameters.AddWithValue("@FinalQuantity", FinalQuantity);
-            sqlCommand.Parameters.AddWithValue("@EstimateItemID", EstimateItemID);
-            sqlCommand.ExecuteNonQuery();
-            this.closeConnection();
         }
         //public void UpdateActivityHistoryForInventory(long InventoryID, string Description, int UserID, decimal Quantity, string ActionType, decimal FinalQuantity)
         public void UpdateActivityHistoryForInventory(long EstimateItemID, decimal Quantity, string ActionType)
@@ -2276,22 +2251,6 @@ namespace nmsCommon
 
         public void notes_Add(int companyId, string noteType, int noteTypeId, string description, string createDate, string modifiedDate, int createUserId, int modifyUserId, int isDelete)
         {
-            commonClass _commonClass = new commonClass();
-            SqlCommand sqlCommand = new SqlCommand("crm_common_notes_add", _commonClass.openConnection())
-            {
-                CommandType = CommandType.StoredProcedure
-            };
-            sqlCommand.Parameters.AddWithValue("@companyid", companyId);
-            sqlCommand.Parameters.AddWithValue("@noteType", noteType);
-            sqlCommand.Parameters.AddWithValue("@noteTypeId", noteTypeId);
-            sqlCommand.Parameters.AddWithValue("@description", description);
-            sqlCommand.Parameters.AddWithValue("@createDate", createDate);
-            sqlCommand.Parameters.AddWithValue("@modifiedDate", modifiedDate);
-            sqlCommand.Parameters.AddWithValue("@createUserID", createUserId);
-            sqlCommand.Parameters.AddWithValue("@modifyUserID", modifyUserId);
-            sqlCommand.Parameters.AddWithValue("@isDelete", isDelete);
-            sqlCommand.ExecuteNonQuery();
-            _commonClass.closeConnection();
         }
 
         public void notes_Edit(int notesId, int companyId, string noteType, int noteTypeId, string description, string createDate, string modifiedDate, int createUserId, int modifyUserId, int isDelete)

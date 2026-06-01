@@ -297,6 +297,133 @@ namespace ePrint.usercontrol.Item
             this.liOtherCost.Visible = false;
         }
 
+        private void RenderAddSubItemDropdown()
+        {
+            if (!this.liaddItemhead.Visible)
+            {
+                return;
+            }
+
+            string parentId = this.ParentEstimateItemID.ToString();
+            string parentType = this.ParentEstimateType ?? string.Empty;
+            StringBuilder sb = new StringBuilder();
+            string currentGroup = null;
+
+            string addSubTitle = this.objLanguage.GetLanguageConversion("Add_Sub_Item");
+            sb.Append("<div class='eprint-addsub-dropdown eprint-addsub-slot-inner' data-addsub-dropdown='1'>");
+            sb.Append("<select class='eprint-addsub-select' id='ddlAddSubItem_");
+            sb.Append(HttpUtility.HtmlAttributeEncode(parentId));
+            sb.Append("' data-parent-id='");
+            sb.Append(HttpUtility.HtmlAttributeEncode(parentId));
+            sb.Append("' data-parent-type='");
+            sb.Append(HttpUtility.HtmlAttributeEncode(parentType));
+            sb.Append("' onchange='eprintRunAddSubItem(this)'>");
+            sb.Append("<option value=''>");
+            sb.Append(HttpUtility.HtmlEncode(addSubTitle));
+            sb.Append("</option>");
+
+            Action<string, bool, string, string> appendOption = (code, show, text, group) =>
+            {
+                if (!show || string.IsNullOrEmpty(code) || string.IsNullOrEmpty(text))
+                {
+                    return;
+                }
+                if (!string.IsNullOrEmpty(group))
+                {
+                    if (currentGroup != group)
+                    {
+                        if (currentGroup != null)
+                        {
+                            sb.Append("</optgroup>");
+                        }
+                        sb.Append("<optgroup label='");
+                        sb.Append(HttpUtility.HtmlAttributeEncode(group));
+                        sb.Append("'>");
+                        currentGroup = group;
+                    }
+                }
+                else if (currentGroup != null)
+                {
+                    sb.Append("</optgroup>");
+                    currentGroup = null;
+                }
+
+                sb.Append("<option value='");
+                sb.Append(HttpUtility.HtmlAttributeEncode(code));
+                sb.Append("'>");
+                sb.Append(HttpUtility.HtmlEncode(text));
+                sb.Append("</option>");
+            };
+
+            if (this.lisheefedDigital.Visible)
+            {
+                string digitalGroup = this.objLanguage.GetLanguageConversion("Sheet_Fed_Digital");
+                appendOption("S", this.lidigitalsingle.Visible, this.objLanguage.GetLanguageConversion("Single_Item"), digitalGroup);
+                appendOption("P", this.lidigitalPad.Visible, this.objLanguage.GetLanguageConversion("Pads"), digitalGroup);
+            }
+
+            if (this.lisheetfedOffset.Visible)
+            {
+                string offsetGroup = this.objLanguage.GetLanguageConversion("Sheet_Fed_Offset");
+                appendOption("F", this.lioffsetsingle.Visible, this.objLanguage.GetLanguageConversion("Single_Item"), offsetGroup);
+                appendOption("D", this.lioffsetpads.Visible, this.objLanguage.GetLanguageConversion("Pads"), offsetGroup);
+            }
+
+            appendOption("O", this.liOutwork.Visible, this.objLanguage.GetLanguageConversion("Outwork"), null);
+            appendOption("C", this.liProductCatalogue.Visible, this.objLanguage.GetLanguageConversion("Product_Catalogue"), null);
+            appendOption("U", this.liOtherCost.Visible, this.objLanguage.GetLanguageConversion("Other_Cost"), null);
+            appendOption("T", this.liDeliveryCost.Visible, this.objLanguage.GetLanguageConversion("Delivery_Cost"), null);
+
+            if (this.liLargeItems.Visible)
+            {
+                string largeGroup = this.objLanguage.GetLanguageConversion("Large_Format");
+                appendOption("L", this.liLinear.Visible, this.objLanguage.GetLanguageConversion("Linear"), largeGroup);
+                string sqLabel = !string.IsNullOrEmpty(this.aSqmeter.Text)
+                    ? this.aSqmeter.Text.Trim()
+                    : this.objLanguage.GetLanguageConversion("Square_Feet");
+                appendOption("Sq", this.liSqMeter.Visible, sqLabel, largeGroup);
+                appendOption("ti", this.liTilling.Visible, "Tilling", largeGroup);
+            }
+
+            appendOption("W", this.liInventory.Visible, this.objLanguage.GetLanguageConversion("Inventory"), null);
+
+            if (currentGroup != null)
+            {
+                sb.Append("</optgroup>");
+            }
+
+            sb.Append("</select></div>");
+
+            this.plhSubItems.Controls.Add(new LiteralControl(sb.ToString()));
+            this.HideLegacyAddSubItemList();
+
+            string existingClass = this.liaddItemhead.Attributes["class"] ?? "summary_itemsalign";
+            if (existingClass.IndexOf("eprint-addsub-dropdown-mode", StringComparison.OrdinalIgnoreCase) < 0)
+            {
+                this.liaddItemhead.Attributes["class"] = existingClass + " eprint-addsub-dropdown-mode";
+            }
+            this.liaddItemhead.Attributes["data-addsub-dropdown"] = "1";
+        }
+
+        private void HideLegacyAddSubItemList()
+        {
+            this.lisheefedDigital.Visible = false;
+            this.lidigitalsingle.Visible = false;
+            this.lidigitalPad.Visible = false;
+            this.lisheetfedOffset.Visible = false;
+            this.lioffsetsingle.Visible = false;
+            this.lioffsetpads.Visible = false;
+            this.liOutwork.Visible = false;
+            this.liProductCatalogue.Visible = false;
+            this.liOtherCost.Visible = false;
+            this.liDeliveryCost.Visible = false;
+            this.liLargeItems.Visible = false;
+            this.liLinear.Visible = false;
+            this.liSqMeter.Visible = false;
+            this.liTilling.Visible = false;
+            this.liInventory.Visible = false;
+        }
+
         protected void Page_Load(object sender, EventArgs e)
         {
 
@@ -391,7 +518,7 @@ namespace ePrint.usercontrol.Item
                     base.Response.Cookies["SubTabSelect"].Value = "";
                 }
             }
-            this.liViewHistory.Visible = true;
+            this.liViewHistory.Visible = false;
             DataTable dataTable2 = new DataTable();
             DataTable dataTable3 = this.objBase.UserAccessRights_OnConditionally((long)this.CompanyID, (long)this.UserID);
 
@@ -1585,7 +1712,7 @@ namespace ePrint.usercontrol.Item
                 {
                     this.liDeleteItem.Visible = false;
                 }
-                this.RCM_Options.Visible = true;
+                this.RCM_Options.Visible = false;
                 if (this.Module.ToLower() == "order" || this.Module.ToLower() == "estimate" || this.Module.ToLower() == "invoice")
                 {
                     this.liEditJobCard.Visible = false;
@@ -2100,7 +2227,8 @@ namespace ePrint.usercontrol.Item
                                         estimateID = new object[] { "javascript:return OpenCreateInvoice(", this.EstimateID, ", ", this.ParentEstimateItemID, ", 'main',", this.jobID, ");" };
                                         attributeCollection15.Add("onclick", string.Concat(estimateID));
                                     }
-                                    if (base.Request.Url.ToString().ToLower().Contains("jobs/job_summary_reeng.aspx") || base.Request.Url.ToString().ToLower().Contains("jobs/job_order_summary.aspx"))
+                                    if (base.Request.Url.ToString().ToLower().Contains("jobs/job_summary_reeng.aspx")
+                                        || base.Request.Url.ToString().ToLower().Contains("jobs/job_order_summary.aspx"))
                                     {
                                         this.plhQL.Controls.Add(linkButton2);
                                     }
@@ -2130,21 +2258,15 @@ namespace ePrint.usercontrol.Item
                         {
                             stringBuilder5.Append(string.Concat("<div class='activity-list'>", this.objLangClass.GetLanguageConversion("Delivery_Note"), ":<br>"));
                         }
-                        else if (!base.Request.Url.ToString().ToLower().Contains("jobs/job_summary_reeng.aspx") && !base.Request.Url.ToString().ToLower().Contains("jobs/job_order_summary.aspx"))
-                        {
-                            this.plhQL.Controls.Add(new LiteralControl(string.Concat("<div class='activity-list'>", this.objLangClass.GetLanguageConversion("Delivery_Note"), ": </div>")));
-                        }
                         else if (!flag20)
                         {
-                            //this.plhQL.Controls.Add(new LiteralControl(string.Concat("<div class='activity-list'>", this.objLangClass.GetLanguageConversion("Delivery_Note"), ":<br><a href='#' class='create' onclick='javascript:OpenMultiDeliveryNote();'></a>")));
-                            this.plhQL.Controls.Add(new LiteralControl(string.Concat("<div class='activity-list'>", this.objLangClass.GetLanguageConversion("Delivery_Note"), ":<br><a href='#' class='create' onclick='javascript:OpenDeliveryNoteSelectItems();'></a>")));
+                            ControlCollection controls14 = this.plhQL.Controls;
+                            languageConversion = new string[] { "<div class='activity-list'>", this.objLangClass.GetLanguageConversion("Delivery_Note"), ":<br><a href='#' class='create' onclick='javascript:OpenDeliveryNoteSelectItems();'>", this.objLangClass.GetLanguageConversion("Create"), "</a></div>" };
+                            controls14.Add(new LiteralControl(string.Concat(languageConversion)));
                         }
                         else
                         {
-                            ControlCollection controls14 = this.plhQL.Controls;
-                            //languageConversion = new string[] { "<div class='activity-list'>", this.objLangClass.GetLanguageConversion("Delivery_Note"), ":<br><a href='#' class='create' onclick='javascript:OpenMultiDeliveryNote();'>", this.objLangClass.GetLanguageConversion("Create"), "</a>" };
-                            languageConversion = new string[] { "<div class='activity-list'>", this.objLangClass.GetLanguageConversion("Delivery_Note"), ":<br><a href='#' class='create' onclick='javascript:OpenDeliveryNoteSelectItems();'>", this.objLangClass.GetLanguageConversion("Create"), "</a>" };
-                            controls14.Add(new LiteralControl(string.Concat(languageConversion)));
+                            this.plhQL.Controls.Add(new LiteralControl(string.Concat("<div class='activity-list'>", this.objLangClass.GetLanguageConversion("Delivery_Note"), ": </div>")));
                         }
                         int num18 = 1;
                         int num19 = 1;
@@ -2229,15 +2351,15 @@ namespace ePrint.usercontrol.Item
                         {
                             stringBuilder6.Append(string.Concat("<div class='activity-list'>", this.objLangClass.GetLanguageConversion("Purchase_Order"), ":<br>"));
                         }
-                        else if (!base.Request.Url.ToString().ToLower().Contains("jobs/job_summary_reeng.aspx") && !base.Request.Url.ToString().ToLower().Contains("jobs/job_order_summary.aspx"))
-                        {
-                            this.plhQL.Controls.Add(new LiteralControl(string.Concat("<div class='activity-list'>", this.objLangClass.GetLanguageConversion("Purchase_Order"), ": </div> ")));
-                        }
                         else if (flag22)
                         {
                             ControlCollection controlCollections14 = this.plhQL.Controls;
-                            languageConversion = new string[] { "<div class='activity-list'>", this.objLangClass.GetLanguageConversion("Purchase_Order"), ":<br> <a class='create' href='#' onclick='javascript:CreatePurchase_reeng();'>", this.objLangClass.GetLanguageConversion("Create"), "</a>" };
+                            languageConversion = new string[] { "<div class='activity-list'>", this.objLangClass.GetLanguageConversion("Purchase_Order"), ":<br> <a class='create' href='#' onclick='javascript:CreatePurchase_reeng();'>", this.objLangClass.GetLanguageConversion("Create"), "</a></div>" };
                             controlCollections14.Add(new LiteralControl(string.Concat(languageConversion)));
+                        }
+                        else
+                        {
+                            this.plhQL.Controls.Add(new LiteralControl(string.Concat("<div class='activity-list'>", this.objLangClass.GetLanguageConversion("Purchase_Order"), ": </div> ")));
                         }
                         int num20 = 1;
                         int num21 = 1;
@@ -2304,11 +2426,7 @@ namespace ePrint.usercontrol.Item
                     if (base.Request.Url.ToString().ToLower().Contains("estimates/estimate_summary_reeng.aspx") || base.Request.Url.ToString().ToLower().Contains("jobs/job_summary_reeng.aspx") || base.Request.Url.ToString().ToLower().Contains("invoice/invoice_summary_reeng.aspx") || base.Request.Url.ToString().ToLower().Contains("jobs/job_order_summary.aspx"))
                     {
                         string empty34 = string.Empty;
-                        if (base.Request.Url.ToString().ToLower().Contains("estimates/estimate_summary_reeng.aspx"))
-                        {
-                            empty34 = "estimate";
-                        }
-                        else if (base.Request.Url.ToString().ToLower().Contains("jobs/job_summary_reeng.aspx"))
+                        if (base.Request.Url.ToString().ToLower().Contains("jobs/job_summary_reeng.aspx"))
                         {
                             empty34 = "job";
                         }
@@ -2563,34 +2681,24 @@ namespace ePrint.usercontrol.Item
                         this.liCopyItem.Visible = false;
                     }
                 }
-                ControlCollection controls16 = this.plhAction.Controls;
-                estimateID = new object[] { "<h1 id='Action_", this.ParentEstimateItemID, "' onclick='javascript:rotatearrow(", this.ParentEstimateItemID, ",1)' class='summary_font12px'>" };
-                controls16.Add(new LiteralControl(string.Concat(estimateID)));
-                this.plhAction.Controls.Add(new LiteralControl(string.Concat("<label ID='lblappearence' class='HeaderText'>&nbsp;&nbsp;", this.objLanguage.GetLanguageConversion("Item_Options"), "</label>")));
-                this.plhAction.Controls.Add(new LiteralControl("<div style='float: right; padding-top: 3px;'>"));
-                ControlCollection controlCollections16 = this.plhAction.Controls;
-                estimateID = new object[] { "<img id='imgup1_", this.ParentEstimateItemID, "'  class='one' src='", this.strImagepath, "ArrowUP.GIF' />" };
-                controlCollections16.Add(new LiteralControl(string.Concat(estimateID)));
-                ControlCollection controls17 = this.plhAction.Controls;
-                estimateID = new object[] { "<img id='imgdown1_", this.ParentEstimateItemID, "'  class='one' src='", this.strImagepath, "ArrowDown.gif' style='display: none'>" };
-                controls17.Add(new LiteralControl(string.Concat(estimateID)));
-                this.plhAction.Controls.Add(new LiteralControl("</div></h1>"));
-                this.plhAction.Controls.Add(new LiteralControl(string.Concat("<ul id='Ul5_", this.ParentEstimateItemID, "' class='Summary_panelitems'>")));
-                this.plhAction2.Controls.Add(new LiteralControl("</ul>"));
-                ControlCollection controlCollections17 = this.plhSubItems.Controls;
-                estimateID = new object[] { "<h1 id='AddSubItem_", this.ParentEstimateItemID, "' onclick='javascript:rotatearrow(", this.ParentEstimateItemID, ",3)' class='summary_font12px'>" };
-                controlCollections17.Add(new LiteralControl(string.Concat(estimateID)));
-                this.plhSubItems.Controls.Add(new LiteralControl(string.Concat("<label ID='lbledittemplate' class ='HeaderText'>&nbsp;&nbsp;", this.objLanguage.GetLanguageConversion("Add_Sub_Item"), "</label>")));
-                this.plhSubItems.Controls.Add(new LiteralControl("<div style='float: right; padding-top: 3px;'>"));
-                ControlCollection controls18 = this.plhSubItems.Controls;
-                estimateID = new object[] { "<img id='imgup3_", this.ParentEstimateItemID, "'  class='three' src='", this.strImagepath, "ArrowUP.GIF' />" };
-                controls18.Add(new LiteralControl(string.Concat(estimateID)));
-                ControlCollection controlCollections18 = this.plhSubItems.Controls;
-                estimateID = new object[] { "<img id='imgdown3_", this.ParentEstimateItemID, "'  class='three' src='", this.strImagepath, "ArrowDown.gif' style='display: none'>" };
-                controlCollections18.Add(new LiteralControl(string.Concat(estimateID)));
-                this.plhSubItems.Controls.Add(new LiteralControl("</div></h1>"));
-                this.plhSubItems.Controls.Add(new LiteralControl(string.Concat("<ul id='Ul7_", this.ParentEstimateItemID, "' class='Summary_panelitems'>")));
-                this.plhSubItems2.Controls.Add(new LiteralControl("</ul>"));
+                if (this.RCM_Options.Visible)
+                {
+                    ControlCollection controls16 = this.plhAction.Controls;
+                    estimateID = new object[] { "<h1 id='Action_", this.ParentEstimateItemID, "' onclick='javascript:rotatearrow(", this.ParentEstimateItemID, ",1)' class='summary_font12px'>" };
+                    controls16.Add(new LiteralControl(string.Concat(estimateID)));
+                    this.plhAction.Controls.Add(new LiteralControl(string.Concat("<label ID='lblappearence' class='HeaderText'>&nbsp;&nbsp;", this.objLanguage.GetLanguageConversion("Item_Options"), "</label>")));
+                    this.plhAction.Controls.Add(new LiteralControl("<div style='float: right; padding-top: 3px;'>"));
+                    ControlCollection controlCollections16 = this.plhAction.Controls;
+                    estimateID = new object[] { "<img id='imgup1_", this.ParentEstimateItemID, "'  class='one' src='", this.strImagepath, "ArrowUP.GIF' />" };
+                    controlCollections16.Add(new LiteralControl(string.Concat(estimateID)));
+                    ControlCollection controls17 = this.plhAction.Controls;
+                    estimateID = new object[] { "<img id='imgdown1_", this.ParentEstimateItemID, "'  class='one' src='", this.strImagepath, "ArrowDown.gif' style='display: none'>" };
+                    controls17.Add(new LiteralControl(string.Concat(estimateID)));
+                    this.plhAction.Controls.Add(new LiteralControl("</div></h1>"));
+                    this.plhAction.Controls.Add(new LiteralControl(string.Concat("<ul id='Ul5_", this.ParentEstimateItemID, "' class='Summary_panelitems'>")));
+                    this.plhAction2.Controls.Add(new LiteralControl("</ul>"));
+                }
+                this.RenderAddSubItemDropdown();
                 ControlCollection controls19 = this.QL.Controls;
                 if (base.Request.Url.ToString().ToLower().Contains("proofs/proof_summary.aspx"))
                 {

@@ -3,6 +3,7 @@
 
 <%@ Register TagPrefix="telerik" Namespace="Telerik.Web.UI" Assembly="Telerik.Web.UI" %>
 <%@ Register TagPrefix="UC" TagName="Loading" Src="~/usercontrol/settings/Loading.ascx" %>
+<link rel="stylesheet" type="text/css" href="<%=strSitepath%>App_Themes/Theme1/eprint-estimate-add.css?VN=<%=VersionNumber%>" />
 <script language="javascript" type="text/javascript" src="<%=strSitepath %>js/Item/AutoFill.js?VN='<%=VersionNumber%>'"></script>
 <div id="ds00" style="display: block;">
 </div>
@@ -81,9 +82,16 @@
             <div class="div_addnewmargin">
                 <div>
                     <div align="left">
-                        <div id="divStage1" align="left" style="width: 100%; display: none;">
-                            <div style="width: 100%; border: 2;">
-                                <div id="leftcol" style="width: 50%;">
+                        <div id="divStage1" class="eprint-estimate-stage1" align="left" style="width: 100%; <%=IsSatge1%>">
+                            <div class="eprint-est-page-header">
+                                <div>
+                                    <h2><%=objLanguage.GetLanguageConversion("Create_Estimate")%></h2>
+                                    <p class="eprint-est-meta">Stage 1 — customer &amp; schedule · Required fields marked *</p>
+                                </div>
+                                <div class="eprint-est-header-actions"></div>
+                            </div>
+                            <div class="eprint-est-columns">
+                                <div id="leftcol" class="eprint-est-col">
                                     <div align="left">
                                         <div class="bglabelnew">
                                             <div style="float: left;">
@@ -360,7 +368,7 @@
                                             <asp:Label ID="lblJobProgressedValue" runat="server" CssClass="normaltext"></asp:Label></div>
                                     </div>
                                 </div>
-                                <div id="rightcol" style="width: 49%">
+                                <div id="rightcol" class="eprint-est-col">
                                     <div align="left">
                                         <div class="bglabelnew" id="dive" runat="server">
                                             <asp:Label ID="lblestimatetype" runat="server" Text='Item Type' CssClass="normalText"></asp:Label>
@@ -757,10 +765,6 @@
                                     </div>
                                 </div>
                             </div>
-                            <div style="float: left; width: 100%;">
-                                <div>
-                                </div>
-                            </div>
                         </div>
                         <asp:Panel ID="pnldiv_only_for_add" runat="server" Visible="false">
                             <script type="text/javascript">
@@ -771,8 +775,7 @@
                         </asp:Panel>
                         <asp:Panel ID="pnlForStage1" runat="server" Visible="false">
                             <script>
-                                document.getElementById("divStage1").style.display = "block";  
-                                                                      
+                                document.getElementById("divStage1").style.display = "block";
                             </script>
                         </asp:Panel>
                     </div>
@@ -1053,6 +1056,7 @@
 </script>
 <script type="text/javascript" language="javascript" src="<%=strSitepath %>js/Item/stage1_new.js?VN='<%=VersionNumber%>'">
 </script>
+<script type="text/javascript" src="<%=strSitepath %>js/Item/eprint-estimate-add.js?VN=<%=VersionNumber%>"></script>
 <asp:Panel ID="panelddlestimatefromconfig" Visible="false" runat="server">
     <script>
         var DigitalSingleItem = '<%=DigitalSingleItem %>';

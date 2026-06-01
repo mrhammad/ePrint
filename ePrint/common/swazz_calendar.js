@@ -109,9 +109,29 @@ catch (err) {
 function lcs(ielem, format) {    
     DateFormat = format;        // by vinay
     updobj = ielem;
-    getObj('fc').style.left = Left(ielem) + "px";
-    getObj('fc').style.top = Top(ielem) + ielem.offsetHeight + "px";
-    getObj('fc').style.display = '';
+    var fc = getObj('fc');
+    fc.style.display = '';
+    fc.style.position = 'fixed';
+    fc.style.zIndex = '10001';
+    var rect = ielem.getBoundingClientRect();
+    var calHeight = fc.offsetHeight || 200;
+    var calWidth = fc.offsetWidth || 200;
+    var calTop = rect.bottom + 2;
+    var calLeft = rect.left;
+    if (calTop + calHeight > window.innerHeight - 8) {
+        calTop = rect.top - calHeight - 2;
+    }
+    if (calTop < 8) {
+        calTop = 8;
+    }
+    if (calLeft + calWidth > window.innerWidth - 8) {
+        calLeft = window.innerWidth - calWidth - 8;
+    }
+    if (calLeft < 8) {
+        calLeft = 8;
+    }
+    fc.style.left = calLeft + 'px';
+    fc.style.top = calTop + 'px';
 
     // First check date is valid
     curdt = ielem.value;

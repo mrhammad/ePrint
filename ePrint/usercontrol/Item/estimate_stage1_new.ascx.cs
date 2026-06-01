@@ -75,7 +75,7 @@ namespace ePrint.usercontrol.Item
 
         public string Pub_CustomerName = "";
 
-        public string IsSatge1 = "display:block;";
+        public string IsSatge1 = "display:none;";
 
         public string newdate = string.Empty;
 
@@ -521,6 +521,12 @@ namespace ePrint.usercontrol.Item
         private void Click_Add()
         {
             this.EstimateID = this.Insert_Estimate_Data();
+        }
+
+        private void ShowStage1Panel()
+        {
+            this.pnlForStage1.Visible = true;
+            this.IsSatge1 = "display:block;";
         }
 
         public void EstimatesTypesfromDwebconfig()
@@ -1882,7 +1888,7 @@ namespace ePrint.usercontrol.Item
                         {
                             this.lblEstimateNumber.Text = string.Concat("ESTH", estNo.ToString().Substring(1, estNo.ToString().Length - 1));
                         }
-                        this.pnlForStage1.Visible = true;
+                        this.ShowStage1Panel();
                         this.ddlSalesPerson.SelectedValue = this.UserID.ToString();
                         
                         // load default logged in user
@@ -2109,7 +2115,7 @@ namespace ePrint.usercontrol.Item
                                     // estimator
                                     this.ddlEstimator.SelectedValue = Convert.ToString(dataRow5["EstimatorId"]);
 
-                                    this.pnlForStage1.Visible = true;
+                                    this.ShowStage1Panel();
                                     this.pnldiv_only_for_add.Visible = true;
                                     System.Type type = base.GetType();
                                     companyID = new object[] { "javascript:CallLoadCostCentre(", this.CompanyID, ",", this.hid_ClientID.Value, ",", this.hdn_DepartmentID.Value, ",", 0, ");" };
@@ -2229,7 +2235,7 @@ namespace ePrint.usercontrol.Item
 
                                     // estimator
                                     this.ddlEstimator.SelectedValue = Convert.ToString(dataReader1["EstimatorId"]);
-                                    this.pnlForStage1.Visible = true;
+                                    this.ShowStage1Panel();
                                     this.pnldiv_only_for_add.Visible = true;
                                     System.Type type1 = base.GetType();
                                     companyID = new object[] { "javascript:CallLoadCostCentre(", this.CompanyID, ",", this.hid_ClientID.Value, ",", this.hdn_DepartmentID.Value, ",", 0, ");" };
@@ -2459,7 +2465,7 @@ namespace ePrint.usercontrol.Item
                                 this.ddlEstimator.SelectedValue = Convert.ToString(dataRow6["userID"]);
 
                                 this.hdn_selectedcentre.Value = dataRow6["costcentreID"].ToString();
-                                this.pnlForStage1.Visible = true;
+                                this.ShowStage1Panel();
                                 this.pnldiv_only_for_add.Visible = true;
                             }
                             System.Type type2 = base.GetType();

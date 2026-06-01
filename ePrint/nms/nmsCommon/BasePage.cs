@@ -1,4 +1,5 @@
 using nmsLanguage;
+using nmsLogin;
 using Printcenter.UI.Setting;
 using System;
 using System.Collections;
@@ -813,11 +814,118 @@ namespace nmsCommon
 			return (new BaseClass()).SpecialDecode(value ?? string.Empty);
 		}
 
+		public static bool IsLightweightAuthPageEnabled()
+		{
+			string setting = ConfigurationManager.AppSettings["LightweightLogin"];
+			return string.IsNullOrEmpty(setting)
+				|| string.Equals(setting, "true", StringComparison.OrdinalIgnoreCase)
+				|| string.Equals(setting, "1", StringComparison.OrdinalIgnoreCase);
+		}
+
+		/// <summary>
+		/// Avoids PC_Select_LanguageFile on login/sign-up; uses built-in english_to_english resources.
+		/// </summary>
+		public static void EnsureAuthPageLanguageLightweight(HttpSessionState session)
+		{
+			if (session == null || session["LanguageConversion"] != null)
+			{
+				return;
+			}
+			session["LanguageConversion"] = "english_to_english";
+		}
+
+		/// <summary>
+		/// Logo from app settings Header image only (no crm_company_logo_select). Cached in session.
+		/// </summary>
+		public void ApplyAuthPageLogoLightweight(PlaceHolder plhHeader, int companyId)
+		{
+			if (plhHeader == null)
+			{
+				return;
+			}
+			string cacheKey = string.Concat("AuthLogoHtmlLight_", companyId);
+			string logoHtml = this.GetAuthPageLogoCache(cacheKey);
+			if (string.IsNullOrEmpty(logoHtml))
+			{
+				logoHtml = this.BuildLightweightAuthPageLogoHtml();
+				if (!string.IsNullOrEmpty(logoHtml))
+				{
+					this.SetAuthPageLogoCache(cacheKey, logoHtml);
+				}
+			}
+			if (!string.IsNullOrEmpty(logoHtml))
+			{
+				plhHeader.Controls.Clear();
+				plhHeader.Controls.Add(new LiteralControl(logoHtml));
+			}
+		}
+
+		private string GetAuthPageLogoCache(string cacheKey)
+		{
+			if (HttpContext.Current != null && HttpContext.Current.Cache != null)
+			{
+				return HttpContext.Current.Cache[cacheKey] as string;
+			}
+			if (this.Session != null)
+			{
+				return this.Session[cacheKey] as string;
+			}
+			return null;
+		}
+
+		private void SetAuthPageLogoCache(string cacheKey, string logoHtml)
+		{
+			if (HttpContext.Current != null && HttpContext.Current.Cache != null)
+			{
+				HttpContext.Current.Cache.Insert(
+					cacheKey,
+					logoHtml,
+					null,
+					System.Web.Caching.Cache.NoAbsoluteExpiration,
+					TimeSpan.FromHours(12));
+				return;
+			}
+			if (this.Session != null)
+			{
+				this.Session[cacheKey] = logoHtml;
+			}
+		}
+
+		private string BuildLightweightAuthPageLogoHtml()
+		{
+			try
+			{
+				string header = EprintConfigurationManager.AppSettings["Header"].ToString();
+				if (!string.IsNullOrEmpty(header))
+				{
+					return string.Concat(
+						"<img alt=\"\" class=\"eprint-login-logo\" src=\"",
+						global.sitePath(),
+						header,
+						"\" />");
+				}
+			}
+			catch
+			{
+			}
+			string brand = global.companyName();
+			if (string.IsNullOrEmpty(brand))
+			{
+				return string.Empty;
+			}
+			return string.Concat("<div class=\"eprint-login-brand\">", HttpUtility.HtmlEncode(brand), "</div>");
+		}
+
 		/// <summary>
 		/// Lightweight logo/header for login and sign-up. Skips footer, regional/date SPs, and caches HTML in session.
 		/// </summary>
 		public void ApplyAuthPageLogo(PlaceHolder plhHeader, int companyId)
 		{
+			if (IsLightweightAuthPageEnabled())
+			{
+				this.ApplyAuthPageLogoLightweight(plhHeader, companyId);
+				return;
+			}
 			if (plhHeader == null)
 			{
 				return;
@@ -930,8 +1038,97 @@ namespace nmsCommon
 			return content;
 		}
 
+		public static bool IsHomeDefaultLanding(string defaultLanding)
+		{
+			if (string.IsNullOrWhiteSpace(defaultLanding))
+			{
+				return true;
+			}
+			string landing = defaultLanding.Trim();
+			return landing.Equals("Home", StringComparison.OrdinalIgnoreCase)
+				|| landing.Equals("HOME", StringComparison.OrdinalIgnoreCase);
+		}
+
+		public static bool IsPostLoginBootstrapPending(HttpSessionState session)
+		{
+			return session != null
+				&& string.Equals(session["PostLoginBootstrapPending"] as string, "1", StringComparison.Ordinal);
+		}
+
+		public static void CompletePostLoginBootstrap(HttpSessionState session, commonClass cmn)
+		{
+			if (session == null || !IsPostLoginBootstrapPending(session))
+			{
+				return;
+			}
+			if (session["Roles_Privileges_Others"] == null && session["userTypeID"] != null)
+			{
+				SqlCommand sqlCommand = new SqlCommand("PC_RolesAndPrivileges_select", cmn.openConnection())
+				{
+					CommandType = CommandType.StoredProcedure,
+					CommandTimeout = 120
+				};
+				sqlCommand.Parameters.AddWithValue("@UserTypeID", Convert.ToInt32(session["userTypeID"]));
+				SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(sqlCommand);
+				DataSet dataSet = new DataSet();
+				sqlDataAdapter.Fill(dataSet);
+				cmn.closeConnection();
+				if (dataSet.Tables.Count > 0)
+				{
+					session["Roles_Privileges_Others"] = dataSet.Tables[0];
+				}
+				if (dataSet.Tables.Count > 1)
+				{
+					session["Roles_Privileges_Tabs"] = dataSet.Tables[1];
+				}
+				if (dataSet.Tables.Count > 2)
+				{
+					session["Roles_Privileges_Reports"] = dataSet.Tables[2];
+				}
+			}
+			if (session["Roundoff"] == null && session["companyID"] != null)
+			{
+				try
+				{
+					int companyId = Convert.ToInt32(session["companyID"]);
+					foreach (DataRow dataRow in SettingsBasePage.settings_regionalsettings_select(companyId).Rows)
+					{
+						session["Roundoff"] = dataRow["Roundoff"].ToString();
+						break;
+					}
+				}
+				catch
+				{
+					session["Roundoff"] = "2";
+				}
+			}
+			if (session["companyID"] != null && session["userID"] != null)
+			{
+				int companyId = Convert.ToInt32(session["companyID"]);
+				int userId = Convert.ToInt32(session["userID"]);
+				cmn.ht_UserSettings.Clear();
+				cmn.UserSetting_Insert(companyId, userId);
+			}
+			if (session["DeferNavigationBootstrap"] != null
+				&& session["companyID"] != null
+				&& session["userID"] != null
+				&& session["email"] != null)
+			{
+				int companyId = Convert.ToInt32(session["companyID"]);
+				int userId = Convert.ToInt32(session["userID"]);
+				string email = session["email"].ToString();
+				(new loginClass()).ApplyNavigationAndSessionBootstrap(companyId, userId, email);
+				session.Remove("DeferNavigationBootstrap");
+			}
+			session.Remove("PostLoginBootstrapPending");
+		}
+
 		public static void LoadAuthPageLanguageFile(int companyId, HttpSessionState session, commonClass cmn)
 		{
+			if (IsLightweightAuthPageEnabled())
+			{
+				return;
+			}
 			if (session == null || session["LanguageConversion"] != null)
 			{
 				return;
@@ -965,6 +1162,10 @@ namespace nmsCommon
 
 		public static void ApplyAuthPageLoginButtonColor(int companyId, HttpSessionState session, System.Web.UI.WebControls.WebControl loginButton, commonClass cmn)
 		{
+			if (IsLightweightAuthPageEnabled())
+			{
+				return;
+			}
 			if (loginButton == null)
 			{
 				return;

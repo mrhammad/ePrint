@@ -1,0 +1,1627 @@
+﻿/* Perfect summary — item_summary_main.ascx */
+
+/* Legacy jQuery UI tabs hook — must not affect layout (sibling of summary root) */
+#tabs.eprint-legacy-tabs-hook {
+  position: absolute !important;
+  left: -10000px !important;
+  width: 1px !important;
+  height: 1px !important;
+  overflow: hidden !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  border: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+#eprintPerfectSummaryRoot.eprint-perfect-summary {
+  display: block !important;
+  visibility: visible !important;
+  width: 100%;
+  min-height: 320px;
+  box-sizing: border-box;
+}
+
+.eprint-perfect-summary {
+  --sidebar-bg: #1a2332;
+  --sidebar-muted: #94a3b8;
+  --orange: #e67e22;
+  --orange-dark: #c2410c;
+  --orange-soft: #fff7ed;
+  --navy: #0f172a;
+  --surface: #ffffff;
+  --bg: #f8fafc;
+  --border: #e2e8f0;
+  --border-strong: #cbd5e1;
+  --text: #0f172a;
+  --muted: #64748b;
+  --label-bg: #f8fafc;
+  --success: #16a34a;
+  --danger: #dc2626;
+  --info: #2563eb;
+  --purple: #7c3aed;
+  --shadow: 0 1px 2px rgba(15, 23, 42, 0.06), 0 8px 24px rgba(15, 23, 42, 0.06);
+  --radius: 12px;
+  --radius-sm: 8px;
+  box-sizing: border-box;
+  color: var(--text);
+  font-size: 14px;
+  line-height: 1.45;
+  font-family: Inter, "Segoe UI", system-ui, sans-serif;
+}
+
+.eprint-perfect-summary *,
+.eprint-perfect-summary *::before,
+.eprint-perfect-summary *::after {
+  box-sizing: border-box;
+}
+    
+    
+    
+
+    /* â€”â€” Document shell â€”â€” */
+    .eprint-perfect-summary.eprint-doc {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: visible;
+      width: 100%;
+    }
+
+    /* Sticky header */
+    .eprint-doc-head {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+    }
+    .head-main {
+      display: grid;
+      grid-template-columns: minmax(240px, 1fr) auto;
+      grid-template-rows: auto auto;
+      gap: 12px 16px;
+      padding: 18px 20px 14px;
+      background: linear-gradient(180deg, #fff 0%, #fafbfc 100%);
+    }
+    .head-left {
+      grid-column: 1;
+      grid-row: 1;
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+      min-width: 0;
+    }
+    .head-actions {
+      grid-column: 2;
+      grid-row: 1;
+      align-self: start;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+      justify-content: flex-end;
+    }
+    .eprint-doc-badge {
+      width: 48px; height: 48px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, var(--orange), var(--orange-dark));
+      color: #fff;
+      font-weight: 700;
+      font-size: 0.7rem;
+      display: flex; align-items: center; justify-content: center;
+      text-align: center; line-height: 1.1; flex-shrink: 0;
+      box-shadow: 0 4px 12px rgba(230, 126, 34, 0.35);
+    }
+    .head-left h1 { margin: 0; font-size: 1.35rem; font-weight: 700; letter-spacing: -0.02em; }
+    .head-left .sub { margin: 4px 0 0; color: var(--muted); font-size: 0.875rem; }
+    .head-left .sub b { color: var(--text); font-weight: 600; }
+
+    .kpis {
+      grid-column: 1 / -1;
+      grid-row: 2;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: stretch;
+      width: 100%;
+    }
+    .eprint-kpi {
+      background: var(--label-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 8px 12px;
+      min-width: 108px;
+      max-width: 200px;
+      flex: 0 1 auto;
+      display: flex;
+      flex-direction: column;
+    }
+    .eprint-kpi .lbl {
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--muted);
+      font-weight: 600;
+      display: block;
+      line-height: 1.2;
+    }
+    .eprint-kpi .val {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-top: 4px;
+      display: block;
+      line-height: 1.25;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 180px;
+    }
+    .eprint-kpi.highlight { background: var(--orange-soft); border-color: #fed7aa; }
+    .eprint-kpi.highlight .val { color: var(--orange-dark); }
+    .dropdown { position: relative; }
+    .dropdown > button {
+      display: inline-flex; align-items: center; gap: 8px;
+      border: none; border-radius: var(--radius-sm);
+      padding: 10px 14px; font-weight: 600; font-size: 0.85rem;
+      cursor: pointer; font-family: inherit;
+      box-shadow: 0 1px 2px rgba(0,0,0,.08);
+    }
+    .btn-est-options { background: linear-gradient(180deg, #e74c3c, #c0392b); color: #fff; }
+    .btn-status { background: var(--purple); color: #fff; min-width: 160px; justify-content: space-between; }
+    .dropdown-menu {
+      display: none; position: absolute; right: 0; top: calc(100% + 6px);
+      min-width: 220px; background: #fff; border: 1px solid var(--border);
+      border-radius: var(--radius-sm); box-shadow: 0 12px 32px rgba(15,23,42,.15);
+      z-index: 30; padding: 6px 0; font-size: 0.85rem;
+    }
+    .dropdown.open .dropdown-menu { display: block; }
+    .dropdown-menu a, .dropdown-menu div {
+      display: block; padding: 9px 14px; color: var(--text); text-decoration: none;
+      cursor: pointer;
+    }
+    .dropdown-menu a:hover, .dropdown-menu div:hover { background: #f1f5f9; }
+    .dropdown-menu .disabled { color: #94a3b8; cursor: not-allowed; }
+    .dropdown-menu .sep { height: 1px; background: var(--border); margin: 4px 0; }
+    .status-menu { min-width: 240px; }
+    .status-menu .s-item { font-weight: 600; font-size: 0.8rem; }
+    .s-green { background: #22c55e !important; color: #fff !important; }
+    .s-red { background: #ef4444 !important; color: #fff !important; }
+    .s-blue { background: #3b82f6 !important; color: #fff !important; }
+    .s-amber { background: #f59e0b !important; color: #fff !important; }
+    .s-purple { background: #7c3aed !important; color: #fff !important; }
+
+    /* Tabs */
+    .eprint-doc-tabs {
+      display: flex;
+      flex-wrap: nowrap;
+      gap: 4px;
+      align-items: stretch;
+      padding: 0 16px;
+      background: #f8fafc;
+      border-bottom: 1px solid var(--border);
+      overflow-x: auto;
+      overflow-y: hidden;
+    }
+    .eprint-doc-tabs button {
+      border: none;
+      background: transparent;
+      padding: 14px 18px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      line-height: 1.35;
+      color: var(--muted);
+      cursor: pointer;
+      font-family: inherit;
+      border-bottom: 3px solid transparent;
+      margin-bottom: 0;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .eprint-doc-tabs button:hover { color: var(--text); }
+    .eprint-doc-tabs button.active {
+      color: var(--orange-dark);
+      border-bottom-color: var(--orange);
+      background: #fff;
+    }
+    .eprint-doc-tabs button .count {
+      background: var(--border); color: var(--muted);
+      font-size: 0.7rem; padding: 2px 6px; border-radius: 999px; margin-left: 6px;
+    }
+    .eprint-doc-tabs button.active .count { background: var(--orange-soft); color: var(--orange-dark); }
+
+    .eprint-panel {
+      display: none;
+      padding: 18px 20px 24px;
+      min-height: 0;
+      background: #fff;
+    }
+    .eprint-panel.active { display: block !important; visibility: visible !important; }
+    .eprint-panel[data-panel="items"] { min-height: 480px; }
+
+    .card-block {
+      border: 1px solid var(--border); border-radius: var(--radius-sm);
+      overflow: hidden; background: #fff;
+    }
+    .card-block .cb-hd {
+      padding: 10px 14px; font-weight: 700; font-size: 0.8rem;
+      background: var(--label-bg); border-bottom: 1px solid var(--border);
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .card-block .cb-bd { padding: 12px 14px; font-size: 0.85rem; }
+    .ql-row { display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px dashed var(--border); }
+    .ql-row:last-child { border-bottom: none; }
+    .ql-row a { color: var(--info); font-weight: 500; text-decoration: none; }
+
+    /* Customer tab — quick links left, flat estimate detail grid right */
+    .eprint-perfect-summary #eprintPanelCustomer.eprint-panel.active {
+      display: block !important;
+      overflow-x: hidden;
+      overflow-y: visible;
+      min-height: 280px;
+      width: 100%;
+      max-width: 100%;
+    }
+    .eprint-perfect-summary .customer-layout,
+    .eprint-perfect-summary .customer-layout--full {
+      display: block;
+      width: 100%;
+      max-width: 100%;
+      overflow: visible;
+    }
+    .eprint-perfect-summary .customer-layout .eprint-customer-quicklinks {
+      display: none !important;
+    }
+    .eprint-perfect-summary .customer-layout .eprint-customer-details-host {
+      width: 100%;
+      max-width: 100%;
+      min-width: 0;
+      overflow-x: auto;
+      overflow-y: visible;
+    }
+    .eprint-perfect-summary .eprint-customer-quicklinks #tblQL {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .eprint-perfect-summary .eprint-customer-quicklinks #tblQL tr:first-child td {
+      padding: 0;
+    }
+    .eprint-perfect-summary .eprint-customer-quicklinks [id$="divJobCust"],
+    .eprint-perfect-summary .eprint-customer-quicklinks #activity {
+      width: 100%;
+    }
+    .eprint-perfect-summary .eprint-customer-quicklinks #activity-header {
+      font-size: 11px;
+      font-weight: 700;
+      color: #000;
+      padding: 6px 5px;
+      border-bottom: 1px solid #c0c0c0;
+      margin: 0;
+    }
+    .eprint-perfect-summary .eprint-customer-quicklinks .activity-list {
+      font-size: 11px;
+      color: #121212;
+      padding: 8px 5px;
+      border-bottom: 1px solid #c0c0c0;
+      line-height: 1.35;
+    }
+    .eprint-perfect-summary .eprint-customer-quicklinks .activity-list a,
+    .eprint-perfect-summary .eprint-customer-quicklinks #activity a.create {
+      color: #10357f;
+      text-decoration: none;
+      font-size: 11px;
+    }
+    .eprint-perfect-summary .eprint-customer-quicklinks #activities-all {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 8px 5px;
+      text-align: left;
+      background-color: #ececec;
+      margin-top: 0;
+    }
+    .eprint-perfect-summary .eprint-customer-quicklinks #activities-all a {
+      color: #000;
+      text-decoration: none;
+    }
+    /* Legacy customer table uses float on <td> and 48%+99% widths — use flex row so columns stay in panel */
+    .eprint-perfect-summary .eprint-customer-details-host #tbl_CutaomerDetails {
+      width: 100% !important;
+      max-width: 100%;
+      display: block !important;
+      border-collapse: collapse;
+      border-spacing: 0;
+    }
+    .eprint-perfect-summary .eprint-customer-details-host #tbl_CutaomerDetails tbody {
+      display: block !important;
+      width: 100%;
+    }
+    .eprint-perfect-summary .eprint-customer-details-host #tbl_CutaomerDetails tr {
+      display: block !important;
+      width: 100% !important;
+      max-width: 100%;
+    }
+    .eprint-perfect-summary .eprint-customer-details-host #tbl_CutaomerDetails tr:first-child td {
+      display: block !important;
+      float: none !important;
+      width: 100% !important;
+      max-width: 100% !important;
+      padding: 2px 8px 8px 10px;
+      box-sizing: border-box;
+    }
+    .eprint-perfect-summary .eprint-customer-details-host #tbl_CutaomerDetails tr:first-child td > div {
+      float: none !important;
+      width: auto !important;
+      max-width: 100%;
+      padding: 0;
+    }
+    .eprint-perfect-summary .eprint-customer-details-host #tbl_CutaomerDetails tr:nth-child(2) {
+      display: flex !important;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      align-items: flex-start;
+      box-sizing: border-box;
+    }
+    .eprint-perfect-summary .eprint-customer-details-host #tbl_CutaomerDetails tr:nth-child(2) > td {
+      display: block !important;
+      float: none !important;
+      position: static !important;
+      flex: 0 0 50% !important;
+      min-width: 0 !important;
+      width: 50% !important;
+      max-width: 50% !important;
+      vertical-align: top !important;
+      padding: 0 8px 8px 10px;
+      box-sizing: border-box;
+    }
+    .eprint-perfect-summary .eprint-customer-details-host #tbl_CutaomerDetails tr:nth-child(n+3) {
+      display: flex !important;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .eprint-perfect-summary .eprint-customer-details-host #tbl_CutaomerDetails tr:nth-child(n+3) > td {
+      display: block !important;
+      float: none !important;
+      flex: 1 1 0;
+      min-width: 0;
+      max-width: calc(50% - 8px);
+      padding: 0 4px 8px 10px;
+      box-sizing: border-box;
+    }
+    .eprint-perfect-summary .eprint-customer-details-host #tbl_CutaomerDetails tr:nth-child(n+3) > td:empty {
+      flex: 0 0 0;
+      max-width: 0;
+      padding: 0;
+      overflow: hidden;
+    }
+    .eprint-perfect-summary .eprint-customer-details-host #tbl_CutaomerDetails td[style*="float"] {
+      float: none !important;
+    }
+    .eprint-perfect-summary .eprint-customer-details-host #tbl_CutaomerDetails tr:nth-child(2) > td > div {
+      float: none !important;
+      max-width: 100%;
+      box-sizing: border-box;
+    }
+    .eprint-perfect-summary .eprint-customer-details-host #tbl_CutaomerDetails tr:nth-child(2) td div[style]:not(.box):not(.bglabel):not(.bgLabel) {
+      float: none !important;
+      max-width: 100%;
+      box-sizing: border-box;
+    }
+    .eprint-perfect-summary .eprint-customer-details-host #tbl_CutaomerDetails tr:nth-child(2) > td > div {
+      width: 100% !important;
+      max-width: 100%;
+    }
+    /* Invoice-only rows — hidden on Estimate/Job (flex must not override) */
+    .eprint-perfect-summary:not([data-doc-type="job"]) .eprint-customer-details-host #Div_JobEstNo,
+    .eprint-perfect-summary:not([data-doc-type="job"]) .eprint-customer-details-host [id$="Div_JobEstNo"],
+    .eprint-perfect-summary .eprint-customer-details-host #Div_Status,
+    .eprint-perfect-summary .eprint-customer-details-host #divInvoice,
+    .eprint-perfect-summary .eprint-customer-details-host .eprint-invoice-only-field,
+    .eprint-perfect-summary .eprint-customer-details-host [id$="Div_InvoicePaid"],
+    .eprint-perfect-summary .eprint-customer-details-host [id$="div_InvoiceDueDate"] {
+      display: none !important;
+      visibility: hidden !important;
+      height: 0 !important;
+      min-height: 0 !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      overflow: hidden !important;
+      border: none !important;
+    }
+    .eprint-perfect-summary[data-doc-type="invoice"] .eprint-customer-details-host .eprint-invoice-only-field,
+    .eprint-perfect-summary[data-doc-type="invoice"] .eprint-customer-details-host [id$="Div_InvoicePaid"],
+    .eprint-perfect-summary[data-doc-type="invoice"] .eprint-customer-details-host [id$="div_InvoiceDueDate"] {
+      display: block !important;
+      visibility: visible !important;
+      height: auto !important;
+      min-height: 0 !important;
+      margin: 0 0 2px 0 !important;
+      padding: 0 !important;
+      overflow: hidden !important;
+    }
+    .eprint-perfect-summary .eprint-customer-details-host .eprint-cust-field-row[id$="Div_InvoicePaid"],
+    .eprint-perfect-summary .eprint-customer-details-host .eprint-cust-field-row[id$="div_InvoiceDueDate"],
+    .eprint-perfect-summary .eprint-customer-details-host .eprint-invoice-only-field.eprint-cust-field-row {
+      display: none !important;
+    }
+
+    /* Each label/value pair on one row (flex beats legacy .bglabel clear:left stacking dates) */
+    .eprint-perfect-summary .eprint-customer-details-host .eprint-cust-field-row:not(.eprint-invoice-only-field):not([id$="Div_InvoicePaid"]):not([id$="div_InvoiceDueDate"]):not([id$="Div_JobEstNo"]),
+    .eprint-perfect-summary .eprint-customer-details-host #tbl_CutaomerDetails tr:nth-child(2) td div[id]:has(> .bglabel):not(#Div_Status):not(#Div_JobEstNo):not([id$="Div_JobEstNo"]):not([id$="Div_InvoicePaid"]):not([id$="div_InvoiceDueDate"]):not(#divInvoice):not(.eprint-invoice-only-field),
+    .eprint-perfect-summary .eprint-customer-details-host #tbl_CutaomerDetails tr:nth-child(2) td div[id]:has(> .bgLabel):not(#Div_Status):not(#Div_JobEstNo):not([id$="Div_JobEstNo"]):not([id$="Div_InvoicePaid"]):not([id$="div_InvoiceDueDate"]):not(#divInvoice):not(.eprint-invoice-only-field),
+    .eprint-perfect-summary .eprint-customer-details-host #tbl_CutaomerDetails tr:nth-child(2) td div[align]:has(> .bglabel),
+    .eprint-perfect-summary .eprint-customer-details-host #tbl_CutaomerDetails tr:nth-child(2) td div[align]:has(> .bgLabel) {
+      display: flex !important;
+      flex-direction: row !important;
+      flex-wrap: nowrap !important;
+      align-items: stretch !important;
+      width: 100% !important;
+      max-width: 100% !important;
+      overflow: hidden;
+      clear: both;
+      margin-bottom: 6px;
+      gap: 6px;
+      box-sizing: border-box;
+    }
+    .eprint-perfect-summary .eprint-customer-details-host .eprint-cust-field-row:not(.eprint-invoice-only-field):not([id$="Div_InvoicePaid"]) > .bglabel,
+    .eprint-perfect-summary .eprint-customer-details-host .eprint-cust-field-row:not(.eprint-invoice-only-field):not([id$="Div_InvoicePaid"]) > .bgLabel,
+    .eprint-perfect-summary .eprint-customer-details-host #tbl_CutaomerDetails tr:nth-child(2) td div[id]:has(> .bglabel):not(#Div_Status):not([id$="Div_InvoicePaid"]):not([id$="div_InvoiceDueDate"]):not(#divInvoice) > .bglabel,
+    .eprint-perfect-summary .eprint-customer-details-host #tbl_CutaomerDetails tr:nth-child(2) td div[id]:has(> .bgLabel):not(#Div_Status):not([id$="Div_InvoicePaid"]):not([id$="div_InvoiceDueDate"]):not(#divInvoice) > .bgLabel,
+    .eprint-perfect-summary .eprint-customer-details-host #tbl_CutaomerDetails tr:nth-child(2) td div[align]:has(> .bglabel) > .bglabel,
+    .eprint-perfect-summary .eprint-customer-details-host #tbl_CutaomerDetails tr:nth-child(2) td div[align]:has(> .bgLabel) > .bgLabel {
+      flex: 0 0 34% !important;
+      float: none !important;
+      clear: none !important;
+      width: auto !important;
+      max-width: 34% !important;
+      min-width: 0;
+      display: flex !important;
+      align-items: center !important;
+      margin: 0 !important;
+      background-color: #f1f5f9 !important;
+      background-image: none !important;
+      border: 1px solid var(--border) !important;
+      border-radius: 6px !important;
+      color: #334155 !important;
+      font-weight: 600 !important;
+      font-size: 11px !important;
+      padding: 8px 10px !important;
+      box-sizing: border-box;
+    }
+    .eprint-perfect-summary .eprint-customer-details-host .eprint-cust-field-row:not(.eprint-invoice-only-field):not([id$="Div_InvoicePaid"]):not([id$="div_InvoiceDueDate"]) > .box,
+    .eprint-perfect-summary .eprint-customer-details-host #tbl_CutaomerDetails tr:nth-child(2) td div[id]:has(> .bglabel):not(#Div_Status):not(#Div_JobEstNo):not([id$="Div_JobEstNo"]):not([id$="Div_InvoicePaid"]):not([id$="div_InvoiceDueDate"]):not(#divInvoice):not(.eprint-invoice-only-field) > .box,
+    .eprint-perfect-summary .eprint-customer-details-host #tbl_CutaomerDetails tr:nth-child(2) td div[id]:has(> .bgLabel):not(#Div_Status):not(#Div_JobEstNo):not([id$="Div_JobEstNo"]):not([id$="Div_InvoicePaid"]):not([id$="div_InvoiceDueDate"]):not(#divInvoice):not(.eprint-invoice-only-field) > .box,
+    .eprint-perfect-summary .eprint-customer-details-host #tbl_CutaomerDetails tr:nth-child(2) td div[align]:has(> .bglabel) > .box,
+    .eprint-perfect-summary .eprint-customer-details-host #tbl_CutaomerDetails tr:nth-child(2) td div[align]:has(> .bgLabel) > .box {
+      flex: 1 1 auto !important;
+      float: none !important;
+      clear: none !important;
+      width: auto !important;
+      min-width: 0;
+      max-width: none;
+      display: flex !important;
+      align-items: center !important;
+      margin: 0 !important;
+      margin-left: 0 !important;
+      padding: 8px 4px 8px 8px !important;
+      background: transparent !important;
+      border: none !important;
+      border-radius: 0 !important;
+      box-shadow: none !important;
+      box-sizing: border-box;
+      overflow-wrap: anywhere;
+      word-break: break-word;
+      min-height: 0;
+    }
+    .eprint-perfect-summary .eprint-customer-details-host .bglabel .normalText,
+    .eprint-perfect-summary .eprint-customer-details-host .bgLabel .normalText,
+    .eprint-perfect-summary .eprint-customer-details-host .box .normalText,
+    .eprint-perfect-summary .eprint-customer-details-host .box label,
+    .eprint-perfect-summary .eprint-customer-details-host .box span {
+      color: var(--text) !important;
+      font-weight: 600;
+    }
+    .eprint-perfect-summary .eprint-customer-details-host .box input[type="text"],
+    .eprint-perfect-summary .eprint-customer-details-host .box input[type="email"],
+    .eprint-perfect-summary .eprint-customer-details-host .box input[type="tel"],
+    .eprint-perfect-summary .eprint-customer-details-host .box select,
+    .eprint-perfect-summary .eprint-customer-details-host .box textarea,
+    .eprint-perfect-summary .eprint-customer-details-host .box .textboxnew {
+      width: 100% !important;
+      max-width: 100% !important;
+      background: #ffffff !important;
+      border: 1px solid var(--border) !important;
+      border-radius: 6px !important;
+      padding: 6px 10px !important;
+      box-sizing: border-box;
+      font-size: 11px !important;
+      color: var(--text) !important;
+    }
+    .eprint-perfect-summary .eprint-customer-details-host .box .normalText {
+      font-weight: 500;
+    }
+    .eprint-perfect-summary .eprint-customer-details-host #tbl_CutaomerDetails tr:nth-child(2) td .hidejobdatecss,
+    .eprint-perfect-summary .eprint-customer-details-host #tbl_CutaomerDetails tr:nth-child(2) td .hidejobdatecss > div,
+    .eprint-perfect-summary .eprint-customer-details-host #tbl_CutaomerDetails tr:nth-child(2) td [id$="Div_EstDates"],
+    .eprint-perfect-summary .eprint-customer-details-host #CompletionDate {
+      width: 100% !important;
+      max-width: 100%;
+      clear: both;
+    }
+    .eprint-perfect-summary .eprint-customer-details-host #CompletionDate[style*="display: none"],
+    .eprint-perfect-summary .eprint-customer-details-host #CompletionDate[style*="display:none"],
+    .eprint-perfect-summary .eprint-customer-details-host [id$="Div_EstDates"][style*="display: none"],
+    .eprint-perfect-summary .eprint-customer-details-host [id$="Div_EstDates"][style*="display:none"] {
+      display: none !important;
+    }
+    .eprint-perfect-summary .eprint-customer-details-host .box label,
+    .eprint-perfect-summary .eprint-customer-details-host .box span {
+      max-width: 100% !important;
+    }
+    .eprint-perfect-summary .eprint-customer-details-host [style*="width: 360"],
+    .eprint-perfect-summary .eprint-customer-details-host [width="360"] {
+      max-width: 100% !important;
+      width: auto !important;
+    }
+    .eprint-perfect-summary .eprint-customer-details-host .headerText {
+      font-weight: 700;
+      font-size: 0.95rem;
+      margin-bottom: 8px;
+      display: block;
+    }
+    .field-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      border: 1px solid var(--border); border-radius: var(--radius-sm); overflow: hidden;
+    }
+    .field { display: grid; grid-template-columns: 140px 1fr; border-bottom: 1px solid var(--border); font-size: 0.8rem; }
+    .field:nth-child(odd) { border-right: 1px solid var(--border); }
+    .field .fl { background: var(--label-bg); padding: 8px 10px; font-weight: 600; color: #475569; }
+    .field .fv { padding: 8px 10px; }
+    .field.span-2 { grid-column: 1 / -1; border-right: none; }
+
+    /* Line items — tab per item + totals below */
+    .eprint-perfect-summary .eprint-line-items-shell {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .eprint-perfect-summary .eprint-line-item-tabs,
+    .eprint-perfect-summary #eprintLineItemTabsNav {
+      display: flex;
+      flex-wrap: nowrap;
+      align-items: stretch;
+      gap: 8px;
+      padding: 10px 4px 14px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 0;
+      background: #f8fafc;
+      overflow-x: auto;
+      overflow-y: visible;
+      min-height: 58px;
+      box-sizing: border-box;
+    }
+    .eprint-perfect-summary .eprint-line-item-tabs::-webkit-scrollbar,
+    .eprint-perfect-summary #eprintLineItemTabsNav::-webkit-scrollbar {
+      height: 6px;
+      width: 0;
+    }
+    .eprint-perfect-summary .eprint-line-item-tabs::-webkit-scrollbar:vertical,
+    .eprint-perfect-summary #eprintLineItemTabsNav::-webkit-scrollbar:vertical {
+      width: 0;
+      display: none;
+    }
+    .eprint-perfect-summary .eprint-line-item-tabs button {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: center;
+      gap: 0;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      background: #fff;
+      padding: 10px 14px;
+      min-width: 120px;
+      max-width: 240px;
+      min-height: 40px;
+      margin: 0;
+      cursor: pointer;
+      font-family: inherit;
+      text-align: left;
+      flex-shrink: 0;
+      line-height: 1.35;
+      transition: border-color .15s, background .15s, box-shadow .15s;
+    }
+    .eprint-perfect-summary .eprint-line-item-tabs button:hover {
+      border-color: #fed7aa;
+      background: #fff7ed;
+    }
+    .eprint-perfect-summary .eprint-line-item-tabs button.active {
+      border-color: var(--orange);
+      background: var(--orange-soft);
+      box-shadow: 0 0 0 1px var(--orange);
+    }
+    .eprint-perfect-summary .eprint-line-item-tabs .tab-code {
+      display: block;
+      font-weight: 700;
+      font-size: 0.82rem;
+      color: var(--orange-dark);
+      line-height: 1.35;
+    }
+    .eprint-perfect-summary .eprint-line-item-tabs .tab-desc {
+      display: block;
+      font-size: 0.75rem;
+      color: var(--muted);
+      line-height: 1.35;
+      max-width: 210px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .eprint-perfect-summary .eprint-line-item-tabs .tab-sub {
+      display: block;
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--text);
+      line-height: 1.35;
+    }
+    .eprint-perfect-summary .eprint-line-tab-placeholder {
+      min-width: 120px;
+      min-height: 40px;
+      border: 2px dashed var(--orange);
+      border-radius: var(--radius-sm);
+      background: #fff7ed;
+    }
+    .eprint-perfect-summary .eprint-line-item-panels {
+      width: 100%;
+      min-height: 320px;
+      padding: 12px 0 16px;
+      border: 1px solid var(--border);
+      border-top: none;
+      border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+      background: var(--bg);
+    }
+    .eprint-perfect-summary .eprint-line-item-panel {
+      width: 100%;
+      max-width: 100%;
+      background: var(--bg);
+      box-sizing: border-box;
+    }
+    .eprint-perfect-summary .eprint-line-item-panel > .sortingdivs {
+      max-width: 100%;
+    }
+    .eprint-perfect-summary .eprint-line-item-panel .eprint-li-header-hidden,
+    .eprint-perfect-summary .eprint-line-item-panel > .sortingdivs > h3,
+    .eprint-perfect-summary .eprint-line-item-panel h3.eprint-li-header-hidden,
+    .eprint-perfect-summary .eprint-line-item-panel .eprint-li-legacy-header-hidden,
+    .eprint-perfect-summary .eprint-line-item-panel > .sortingdivs > table:first-of-type,
+    .eprint-perfect-summary .eprint-line-item-panel .sortingdivs > h3 + table {
+      display: none !important;
+      height: 0 !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      overflow: hidden !important;
+      visibility: hidden !important;
+      border: none !important;
+    }
+
+    /* Legacy line-item workspace — replace blue/teal with app shell neutrals */
+    .eprint-perfect-summary .eprint-line-item-panel .sortingdivs {
+      background: transparent;
+    }
+    .eprint-perfect-summary .eprint-line-item-panel div[id^="Div_Content_"] > table,
+    .eprint-perfect-summary .eprint-line-item-panel div[id^="Div_Content_BKN_"] > table {
+      width: 100% !important;
+      border-collapse: separate;
+      border-spacing: 0;
+      background: var(--bg) !important;
+    }
+    .eprint-perfect-summary .eprint-line-item-panel div[id^="Div_Content_"] > table > tbody > tr > td:first-child,
+    .eprint-perfect-summary .eprint-line-item-panel div[id^="Div_Content_BKN_"] > table > tbody > tr > td:first-child {
+      position: sticky;
+      top: 14px;
+      align-self: start;
+      z-index: 6;
+      background: #f1f5f9 !important;
+      border-right: 1px solid var(--border) !important;
+      vertical-align: top !important;
+      padding: 12px 10px !important;
+    }
+    .eprint-perfect-summary .eprint-line-item-panel div[id^="Div_Content_"] > table > tbody > tr > td:nth-child(2),
+    .eprint-perfect-summary .eprint-line-item-panel div[id^="Div_Content_BKN_"] > table > tbody > tr > td:nth-child(2) {
+      background: #ffffff !important;
+      vertical-align: top !important;
+      padding: 16px 18px !important;
+    }
+    .eprint-perfect-summary .eprint-line-item-panel td.shadow_right,
+    .eprint-perfect-summary .eprint-line-item-panel div[id^="Div_Content_"] > table > tbody > tr > td:last-child {
+      background: #ffffff !important;
+      background-image: none !important;
+      border-left: 1px solid var(--border) !important;
+      vertical-align: top !important;
+      padding: 16px 12px !important;
+    }
+    .eprint-perfect-summary .eprint-line-item-panel .Summary_ItemDiv,
+    .eprint-perfect-summary .eprint-line-item-panel #estoreaccordion,
+    .eprint-perfect-summary .eprint-line-item-panel .summary_itemsalign {
+      background: transparent !important;
+      background-color: transparent !important;
+    }
+    .eprint-perfect-summary .eprint-line-item-panel .Summary_ItemDiv.eprint-item-actions-sidebar {
+      background: #ffffff !important;
+      background-color: #ffffff !important;
+    }
+    .eprint-perfect-summary .eprint-line-item-panel .summary_itemsalign,
+    .eprint-perfect-summary .eprint-line-item-panel .Summary_PanelList,
+    .eprint-perfect-summary .eprint-line-item-panel .Summary_PanelList_main {
+      background: transparent !important;
+      color: var(--text) !important;
+    }
+    .eprint-perfect-summary .eprint-line-item-panel .summary_itemsalign a,
+    .eprint-perfect-summary .eprint-line-item-panel .Summary_PanelList a,
+    .eprint-perfect-summary .eprint-line-item-panel .anchor_fontsize {
+      color: #334155 !important;
+    }
+    .eprint-perfect-summary .eprint-line-item-panel .summary_itemsalign:hover,
+    .eprint-perfect-summary .eprint-line-item-panel #estoreaccordion ul li:hover {
+      background: #e2e8f0 !important;
+      border-radius: 6px;
+    }
+    .eprint-perfect-summary .eprint-line-item-panel li[id$="_RCM_Options"],
+    .eprint-perfect-summary .eprint-line-item-panel #RCM_Options {
+      display: none !important;
+    }
+    .eprint-perfect-summary .eprint-line-item-panel #liViewHistory,
+    .eprint-perfect-summary .eprint-line-item-panel li[id*="liViewHistory"] {
+      display: none !important;
+    }
+    .eprint-perfect-summary .eprint-line-item-panel #activity-header {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--sidebar-muted, #64748b);
+      padding: 8px 6px;
+      border-bottom: 1px solid var(--border);
+      background: transparent !important;
+    }
+    .eprint-perfect-summary .eprint-line-item-panel #activities-all,
+    .eprint-perfect-summary .eprint-line-item-panel [id^="activities-all"] {
+      background: #ececec !important;
+      border-top: 1px solid var(--border);
+    }
+    .eprint-perfect-summary .eprint-line-item-panel #tblSingleItem,
+    .eprint-perfect-summary .eprint-line-item-panel #tblLithoSingleItem,
+    .eprint-perfect-summary .eprint-line-item-panel #tblTotal,
+    .eprint-perfect-summary .eprint-line-item-panel table[id^="tbl"] {
+      background: #ffffff !important;
+      border-collapse: collapse;
+    }
+    .eprint-perfect-summary .eprint-line-item-panel #tblSingleItem td,
+    .eprint-perfect-summary .eprint-line-item-panel #tblLithoSingleItem td,
+    .eprint-perfect-summary .eprint-line-item-panel #tblTotal td,
+    .eprint-perfect-summary .eprint-line-item-panel table[id^="tbl"] td {
+      background-color: #ffffff !important;
+      color: var(--text);
+      border-color: var(--border);
+    }
+    .eprint-perfect-summary .eprint-line-item-panel .bglabelItem_summary,
+    .eprint-perfect-summary .eprint-line-item-panel .bglabelItem_summary_B,
+    .eprint-perfect-summary .eprint-line-item-panel .bglabel,
+    .eprint-perfect-summary .eprint-line-item-panel .bgLabel {
+      background-color: #f1f5f9 !important;
+      background-image: none !important;
+      border: 1px solid var(--border) !important;
+      border-radius: 6px !important;
+      color: #334155 !important;
+      font-weight: 600 !important;
+      font-size: 11px !important;
+      padding: 8px 10px !important;
+      margin-bottom: 4px !important;
+    }
+    .eprint-perfect-summary .eprint-line-item-panel .reportFinalSumRowcColor,
+    .eprint-perfect-summary .eprint-line-item-panel .reportFinalCountRowcColor,
+    .eprint-perfect-summary .eprint-line-item-panel .newLabelText,
+    .eprint-perfect-summary .eprint-line-item-panel .newLabelText1,
+    .eprint-perfect-summary .eprint-line-item-panel .newLabelText2,
+    .eprint-perfect-summary .eprint-line-item-panel headerSubsection,
+    .eprint-perfect-summary .eprint-line-item-panel .NewBackgroung,
+    .eprint-perfect-summary .eprint-line-item-panel .title_green {
+      background-color: #f1f5f9 !important;
+      background-image: none !important;
+      color: var(--text) !important;
+    }
+    .eprint-perfect-summary .eprint-line-item-panel .reportSumRowcColor {
+      background-color: #fff7ed !important;
+    }
+    .eprint-perfect-summary .eprint-line-item-panel .reportCountRowcColor {
+      background-color: #ffffff !important;
+    }
+    .eprint-perfect-summary .eprint-line-item-panel [style*="background-color: #00BFFF"],
+    .eprint-perfect-summary .eprint-line-item-panel [style*="background-color:#00BFFF"],
+    .eprint-perfect-summary .eprint-line-item-panel [style*="background-color: #AFEEEE"],
+    .eprint-perfect-summary .eprint-line-item-panel [style*="background-color:#AFEEEE"],
+    .eprint-perfect-summary .eprint-line-item-panel [style*="background-color: #BDD5D9"],
+    .eprint-perfect-summary .eprint-line-item-panel [style*="background-color:#BDD5D9"],
+    .eprint-perfect-summary .eprint-line-item-panel [style*="background-color: #CFE0E2"],
+    .eprint-perfect-summary .eprint-line-item-panel [style*="background-color:#CFE0E2"],
+    .eprint-perfect-summary .eprint-line-item-panel [style*="background-color: #D3DEE5"],
+    .eprint-perfect-summary .eprint-line-item-panel [style*="background-color:#D3DEE5"] {
+      background-color: #ffffff !important;
+    }
+    .eprint-perfect-summary .eprint-line-item-panel .normalText_summarypage,
+    .eprint-perfect-summary .eprint-line-item-panel .normalText {
+      color: var(--text) !important;
+      font-weight: 600;
+    }
+    .eprint-perfect-summary .eprint-line-item-panel [id^="spnSellingPrice"] {
+      color: var(--orange-dark) !important;
+    }
+    .eprint-perfect-summary .eprint-line-item-panel .textboxnew,
+    .eprint-perfect-summary .eprint-line-item-panel textarea.textboxnew {
+      background: #ffffff !important;
+      border: 1px solid var(--border) !important;
+      border-radius: 6px !important;
+    }
+    .eprint-perfect-summary .eprint-line-item-panel table[id^="tblDescription"] {
+      background: #ffffff !important;
+    }
+    .eprint-perfect-summary .eprint-line-item-panel table[id^="tblDescription"] td,
+    .eprint-perfect-summary .eprint-line-item-panel table[id^="tblDescription_nat"] td {
+      background: #ffffff !important;
+    }
+    .eprint-perfect-summary .eprint-line-item-panel .summaryFooter {
+      display: none !important;
+    }
+    /* Save above customer descriptions (right column) */
+    .eprint-perfect-summary .eprint-summary-save-bar {
+      display: block;
+      width: 100%;
+      max-width: 430px;
+      margin: 0 0 8px auto;
+      padding: 0 4px 10px 0;
+      box-sizing: border-box;
+      clear: both;
+      text-align: right;
+    }
+    .eprint-perfect-summary .eprint-summary-save-bar .button {
+      min-width: 72px;
+    }
+    .eprint-perfect-summary .shadow_right .eprint-summary-save-bar {
+      margin-left: auto;
+      margin-right: 0;
+    }
+    /* Read-only financial fields (qty description, markup %, markup $, sub total) */
+    .eprint-perfect-summary input.eprint-field-readonly,
+    .eprint-perfect-summary input[id^="txtQtydesc"],
+    .eprint-perfect-summary input[id^="txtProfitMarginPercentage"],
+    .eprint-perfect-summary input[id^="txtProfitMarginPrice"],
+    .eprint-perfect-summary input[id^="txtSubTotal"]:not([id*="PricePerUnit"]) {
+      background: #f1f5f9 !important;
+      color: var(--text) !important;
+      cursor: default !important;
+      pointer-events: none;
+    }
+    .eprint-perfect-summary #tblTotal input[readonly] {
+      background: #f1f5f9 !important;
+      cursor: default !important;
+    }
+    /* Gross profit: price + % stacked (legacy float layout collapses row height) */
+    .eprint-perfect-summary .eprint-line-item-panel #tblTotal tr#trGrossProfit {
+      height: auto !important;
+    }
+    .eprint-perfect-summary .eprint-line-item-panel #tblTotal tr#trGrossProfit td {
+      height: auto !important;
+      min-height: 56px;
+      overflow: visible !important;
+      vertical-align: top !important;
+      line-height: 1.45 !important;
+      padding-bottom: 8px !important;
+    }
+    .eprint-perfect-summary .eprint-line-item-panel #tblTotal tr#trGrossProfit td[id="td36"] > div {
+      height: auto !important;
+      min-height: 0;
+      padding-top: 8px !important;
+    }
+    .eprint-perfect-summary .eprint-line-item-panel #tblTotal tr#trGrossProfit .eprint-gp-stack {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 6px;
+      line-height: 1.45;
+      box-sizing: border-box;
+      padding: 2px 0 4px;
+      max-width: 100%;
+    }
+    .eprint-perfect-summary .eprint-line-item-panel #tblTotal tr#trGrossProfit .eprint-gp-stack > div {
+      float: none !important;
+      display: block !important;
+      clear: none !important;
+      width: auto !important;
+      max-width: 100% !important;
+      padding: 0 !important;
+      margin: 0 !important;
+      text-align: right !important;
+      line-height: 1.45 !important;
+      overflow: visible !important;
+    }
+    .eprint-perfect-summary .eprint-line-item-panel #tblTotal tr#trGrossProfit .eprint-gp-stack > div[style*="clear:both"],
+    .eprint-perfect-summary .eprint-line-item-panel #tblTotal tr#trGrossProfit .eprint-gp-stack > div[style*="clear: both"] {
+      display: none !important;
+      height: 0 !important;
+      margin: 0 !important;
+      padding: 0 !important;
+    }
+    .eprint-perfect-summary .eprint-line-item-panel #tblTotal tr#trGrossProfit [id^="spnGrossProfitPercentage"] {
+      display: inline-block;
+      line-height: 1.45 !important;
+    }
+    .eprint-perfect-summary .eprint-line-item-panel #tblTotal {
+      max-width: 100%;
+      box-sizing: border-box;
+    }
+    /* Hide legacy footer Save & Close if old markup still renders */
+    .eprint-perfect-summary .summaryFooter [id^="div_btnsave_"],
+    .eprint-perfect-summary .summaryFooter [id$="_btnSave"],
+    .eprint-perfect-summary .summaryFooter [id*="div_saveprocess_"] {
+      display: none !important;
+    }
+    .eprint-perfect-summary .eprint-all-items-totals {
+      margin-top: 20px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      background: #fff;
+    }
+    .eprint-perfect-summary .eprint-all-items-totals-hd {
+      padding: 12px 16px;
+      font-weight: 700;
+      font-size: 0.9rem;
+      background: linear-gradient(90deg, #fff7ed, #fff);
+      border-bottom: 2px solid var(--orange);
+      color: var(--orange-dark);
+    }
+    .eprint-perfect-summary .eprint-all-items-totals-bd {
+      padding: 12px 14px;
+      overflow: visible;
+    }
+    .eprint-perfect-summary .eprint-all-items-totals-bd > h3,
+    .eprint-perfect-summary .eprint-all-items-totals-bd h3 {
+      display: none !important;
+    }
+    .eprint-perfect-summary .eprint-all-items-totals-bd [style*="position: absolute"],
+    .eprint-perfect-summary .eprint-all-items-totals-bd [style*="position:absolute"] {
+      position: relative !important;
+      margin-left: 0 !important;
+      margin-top: 8px !important;
+      float: none !important;
+    }
+    .eprint-perfect-summary .eprint-items-source,
+    .eprint-perfect-summary .eprint-items-source-done {
+      display: none !important;
+      height: 0 !important;
+      overflow: hidden !important;
+      visibility: hidden !important;
+      position: absolute !important;
+      left: -9999px !important;
+    }
+
+    .eprint-item-detail { display: flex; flex-direction: column; background: #fff; }
+    .eprint-item-detail-hd {
+      padding: 12px 16px; border-bottom: 1px solid var(--border);
+      display: flex; justify-content: space-between; align-items: center;
+      background: linear-gradient(90deg, #fff7ed 0%, #fff 40%);
+    }
+    .eprint-item-detail-hd h2 { margin: 0; font-size: 0.95rem; }
+    .eprint-item-detail-body {
+      display: grid;
+      grid-template-columns: 200px 300px 1fr;
+      flex: 1; min-height: 400px;
+    }
+    @media (max-width: 1100px) {
+      .eprint-items-workspace { grid-template-columns: 1fr; }
+      .eprint-item-detail-body { grid-template-columns: 1fr; }
+    }
+
+    /* Item actions rail â€” modernized */
+    .item-rail {
+      background: #f1f5f9;
+      border-right: 1px solid var(--border);
+      padding: 8px 0;
+      font-size: 0.8rem;
+    }
+    .item-rail ul { list-style: none; margin: 0; padding: 0; }
+    .rail-link {
+      display: block; padding: 10px 14px; font-weight: 600; color: var(--text);
+      text-decoration: none; cursor: pointer; border-bottom: 1px solid var(--border);
+    }
+    .rail-link:hover { background: #e2e8f0; }
+    .rail-acc-hd {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 10px 14px; font-weight: 700; cursor: pointer;
+      border-bottom: 1px solid var(--border); user-select: none;
+    }
+    .rail-acc-hd:hover { background: #e2e8f0; }
+    .rail-acc-bd { display: none; padding: 4px 0 8px; background: #fff; border-bottom: 1px solid var(--border); }
+    .rail-acc-bd.open { display: block; }
+    .rail-acc-bd a {
+      display: block; padding: 7px 14px 7px 22px; color: #334155;
+      text-decoration: none; font-weight: 500; font-size: 0.78rem;
+    }
+    .rail-acc-bd a:hover { background: var(--orange-soft); color: var(--orange-dark); }
+    .rail-acc-bd .grp {
+      padding: 8px 14px 4px 18px; font-size: 0.68rem; text-transform: uppercase;
+      color: var(--muted); font-weight: 700; letter-spacing: 0.04em;
+    }
+
+    .pricing-panel {
+      border-right: 1px solid var(--border);
+      padding: 12px; font-size: 0.8rem; overflow-y: auto;
+    }
+    .pricing-panel h3 { margin: 0 0 10px; font-size: 0.85rem; }
+    .attach-row {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 8px 10px; background: var(--label-bg); border-radius: var(--radius-sm);
+      margin-bottom: 10px; font-weight: 600;
+    }
+    .attach-row button {
+      width: 28px; height: 28px; border-radius: 6px; border: 1px solid var(--border);
+      background: #fff; font-size: 1.1rem; cursor: pointer; color: var(--orange);
+    }
+    .pr { display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px dashed var(--border); }
+    .pr.link span:last-child { color: var(--info); font-weight: 600; cursor: pointer; }
+    .pr.total { font-weight: 700; font-size: 0.95rem; color: var(--danger); border-bottom: none; margin-top: 6px; }
+    .pr.profit { color: var(--success); font-weight: 600; }
+
+    .desc-panel { padding: 10px; overflow: auto; }
+    .desc-table { width: 100%; border-collapse: collapse; font-size: 0.76rem; }
+    .desc-table th {
+      text-align: left; background: var(--label-bg); padding: 6px 8px;
+      border: 1px solid var(--border); width: 110px; font-weight: 600;
+    }
+    .desc-table td { border: 1px solid var(--border); padding: 4px 6px; vertical-align: top; }
+    .desc-table input, .desc-table textarea {
+      width: 100%; border: 1px solid var(--border); border-radius: 4px;
+      padding: 4px 6px; font-family: inherit; font-size: 0.76rem;
+    }
+    .desc-table textarea { min-height: 36px; resize: vertical; }
+
+    /* Totals panel view */
+    .totals-view { padding: 20px; max-width: 480px; margin: 0 auto; }
+    .totals-view h3 { margin: 0 0 14px; }
+    .totals-view .pr { font-size: 0.9rem; }
+
+    /* Attachments, Activity, Notes panels */
+    .eprint-perfect-summary .two-col-panels {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      width: 100%;
+      max-width: 100%;
+      align-items: start;
+    }
+    @media (max-width: 768px) {
+      .eprint-perfect-summary .two-col-panels { grid-template-columns: 1fr; }
+    }
+    .file-card {
+      display: flex; align-items: center; gap: 12px;
+      padding: 12px; border: 1px solid var(--border); border-radius: var(--radius-sm);
+      margin-bottom: 8px; background: #fff;
+    }
+    .file-icon {
+      width: 40px; height: 40px; border-radius: 8px;
+      background: var(--orange-soft); color: var(--orange-dark);
+      display: flex; align-items: center; justify-content: center; font-weight: 700;
+    }
+    .timeline { border-left: 2px solid var(--border); margin-left: 8px; padding-left: 16px; }
+    .timeline-item { margin-bottom: 14px; position: relative; }
+    .timeline-item::before {
+      content: ""; position: absolute; left: -21px; top: 4px;
+      width: 10px; height: 10px; border-radius: 50%;
+      background: var(--orange); border: 2px solid #fff;
+    }
+    .timeline-item .time { font-size: 0.75rem; color: var(--muted); }
+    .timeline-item strong { display: block; font-size: 0.85rem; }
+
+    /* Footer totals — in document flow (avoids covering Notes tab) */
+    .eprint-perfect-summary .eprint-doc-foot {
+      position: relative;
+      background: linear-gradient(90deg, #fff7ed, #fff);
+      border-top: 2px solid var(--orange);
+      padding: 12px 20px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      margin-top: 8px;
+    }
+
+    /* Feature checklist */
+    
+    
+    
+    
+
+    .hidden { display: none !important; }
+  
+/* Legacy controls inside shell */
+.eprint-perfect-summary .eprint-doc-hide { display: none !important; }
+.eprint-perfect-summary #accordion.eprint-perfect-items-accordion > h3 {
+  display: none !important;
+  height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+  overflow: hidden !important;
+  visibility: hidden !important;
+}
+.eprint-perfect-summary #accordion.eprint-perfect-items-accordion .ui-accordion-content,
+.eprint-perfect-summary #accordion.eprint-perfect-items-accordion .ui-accordion-content-active {
+  overflow: visible !important;
+  height: auto !important;
+  max-height: none !important;
+  border: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+.eprint-perfect-summary #accordion.eprint-perfect-items-accordion .ui-accordion-content {
+  display: none;
+}
+.eprint-perfect-summary #accordion.eprint-perfect-items-accordion .ui-accordion-content-active {
+  display: block !important;
+}
+.eprint-perfect-summary[data-active-tab]:not([data-active-tab="items"]) #accordion.eprint-perfect-items-accordion .ui-accordion-content,
+.eprint-perfect-summary[data-active-tab]:not([data-active-tab="items"]) #accordion.eprint-perfect-items-accordion .ui-accordion-content-active {
+  display: none !important;
+  height: 0 !important;
+  overflow: hidden !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  border: none !important;
+}
+.eprint-perfect-summary[data-active-tab="items"] #accordion.eprint-perfect-items-accordion .ui-accordion-content-active {
+  display: block !important;
+  visibility: visible !important;
+  height: auto !important;
+  min-height: 200px;
+  overflow: visible !important;
+}
+.eprint-perfect-summary .eprint-panel {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+.eprint-perfect-summary .eprint-panel.active {
+  padding-bottom: 24px;
+}
+.eprint-perfect-summary .eprint-doc-head,
+.eprint-perfect-summary .head-main,
+.eprint-perfect-summary .head-actions {
+  overflow: visible !important;
+}
+.eprint-perfect-summary .eprint-toolbar-options,
+.eprint-perfect-summary .eprint-toolbar-status {
+  position: relative;
+  overflow: visible !important;
+}
+.eprint-perfect-summary .eprint-toolbar-status #spnStatus {
+  display: inline-block;
+  position: relative;
+  vertical-align: top;
+}
+.eprint-perfect-summary .eprint-toolbar-status [id$="_ddlStatus"],
+.eprint-perfect-summary .eprint-toolbar-status #ddlStatus,
+.eprint-perfect-summary .eprint-toolbar-status .eprint-status-trigger {
+  display: flex !important;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+  width: 208px !important;
+  min-height: 36px;
+  padding: 8px 12px !important;
+  margin-right: 0 !important;
+  overflow: visible !important;
+  cursor: pointer;
+  border-radius: 8px;
+  background: #7c3aed !important;
+  color: #fff !important;
+  border: none !important;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+}
+.eprint-perfect-summary .eprint-toolbar-status #ddlStatus > div:first-child,
+.eprint-perfect-summary .eprint-toolbar-status .eprint-status-trigger-label {
+  float: none !important;
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.eprint-perfect-summary .eprint-toolbar-status #ddlStatus > div:last-child,
+.eprint-perfect-summary .eprint-toolbar-status .eprint-status-trigger-arrow {
+  float: none !important;
+  flex: 0 0 auto;
+  padding-top: 0 !important;
+}
+.eprint-perfect-summary .eprint-toolbar-status #ddlStatus label,
+.eprint-perfect-summary .eprint-toolbar-status #ddlStatus .btnstyle {
+  color: #fff !important;
+}
+.eprint-perfect-summary .eprint-toolbar-status [id$="_Div_StatusList"],
+.eprint-perfect-summary .eprint-toolbar-status #Div_StatusList,
+.eprint-perfect-summary .eprint-toolbar-status .eprint-status-menu,
+.eprint-perfect-summary .eprint-toolbar-status .Div_AccountList,
+.eprint-perfect-summary .eprint-status-menu-open {
+  display: none;
+  position: absolute !important;
+  top: calc(100% + 6px) !important;
+  right: 0 !important;
+  left: auto !important;
+  float: none !important;
+  width: 260px !important;
+  min-width: 240px !important;
+  max-width: 320px !important;
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: min(380px, 70vh) !important;
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
+  margin: 0 !important;
+  padding: 8px !important;
+  background: #ffffff !important;
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius-sm) !important;
+  box-shadow: 0 12px 32px rgba(15, 23, 42, 0.18) !important;
+  z-index: 250 !important;
+}
+.eprint-perfect-summary .eprint-toolbar-status [id$="_Div_StatusList"] table,
+.eprint-perfect-summary .eprint-toolbar-status [id$="_Div_StatusList"] tr,
+.eprint-perfect-summary .eprint-toolbar-status #Div_StatusList table,
+.eprint-perfect-summary .eprint-toolbar-status .eprint-status-menu table,
+.eprint-perfect-summary .eprint-toolbar-status .Div_AccountList table {
+  width: 100% !important;
+  display: block !important;
+  border-collapse: separate !important;
+  border-spacing: 0 4px !important;
+}
+.eprint-perfect-summary .eprint-toolbar-status [id$="_Div_StatusList"] tr,
+.eprint-perfect-summary .eprint-toolbar-status #Div_StatusList tr,
+.eprint-perfect-summary .eprint-toolbar-status .eprint-status-menu tr,
+.eprint-perfect-summary .eprint-toolbar-status .Div_AccountList tr {
+  display: block !important;
+}
+.eprint-perfect-summary .eprint-toolbar-status #Div_StatusList td,
+.eprint-perfect-summary .eprint-toolbar-status .eprint-status-menu td,
+.eprint-perfect-summary .eprint-toolbar-status .Div_AccountList td {
+  width: 100% !important;
+  display: block !important;
+  padding: 0 !important;
+  background: transparent !important;
+}
+.eprint-perfect-summary .eprint-toolbar-status #Div_StatusList .DepartmentHover,
+.eprint-perfect-summary .eprint-toolbar-status .eprint-status-menu .DepartmentHover,
+.eprint-perfect-summary .eprint-toolbar-status .Div_AccountList .DepartmentHover {
+  width: 100% !important;
+  display: block !important;
+}
+.eprint-perfect-summary .eprint-toolbar-status #Div_StatusList .DepartmentHover > div,
+.eprint-perfect-summary .eprint-toolbar-status .eprint-status-menu .DepartmentHover > div,
+.eprint-perfect-summary .eprint-toolbar-status .Div_AccountList .DepartmentHover > div {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 4px !important;
+  width: 100% !important;
+  margin: 0 !important;
+}
+.eprint-perfect-summary .eprint-toolbar-status [id$="_Div_StatusList"] a,
+.eprint-perfect-summary .eprint-toolbar-status #Div_StatusList a,
+.eprint-perfect-summary .eprint-toolbar-status .eprint-status-menu a,
+.eprint-perfect-summary .eprint-toolbar-status .Div_AccountList a {
+  display: block !important;
+  width: 100% !important;
+  padding: 8px 10px !important;
+  border-radius: 6px !important;
+  text-decoration: none !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  color: inherit !important;
+  box-sizing: border-box !important;
+  white-space: normal !important;
+  line-height: 1.35 !important;
+  overflow: visible !important;
+}
+.eprint-perfect-summary .eprint-toolbar-status #Div_StatusList a:hover,
+.eprint-perfect-summary .eprint-toolbar-status .eprint-status-menu a:hover,
+.eprint-perfect-summary .eprint-toolbar-status .Div_AccountList a:hover {
+  filter: brightness(0.92);
+}
+/* Item-level status dropdowns in line items */
+.eprint-perfect-summary .eprint-line-item-panel .Div_AccountList {
+  position: absolute !important;
+  float: none !important;
+  z-index: 120 !important;
+  max-height: min(320px, 60vh) !important;
+  height: auto !important;
+  overflow-y: auto !important;
+  background: #ffffff !important;
+  box-shadow: 0 12px 32px rgba(15, 23, 42, 0.15) !important;
+}
+.eprint-perfect-summary .Summary_ItemDiv,
+.eprint-perfect-summary #estoreaccordion {
+  background: #f8fafc;
+  border-radius: 6px;
+  font-size: 13px;
+}
+
+/* Line-item left sidebar — Add Sub Item, Re-Run, Quick Links */
+.eprint-perfect-summary .eprint-item-actions-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 10px 8px 8px;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.06);
+  min-width: 172px;
+}
+
+.eprint-perfect-summary .eprint-item-actions-list,
+.eprint-perfect-summary .eprint-item-actions-sidebar #estoreaccordion {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  background: transparent !important;
+  border-radius: 0;
+  width: 100%;
+}
+
+.eprint-perfect-summary .eprint-item-actions-list > li,
+.eprint-perfect-summary #estoreaccordion > li {
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: transparent !important;
+  min-height: 0 !important;
+}
+
+/* Add Sub Item dropdown */
+.eprint-perfect-summary .eprint-addsub-slot,
+.eprint-perfect-summary li.eprint-addsub-dropdown-mode {
+  margin-bottom: 8px !important;
+}
+
+.eprint-perfect-summary .eprint-addsub-dropdown {
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: transparent;
+}
+
+.eprint-perfect-summary .eprint-addsub-dropdown .eprint-addsub-select {
+  width: 100%;
+  box-sizing: border-box;
+  min-width: 0;
+  margin: 0;
+  padding: 9px 28px 9px 10px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  font-family: inherit;
+  color: #1e293b;
+  background-color: #f8fafc;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%2364748b' d='M1.41 0L6 4.58 10.59 0 12 1.41l-6 6-6-6z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+}
+
+.eprint-perfect-summary .eprint-addsub-dropdown .eprint-addsub-select:hover {
+  border-color: #94a3b8;
+  background-color: #ffffff;
+}
+
+.eprint-perfect-summary .eprint-addsub-dropdown .eprint-addsub-select:focus {
+  outline: none;
+  border-color: #f07d26;
+  box-shadow: 0 0 0 3px rgba(240, 125, 38, 0.18);
+  background-color: #ffffff;
+}
+
+/* Re-Run Item — match sidebar action style (not legacy HeaderText black) */
+.eprint-perfect-summary .eprint-sidebar-rerun {
+  margin-bottom: 8px !important;
+}
+
+.eprint-perfect-summary .eprint-sidebar-rerun.HeaderText,
+.eprint-perfect-summary #estoreaccordion > li.eprint-sidebar-rerun {
+  font-size: inherit;
+  color: inherit;
+  font-weight: inherit;
+  font-family: inherit;
+}
+
+.eprint-perfect-summary .eprint-sidebar-action-link,
+.eprint-perfect-summary .eprint-sidebar-rerun a.eprint-sidebar-action-link,
+.eprint-perfect-summary #estoreaccordion > li[id*="liReRun"] a {
+  display: block;
+  padding: 9px 10px;
+  margin: 0;
+  color: #334155 !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  font-family: inherit !important;
+  text-decoration: none !important;
+  line-height: 1.35;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  background: #f8fafc;
+  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+
+.eprint-perfect-summary .eprint-sidebar-action-link:hover,
+.eprint-perfect-summary #estoreaccordion > li[id*="liReRun"] a:hover {
+  color: #0f172a !important;
+  background: #f1f5f9 !important;
+  border-color: #cbd5e1 !important;
+}
+
+.eprint-perfect-summary .eprint-sidebar-rerun:hover {
+  background: transparent !important;
+}
+
+/* Quick Links — sticky block with scrollable body */
+.eprint-perfect-summary .eprint-quicklinks-block {
+  position: sticky;
+  top: 12px;
+  z-index: 4;
+  flex: 1 1 auto;
+  min-height: 0;
+  margin-top: 2px;
+  padding-top: 8px;
+  border-top: 1px solid #e8edf4;
+  background: #ffffff;
+}
+
+.eprint-perfect-summary .eprint-quicklinks-block > h1,
+.eprint-perfect-summary .eprint-quicklinks-block > h1.summary_font12px,
+.eprint-perfect-summary #estoreaccordion > li.eprint-quicklinks-block > h1 {
+  display: flex !important;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin: 0 0 6px !important;
+  padding: 8px 10px !important;
+  min-height: 0 !important;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  background: #f1f5f9 !important;
+  cursor: pointer;
+  box-sizing: border-box;
+  width: 100%;
+  float: none !important;
+}
+
+.eprint-perfect-summary .eprint-quicklinks-block > h1 label,
+.eprint-perfect-summary .eprint-quicklinks-block > h1 .HeaderText,
+.eprint-perfect-summary #estoreaccordion .eprint-quicklinks-block label.HeaderText {
+  color: #334155 !important;
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  font-family: inherit !important;
+  cursor: pointer;
+  margin: 0;
+  padding: 0 !important;
+}
+
+.eprint-perfect-summary .eprint-quicklinks-block > h1 > div[style*="float"] {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  padding-top: 0 !important;
+  float: none !important;
+}
+
+.eprint-perfect-summary .eprint-quicklinks-block > ul.Summary_panelitems,
+.eprint-perfect-summary .eprint-quicklinks-block #divqlItems {
+  max-height: min(480px, calc(100vh - 220px));
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 2px 4px 6px !important;
+  margin: 0;
+  scrollbar-width: thin;
+  scrollbar-color: #cbd5e1 transparent;
+}
+
+.eprint-perfect-summary .eprint-quicklinks-block > ul.Summary_panelitems::-webkit-scrollbar,
+.eprint-perfect-summary .eprint-quicklinks-block #divqlItems::-webkit-scrollbar {
+  width: 6px;
+}
+
+.eprint-perfect-summary .eprint-quicklinks-block .activity-list {
+  padding: 8px 8px 10px !important;
+  margin: 0 0 4px;
+  font-size: 12px;
+  line-height: 1.45;
+  color: #475569;
+  border-radius: 6px;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.eprint-perfect-summary .eprint-quicklinks-block .activity-list:last-child {
+  border-bottom: none;
+}
+
+.eprint-perfect-summary .eprint-quicklinks-block .activity-list a,
+.eprint-perfect-summary .eprint-quicklinks-block #divqlItems a {
+  color: #2563eb !important;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.eprint-perfect-summary .eprint-quicklinks-block .activity-list a:hover,
+.eprint-perfect-summary .eprint-quicklinks-block a.create:hover {
+  text-decoration: underline;
+}
+
+.eprint-perfect-summary .eprint-quicklinks-block a.create {
+  color: #2563eb !important;
+  font-weight: 600;
+}
+
+.eprint-perfect-summary .eprint-item-actions-list > li:hover,
+.eprint-perfect-summary #estoreaccordion > li.eprint-addsub-slot:hover,
+.eprint-perfect-summary #estoreaccordion > li.eprint-sidebar-rerun:hover,
+.eprint-perfect-summary #estoreaccordion > li.eprint-quicklinks-block:hover {
+  background: transparent !important;
+}
+
+.eprint-perfect-summary #estoreaccordion ul li:hover {
+  background-color: #f1f5f9 !important;
+  border-radius: 6px;
+}
+.eprint-perfect-summary .shadow_right {
+  background-image: none !important;
+  background-color: #ffffff !important;
+}
+.eprint-perfect-summary .summary_itemsalign a {
+  color: #0f172a !important;
+}
+.eprint-perfect-summary .customer-layout .HeaderText,
+.eprint-perfect-summary #Div_CustomerDetails table {
+  font-size: 13px;
+}
+.eprint-perfect-summary .eprint-line-items-shell {
+  overflow: visible;
+}
+.eprint-perfect-summary .eprint-panel[data-panel="items"] {
+  overflow: visible;
+  max-width: 100%;
+}
+.eprint-perfect-summary .eprint-line-item-panels {
+  overflow: visible;
+  max-width: 100%;
+}
+.eprint-perfect-summary .ui-accordion .ui-accordion-header .ui-icon {
+  display: none !important;
+}
+.eprint-perfect-summary .div_spacing1 {
+  padding: 0;
+  width: 100%;
+}
+.eprint-perfect-summary #divSupplierQuote {
+  width: 100%;
+}
+.eprint-perfect-summary .eprint-doc-title-host .eprint-doc-title {
+  margin: 0;
+  font-size: 1.35rem;
+  font-weight: 700;
+}
+

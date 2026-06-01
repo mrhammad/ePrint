@@ -824,7 +824,7 @@ namespace ePrint.usercontrol.Item
                             }
                             else
                             {
-                                object[] estimateItemID3 = new object[] { "<input type='text' id='txtQtydesc1_", this.EstimateItemID, "' class='textboxnew' style='width: 80px;text-align: right;' value='", estimatesItem.Qtydesc1, "' />" };
+                                object[] estimateItemID3 = new object[] { "<input type='text' readonly='readonly' id='txtQtydesc1_", this.EstimateItemID, "' class='textboxnew eprint-field-readonly' style='width: 80px;text-align: right;' value='", estimatesItem.Qtydesc1, "' />" };
                                 controls5.Add(new LiteralControl(string.Concat(estimateItemID3)));
                             }
                             this.plhDigiSingleItem.Controls.Add(new LiteralControl("</td>"));
@@ -837,7 +837,7 @@ namespace ePrint.usercontrol.Item
                             }
                             else
                             {
-                                object[] objArray3 = new object[] { "<input type='text' id='txtQtydesc2_", this.EstimateItemID, "' class='textboxnew' style='width: 80px;text-align: right;' value='", estimatesItem.Qtydesc2, "' />" };
+                                object[] objArray3 = new object[] { "<input type='text' readonly='readonly' id='txtQtydesc2_", this.EstimateItemID, "' class='textboxnew eprint-field-readonly' style='width: 80px;text-align: right;' value='", estimatesItem.Qtydesc2, "' />" };
                                 controlCollections5.Add(new LiteralControl(string.Concat(objArray3)));
                             }
                             this.plhDigiSingleItem.Controls.Add(new LiteralControl("</td>"));
@@ -850,7 +850,7 @@ namespace ePrint.usercontrol.Item
                             }
                             else
                             {
-                                object[] estimateItemID4 = new object[] { "<input type='text' id='txtQtydesc3_", this.EstimateItemID, "' class='textboxnew' style='width: 80px;text-align: right;' value='", estimatesItem.Qtydesc3, "' />" };
+                                object[] estimateItemID4 = new object[] { "<input type='text' readonly='readonly' id='txtQtydesc3_", this.EstimateItemID, "' class='textboxnew eprint-field-readonly' style='width: 80px;text-align: right;' value='", estimatesItem.Qtydesc3, "' />" };
                                 controls6.Add(new LiteralControl(string.Concat(estimateItemID4)));
                             }
                             this.plhDigiSingleItem.Controls.Add(new LiteralControl("</td>"));
@@ -863,7 +863,7 @@ namespace ePrint.usercontrol.Item
                             }
                             else
                             {
-                                object[] objArray4 = new object[] { "<input type='text' id='txtQtydesc4_", this.EstimateItemID, "' class='textboxnew' style='width: 80px;text-align: right;' value='", estimatesItem.Qtydesc4, "' />" };
+                                object[] objArray4 = new object[] { "<input type='text' readonly='readonly' id='txtQtydesc4_", this.EstimateItemID, "' class='textboxnew eprint-field-readonly' style='width: 80px;text-align: right;' value='", estimatesItem.Qtydesc4, "' />" };
                                 controlCollections6.Add(new LiteralControl(string.Concat(objArray4)));
                             }
                             this.plhDigiSingleItem.Controls.Add(new LiteralControl("</td>"));

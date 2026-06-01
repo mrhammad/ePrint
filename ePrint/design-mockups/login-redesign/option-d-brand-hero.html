@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Login mockup D — Brand hero</title>
+  <style>
+    :root {
+      --navy: #0f172a;
+      --orange: #e67e22;
+      --orange-dark: #c2410c;
+      --surface: #ffffff;
+      --text: #0f172a;
+      --muted: #64748b;
+      --border: #e2e8f0;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; min-height: 100vh; font-family: Inter, "Segoe UI", system-ui, sans-serif; }
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+    }
+    .visual {
+      background: var(--navy);
+      color: #f1f5f9;
+      padding: 56px 48px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .visual h1 { margin: 0; font-size: 2.25rem; font-weight: 700; letter-spacing: -0.03em; line-height: 1.15; max-width: 14ch; }
+    .visual p { margin: 20px 0 0; font-size: 1.05rem; color: #94a3b8; max-width: 40ch; line-height: 1.6; }
+    .stat-row { display: flex; gap: 32px; margin-top: 48px; }
+    .stat .n { font-size: 1.5rem; font-weight: 700; color: var(--orange); }
+    .stat .l { font-size: 0.75rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.06em; }
+    .form-col {
+      background: var(--surface);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 32px;
+      border-left: 1px solid var(--border);
+    }
+    .form { width: 100%; max-width: 340px; }
+    .form h2 { margin: 0 0 8px; font-size: 1.5rem; }
+    .form .sub { margin: 0 0 28px; color: var(--muted); font-size: 0.9rem; }
+    label { display: block; font-size: 0.8125rem; font-weight: 600; margin-bottom: 6px; }
+    input {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 1rem;
+      margin-bottom: 16px;
+    }
+    input:focus { outline: 2px solid #fed7aa; border-color: var(--orange); }
+    .row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; font-size: 0.875rem; color: var(--muted); }
+    .row a { color: var(--orange-dark); text-decoration: none; font-size: 0.8125rem; }
+    button {
+      width: 100%;
+      padding: 13px;
+      border: none;
+      border-radius: 8px;
+      background: var(--orange);
+      color: #fff;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+    button:hover { background: var(--orange-dark); }
+    .foot { margin-top: 24px; text-align: center; font-size: 0.875rem; color: var(--muted); }
+    .foot a { color: var(--orange-dark); font-weight: 600; text-decoration: none; }
+    .back { position: fixed; top: 16px; left: 16px; z-index: 2; font-size: 0.8rem; color: #94a3b8; text-decoration: none; }
+    .badge { position: fixed; top: 16px; right: 16px; z-index: 2; font-size: 0.75rem; background: #f1f5f9; color: var(--muted); padding: 6px 10px; border-radius: 6px; }
+    @media (max-width: 900px) {
+      .hero { grid-template-columns: 1fr; }
+      .visual { min-height: 40vh; }
+      .form-col { border-left: none; border-top: 1px solid var(--border); }
+    }
+  </style>
+</head>
+<body>
+  <a class="back" href="index.html">← All concepts</a>
+  <span class="badge">Concept D</span>
+
+  <div class="hero">
+    <section class="visual">
+      <div>
+        <h1>Run your print shop with clarity.</h1>
+        <p>From estimate to invoice — track customers, line items, and jobs in one system built for production teams.</p>
+        <div class="stat-row">
+          <div class="stat"><div class="n">EST</div><div class="l">Estimates</div></div>
+          <div class="stat"><div class="n">JOB</div><div class="l">Production</div></div>
+          <div class="stat"><div class="n">INV</div><div class="l">Billing</div></div>
+        </div>
+      </div>
+      <div style="font-size:0.8rem;color:#64748b;">Globo Technologies · ePrint MIS</div>
+    </section>
+
+    <section class="form-col">
+      <div class="form">
+        <h2>Welcome back</h2>
+        <p class="sub">Sign in with your work email.</p>
+
+        <label for="email">Email</label>
+        <input id="email" type="email" placeholder="you@company.com" />
+
+        <label for="pw">Password</label>
+        <input id="pw" type="password" placeholder="••••••••" />
+
+        <div class="row">
+          <label style="margin:0;font-weight:500;"><input type="checkbox" /> Stay logged in</label>
+          <a href="#">Forgot password?</a>
+        </div>
+
+        <button type="button">Sign in</button>
+
+        <p class="foot">New here? <a href="#">Sign up</a></p>
+      </div>
+    </section>
+  </div>
+</body>
+</html>

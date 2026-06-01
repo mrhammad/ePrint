@@ -66,7 +66,14 @@ namespace nmsLogin
 				this.Session["SupplierQuote"] = sqlDataReader["IssupplierQuote"].ToString();
 				this.Session["TimeZoneOrderNumber"] = ResolveTimeZoneOrderNumber(sqlDataReader["TimeZoneOrderNumber"], num1);
 				this.Session["LanguageConversion"] = ResolveLanguageConversionFile(sqlDataReader["LanguageConversionFile"]);
-				this.Session["DateFormat"] = this.objpage.GetRegionalSettings(num, "Dateformat");
+				if (BasePage.IsLightweightAuthPageEnabled())
+				{
+					this.Session["DateFormat"] = "DD/MM/YY";
+				}
+				else
+				{
+					this.Session["DateFormat"] = this.objpage.GetRegionalSettings(num, "Dateformat");
+				}
 				this.Session["ProductStockManagement"] = sqlDataReader["ProductStockManagement"].ToString();
 				this.Session["CurrencySymbol"] = sqlDataReader["CurrencySymbol"].ToString();
 				this.Session["ForOtherCostFormula"] = sqlDataReader["ForOtherCostFormula"].ToString();
@@ -171,6 +178,11 @@ namespace nmsLogin
 
 		public void LogInFromDefault(string email, string password)
 		{
+			this.LogInFromDefault(email, password, false);
+		}
+
+		public void LogInFromDefault(string email, string password, bool deferNavigationBootstrap)
+		{
 			bool flag = false;
 			commonClass _commonClass = new commonClass();
 			SqlCommand sqlCommand = new SqlCommand("crm_common_login", _commonClass.openConnection())
@@ -200,7 +212,14 @@ namespace nmsLogin
 				this.Session["SupplierQuote"] = sqlDataReader["IssupplierQuote"].ToString();
 				this.Session["TimeZoneOrderNumber"] = ResolveTimeZoneOrderNumber(sqlDataReader["TimeZoneOrderNumber"], num1);
 				this.Session["LanguageConversion"] = ResolveLanguageConversionFile(sqlDataReader["LanguageConversionFile"]);
-				this.Session["DateFormat"] = this.objpage.GetRegionalSettings(num, "Dateformat");
+				if (BasePage.IsLightweightAuthPageEnabled())
+				{
+					this.Session["DateFormat"] = "DD/MM/YY";
+				}
+				else
+				{
+					this.Session["DateFormat"] = this.objpage.GetRegionalSettings(num, "Dateformat");
+				}
 				this.Session["ProductStockManagement"] = sqlDataReader["ProductStockManagement"].ToString();
 				this.Session["UpgradeNotification"] = "view";
 				this.Session["CurrencySymbol"] = sqlDataReader["CurrencySymbol"].ToString();
@@ -275,36 +294,52 @@ namespace nmsLogin
 				this.Session["S_CONTRACTS"] = "CONTRACTS";
 				this.Session["S_PRODUCTS"] = "PRODUCTS";
 				this.Session["S_ASSETS"] = "ASSETS";
-				SqlCommand sqlCommand1 = new SqlCommand("crm_common_select_UserTab", _commonClass.openConnection());
-				sqlCommand1.Parameters.AddWithValue("@companyID", num);
-				sqlCommand1.Parameters.AddWithValue("@userID", num1);
-				sqlCommand1.CommandType = CommandType.StoredProcedure;
-				SqlDataReader item = sqlCommand1.ExecuteReader();
-				while (item.Read())
+				if (!deferNavigationBootstrap)
 				{
-					this.Session[item["headerName"].ToString()] = item["isDisplay"];
-					this.Session[item["s_HeaderName"].ToString()] = item["screenname"];
+					this.ApplyNavigationAndSessionBootstrap(num, num1, email, _commonClass);
 				}
-				item.Close();
-				SqlCommand sqlCommand2 = new SqlCommand("crm_selectSessionmanagement", sqlCommand.Connection)
-				{
-					CommandType = CommandType.StoredProcedure
-				};
-				sqlCommand2.Parameters.Add("@companyID", num);
-				sqlCommand2.Parameters.Add("@userID", num1);
-				SqlDataReader sqlDataReader1 = sqlCommand2.ExecuteReader();
-				while (sqlDataReader1.Read())
-				{
-					this.Session["session_expireon"] = sqlDataReader1["sessionexpireafter"].ToString();
-					this.Session["redirectpage"] = sqlDataReader1["redirectPage"].ToString();
-				}
-				sqlDataReader1.Close();
-				string str = this.Session.SessionID.ToString();
-				string str1 = email;
-				TimeSpan timeSpan1 = new TimeSpan(0, 0, HttpContext.Current.Session.Timeout, 0, 0);
-				HttpContext.Current.Cache.Insert(str1, str, null, DateTime.MaxValue, timeSpan1, CacheItemPriority.NotRemovable, null);
 			}
 			_commonClass.closeConnection();
+		}
+
+		public void ApplyNavigationAndSessionBootstrap(int companyId, int userId, string email)
+		{
+			commonClass _commonClass = new commonClass();
+			this.ApplyNavigationAndSessionBootstrap(companyId, userId, email, _commonClass);
+			_commonClass.closeConnection();
+		}
+
+		private void ApplyNavigationAndSessionBootstrap(int companyId, int userId, string email, commonClass _commonClass)
+		{
+			SqlCommand sqlCommand1 = new SqlCommand("crm_common_select_UserTab", _commonClass.openConnection())
+			{
+				CommandType = CommandType.StoredProcedure
+			};
+			sqlCommand1.Parameters.AddWithValue("@companyID", companyId);
+			sqlCommand1.Parameters.AddWithValue("@userID", userId);
+			SqlDataReader item = sqlCommand1.ExecuteReader();
+			while (item.Read())
+			{
+				this.Session[item["headerName"].ToString()] = item["isDisplay"];
+				this.Session[item["s_HeaderName"].ToString()] = item["screenname"];
+			}
+			item.Close();
+			SqlCommand sqlCommand2 = new SqlCommand("crm_selectSessionmanagement", sqlCommand1.Connection)
+			{
+				CommandType = CommandType.StoredProcedure
+			};
+			sqlCommand2.Parameters.Add("@companyID", companyId);
+			sqlCommand2.Parameters.Add("@userID", userId);
+			SqlDataReader sqlDataReader1 = sqlCommand2.ExecuteReader();
+			while (sqlDataReader1.Read())
+			{
+				this.Session["session_expireon"] = sqlDataReader1["sessionexpireafter"].ToString();
+				this.Session["redirectpage"] = sqlDataReader1["redirectPage"].ToString();
+			}
+			sqlDataReader1.Close();
+			string sessionId = this.Session.SessionID.ToString();
+			TimeSpan timeSpan1 = new TimeSpan(0, 0, HttpContext.Current.Session.Timeout, 0, 0);
+			HttpContext.Current.Cache.Insert(email, sessionId, null, DateTime.MaxValue, timeSpan1, CacheItemPriority.NotRemovable, null);
 		}
 
 		private static string ResolveLanguageConversionFile(object value)

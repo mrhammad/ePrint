@@ -425,6 +425,27 @@ body.eprint-app-shell.eprint-with-context .eprint-page-body {
   padding-bottom: 24px;
 }
 
+/* Document summary (estimate/job/order/invoice): let content establish height; avoid 0px flex collapse */
+body.eprint-app-shell.eprint-with-context .eprint-content-row:has(#eprintPerfectSummaryRoot) {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: visible;
+  align-items: stretch;
+}
+
+body.eprint-app-shell.eprint-with-context .eprint-page-body:has(#eprintPerfectSummaryRoot) {
+  flex: 1 1 auto;
+  min-height: auto;
+  overflow-x: auto;
+  overflow-y: visible;
+  align-self: stretch;
+}
+
+body.eprint-app-shell.eprint-with-context #mainContent:has(#eprintPerfectSummaryRoot) {
+  overflow-x: auto;
+  overflow-y: auto;
+}
+
 /* Hide top breadcrumb bar (Home > Module > Page) app-wide */
 .eprint-hide-top-nav,
 #mainContent .tabheadertext.bgcustomize,

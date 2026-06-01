@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Variant D - Kanban Stages Summary</title>
+  <style>
+    :root {
+      --bg: #f3f6fb;
+      --card: #ffffff;
+      --text: #1f2937;
+      --muted: #64748b;
+      --line: #dbe4ef;
+      --accent: #ea580c;
+      --ok: #16a34a;
+      --warn: #d97706;
+      --info: #2563eb;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+    .wrap { max-width: 1320px; margin: 0 auto; padding: 20px; }
+    .topbar {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 14px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+    .title h1 { margin: 0; font-size: 1.1rem; }
+    .title p { margin: 4px 0 0; color: var(--muted); font-size: 0.85rem; }
+    .actions { display: flex; gap: 8px; }
+    .btn {
+      border: 1px solid var(--line);
+      background: #fff;
+      border-radius: 8px;
+      padding: 8px 12px;
+      font-weight: 600;
+      font-size: 0.82rem;
+      cursor: default;
+    }
+    .btn.primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+    .stage-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+    }
+    .stage {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      min-height: 480px;
+      display: flex;
+      flex-direction: column;
+    }
+    .stage-hd {
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: 700;
+      font-size: 0.86rem;
+    }
+    .pill {
+      border-radius: 999px;
+      padding: 2px 8px;
+      font-size: 0.72rem;
+      color: #fff;
+    }
+    .blue { background: var(--info); }
+    .amber { background: var(--warn); }
+    .green { background: var(--ok); }
+    .gray { background: #6b7280; }
+    .list { padding: 10px; display: grid; gap: 8px; }
+    .item {
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 10px;
+      background: #fff;
+    }
+    .item h3 { margin: 0 0 4px; font-size: 0.85rem; }
+    .meta { color: var(--muted); font-size: 0.77rem; margin-bottom: 6px; }
+    .row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.78rem;
+      margin: 2px 0;
+    }
+    .money { font-weight: 700; color: #0f172a; }
+    .note {
+      margin-top: 12px;
+      background: #fff7ed;
+      border: 1px solid #fed7aa;
+      border-radius: 10px;
+      padding: 10px 12px;
+      font-size: 0.82rem;
+    }
+    @media (max-width: 1100px) {
+      .stage-grid { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="topbar">
+      <div class="title">
+        <h1>Estimate EST-0002384 - Kanban Stages Summary</h1>
+        <p>Customer: Nova Retail Group | Due: 14 Jun 2026 | Owner: Sales Team</p>
+      </div>
+      <div class="actions">
+        <button class="btn">Customer</button>
+        <button class="btn">Attachments</button>
+        <button class="btn">Activity</button>
+        <button class="btn primary">Progress to Job</button>
+      </div>
+    </div>
+
+    <div class="stage-grid">
+      <section class="stage">
+        <div class="stage-hd">Draft <span class="pill blue">2</span></div>
+        <div class="list">
+          <article class="item">
+            <h3>Poster A1 - Gloss</h3>
+            <div class="meta">Qty: 250 | Status: Waiting confirmation</div>
+            <div class="row"><span>Unit</span><span>$3.42</span></div>
+            <div class="row"><span>Total</span><span class="money">$855.00</span></div>
+          </article>
+          <article class="item">
+            <h3>Leaflet DL - 2 sided</h3>
+            <div class="meta">Qty: 5000 | Status: Pending edits</div>
+            <div class="row"><span>Unit</span><span>$0.18</span></div>
+            <div class="row"><span>Total</span><span class="money">$900.00</span></div>
+          </article>
+        </div>
+      </section>
+
+      <section class="stage">
+        <div class="stage-hd">Quoted <span class="pill amber">3</span></div>
+        <div class="list">
+          <article class="item">
+            <h3>Business Cards - Premium</h3>
+            <div class="meta">Qty: 2000 | Sent: 09:34 AM</div>
+            <div class="row"><span>Margin</span><span>31%</span></div>
+            <div class="row"><span>Total</span><span class="money">$640.00</span></div>
+          </article>
+        </div>
+      </section>
+
+      <section class="stage">
+        <div class="stage-hd">Approved <span class="pill green">1</span></div>
+        <div class="list">
+          <article class="item">
+            <h3>Roll-up Banner Set</h3>
+            <div class="meta">Qty: 8 | Approved by: Sarah M</div>
+            <div class="row"><span>Delivery</span><span>Included</span></div>
+            <div class="row"><span>Total</span><span class="money">$1,420.00</span></div>
+          </article>
+        </div>
+      </section>
+
+      <section class="stage">
+        <div class="stage-hd">Archived / Lost <span class="pill gray">1</span></div>
+        <div class="list">
+          <article class="item">
+            <h3>Window Sticker Batch</h3>
+            <div class="meta">Reason: Budget not approved</div>
+            <div class="row"><span>Original total</span><span class="money">$310.00</span></div>
+          </article>
+        </div>
+      </section>
+    </div>
+
+    <div class="note">
+      Idea: instead of accordion rows, line items are grouped by status stage. This makes progress bottlenecks obvious for sales and production handoff.
+    </div>
+  </div>
+</body>
+</html>

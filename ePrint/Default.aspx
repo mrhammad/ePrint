@@ -1,4 +1,4 @@
-<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="ePrint._Default" Theme="Theme1" EnableViewStateMac="false" EnableEventValidation="false" %>
+<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="ePrint._Default" EnableViewState="false" EnableViewStateMac="false" EnableEventValidation="false" Theme="" StyleSheetTheme="" %>
 
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">

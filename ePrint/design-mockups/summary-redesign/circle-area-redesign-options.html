@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Summary Circle Area - Redesign Options</title>
+  <style>
+    :root {
+      --bg: #f4f6fb;
+      --surface: #ffffff;
+      --border: #dce3ee;
+      --text: #0f1f3d;
+      --muted: #677793;
+      --accent: #f07d26;
+      --accent-soft: #fff4ea;
+      --shadow: 0 2px 12px rgba(16, 24, 40, 0.08);
+      --radius: 12px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    .page {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 16px;
+    }
+
+    .toolbar {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+    }
+
+    .toolbar button {
+      border: 1px solid var(--border);
+      background: var(--surface);
+      border-radius: 8px;
+      padding: 8px 12px;
+      font-weight: 600;
+      cursor: pointer;
+      color: var(--text);
+    }
+
+    .toolbar button.active {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+    }
+    .toolbar-note {
+      font-size: 12px;
+      color: var(--muted);
+      margin: 2px 0 12px;
+    }
+
+    .board {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      position: relative;
+      min-height: 680px;
+    }
+
+    .head {
+      border-bottom: 1px solid var(--border);
+      padding: 14px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .head h1 {
+      margin: 0;
+      font-size: 28px;
+      letter-spacing: .5px;
+    }
+
+    .content {
+      display: grid;
+      grid-template-columns: 250px 1fr 370px;
+      min-height: 610px;
+      position: relative;
+    }
+
+    .left,
+    .middle,
+    .right {
+      padding: 12px;
+    }
+
+    .left {
+      border-right: 1px solid var(--border);
+      background: #fafcfe;
+    }
+
+    .right {
+      border-left: 1px solid var(--border);
+      background: #fbfdff;
+    }
+
+    .mock-block {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      margin-bottom: 8px;
+      padding: 8px 10px;
+      background: #fff;
+      font-weight: 600;
+      color: #1d2f57;
+    }
+
+    .mini {
+      font-size: 12px;
+      color: var(--muted);
+      margin: 0 0 10px;
+    }
+
+    .actions {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+      background: #fff;
+    }
+
+    .acc-header {
+      width: 100%;
+      border: 0;
+      border-bottom: 1px solid #edf2f7;
+      background: #fff;
+      color: #0f1f3d;
+      font-size: 14px;
+      font-weight: 700;
+      padding: 9px 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      text-align: left;
+    }
+
+    .acc-header:hover { background: #f8fbff; }
+    .acc-header[data-open="true"] { background: #fbfdff; }
+
+    .acc-arrow {
+      font-size: 11px;
+      color: #31466f;
+      width: 18px;
+      height: 18px;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 50%;
+    }
+
+    .acc-panel {
+      display: none;
+      border-bottom: 1px solid #edf2f7;
+      background: #fff;
+      padding: 4px 0;
+    }
+
+    .acc-panel.open { display: block; }
+
+    .acc-item {
+      display: block;
+      padding: 3px 12px 3px 16px;
+      font-size: 32px;
+      line-height: 1.15;
+      color: #1a3564;
+      font-weight: 500;
+      text-decoration: none;
+    }
+
+    .acc-sub {
+      padding-left: 34px;
+      font-size: 28px;
+      color: #304f7d;
+    }
+
+    .acc-spacer {
+      height: 8px;
+      border-bottom: 1px solid #edf2f7;
+      background: #fcfdff;
+    }
+
+    .bullet {
+      background: #eef3fb;
+      border: 1px solid #d6e0ef;
+      border-radius: 6px;
+      width: 20px;
+      height: 20px;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 11px;
+      color: #2f4872;
+    }
+
+    .desc-title {
+      font-size: 18px;
+      margin: 2px 0 10px;
+      font-weight: 700;
+    }
+
+    .desc-row {
+      display: grid;
+      grid-template-columns: 1fr 20px 1fr;
+      gap: 8px;
+      margin-bottom: 6px;
+      align-items: center;
+    }
+
+    .desc-row .name,
+    .desc-row .val {
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 6px 8px;
+      background: #fff;
+      min-height: 30px;
+    }
+
+    .chipbar {
+      display: none;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 10px;
+      background: var(--accent-soft);
+      border: 1px solid #ffd8b8;
+      border-radius: 10px;
+      padding: 10px;
+    }
+
+    .chip {
+      background: #fff;
+      border: 1px solid #ffd0ab;
+      color: #92400e;
+      border-radius: 20px;
+      padding: 6px 12px;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .floating {
+      display: none;
+      position: absolute;
+      top: 130px;
+      left: 40px;
+      width: 270px;
+      border: 1px solid #d3dcef;
+      border-radius: 12px;
+      background: #fff;
+      box-shadow: 0 10px 28px rgba(15, 23, 42, 0.2);
+      overflow: hidden;
+      z-index: 5;
+    }
+
+    .floating-header {
+      background: #0f1f3d;
+      color: #fff;
+      font-weight: 700;
+      font-size: 13px;
+      padding: 9px 10px;
+      cursor: move;
+      user-select: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .floating .body { padding: 8px; }
+
+    .helper {
+      margin: 8px 0 0;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .mode-2 .content { grid-template-columns: 1fr 370px; }
+    .mode-2 .left { display: none; }
+    .mode-2 .chipbar { display: flex; }
+
+    .mode-3 .content { grid-template-columns: 1fr 370px; }
+    .mode-3 .left { display: none; }
+    .mode-3 .floating { display: block; }
+    .mode-4 .content { grid-template-columns: 290px 1fr 370px; }
+    .mode-5 .content { grid-template-columns: 300px 1fr 370px; }
+
+    .mode-label {
+      margin-top: 10px;
+      color: #4b5f84;
+      font-size: 13px;
+    }
+
+    .eprint-scale {
+      transform: scale(0.38);
+      transform-origin: top left;
+      width: 250px;
+      min-height: 520px;
+      overflow: hidden;
+    }
+
+    .variant-panel { display: none; }
+    .mode-1 .variant-a { display: block; }
+    .mode-4 .variant-d { display: block; }
+    .mode-5 .variant-e { display: block; }
+
+    .quick-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+    .quick-card {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px;
+      background: #fff;
+    }
+    .quick-card h4 {
+      margin: 0 0 8px;
+      font-size: 13px;
+      color: #1d2f57;
+    }
+    .quick-card .link {
+      display: block;
+      font-size: 12px;
+      color: #2f4f7f;
+      padding: 3px 0;
+      text-decoration: none;
+    }
+    .pill-title {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 700;
+      background: var(--accent-soft);
+      color: #9a490c;
+      border: 1px solid #ffcfa6;
+      border-radius: 999px;
+      padding: 3px 8px;
+      margin-bottom: 6px;
+    }
+
+    .dropdown-card {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: #fff;
+      padding: 10px;
+      margin-bottom: 8px;
+    }
+    .dropdown-card label {
+      display: block;
+      font-size: 12px;
+      font-weight: 700;
+      color: #284170;
+      margin-bottom: 6px;
+    }
+    .dropdown-card select {
+      width: 100%;
+      border: 1px solid #cfd9ea;
+      border-radius: 8px;
+      padding: 8px;
+      font-size: 13px;
+      color: #163460;
+      background: #fff;
+      margin-bottom: 8px;
+    }
+    .dropdown-card .btn-row {
+      display: flex;
+      gap: 8px;
+    }
+    .dropdown-card button {
+      border: 1px solid var(--border);
+      background: #fff;
+      border-radius: 8px;
+      padding: 7px 10px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      color: #1f3c6c;
+    }
+    .dropdown-card button.primary {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+    .selection-preview {
+      border: 1px dashed #cdd8eb;
+      border-radius: 8px;
+      padding: 8px;
+      font-size: 12px;
+      color: #244372;
+      background: #f8fbff;
+    }
+    .selection-preview b { color: #0f1f3d; }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div class="toolbar">
+      <button class="switch active" data-mode="mode-1">Option A - Same Place, Cleaner</button>
+      <button class="switch" data-mode="mode-2">Option B - Top Action Chips</button>
+      <button class="switch" data-mode="mode-3">Option C - Movable Floating Panel</button>
+      <button class="switch" data-mode="mode-4">Option D - Quick Action Cards</button>
+      <button class="switch" data-mode="mode-5">Option E - Add Sub Item Dropdown</button>
+    </div>
+    <div class="toolbar-note">Option E is your requested dropdown version for Add Sub Item.</div>
+
+    <div class="board mode-1" id="board">
+      <div class="head">
+        <h1>EST-0000948</h1>
+        <div style="font-weight:600;color:#556a8e;">Customer: Test Company by Ham</div>
+      </div>
+
+      <div class="chipbar">
+        <span class="chip">Re-Run Item</span>
+        <span class="chip">Add Sub Item</span>
+        <span class="chip">Quick Links</span>
+        <span class="chip">Job</span>
+      </div>
+
+      <div class="content">
+        <div class="left">
+          <div class="variant-panel variant-a">
+            <p class="mini">Accordion behavior like your live screen (arrow open/close).</p>
+            <div class="actions eprint-scale">
+              <button class="acc-header js-acc-btn" type="button" data-target="panel-rerun" data-open="false">
+                <span>Re-Run Item</span><span class="acc-arrow">▼</span>
+              </button>
+              <div id="panel-rerun" class="acc-panel"></div>
+
+              <button class="acc-header js-acc-btn" type="button" data-target="panel-addsub" data-open="true">
+                <span>Add Sub Item</span><span class="acc-arrow">▲</span>
+              </button>
+              <div id="panel-addsub" class="acc-panel open">
+                <span class="acc-item">Sheet Fed Digital</span>
+                <span class="acc-item acc-sub">Single Item</span>
+                <span class="acc-item acc-sub">Pads</span>
+                <span class="acc-item">Sheet Fed Offset</span>
+                <span class="acc-item acc-sub">Single Item</span>
+                <span class="acc-item acc-sub">Pads</span>
+                <span class="acc-item">Outwork</span>
+                <span class="acc-item">Product Catalogue</span>
+                <span class="acc-item">Other Cost</span>
+                <span class="acc-item">Delivery Cost</span>
+                <span class="acc-item">Large Format</span>
+                <span class="acc-item acc-sub">Linear</span>
+                <span class="acc-item acc-sub">Square Meter</span>
+                <span class="acc-item acc-sub">Tiling</span>
+                <span class="acc-item">Inventory</span>
+              </div>
+
+              <button class="acc-header js-acc-btn" type="button" data-target="panel-ql" data-open="false">
+                <span>Quick Links</span><span class="acc-arrow">▼</span>
+              </button>
+              <div id="panel-ql" class="acc-panel">
+                <span class="acc-item">Job</span>
+                <span class="acc-item acc-sub">Create</span>
+                <span class="acc-item">Invoice</span>
+                <span class="acc-item acc-sub">Create</span>
+                <span class="acc-item">Delivery Note</span>
+                <span class="acc-item acc-sub">Create</span>
+                <span class="acc-item">Purchase Order</span>
+                <span class="acc-item acc-sub">Create</span>
+                <span class="acc-item">Product Catalogue</span>
+                <span class="acc-item acc-sub">Create</span>
+                <span class="acc-item">Proof</span>
+                <span class="acc-item acc-sub">Create</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="variant-panel variant-d">
+            <p class="mini">Card-based quick action design (less vertical scrolling).</p>
+            <div class="quick-grid">
+              <div class="quick-card">
+                <span class="pill-title">Item Actions</span>
+                <h4>Production</h4>
+                <a class="link" href="#">Re-Run Item</a>
+                <a class="link" href="#">Add Sub Item</a>
+                <a class="link" href="#">Outwork</a>
+                <a class="link" href="#">Other Cost</a>
+              </div>
+              <div class="quick-card">
+                <span class="pill-title">Quick Links</span>
+                <h4>Documents</h4>
+                <a class="link" href="#">Create Job</a>
+                <a class="link" href="#">Create Invoice</a>
+                <a class="link" href="#">Create Delivery Note</a>
+                <a class="link" href="#">Create Purchase Order</a>
+              </div>
+              <div class="quick-card" style="grid-column: 1 / -1;">
+                <span class="pill-title">Catalog</span>
+                <h4>Products</h4>
+                <a class="link" href="#">Sheet Fed Digital</a>
+                <a class="link" href="#">Sheet Fed Offset</a>
+                <a class="link" href="#">Large Format</a>
+                <a class="link" href="#">Inventory</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="variant-panel variant-e">
+            <p class="mini">Dropdown concept: Add Sub Item as select + add button.</p>
+            <div class="dropdown-card">
+              <label for="addSubType">Add Sub Item Type</label>
+              <select id="addSubType">
+                <option value="">Select item type...</option>
+                <optgroup label="Sheet Fed Digital">
+                  <option>Single Item</option>
+                  <option>Pads</option>
+                </optgroup>
+                <optgroup label="Sheet Fed Offset">
+                  <option>Single Item</option>
+                  <option>Pads</option>
+                </optgroup>
+                <option>Outwork</option>
+                <option>Product Catalogue</option>
+                <option>Other Cost</option>
+                <option>Delivery Cost</option>
+                <optgroup label="Large Format">
+                  <option>Linear</option>
+                  <option>Square Meter</option>
+                  <option>Tiling</option>
+                </optgroup>
+                <option>Inventory</option>
+              </select>
+              <div class="btn-row">
+                <button class="primary" type="button">Add</button>
+                <button type="button">Recent Types</button>
+              </div>
+            </div>
+            <div class="selection-preview" id="selectionPreview">
+              <b>Preview:</b> no type selected yet.
+            </div>
+            <div class="actions" style="margin-top:8px;">
+              <button class="acc-header js-acc-btn" type="button" data-target="panel-e-ql" data-open="false">
+                <span>Quick Links</span><span class="acc-arrow">▼</span>
+              </button>
+              <div id="panel-e-ql" class="acc-panel">
+                <span class="acc-item">Job</span>
+                <span class="acc-item acc-sub">Create</span>
+                <span class="acc-item">Invoice</span>
+                <span class="acc-item acc-sub">Create</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="middle">
+          <div class="mock-block">Artwork File(s)</div>
+          <div class="mock-block">Finished Quantity</div>
+          <div class="mock-block">Quantity Description</div>
+          <div class="mock-block">Paper/Stock</div>
+          <div class="mock-block">Press</div>
+          <div class="mock-block">Cost Price (Ex. Markup)</div>
+          <div class="mock-block">Markup</div>
+          <div class="mock-block">Cost Price (Inc. Markup)</div>
+          <div class="mock-block">Markup (%)</div>
+          <div class="mock-block">Markup ($)</div>
+          <div class="mock-block">Sub Total</div>
+          <div class="mode-label">Option A keeps this section in the same location, only cleaner.</div>
+        </div>
+
+        <div class="right">
+          <div class="desc-title">Customer Item Descriptions</div>
+          <div class="desc-row"><div class="name">Item Title</div><div class="bullet">+</div><div class="val">test</div></div>
+          <div class="desc-row"><div class="name">Description</div><div class="bullet">+</div><div class="val"></div></div>
+          <div class="desc-row"><div class="name">Artwork</div><div class="bullet">+</div><div class="val"></div></div>
+          <div class="desc-row"><div class="name">Colour</div><div class="bullet">+</div><div class="val">CMYK full colour process</div></div>
+          <div class="desc-row"><div class="name">Size</div><div class="bullet">+</div><div class="val"></div></div>
+          <div class="desc-row"><div class="name">Stock</div><div class="bullet">+</div><div class="val"></div></div>
+        </div>
+
+        <div class="floating" id="floatingPanel">
+          <div class="floating-header" id="dragHandle">
+            <span>Quick Actions (Drag Me)</span>
+            <span style="font-size:11px;opacity:.8;">Dock Anywhere</span>
+          </div>
+          <div class="body">
+            <div class="actions">
+              <button class="acc-header js-acc-btn" type="button" data-target="panel-float-addsub" data-open="true">
+                <span>Add Sub Item</span><span class="acc-arrow">▲</span>
+              </button>
+              <div id="panel-float-addsub" class="acc-panel open">
+                <span class="acc-item">Sheet Fed Digital</span>
+                <span class="acc-item">Sheet Fed Offset</span>
+                <span class="acc-item">Outwork</span>
+              </div>
+              <button class="acc-header js-acc-btn" type="button" data-target="panel-float-ql" data-open="false">
+                <span>Quick Links</span><span class="acc-arrow">▼</span>
+              </button>
+              <div id="panel-float-ql" class="acc-panel">
+                <span class="acc-item">Job</span>
+                <span class="acc-item acc-sub">Create</span>
+              </div>
+            </div>
+            <p class="helper">In Option C this panel can be moved anywhere on the screen.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var board = document.getElementById("board");
+      var buttons = document.querySelectorAll(".switch");
+      for (var i = 0; i < buttons.length; i++) {
+        buttons[i].addEventListener("click", function () {
+          for (var j = 0; j < buttons.length; j++) {
+            buttons[j].classList.remove("active");
+          }
+          this.classList.add("active");
+          board.className = "board " + this.getAttribute("data-mode");
+        });
+      }
+
+      function bindAccordions() {
+        var accButtons = document.querySelectorAll(".js-acc-btn");
+        for (var k = 0; k < accButtons.length; k++) {
+          accButtons[k].addEventListener("click", function () {
+            var targetId = this.getAttribute("data-target");
+            var panelEl = document.getElementById(targetId);
+            if (!panelEl) return;
+            var isOpen = panelEl.classList.contains("open");
+            panelEl.classList.toggle("open", !isOpen);
+            this.setAttribute("data-open", isOpen ? "false" : "true");
+            var arrow = this.querySelector(".acc-arrow");
+            if (arrow) arrow.textContent = isOpen ? "▼" : "▲";
+          });
+        }
+      }
+      bindAccordions();
+
+      var addSubType = document.getElementById("addSubType");
+      var selectionPreview = document.getElementById("selectionPreview");
+      if (addSubType && selectionPreview) {
+        addSubType.addEventListener("change", function () {
+          var value = this.value ? this.value : "no type selected yet.";
+          selectionPreview.innerHTML = "<b>Preview:</b> " + value;
+        });
+      }
+
+      var panel = document.getElementById("floatingPanel");
+      var handle = document.getElementById("dragHandle");
+      var dragging = false;
+      var startX = 0;
+      var startY = 0;
+      var baseX = 0;
+      var baseY = 0;
+
+      handle.addEventListener("mousedown", function (e) {
+        dragging = true;
+        startX = e.clientX;
+        startY = e.clientY;
+        baseX = panel.offsetLeft;
+        baseY = panel.offsetTop;
+      });
+
+      document.addEventListener("mousemove", function (e) {
+        if (!dragging) return;
+        var dx = e.clientX - startX;
+        var dy = e.clientY - startY;
+        panel.style.left = (baseX + dx) + "px";
+        panel.style.top = (baseY + dy) + "px";
+      });
+
+      document.addEventListener("mouseup", function () {
+        dragging = false;
+      });
+    })();
+  </script>
+</body>
+</html>

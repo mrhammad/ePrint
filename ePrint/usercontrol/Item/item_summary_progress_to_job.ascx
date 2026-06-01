@@ -1,6 +1,7 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="item_summary_progress_to_job.ascx.cs" Inherits="ePrint.usercontrol.Item.item_summary_progress_to_job" %>
 <%@ Register TagPrefix="UC" TagName="Loading" Src="~/usercontrol/settings/Loading.ascx" %>
-<div style="float: left; width: 100%; clear: both;">
+<link rel="stylesheet" type="text/css" href="<%=strSitepath%>App_Themes/Theme1/eprint-p2j-modal.css?VN=<%=VersionNumber%>" />
+<div class="eprint-p2j-shell" style="float: left; width: 100%; clear: both;">
     <script type="text/javascript" language="javascript">
         var RemainingItemCnt = "<%=RemainingItemCnt%>"
         var IsArchive = "<%=IsArchive %>";
@@ -864,7 +865,7 @@
                                             <span id="spn_txtdeliverydate" class="spanerrorMsg" style="display: none; width: 170px"></span>
                                         </div>
                                     </div>
-                                    <div align="left" id="div1" style="border: 1px solid red; clear: both; display: none;">
+                                    <div align="left" id="div1" style="display: none;" aria-hidden="true">
                                         <div class="bglabel">
                                             <asp:Label ID="Label1" runat="server" Text="Delivery Date" CssClass="normaltext"><%=objLanguage.GetLanguageConversion("Delivery_Date")%></asp:Label>
                                         </div>

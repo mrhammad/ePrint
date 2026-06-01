@@ -27,6 +27,7 @@ using System.Web.SessionState;
 using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
+using System.Globalization;
 
 
 namespace ePrint.usercontrol.Item
@@ -2260,11 +2261,68 @@ namespace ePrint.usercontrol.Item
             this.txtcustdate4.Attributes.Add("onClick", string.Concat("javascript:event.cancelBubble=true;this.select();lcs(this,'", this.DateFormat, "');"));
             this.txtcustdate5.Attributes.Add("onClick", string.Concat("javascript:event.cancelBubble=true;this.select();lcs(this,'", this.DateFormat, "');"));
 
+            DateTime now = DateTime.Now;
+            TextBox textBox7 = this.txtcustdate1;
+            commonClass _commonClass18 = this.objComn;
+            if (!string.IsNullOrEmpty(this.DefaultCustomDate1))
+            {
+                now = this.ReturnWeekDate(DateTime.Now, this.WorkingDaysFrom, this.WorkingDaysTo, Convert.ToInt32(this.DefaultCustomDate1));
+                textBox7.Text = _commonClass18.Eprint_return_Date_Before_View(now.ToString(), this.CompanyID, this.UserID, true);
+            }
+            else
+            {
+                textBox7.Text = "";
+            }
+            TextBox textBox8 = this.txtcustdate2;
+            commonClass _commonClass19 = this.objComn;
+            if (!string.IsNullOrEmpty(this.DefaultCustomDate2))
+            {
+                now = this.ReturnWeekDate(DateTime.Now, this.WorkingDaysFrom, this.WorkingDaysTo, Convert.ToInt32(this.DefaultCustomDate2));
+                textBox8.Text = _commonClass19.Eprint_return_Date_Before_View(now.ToString(), this.CompanyID, this.UserID, true);
+            }
+            else
+            {
+                textBox8.Text = "";
+            }
+            TextBox textBox9 = this.txtcustdate3;
+            commonClass _commonClass20 = this.objComn;
+            if (!string.IsNullOrEmpty(this.DefaultCustomDate3))
+            {
+                now = this.ReturnWeekDate(DateTime.Now, this.WorkingDaysFrom, this.WorkingDaysTo, Convert.ToInt32(this.DefaultCustomDate3));
+                textBox9.Text = _commonClass20.Eprint_return_Date_Before_View(now.ToString(), this.CompanyID, this.UserID, true);
+            }
+            else
+            {
+                textBox9.Text = "";
+            }
+            TextBox textBox10 = this.txtcustdate4;
+            commonClass _commonClass21 = this.objComn;
+            if (!string.IsNullOrEmpty(this.DefaultCustomDate4))
+            {
+                now = this.ReturnWeekDate(DateTime.Now, this.WorkingDaysFrom, this.WorkingDaysTo, Convert.ToInt32(this.DefaultCustomDate4));
+                textBox10.Text = _commonClass21.Eprint_return_Date_Before_View(now.ToString(), this.CompanyID, this.UserID, true);
+            }
+            else
+            {
+                textBox10.Text = "";
+            }
+            TextBox textBox11 = this.txtcustdate5;
+            commonClass _commonClass22 = this.objComn;
+            if (!string.IsNullOrEmpty(this.DefaultCustomDate5))
+            {
+                now = this.ReturnWeekDate(DateTime.Now, this.WorkingDaysFrom, this.WorkingDaysTo, Convert.ToInt32(this.DefaultCustomDate5));
+                textBox11.Text = _commonClass22.Eprint_return_Date_Before_View(now.ToString(), this.CompanyID, this.UserID, true);
+            }
+            else
+            {
+                textBox11.Text = "";
+            }
+
             TextBox txtdemoDate = this.txtdemo_date;
             commonClass _commonClass = this.commclass;
             string dateFormat = this.DateFormat;
             commonClass _commonClass1 = this.commclass;
-            DateTime now = DateTime.Now;
+            now = DateTime.Now;
             txtdemoDate.Text = _commonClass.date_Check_new(dateFormat, _commonClass1.Eprint_return_Date_Before_View(now.ToString(), this.CompanyID, this.UserID, false), this.CompanyID);
             commonClass _commonClass2 = this.commclass;
             string dateFormat1 = this.DateFormat;
@@ -2276,80 +2334,10 @@ namespace ePrint.usercontrol.Item
             commonClass _commonClass5 = this.commclass;
             now = DateTime.Now;
             this.strcreateddate = _commonClass4.date_Check_new(dateFormat2, _commonClass5.Eprint_return_Date_Before_View(now.ToString(), this.CompanyID, this.UserID, true), this.CompanyID);
-            commonClass _commonClass6 = this.commclass;
             now = DateTime.Now;
-            this.CreatedDate = Convert.ToDateTime(_commonClass6.Eprint_return_ActualDate_Before_View(now.ToString(), this.CompanyID, this.UserID, true));
-            try
-            {
-                this.TodayDate = Convert.ToDateTime(this.strcreateddate);
-            }
-            catch
-            {
-            }
-            try
-            {
-                this.JobConDate = Convert.ToDateTime(this.Jobconvertedate);
-            }
-            catch
-            {
-
-
-                TextBox textBox7 = this.txtcustdate1;
-                commonClass _commonClass18 = this.objComn;
-                if (!string.IsNullOrEmpty(this.DefaultCustomDate1))
-                {
-                    now = this.ReturnWeekDate(DateTime.Now, this.WorkingDaysFrom, this.WorkingDaysTo, Convert.ToInt32(this.DefaultCustomDate1));
-                    textBox7.Text = _commonClass18.Eprint_return_Date_Before_View(now.ToString(), this.CompanyID, this.UserID, true);
-                }
-                else
-                {
-                    textBox7.Text = "";
-                }
-                TextBox textBox8 = this.txtcustdate2;
-                commonClass _commonClass19 = this.objComn;
-                if (!string.IsNullOrEmpty(this.DefaultCustomDate2))
-                {
-                    now = this.ReturnWeekDate(DateTime.Now, this.WorkingDaysFrom, this.WorkingDaysTo, Convert.ToInt32(this.DefaultCustomDate2));
-                    textBox8.Text = _commonClass19.Eprint_return_Date_Before_View(now.ToString(), this.CompanyID, this.UserID, true);
-                }
-                else
-                {
-                    textBox8.Text = "";
-                }
-                TextBox textBox9 = this.txtcustdate3;
-                commonClass _commonClass20 = this.objComn;
-                if (!string.IsNullOrEmpty(this.DefaultCustomDate3))
-                {
-                    now = this.ReturnWeekDate(DateTime.Now, this.WorkingDaysFrom, this.WorkingDaysTo, Convert.ToInt32(this.DefaultCustomDate3));
-                    textBox9.Text = _commonClass20.Eprint_return_Date_Before_View(now.ToString(), this.CompanyID, this.UserID, true);
-                }
-                else
-                {
-                    textBox9.Text = "";
-                }
-                TextBox textBox10 = this.txtcustdate4;
-                commonClass _commonClass21 = this.objComn;
-                if (!string.IsNullOrEmpty(this.DefaultCustomDate4))
-                {
-                    now = this.ReturnWeekDate(DateTime.Now, this.WorkingDaysFrom, this.WorkingDaysTo, Convert.ToInt32(this.DefaultCustomDate4));
-                    textBox10.Text = _commonClass21.Eprint_return_Date_Before_View(now.ToString(), this.CompanyID, this.UserID, true);
-                }
-                else
-                {
-                    textBox10.Text = "";
-                }
-                TextBox textBox11 = this.txtcustdate5;
-                commonClass _commonClass22 = this.objComn;
-                if (!string.IsNullOrEmpty(this.DefaultCustomDate5))
-                {
-                    now = this.ReturnWeekDate(DateTime.Now, this.WorkingDaysFrom, this.WorkingDaysTo, Convert.ToInt32(this.DefaultCustomDate5));
-                    textBox11.Text = _commonClass22.Eprint_return_Date_Before_View(now.ToString(), this.CompanyID, this.UserID, true);
-                }
-                else
-                {
-                    textBox11.Text = "";
-                }
-            }
+            this.CreatedDate = P2JClampSqlDate(this.commclass.Eprint_return_ActualDate_Before_View(now.ToString(), this.CompanyID, this.UserID, true));
+            this.TodayDate = P2JParseDate(this.strcreateddate);
+            this.JobConDate = P2JParseDate(this.Jobconvertedate);
 
 
 
@@ -3087,6 +3075,57 @@ namespace ePrint.usercontrol.Item
 
         }
 
+        private static readonly DateTime SqlMinDate = new DateTime(1753, 1, 1);
+        private static readonly DateTime SqlMaxDate = new DateTime(9999, 12, 31, 23, 59, 59);
+
+        private DateTime P2JClampSqlDate(DateTime value)
+        {
+            if (value < SqlMinDate)
+            {
+                return new DateTime(1900, 1, 1);
+            }
+            if (value > SqlMaxDate)
+            {
+                return SqlMaxDate;
+            }
+            return value;
+        }
+
+        private DateTime P2JParseDate(string dateValue, string dateFormat = null)
+        {
+            if (string.IsNullOrWhiteSpace(dateValue))
+            {
+                return new DateTime(1900, 1, 1);
+            }
+            string fmt = string.IsNullOrWhiteSpace(dateFormat) ? this.DateFormat : dateFormat;
+            string normalized = this.commclass.eprint_checkdateformat_returnonlymmddyyyy(fmt, dateValue.Trim());
+            if (string.IsNullOrWhiteSpace(normalized))
+            {
+                return new DateTime(1900, 1, 1);
+            }
+            return P2JClampSqlDate(Convert.ToDateTime(normalized, CultureInfo.InvariantCulture));
+        }
+
+        private DateTime? P2JParseDateNullable(string dateValue, string dateFormat = null)
+        {
+            if (string.IsNullOrWhiteSpace(dateValue))
+            {
+                return null;
+            }
+            string fmt = string.IsNullOrWhiteSpace(dateFormat) ? this.DateFormat : dateFormat;
+            string normalized = this.commclass.eprint_checkdateformat_returnonlymmddyyyy(fmt, dateValue.Trim());
+            if (string.IsNullOrWhiteSpace(normalized))
+            {
+                return null;
+            }
+            DateTime parsed = Convert.ToDateTime(normalized, CultureInfo.InvariantCulture);
+            if (parsed.Year == 1900 && parsed.Month == 1 && parsed.Day == 1)
+            {
+                return null;
+            }
+            return parsed;
+        }
+
         protected string Progress_to_Job()
         {
 
@@ -3114,6 +3153,11 @@ namespace ePrint.usercontrol.Item
                 string empty = string.Empty;
                 bool flag = false;
                 this.IsFromProgreesTojob = "yes";
+                this.TodayDate = P2JParseDate(this.strcreateddate);
+                if (this.CreatedDate.Year < 1753)
+                {
+                    this.CreatedDate = this.TodayDate;
+                }
 
                 long estimateID = (long)Convert.ToInt32(strArray.Split(chrArray_)[0].ToString());
                 long orderID = (long)Convert.ToInt32(strArray.Split(chrArray_)[1].ToString());
@@ -3148,6 +3192,17 @@ namespace ePrint.usercontrol.Item
                 this.objCom.settings_lastcounter_select(this.CompanyID, "j");
                 string serverName = ConnectionClass.ServerName;
                 string str = SettingsBasePage.eprint_numbering(this.CompanyID, "J", ConnectionClass.IsHandy);
+                if (string.IsNullOrWhiteSpace(this.Jobconvertedate) || string.IsNullOrWhiteSpace(this.strcreateddate))
+                {
+                    DateTime nowInit = DateTime.Now;
+                    this.Jobconvertedate = this.commclass.date_Check_new(this.DateFormat, this.commclass.Eprint_return_Date_Before_View(nowInit.ToString(), this.CompanyID, this.UserID, true), this.CompanyID);
+                    this.strcreateddate = this.commclass.date_Check_new(this.DateFormat, this.commclass.Eprint_return_Date_Before_View(nowInit.ToString(), this.CompanyID, this.UserID, true), this.CompanyID);
+                }
+                this.TodayDate = P2JParseDate(this.strcreateddate);
+                if (this.CreatedDate.Year < 1753)
+                {
+                    this.CreatedDate = this.TodayDate;
+                }
                 string str1 = this.commclass.date_Check_new(this.DateFormat, baseClass.SpecialEncode(this.txtcompletiondate.Text), this.CompanyID);
                 string str2 = this.commclass.date_Check_new(this.DateFormat, baseClass.SpecialEncode(this.txtdeliverydate.Text), this.CompanyID);
                 string str3 = this.commclass.date_Check_new(this.DateFormat, baseClass.SpecialEncode(this.txtartworkdate.Text), this.CompanyID);
@@ -3162,7 +3217,7 @@ namespace ePrint.usercontrol.Item
 
                 if (!list.Contains(estimateID))
                 {
-                    this.JobID = JobBasePage.jobs_insert(this.CompanyID, this.EstimateID, str, Convert.ToDateTime(this.Jobconvertedate), Convert.ToDateTime(this.strcreateddate), Convert.ToDateTime(str1), Convert.ToDateTime(str2), Convert.ToInt32(base.Session["UserID"]), this.objBC.SpecialEncode(this.hid_TxtOrderNo.Value), Convert.ToDateTime(str3), Convert.ToDateTime(str4), Convert.ToDateTime(str5), Convert.ToDateTime(str6), false, 0, ConnectionClass.IsHandy, Convert.ToDateTime(str61), Convert.ToDateTime(str62), Convert.ToDateTime(str63), Convert.ToDateTime(str64), Convert.ToDateTime(str65));
+                    this.JobID = JobBasePage.jobs_insert(this.CompanyID, this.EstimateID, str, P2JParseDate(this.Jobconvertedate), P2JParseDate(this.strcreateddate), P2JParseDate(str1), P2JParseDate(str2), Convert.ToInt32(base.Session["UserID"]), this.objBC.SpecialEncode(this.hid_TxtOrderNo.Value), P2JParseDate(str3), P2JParseDate(str4), P2JParseDate(str5), P2JParseDate(str6), false, 0, ConnectionClass.IsHandy, P2JParseDateNullable(str61), P2JParseDateNullable(str62), P2JParseDateNullable(str63), P2JParseDateNullable(str64), P2JParseDateNullable(str65));
                 }
                 base.Session["JobID"] = this.JobID.ToString();
                 //string str7 = string.Concat(this.hid_Progress_Items.Value, this.hid_Remaining_Items.Value);
@@ -3210,7 +3265,7 @@ namespace ePrint.usercontrol.Item
                         {
                             JobBasePage.EstimateItems_ProgressToJob(Convert.ToInt64(dataRow["EstimateItemID"]), this.JobID, flag, this.CreatedDate);
                         }
-                        JobBasePage.jobs_jobcard_insert(this.CompanyID, Convert.ToInt32(est_item_id), Convert.ToInt16(1), Convert.ToDateTime(str1), Convert.ToDateTime(str2), Convert.ToDateTime(str3), Convert.ToDateTime(str4), Convert.ToDateTime(str5), Convert.ToDateTime(str6));
+                        JobBasePage.jobs_jobcard_insert(this.CompanyID, Convert.ToInt32(est_item_id), Convert.ToInt16(1), P2JParseDate(str1), P2JParseDate(str2), P2JParseDate(str3), P2JParseDate(str4), P2JParseDate(str5), P2JParseDate(str6));
                         EstimateBasePage.ProgressToJob_IsBackOrder_Check(est_item_id, 1);
                         EstimateCommonMethods.ShowJobCardDetails(this.CompanyID, this.EstimateID, est_item_id, estimateType);
                         _commonClass1.SendMailOnJobStatusChange_Item(this.CompanyID, this.JobID, Convert.ToInt32(num), "job", est_item_id, (long)0);
@@ -3223,7 +3278,7 @@ namespace ePrint.usercontrol.Item
                     {
                         JobBasePage.EstimateItems_ProgressToJob(Convert.ToInt64(dataRow["EstimateItemID"]), this.JobID, flag, this.CreatedDate);
                     }
-                    JobBasePage.jobs_jobcard_insert(this.CompanyID, Convert.ToInt32(estimateItemID), Convert.ToInt16(1), Convert.ToDateTime(str1), Convert.ToDateTime(str2), Convert.ToDateTime(str3), Convert.ToDateTime(str4), Convert.ToDateTime(str5), Convert.ToDateTime(str6));
+                    JobBasePage.jobs_jobcard_insert(this.CompanyID, Convert.ToInt32(estimateItemID), Convert.ToInt16(1), P2JParseDate(str1), P2JParseDate(str2), P2JParseDate(str3), P2JParseDate(str4), P2JParseDate(str5), P2JParseDate(str6));
                     EstimateBasePage.ProgressToJob_IsBackOrder_Check(estimateItemID, 1);
                     EstimateCommonMethods.ShowJobCardDetails(this.CompanyID, this.EstimateID, estimateItemID, estimateType);
                     _commonClass1.SendMailOnJobStatusChange_Item(this.CompanyID, this.JobID, Convert.ToInt32(num), "job", estimateItemID, (long)0);
@@ -3349,8 +3404,8 @@ namespace ePrint.usercontrol.Item
                         commonClass _commonClass5 = this.commclass;
                         now = DateTime.Now;
                         string str13 = _commonClass4.date_Check_new(dateFormat1, _commonClass5.Eprint_return_Date_Before_View(now.ToString(), this.CompanyID, this.UserID, true), this.CompanyID);
-                        DateTime dateTime = Convert.ToDateTime(str12);
-                        DateTime dateTime1 = Convert.ToDateTime(str13);
+                        DateTime dateTime = P2JParseDate(str12);
+                        DateTime dateTime1 = P2JParseDate(str13);
                         int num4 = 0;
                         foreach (DataRow dataRow3 in SettingsBasePage.settings_estimatestatus_moduletype_select_new(this.CompanyID, "purchase").Rows)
                         {
@@ -5614,7 +5669,7 @@ namespace ePrint.usercontrol.Item
                     this.DelNO = this.objCom.settings_lastcounter_select(this.CompanyID, "d");
                     long delNO = (long)10000000 + this.DelNO;
                     this.StrDelNum = string.Concat(this.DeliveryNotePrefix, delNO.ToString().Substring(1, delNO.ToString().Length - 1));
-                    this.DeliveyDate = Convert.ToDateTime(str2);
+                    this.DeliveyDate = P2JParseDate(str2);
                     this.OrderNo = this.hid_TxtOrderNo.Value;
                     long num75 = (long)0;
                     int num76 = 0;
@@ -6686,7 +6741,7 @@ namespace ePrint.usercontrol.Item
             string[] strArrays = value.Split(chrArray);
             DateTime now = DateTime.Now;
             string str1 = _commonClass.date_Check_new(DateFormat, _commonClass.Eprint_return_Date_Before_View(now.ToString(), CompanyID, UserID, true), CompanyID);
-            DateTime dateTime = Convert.ToDateTime(str1);
+            DateTime dateTime = P2JParseDate(str1, DateFormat);
             long num5 = (long)0;
             string empty2 = string.Empty;
             string str2 = string.Empty;
@@ -6702,8 +6757,8 @@ namespace ePrint.usercontrol.Item
             string str5 = _commonClass.date_Check_new(DateFormat, _commonClass.Eprint_return_Date_Before_View(now.ToString(), CompanyID, UserID, true), CompanyID);
             now = DateTime.Now;
             string str6 = _commonClass.date_Check_new(DateFormat, _commonClass.Eprint_return_Date_Before_View(now.ToString(), CompanyID, UserID, true), CompanyID);
-            DateTime dateTime1 = Convert.ToDateTime(str5);
-            DateTime dateTime2 = Convert.ToDateTime(str6);
+            DateTime dateTime1 = P2JParseDate(str5, DateFormat);
+            DateTime dateTime2 = P2JParseDate(str6, DateFormat);
             str3 = _commonClass.Settings_inventoryStockReduction_Select((long)CompanyID);
             DataTable dataTable1 = SettingsBasePage.settings_companyprofile_select(CompanyID);
             int num9 = 0;

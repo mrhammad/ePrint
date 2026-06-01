@@ -1,0 +1,530 @@
+/* Progress to Job popup — matches estimate summary customer-tab field layout */
+
+#div_ProgressToJob {
+  --p2j-navy: #1a2332;
+  --p2j-orange: #e67e22;
+  --p2j-orange-dark: #c2410c;
+  --p2j-border: #e2e8f0;
+  --p2j-label-bg: #f1f5f9;
+  --p2j-text: #0f172a;
+  --p2j-muted: #64748b;
+  --p2j-radius: 12px;
+  --p2j-radius-sm: 8px;
+  --p2j-header-h: 56px;
+  font-family: Inter, "Segoe UI", system-ui, sans-serif;
+  font-size: 13px;
+  color: var(--p2j-text);
+  position: fixed !important;
+  top: 50% !important;
+  left: 50% !important;
+  right: auto !important;
+  bottom: auto !important;
+  transform: translate(-50%, -50%) !important;
+  width: min(560px, 94vw) !important;
+  max-height: 90vh !important;
+  height: auto !important;
+  margin: 0 !important;
+  overflow: hidden !important;
+  box-sizing: border-box;
+  z-index: 10000 !important;
+  border-radius: var(--p2j-radius);
+  box-shadow: 0 24px 48px rgba(15, 23, 42, 0.18), 0 0 0 1px rgba(15, 23, 42, 0.06);
+  background: #ffffff;
+}
+
+#div_ProgressToJob .eprint-p2j-shell {
+  display: flex !important;
+  flex-direction: column !important;
+  width: 100% !important;
+  max-height: 90vh !important;
+  min-height: 0 !important;
+  overflow: hidden !important;
+  border-radius: var(--p2j-radius) !important;
+  background: #ffffff;
+}
+
+#div_ProgressToJob .eprint-p2j-shell > table {
+  display: flex !important;
+  flex-direction: column !important;
+  flex: 1 1 auto !important;
+  width: 100% !important;
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: 90vh !important;
+  border-collapse: separate !important;
+  border-spacing: 0 !important;
+  border-radius: var(--p2j-radius) !important;
+  overflow: hidden !important;
+  background: #ffffff !important;
+  box-shadow: none !important;
+}
+
+#div_ProgressToJob .eprint-p2j-shell > table > tbody {
+  display: flex !important;
+  flex-direction: column !important;
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+  width: 100% !important;
+}
+
+#div_ProgressToJob .eprint-p2j-shell > table > tbody > tr:first-child {
+  flex: 0 0 auto !important;
+}
+
+#div_ProgressToJob .eprint-p2j-shell > table > tbody > tr:nth-child(2) {
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+  display: flex !important;
+  width: 100% !important;
+}
+
+#div_ProgressToJob .eprint-p2j-shell > table > tbody > tr:nth-child(2) > td.popup-middlebg {
+  display: block !important;
+  flex: 1 1 auto !important;
+  width: 100% !important;
+  min-height: 0 !important;
+  max-height: calc(90vh - var(--p2j-header-h)) !important;
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+}
+
+#div_ProgressToJob .eprint-p2j-shell table table {
+  width: 100% !important;
+  height: auto !important;
+  min-height: 0 !important;
+}
+
+/* Hide legacy corner chrome only */
+#div_ProgressToJob .popup-top-leftcorner,
+#div_ProgressToJob .popup-top-rightcorner,
+#div_ProgressToJob .popup-bottom-leftcorner,
+#div_ProgressToJob .popup-bottom-rightcorner,
+#div_ProgressToJob .popup-bottom-middlebg,
+#div_ProgressToJob .popup-middle-leftcorner,
+#div_ProgressToJob .popup-middle-rightcorner {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+}
+
+#div_ProgressToJob .eprint-p2j-shell > table > tbody > tr:last-child,
+#div_ProgressToJob .eprint-p2j-shell > table > tr:last-child {
+  display: none !important;
+}
+
+#div_ProgressToJob .popup-middlebg table tr {
+  display: table-row !important;
+}
+
+#div_ProgressToJob td[style*="background-color: #ffffff"],
+#div_ProgressToJob td[style*="background-color: #FFFFFF"] {
+  display: none !important;
+  width: 0 !important;
+  padding: 0 !important;
+}
+
+/* Navy header + orange accent */
+#div_ProgressToJob .popup-top-middlebg {
+  background-color: var(--p2j-navy) !important;
+  background-image: none !important;
+  background: linear-gradient(90deg, var(--p2j-navy) 0%, #243044 100%) !important;
+  height: auto !important;
+  min-height: 52px !important;
+  padding: 14px 48px 14px 18px !important;
+  border-bottom: 3px solid var(--p2j-orange) !important;
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 3 !important;
+  vertical-align: middle !important;
+}
+
+#div_ProgressToJob .Label-PopupHeading,
+#div_ProgressToJob #divProgressToJob,
+#div_ProgressToJob #divIsArchivePrompt {
+  float: none !important;
+  display: block !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  background: transparent !important;
+  color: #ffffff !important;
+  font-size: 1.05rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.01em;
+  text-align: left;
+}
+
+#div_ProgressToJob #divProgressToJob b,
+#div_ProgressToJob #divIsArchivePrompt b {
+  color: #ffffff !important;
+  font-weight: 700 !important;
+}
+
+#div_ProgressToJob .popup-top-middlebg > div[style*="float: right"] {
+  float: none !important;
+  position: static !important;
+}
+
+#div_ProgressToJob .CancelButtonDiv {
+  position: absolute !important;
+  top: 12px !important;
+  right: 14px !important;
+  padding: 0 !important;
+  float: none !important;
+}
+
+#div_ProgressToJob .CancelButtonDiv img {
+  width: 22px;
+  height: 22px;
+  opacity: 0.95;
+  filter: brightness(0) invert(1);
+}
+
+#div_ProgressToJob .popup-middlebg {
+  background: #ffffff !important;
+  padding: 16px 20px 24px !important;
+  vertical-align: top !important;
+}
+
+#div_ProgressToJob #divdates,
+#div_ProgressToJob #divEstItemsList,
+#div_ProgressToJob [id$="div_IsArchive"],
+#div_ProgressToJob #divRadPO {
+  display: block;
+  width: 100%;
+}
+
+/* Purchase Order — same row layout as Delivery Note (label left, checkboxes right) */
+#div_ProgressToJob .eprint-p2j-po-row,
+#div_ProgressToJob [id$="pnlPORaise"] > div[align="left"] > div:first-child {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+  align-items: flex-start !important;
+  gap: 10px !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0 0 8px 0 !important;
+  padding: 0 !important;
+  clear: both !important;
+  box-sizing: border-box;
+}
+
+#div_ProgressToJob .eprint-p2j-po-row > .bglabel,
+#div_ProgressToJob .eprint-p2j-po-row > .bgLabel {
+  flex: 0 0 38% !important;
+  float: none !important;
+  clear: none !important;
+  width: auto !important;
+  max-width: 38% !important;
+  min-width: 120px;
+  margin: 0 !important;
+}
+
+#div_ProgressToJob .eprint-p2j-po-row > .raisepoplcholder {
+  flex: 1 1 auto !important;
+  float: none !important;
+  clear: none !important;
+  width: auto !important;
+  min-width: 0 !important;
+  max-width: none !important;
+  max-height: 140px !important;
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
+  padding: 4px 0 !important;
+  margin: 0 !important;
+  word-break: break-word;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 6px !important;
+  align-items: flex-start !important;
+}
+
+#div_ProgressToJob .eprint-p2j-po-row .raisepoplcholder > div {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  float: none !important;
+  clear: none !important;
+  width: 100% !important;
+  margin: 0 !important;
+  margin-left: 0 !important;
+  padding: 0 !important;
+}
+
+#div_ProgressToJob .eprint-p2j-po-row .raisepoplcholder input[type="checkbox"] {
+  flex-shrink: 0;
+  margin: 0 8px 0 0 !important;
+  vertical-align: middle;
+}
+
+#div_ProgressToJob .eprint-p2j-po-row .raisepoplcholder label {
+  margin: 0 !important;
+  font-weight: 500;
+  color: var(--p2j-text);
+}
+
+/* One horizontal row per field (label left, input right) — works with ASP.NET ClientIDs */
+#div_ProgressToJob #div1 {
+  display: none !important;
+  border: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  height: 0 !important;
+  overflow: hidden !important;
+}
+
+#div_ProgressToJob #divdates > div > div[align="left"]:has(> .bglabel):not(#div1),
+#div_ProgressToJob #divdates > div > div[align="left"]:has(> .bgLabel):not(#div1),
+#div_ProgressToJob [id$="_div_CON"],
+#div_ProgressToJob [id$="_div_ArtworkNew"],
+#div_ProgressToJob [id$="_div_ProofNew"],
+#div_ProgressToJob [id$="_div_ApprovalNew"],
+#div_ProgressToJob [id$="_divProductionDate"],
+#div_ProgressToJob [id$="_divJobCompletionDate"],
+#div_ProgressToJob [id$="_div_deliverydate"],
+#div_ProgressToJob [id$="_div_customdate1"],
+#div_ProgressToJob [id$="_div_customdate2"],
+#div_ProgressToJob [id$="_div_customdate3"],
+#div_ProgressToJob [id$="_div_customdate4"],
+#div_ProgressToJob [id$="_div_customdate5"],
+#div_ProgressToJob [id$="_div_RaiseDelivery"],
+#div_ProgressToJob [id$="_div_showinprospect"] {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+  align-items: center !important;
+  gap: 10px !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0 0 8px 0 !important;
+  padding: 0 !important;
+  clear: both !important;
+  box-sizing: border-box;
+}
+
+/* Beat legacy item.css float/clear stacking */
+#div_ProgressToJob .bglabel,
+#div_ProgressToJob .bgLabel {
+  flex: 0 0 38% !important;
+  float: none !important;
+  clear: none !important;
+  width: auto !important;
+  max-width: 38% !important;
+  min-width: 120px;
+  display: flex !important;
+  align-items: center !important;
+  margin: 0 !important;
+  background-color: var(--p2j-label-bg) !important;
+  background-image: none !important;
+  border: 1px solid var(--p2j-border) !important;
+  border-radius: 6px !important;
+  color: #334155 !important;
+  font-weight: 600 !important;
+  font-size: 11px !important;
+  padding: 8px 10px !important;
+  box-sizing: border-box;
+}
+
+#div_ProgressToJob .bglabel .normaltext,
+#div_ProgressToJob .bgLabel .normaltext,
+#div_ProgressToJob .bglabel label,
+#div_ProgressToJob .bgLabel label {
+  color: #334155 !important;
+  font-weight: 600 !important;
+  margin: 0 !important;
+}
+
+/* Value column: plain — no box around values (labels only get boxes) */
+#div_ProgressToJob .box {
+  flex: 1 1 auto !important;
+  float: none !important;
+  clear: none !important;
+  width: auto !important;
+  min-width: 0 !important;
+  max-width: none !important;
+  display: flex !important;
+  align-items: center !important;
+  margin: 0 !important;
+  padding: 6px 4px 6px 8px !important;
+  background: transparent !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  box-sizing: border-box;
+}
+
+#div_ProgressToJob .box br {
+  display: none !important;
+}
+
+#div_ProgressToJob .box .normaltext,
+#div_ProgressToJob .box label,
+#div_ProgressToJob .box span:not(.spanerrorMsg) {
+  color: var(--p2j-text) !important;
+  font-weight: 500 !important;
+  background: transparent !important;
+  border: none !important;
+  padding: 0 !important;
+}
+
+#div_ProgressToJob .box input,
+#div_ProgressToJob .box input[type="text"],
+#div_ProgressToJob .box textarea,
+#div_ProgressToJob .box select {
+  width: 100% !important;
+  max-width: 100% !important;
+  background: transparent !important;
+  border: none !important;
+  border-radius: 0 !important;
+  padding: 6px 0 !important;
+  font-size: 12px !important;
+  color: var(--p2j-text) !important;
+  box-sizing: border-box;
+  font-family: inherit;
+  box-shadow: none !important;
+}
+
+#div_ProgressToJob .box input:focus,
+#div_ProgressToJob .box textarea:focus,
+#div_ProgressToJob .box select:focus {
+  outline: none;
+  background: #ffffff !important;
+  border: 1px solid var(--p2j-border) !important;
+  border-radius: 6px !important;
+  padding: 6px 10px !important;
+  border-color: var(--p2j-orange) !important;
+  box-shadow: 0 0 0 2px rgba(230, 126, 34, 0.2);
+}
+
+#div_ProgressToJob .box input[type="checkbox"] {
+  width: auto !important;
+  padding: 0 !important;
+  background: transparent !important;
+  border: none !important;
+}
+
+#div_ProgressToJob .spanerrorMsg {
+  display: block;
+  margin-top: 4px;
+  font-size: 11px;
+}
+
+#div_ProgressToJob #divEstItemsList,
+#div_ProgressToJob #divEstItemsList_Inner {
+  background: #f8fafc;
+  border: 1px solid var(--p2j-border);
+  border-radius: var(--p2j-radius-sm);
+  padding: 10px 12px;
+  margin-bottom: 12px;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+#div_ProgressToJob #divRadPO {
+  border: 1px solid var(--p2j-border) !important;
+  border-radius: var(--p2j-radius-sm) !important;
+  background: #f8fafc !important;
+  padding: 8px 10px !important;
+  margin: 8px 0 12px !important;
+}
+
+/* Footer: Clear dates + OK — sticky at bottom while fields scroll above */
+#div_ProgressToJob div[align="left"]:has(#href_ClearDates),
+#div_ProgressToJob div[align="left"]:has([id$="div_ClearDates"]) {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  gap: 16px !important;
+  width: 100% !important;
+  padding: 14px 0 8px !important;
+  margin-top: 12px !important;
+  border-top: 1px solid var(--p2j-border) !important;
+  clear: both !important;
+  flex-shrink: 0 !important;
+  position: sticky !important;
+  bottom: 0 !important;
+  background: #ffffff !important;
+  z-index: 5 !important;
+  box-shadow: 0 -8px 16px rgba(255, 255, 255, 0.9);
+}
+
+#div_ProgressToJob div[align="left"]:has(#href_ClearDates) > div[style*="31%"],
+#div_ProgressToJob div[align="left"]:has(#href_ClearDates) > div:first-child {
+  display: none !important;
+}
+
+#div_ProgressToJob [id$="div_ClearDates"],
+#div_ProgressToJob #div_btnnext,
+#div_ProgressToJob [id$="div_btnnext"] {
+  float: none !important;
+  display: block !important;
+  padding-top: 0 !important;
+  margin-top: 0 !important;
+}
+
+#div_ProgressToJob input.button,
+#div_ProgressToJob input[type="button"].button,
+#div_ProgressToJob input[type="submit"].button,
+#div_ProgressToJob #btnEstItems_Next,
+#div_ProgressToJob [id$="btn_Prompt_Archive"],
+#div_ProgressToJob #btn_Ok_and_Next_Before {
+  background: var(--p2j-orange) !important;
+  background-image: none !important;
+  color: #ffffff !important;
+  border: none !important;
+  border-radius: var(--p2j-radius-sm) !important;
+  padding: 8px 24px !important;
+  font-weight: 600 !important;
+  font-size: 12px !important;
+  cursor: pointer;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.08);
+  min-height: 34px;
+  min-width: 72px;
+  width: auto !important;
+  text-shadow: none !important;
+  filter: none !important;
+}
+
+#div_ProgressToJob input.button:hover,
+#div_ProgressToJob input[type="button"].button:hover,
+#div_ProgressToJob input[type="submit"].button:hover,
+#div_ProgressToJob #btn_Ok_and_Next_Before:hover {
+  background: var(--p2j-orange-dark) !important;
+}
+
+#div_ProgressToJob .linkbutton,
+#div_ProgressToJob #href_ClearDates {
+  color: var(--p2j-orange-dark) !important;
+  font-weight: 600;
+  text-decoration: none !important;
+  font-size: 12px;
+}
+
+#div_ProgressToJob #div_IsArchive label,
+#div_ProgressToJob [id$="div_IsArchive"] label,
+#div_ProgressToJob #divEstItemsList label {
+  font-weight: 500;
+  color: var(--p2j-text);
+  line-height: 1.5;
+}
+
+/* Swazz date picker (#fc) — above centered modal */
+#fc {
+  z-index: 10001 !important;
+}
+
+/* Dimmed backdrop for Progress to Job and other summary popups */
+#divBackGroundNew {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  z-index: 9999 !important;
+}

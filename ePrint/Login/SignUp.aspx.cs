@@ -170,7 +170,10 @@ namespace ePrint.Printcenter.Views
             if (companyId > 0)
             {
                 BasePage.LoadAuthPageLanguageFile(companyId, Session, cmn);
-                BasePage.ApplyAuthPageLoginButtonColor(companyId, Session, btnSignUp, cmn);
+                if (!BasePage.IsLightweightAuthPageEnabled())
+                {
+                    BasePage.ApplyAuthPageLoginButtonColor(companyId, Session, btnSignUp, cmn);
+                }
                 objpage.ApplyAuthPageLogo(plhLoginImg, companyId);
             }
         }

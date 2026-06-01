@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Variant I — Master/detail line items (from item screenshot)</title>
+  <style>
+    :root {
+      --border: #d9e2ef;
+      --text: #1e293b;
+      --muted: #64748b;
+      --label: #f1f5f9;
+      --accent: #e67e22;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: "Segoe UI", Tahoma, sans-serif; background: #eef2f7; color: var(--text); }
+    .banner { background: #1e293b; color: #cbd5e1; text-align: center; padding: 8px; font-size: 0.78rem; }
+    .wrap { max-width: 1320px; margin: 0 auto; padding: 14px; }
+    .top {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px 14px;
+      margin-bottom: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .top h1 { margin: 0; font-size: 1rem; }
+    .top p { margin: 4px 0 0; font-size: 0.82rem; color: var(--muted); }
+    .actions { display: flex; gap: 8px; }
+    .btn { border: 1px solid var(--border); border-radius: 8px; padding: 7px 11px; font-size: 0.8rem; font-weight: 600; background: #fff; }
+    .btn.red { background: #c0392b; color: #fff; border-color: #922b21; }
+    .btn.purple { background: #7c3aed; color: #fff; border-color: #6d28d9; }
+
+    .workspace {
+      display: grid;
+      grid-template-columns: 300px 1fr;
+      gap: 12px;
+      min-height: 620px;
+    }
+    .list-panel, .detail-panel {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    .list-hd, .detail-hd {
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--border);
+      font-weight: 700;
+      font-size: 0.84rem;
+      background: #f8fafc;
+    }
+    .line {
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--border);
+      cursor: pointer;
+      font-size: 0.8rem;
+    }
+    .line.active { background: #fff7ed; border-left: 4px solid var(--accent); }
+    .line strong { display: block; font-size: 0.82rem; }
+    .line span { color: var(--muted); font-size: 0.76rem; }
+    .totals-line {
+      padding: 10px 12px;
+      background: linear-gradient(90deg, #f39c12, #f9d423);
+      font-weight: 700;
+      font-size: 0.8rem;
+    }
+
+    .detail-body { display: grid; grid-template-columns: 280px 200px 1fr; gap: 0; min-height: 500px; }
+    .item-actions {
+      border-right: 1px solid var(--border);
+      padding: 10px;
+      font-size: 0.78rem;
+      background: #fafbfc;
+    }
+    .item-actions a { color: #2563eb; text-decoration: none; display: block; margin: 5px 0; }
+    .pricing {
+      border-right: 1px solid var(--border);
+      padding: 10px;
+      font-size: 0.78rem;
+    }
+    .pricing .row { display: flex; justify-content: space-between; margin: 5px 0; }
+    .pricing .sell { color: #b91c1c; font-weight: 700; }
+    .descriptions { padding: 8px; overflow: auto; }
+    .desc-table { width: 100%; border-collapse: collapse; font-size: 0.74rem; }
+    .desc-table td, .desc-table th { border: 1px solid var(--border); padding: 4px 6px; }
+    .desc-table th { background: var(--label); text-align: left; width: 110px; }
+    @media (max-width: 1100px) {
+      .workspace { grid-template-columns: 1fr; }
+      .detail-body { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="banner">Variant I — Left: item list + totals; Right: full item detail (pricing + description rows) like your expanded item screen</div>
+  <div class="wrap">
+    <header class="top">
+      <div>
+        <h1>EST-0000936 — Test Company by Ham</h1>
+        <p>rsfsdfsd · Sheet Fed Digital: Single</p>
+      </div>
+      <div class="actions">
+        <button type="button" class="btn red">Estimate Options</button>
+        <button type="button" class="btn purple">New Estimate</button>
+      </div>
+    </header>
+
+    <div class="workspace">
+      <aside class="list-panel">
+        <div class="list-hd">Line items</div>
+        <div class="line active">
+          <strong>EST-0000936-001</strong>
+          <span>Qty 100 · $67.53</span>
+        </div>
+        <div class="totals-line">All items · $67.53 ex tax</div>
+        <div style="padding:10px;font-size:0.76rem;color:var(--muted)">
+          Click totals row to see cost breakdown (screenshot 5)
+        </div>
+      </aside>
+
+      <main class="detail-panel">
+        <div class="detail-hd">Item detail — EST-0000936-001</div>
+        <div class="detail-body">
+          <nav class="item-actions">
+            <strong>Item actions</strong>
+            <a href="#">Re-Run Item</a>
+            <a href="#">Item Options</a>
+            <a href="#">Add Sub Item</a>
+            <hr style="border:none;border-top:1px solid var(--border);margin:8px 0" />
+            <strong>Quick links</strong>
+            <a href="#">Create Job</a>
+            <a href="#">Create Invoice</a>
+            <a href="#">Delivery Note</a>
+            <a href="#">Purchase Order</a>
+            <a href="#">Proofs</a>
+            <a href="#">Item History</a>
+          </nav>
+          <section class="pricing">
+            <div><strong>Artwork (0)</strong> +</div>
+            <div class="row"><span>Finished Qty</span><span>100</span></div>
+            <div class="row"><span>Paper/Stock</span><span>$29.64</span></div>
+            <div class="row"><span>Press</span><span>$15.38</span></div>
+            <div class="row"><span>Markup %</span><span>50.00</span></div>
+            <div class="row"><span>Sub Total</span><span>$67.53</span></div>
+            <div class="row"><span>Tax GST</span><span>$6.75</span></div>
+            <div class="row sell"><span>Selling (inc)</span><span>$74.28</span></div>
+            <div class="row"><span>Gross profit</span><span>79.48%</span></div>
+          </section>
+          <section class="descriptions">
+            <table class="desc-table">
+              <tr><th>Item Title</th><td>rsfsdfsd</td><td>☑</td></tr>
+              <tr><th>Colour</th><td>CMYK full colour process</td><td>☑</td></tr>
+              <tr><th>Description</th><td></td><td>☐</td></tr>
+              <tr><th>Artwork</th><td></td><td>☐</td></tr>
+              <tr><th>Size</th><td></td><td>☐</td></tr>
+              <tr><th>Stock</th><td></td><td>☐</td></tr>
+              <tr><th>Delivery</th><td></td><td>☐</td></tr>
+              <tr><th>Finishing</th><td></td><td>☐</td></tr>
+              <tr><th>Terms</th><td></td><td>☐</td></tr>
+            </table>
+          </section>
+        </div>
+      </main>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Variant E - Split Workspace Summary</title>
+  <style>
+    :root {
+      --bg: #eef2f8;
+      --card: #ffffff;
+      --text: #1e293b;
+      --muted: #64748b;
+      --line: #dce4ef;
+      --accent: #0f766e;
+      --accent-soft: #ccfbf1;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+    .shell {
+      display: grid;
+      grid-template-columns: 360px 1fr;
+      min-height: 100vh;
+      gap: 14px;
+      padding: 14px;
+    }
+    .panel {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .panel-hd {
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--line);
+      font-weight: 700;
+      font-size: 0.9rem;
+    }
+    .left-content { padding: 12px; display: grid; gap: 10px; }
+    .summary-box {
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 10px;
+      background: #fff;
+    }
+    .summary-box h3 { margin: 0 0 8px; font-size: 0.84rem; }
+    .kv { display: flex; justify-content: space-between; font-size: 0.79rem; margin: 4px 0; }
+    .small { color: var(--muted); font-size: 0.76rem; }
+    .timeline { list-style: none; margin: 0; padding: 0; display: grid; gap: 7px; }
+    .timeline li {
+      border-left: 3px solid var(--line);
+      padding: 2px 0 2px 8px;
+      font-size: 0.78rem;
+    }
+    .timeline strong { display: block; font-size: 0.8rem; }
+    .main {
+      display: flex;
+      flex-direction: column;
+    }
+    .toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--line);
+      background: #fff;
+    }
+    .toolbar h1 { margin: 0; font-size: 1rem; }
+    .chip {
+      background: var(--accent-soft);
+      color: #115e59;
+      border: 1px solid #99f6e4;
+      border-radius: 999px;
+      font-size: 0.72rem;
+      padding: 3px 8px;
+      font-weight: 700;
+    }
+    .btns { display: flex; gap: 8px; }
+    .btn {
+      border: 1px solid var(--line);
+      background: #fff;
+      border-radius: 8px;
+      padding: 7px 10px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      cursor: default;
+    }
+    .btn.primary {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #fff;
+    }
+    th, td {
+      border-bottom: 1px solid var(--line);
+      padding: 9px 10px;
+      font-size: 0.8rem;
+      text-align: left;
+    }
+    thead th {
+      background: #f8fafc;
+      font-size: 0.74rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+    tbody tr:hover { background: #f8fbff; }
+    .status {
+      display: inline-block;
+      padding: 2px 7px;
+      border-radius: 999px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      border: 1px solid;
+    }
+    .quoted { color: #92400e; border-color: #f59e0b; background: #fffbeb; }
+    .approved { color: #065f46; border-color: #34d399; background: #ecfdf5; }
+    .draft { color: #1d4ed8; border-color: #60a5fa; background: #eff6ff; }
+    @media (max-width: 1080px) {
+      .shell { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <aside class="panel">
+      <div class="panel-hd">Snapshot</div>
+      <div class="left-content">
+        <section class="summary-box">
+          <h3>Customer</h3>
+          <div class="kv"><span>Name</span><strong>Metro Education Ltd</strong></div>
+          <div class="kv"><span>Contact</span><span>Helen Tran</span></div>
+          <div class="kv"><span>Phone</span><span>+61 4 1122 3344</span></div>
+          <div class="small">Billing and shipping profile complete</div>
+        </section>
+        <section class="summary-box">
+          <h3>Totals</h3>
+          <div class="kv"><span>Sub total</span><strong>$4,120.00</strong></div>
+          <div class="kv"><span>Tax</span><span>$412.00</span></div>
+          <div class="kv"><span>Grand total</span><strong>$4,532.00</strong></div>
+          <div class="kv"><span>Margin</span><span>28.4%</span></div>
+        </section>
+        <section class="summary-box">
+          <h3>Recent Activity</h3>
+          <ul class="timeline">
+            <li><strong>10:12 AM - Status updated</strong>Quote changed from Draft to Quoted</li>
+            <li><strong>09:58 AM - File attached</strong>Added revised artwork package</li>
+            <li><strong>Yesterday - Note added</strong>Requested faster dispatch option</li>
+          </ul>
+        </section>
+      </div>
+    </aside>
+
+    <main class="panel main">
+      <div class="toolbar">
+        <div>
+          <h1>Order ORD-0018745</h1>
+          <div class="small">Split workspace concept - details on left, editable lines on right</div>
+        </div>
+        <div class="btns">
+          <span class="chip">In Progress</span>
+          <button class="btn">Attachments</button>
+          <button class="btn">Activity</button>
+          <button class="btn primary">Save and Send</button>
+        </div>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 30%">Item</th>
+            <th style="width: 10%">Qty</th>
+            <th style="width: 12%">Unit</th>
+            <th style="width: 12%">Total</th>
+            <th style="width: 12%">Status</th>
+            <th>Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Yearbook - 88pp saddle stitch</td>
+            <td>1200</td>
+            <td>$2.48</td>
+            <td>$2,976.00</td>
+            <td><span class="status approved">Approved</span></td>
+            <td>Waiting final print slot allocation</td>
+          </tr>
+          <tr>
+            <td>Cover proof re-run</td>
+            <td>2</td>
+            <td>$68.00</td>
+            <td>$136.00</td>
+            <td><span class="status quoted">Quoted</span></td>
+            <td>Awaiting customer confirmation</td>
+          </tr>
+          <tr>
+            <td>Delivery - Metro zone</td>
+            <td>1</td>
+            <td>$90.00</td>
+            <td>$90.00</td>
+            <td><span class="status draft">Draft</span></td>
+            <td>Can be upgraded to priority</td>
+          </tr>
+        </tbody>
+      </table>
+    </main>
+  </div>
+</body>
+</html>

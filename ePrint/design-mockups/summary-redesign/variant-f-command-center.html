@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Variant F - Command Center Summary</title>
+  <style>
+    :root {
+      --bg: #0b1220;
+      --panel: #111a2a;
+      --panel-2: #0f1728;
+      --line: #243045;
+      --text: #e5edf9;
+      --muted: #93a4bd;
+      --accent: #38bdf8;
+      --accent-2: #22c55e;
+      --warn: #f59e0b;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background: radial-gradient(circle at 10% 0%, #111b30, var(--bg) 42%);
+      color: var(--text);
+    }
+    .wrap { max-width: 1280px; margin: 0 auto; padding: 20px; }
+    .header {
+      background: linear-gradient(135deg, #17233b, #111a2a);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 14px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+      gap: 12px;
+    }
+    .header h1 { margin: 0; font-size: 1.05rem; }
+    .header p { margin: 4px 0 0; color: var(--muted); font-size: 0.82rem; }
+    .kpis { display: flex; gap: 8px; flex-wrap: wrap; }
+    .kpi {
+      background: #0d1526;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 7px 10px;
+      min-width: 110px;
+    }
+    .kpi .label { display: block; color: var(--muted); font-size: 0.7rem; }
+    .kpi strong { font-size: 0.9rem; }
+    .layout {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 12px;
+    }
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .panel-hd {
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--line);
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      color: #c7d8ef;
+      text-transform: uppercase;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    th, td {
+      border-bottom: 1px solid #1f2a41;
+      padding: 9px 10px;
+      font-size: 0.8rem;
+      text-align: left;
+    }
+    th { color: var(--muted); font-size: 0.72rem; text-transform: uppercase; }
+    .chip {
+      display: inline-block;
+      border-radius: 999px;
+      padding: 2px 8px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      border: 1px solid;
+    }
+    .ok { color: #bbf7d0; border-color: #22c55e; background: rgba(34, 197, 94, 0.16); }
+    .wip { color: #fde68a; border-color: #f59e0b; background: rgba(245, 158, 11, 0.16); }
+    .info { color: #bae6fd; border-color: #38bdf8; background: rgba(56, 189, 248, 0.16); }
+    .side { padding: 10px 12px; display: grid; gap: 10px; }
+    .card {
+      background: var(--panel-2);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 10px;
+    }
+    .card h3 { margin: 0 0 8px; font-size: 0.82rem; color: #d2e2f6; }
+    .row { display: flex; justify-content: space-between; font-size: 0.78rem; margin: 4px 0; }
+    .muted { color: var(--muted); font-size: 0.76rem; }
+    .btns { display: grid; gap: 8px; }
+    .btn {
+      border: 1px solid var(--line);
+      background: #0b1424;
+      color: #dbe8fa;
+      border-radius: 8px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      padding: 8px 10px;
+      text-align: center;
+    }
+    .btn.primary { background: #0b3d58; border-color: #0ea5e9; color: #e0f2fe; }
+    @media (max-width: 1050px) {
+      .layout { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="header">
+      <div>
+        <h1>Job JOB-004391 - Command Center</h1>
+        <p>Dark operations-style summary for production and dispatch teams</p>
+      </div>
+      <div class="kpis">
+        <div class="kpi"><span class="label">Grand Total</span><strong>$12,884</strong></div>
+        <div class="kpi"><span class="label">Items</span><strong>14</strong></div>
+        <div class="kpi"><span class="label">Due In</span><strong>2 days</strong></div>
+        <div class="kpi"><span class="label">Risk</span><strong style="color:#facc15">Medium</strong></div>
+      </div>
+    </header>
+
+    <div class="layout">
+      <section class="panel">
+        <div class="panel-hd">Line Items / Production Queue</div>
+        <table>
+          <thead>
+            <tr>
+              <th style="width:32%">Item</th>
+              <th style="width:10%">Qty</th>
+              <th style="width:14%">Machine</th>
+              <th style="width:12%">Status</th>
+              <th style="width:12%">ETA</th>
+              <th>Operator note</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Catalogue 48pp</td>
+              <td>3,500</td>
+              <td>Heidelberg SM74</td>
+              <td><span class="chip ok">Running</span></td>
+              <td>11:40 AM</td>
+              <td>Color balance stabilized after plate swap</td>
+            </tr>
+            <tr>
+              <td>Poster A2 set</td>
+              <td>700</td>
+              <td>HP Latex</td>
+              <td><span class="chip wip">Queued</span></td>
+              <td>01:20 PM</td>
+              <td>Waiting laminate stock</td>
+            </tr>
+            <tr>
+              <td>Packaging sleeve</td>
+              <td>1,200</td>
+              <td>Digital Press 2</td>
+              <td><span class="chip info">Proofing</span></td>
+              <td>12:10 PM</td>
+              <td>Client requested darker black point</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <aside class="panel">
+        <div class="panel-hd">Context + Actions</div>
+        <div class="side">
+          <section class="card">
+            <h3>Customer</h3>
+            <div class="row"><span>Name</span><strong>Zenith Health Group</strong></div>
+            <div class="row"><span>Contact</span><span>Daniel Price</span></div>
+            <div class="row"><span>Priority</span><span style="color:#facc15">Urgent</span></div>
+          </section>
+          <section class="card">
+            <h3>Recent Activity</h3>
+            <div class="muted">10:04 - Attachments updated</div>
+            <div class="muted">09:32 - Job status changed to In Production</div>
+            <div class="muted">08:55 - Operator comment added</div>
+          </section>
+          <div class="btns">
+            <div class="btn">Open Attachments</div>
+            <div class="btn">Open Activity</div>
+            <div class="btn primary">Mark Complete + Notify</div>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </div>
+</body>
+</html>

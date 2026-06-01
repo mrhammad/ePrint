@@ -553,7 +553,7 @@
         OnClientClose="RadWinClose" Behaviors="Close, Move,Reload,Resize" ReloadOnShow="true">
     </telerik:RadWindowManager>
 </div>
-<div id="div_ProgressToJob" style="display: none; position: absolute; vertical-align: middle; z-index: 100; width: 40%; height: 50%"
+<div id="div_ProgressToJob" class="eprint-p2j-modal" style="display: none; z-index: 10000;"
     align="center">
     <asp:PlaceHolder ID="plhProgressToJob" runat="server"></asp:PlaceHolder>
 </div>

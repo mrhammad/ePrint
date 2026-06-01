@@ -233,6 +233,19 @@ namespace Printcenter.DataAccessLayer.Purchases
 			database.ExecuteNonQuery(storedProcCommand);
 		}
 
+		private static DateTime ToSqlDateTime(DateTime value)
+		{
+			if (value < new DateTime(1753, 1, 1))
+			{
+				return new DateTime(1900, 1, 1);
+			}
+			if (value > new DateTime(9999, 12, 31, 23, 59, 59))
+			{
+				return new DateTime(9999, 12, 31, 23, 59, 59);
+			}
+			return value;
+		}
+
 		public virtual long purchase_insert(PurchaseItem item)
 		{
 			Database database = CustomDatabaseFactory.CreateDatabase((new commonClass()).strConnection);
@@ -245,38 +258,29 @@ namespace Printcenter.DataAccessLayer.Purchases
 			database.AddInParameter(storedProcCommand, "@Comments", DbType.String, item.Comments);
 			database.AddInParameter(storedProcCommand, "@FootNote", DbType.String, item.FootNote);
 			database.AddInParameter(storedProcCommand, "@PONO", DbType.String, item.PONO);
-			database.AddInParameter(storedProcCommand, "@PODate", DbType.DateTime, item.PODate);
+			database.AddInParameter(storedProcCommand, "@PODate", DbType.DateTime, ToSqlDateTime(item.PODate));
 			database.AddInParameter(storedProcCommand, "@ReferenceNo", DbType.String, item.ReferenceNo);
 			database.AddInParameter(storedProcCommand, "@SupplierQuoteNo", DbType.String, item.SupplierQuoteNo);
 			database.AddInParameter(storedProcCommand, "@SupplierInvoiceNo", DbType.String, item.SupplierInvoiceNo);
 			database.AddInParameter(storedProcCommand, "@RaisedByID", DbType.Int32, item.RaisedByID);
-			database.AddInParameter(storedProcCommand, "@ReqDate", DbType.DateTime, item.ReqDate);
+			database.AddInParameter(storedProcCommand, "@ReqDate", DbType.DateTime, ToSqlDateTime(item.ReqDate));
 			database.AddInParameter(storedProcCommand, "@GoodsReceived", DbType.Boolean, item.GoodsReceived);
 			database.AddInParameter(storedProcCommand, "@InvoiceReceived", DbType.Boolean, item.InvoiceReceived);
 			database.AddInParameter(storedProcCommand, "@Status", DbType.Int32, item.StatusID);
 			database.AddInParameter(storedProcCommand, "@CreatedBy", DbType.Int32, item.CreatedBy);
 			database.AddInParameter(storedProcCommand, "@ModifiedBy", DbType.Int32, item.ModifiedBy);
-			database.AddInParameter(storedProcCommand, "@ModifiedDate", DbType.DateTime, item.ModifiedDate);
+			database.AddInParameter(storedProcCommand, "@ModifiedDate", DbType.DateTime, ToSqlDateTime(item.ModifiedDate));
 			database.AddInParameter(storedProcCommand, "@CurrentPONO", DbType.Int64, item.CurrentPONO);
 			database.AddInParameter(storedProcCommand, "@AddressType", DbType.String, item.AddressType);
 			database.AddInParameter(storedProcCommand, "@EstimateID", DbType.Int64, item.EstimateID);
 			database.AddInParameter(storedProcCommand, "@headernote", DbType.String, item.headernote);
 			database.AddInParameter(storedProcCommand, "@EstimateItemID", DbType.Int64, item.EstimateItemID);
-			database.AddInParameter(storedProcCommand, "@TodayDate", DbType.DateTime, item.TodayDate);
+			database.AddInParameter(storedProcCommand, "@TodayDate", DbType.DateTime, ToSqlDateTime(item.TodayDate));
 			database.AddInParameter(storedProcCommand, "@DeliveryAddressID", DbType.Int64, item.DeliveryAddressID);
 			database.AddInParameter(storedProcCommand, "@DeliveryAddressType", DbType.String, item.DeliveryAddressType);
 			database.AddInParameter(storedProcCommand, "@CourierID", DbType.Int32, item.CourierID);
 			database.AddInParameter(storedProcCommand, "@EstimateBookletItemID", DbType.Int64, item.EstimateBookletItemID);
-			//ticket 90834
-			//if (item.SupplierInvoiceDate.Date == DateTime.Now.Date)
-			//{
-			//	database.AddInParameter(storedProcCommand, "@SupplierInvoiceDate", DbType.DateTime, Convert.ToDateTime("1/1/1900"));
-			//}
-			//else
-			//{
-			//	database.AddInParameter(storedProcCommand, "@SupplierInvoiceDate", DbType.DateTime, item.SupplierInvoiceDate);
-			//}
-			database.AddInParameter(storedProcCommand, "@SupplierInvoiceDate", DbType.DateTime, item.SupplierInvoiceDate);
+			database.AddInParameter(storedProcCommand, "@SupplierInvoiceDate", DbType.DateTime, ToSqlDateTime(item.SupplierInvoiceDate));
 			database.AddInParameter(storedProcCommand, "@PurhcasePrefix", DbType.String, ConnectionClass.PurhcasePrefix);
 			database.AddOutParameter(storedProcCommand, "@ReturnID", DbType.Int64, 0);
 			database.AddInParameter(storedProcCommand, "@IsFromProgreesTojob", DbType.String, item.IsFromProgreesTojob);
